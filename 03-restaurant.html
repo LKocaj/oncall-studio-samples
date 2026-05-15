@@ -53,28 +53,36 @@
   .concept-banner { background: var(--ink); color: var(--gold); padding: 9px 0; font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
   .concept-banner a { color: var(--gold); text-decoration: none; }
 
-  /* === Nav (minimal, floats over hero) ========================= */
-  nav.top { position: fixed; top: 36px; left: 0; right: 0; z-index: 50; pointer-events: none; }
-  nav.top .row { display: flex; align-items: center; justify-content: space-between; pointer-events: auto; }
+  /* === Nav (fixed, with backdrop so it's readable on every section) === */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: rgba(28,22,16,0.55);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(248,241,224,0.08);
+  }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
 
-  .brand { display: flex; flex-direction: column; align-items: flex-start; text-decoration: none; gap: 5px; color: var(--ivory); mix-blend-mode: difference; }
-  .brand .name { font-family: 'Erode', serif; font-weight: 500; font-size: 26px; letter-spacing: 0.04em; line-height: 1; }
-  .brand .name em { font-style: italic; padding: 0 0.06em; }
-  .brand .sub { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500; font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase; opacity: 0.85; }
+  .brand { display: flex; flex-direction: column; align-items: flex-start; text-decoration: none; gap: 5px; color: var(--ivory); }
+  .brand .name { font-family: 'Erode', serif; font-weight: 500; font-size: 24px; letter-spacing: 0.04em; line-height: 1; color: var(--ivory); }
+  .brand .name em { font-style: italic; color: var(--gold); padding: 0 0.06em; }
+  .brand .sub { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500; font-size: 9.5px; letter-spacing: 0.34em; text-transform: uppercase; color: rgba(248,241,224,0.7); }
 
-  .menu { display: flex; gap: 32px; align-items: center; }
-  .menu a { font-family: 'Cabinet Grotesk', sans-serif; font-size: 13px; color: var(--ivory); mix-blend-mode: difference; text-decoration: none; font-weight: 500; letter-spacing: 0.06em; }
+  .menu { display: flex; gap: 28px; align-items: center; }
+  .menu a { font-family: 'Cabinet Grotesk', sans-serif; font-size: 13px; color: var(--ivory); text-decoration: none; font-weight: 500; letter-spacing: 0.06em; transition: color .2s ease; }
+  .menu a:hover { color: var(--gold); }
   .resy {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 12px 24px;
-    background: var(--ivory); color: var(--ink);
+    background: var(--terra); color: var(--ivory);
     font-family: 'Cabinet Grotesk', sans-serif;
-    font-weight: 600; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    font-weight: 700; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
     text-decoration: none;
     border-radius: 999px;
+    border: 1px solid var(--terra);
     transition: all .25s ease;
   }
-  .resy:hover { background: var(--terra); color: var(--ivory); }
+  .resy:hover { background: var(--terra-d); border-color: var(--terra-d); }
   @media (max-width: 980px) { .menu a:not(.resy) { display: none; } }
 
   /* === HERO: full-bleed photo ================================== */
