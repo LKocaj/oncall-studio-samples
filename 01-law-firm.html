@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HALSTEAD & GROVE — Mergers, Acquisitions, and Capital Markets</title>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=bespoke-serif@300,400,500&f[]=inter@400,500,600,700&f[]=jet-brains-mono@400,500&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bone:     #F4EFE0;             /* ivory base */
+    --paper:    #FAF6E8;             /* warmer paper */
+    --card:     #EEE7D2;             /* card surface */
+    --ink:      #0B0908;             /* deep warm black */
+    --char:     #2B2622;
+    --mute:     #6B6155;
+    --oxblood:  #6B0F1A;             /* blood red accent */
+    --brass:    #A88959;             /* brass hairline */
+    --gold:     #C5A572;             /* highlight gold */
+    --line:     rgba(11,9,8,0.10);
+    --line-2:   rgba(11,9,8,0.22);
+    --hair:     rgba(168,137,89,0.5);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.65;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Bespoke Serif', Georgia, serif; }
+  .display { font-family: 'Bespoke Serif', Georgia, serif; font-weight: 400; line-height: 1; letter-spacing: -0.025em; }
+  .xl { font-size: clamp(56px, 9vw, 132px); font-weight: 300; }
+  .l  { font-size: clamp(38px, 5.4vw, 76px); font-weight: 400; }
+  .m  { font-size: clamp(26px, 3vw, 42px); font-weight: 400; }
+  .italic { font-style: italic; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
+
+  .label { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--oxblood); }
+  .label.brass { color: var(--brass); }
+  .lead { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.65; color: var(--char); max-width: 56ch; }
+  .mute { color: var(--mute); }
+  .ox { color: var(--oxblood); }
+
+  .wrap { max-width: 1360px; margin: 0 auto; padding: 0 56px; }
+  @media (max-width: 760px) { .wrap { padding: 0 22px; } }
+
+  /* === Top utility bar (Wall Street ribbon) ==================== */
+  .util { background: var(--ink); color: var(--bone); padding: 11px 0; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; }
+  .util .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .util .links { display: flex; gap: 32px; }
+  .util .links a { color: var(--bone); text-decoration: none; transition: color .2s; opacity: 0.78; }
+  .util .links a:hover { color: var(--gold); opacity: 1; }
+  .util .right { display: flex; align-items: center; gap: 8px; color: var(--bone); opacity: 0.85; }
+  .util .dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
+
+  /* === Nav ===================================================== */
+  nav.top { position: sticky; top: 0; z-index: 50; background: rgba(250,246,232,0.90); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; height: 88px; }
+
+  .brand { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--ink); }
+  .mark {
+    width: 48px; height: 48px;
+    background: var(--ink);
+    color: var(--bone);
+    display: grid; place-items: center;
+    font-family: 'Bespoke Serif', serif;
+    position: relative;
+  }
+  .mark::before {
+    content: ''; position: absolute; inset: 4px;
+    border: 1px solid var(--brass);
+    pointer-events: none;
+  }
+  .mark .mg { font-size: 18px; font-weight: 400; letter-spacing: -0.04em; line-height: 1; }
+  .mark .mg em { font-style: italic; color: var(--gold); padding: 0 0.04em; }
+  .wordmark { display: flex; flex-direction: column; gap: 4px; }
+  .wordmark .w1 { font-family: 'Bespoke Serif', serif; font-weight: 400; font-size: 22px; letter-spacing: 0.12em; line-height: 1; }
+  .wordmark .w1 em { font-style: italic; color: var(--oxblood); padding: 0 0.2em; }
+  .wordmark .w2 { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.36em; color: var(--mute); text-transform: uppercase; }
+
+  .menu { display: flex; gap: 36px; }
+  .menu a { font-family: 'Inter', sans-serif; font-size: 13.5px; color: var(--ink); text-decoration: none; transition: color .2s; font-weight: 500; }
+  .menu a:hover { color: var(--oxblood); }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    background: var(--ink); color: var(--bone);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    transition: all .25s ease;
+  }
+  .nav-cta:hover { background: var(--oxblood); border-color: var(--oxblood); }
+  @media (max-width: 980px) { .menu { display: none; } }
+
+  /* === Hero ==================================================== */
+  .hero { position: relative; padding: 0; min-height: 88vh; display: flex; flex-direction: column; }
+  .hero-img {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(11,9,8,0.45) 0%, rgba(11,9,8,0.25) 35%, rgba(11,9,8,0.96) 100%),
+      url('https://images.unsplash.com/photo-1496588152823-86ff7695e68f?w=2400&auto=format&fit=crop&q=85');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-img::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.10;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .hero-content { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 80px; }
+  .hero-content .wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: end; }
+  @media (max-width: 980px) { .hero-content .wrap { grid-template-columns: 1fr; gap: 32px; } }
+  .hero-content .crest {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 8px 16px;
+    background: rgba(11,9,8,0.55); backdrop-filter: blur(10px);
+    border: 1px solid var(--hair);
+    color: var(--bone); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    align-self: flex-start;
+  }
+  .hero-content .crest .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 0 4px rgba(197,165,114,0.25); }
+  .hero h1 { color: var(--bone); margin-top: 28px; max-width: 14ch; text-shadow: 0 4px 40px rgba(11,9,8,0.6), 0 1px 2px rgba(11,9,8,0.4); }
+  .hero h1 em { font-style: italic; color: var(--gold); font-weight: 300; }
+  .hero .sub { margin-top: 28px; color: rgba(244,239,224,0.88); max-width: 56ch; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.65; }
+  .hero-cta-row { display: flex; gap: 14px; margin-top: 40px; align-items: center; flex-wrap: wrap; }
+  .pri-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 30px;
+    background: var(--oxblood); color: var(--bone);
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--oxblood);
+    transition: all .25s ease;
+  }
+  .pri-btn:hover { background: #8B1A26; border-color: #8B1A26; }
+  .ghost-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 26px;
+    background: transparent; color: var(--bone);
+    border: 1px solid var(--hair);
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none;
+    transition: all .25s ease;
+  }
+  .ghost-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-meta {
+    background: rgba(11,9,8,0.55);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--hair);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 20px;
+    color: var(--bone);
+  }
+  .hero-meta .h-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .hero-meta .k { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .hero-meta .v { font-family: 'Bespoke Serif', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.01em; color: var(--bone); }
+  .hero-meta .div { height: 1px; background: rgba(244,239,224,0.16); }
+
+  .hero-credit { position: absolute; bottom: 18px; right: 32px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(244,239,224,0.45); }
+
+  /* === Stats strip ============================================= */
+  .stats { background: var(--bone); border-bottom: 1px solid var(--line); padding: 80px 0; position: relative; }
+  .stats::before {
+    /* engraved brass hairline */
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--brass) 20%, var(--gold) 50%, var(--brass) 80%, transparent);
+    opacity: 0.6;
+  }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; }
+  @media (max-width: 880px) { .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 48px 32px; } }
+  .stat-cell { display: flex; flex-direction: column; gap: 12px; padding-right: 24px; border-right: 1px solid var(--line); }
+  .stat-cell:last-child { border-right: 0; }
+  .stat-cell .n { font-family: 'Bespoke Serif', serif; font-size: clamp(40px, 5.4vw, 72px); font-weight: 300; line-height: 1; letter-spacing: -0.035em; color: var(--ink); }
+  .stat-cell .n sup { font-size: 0.45em; color: var(--oxblood); }
+  .stat-cell .n em { font-style: italic; color: var(--oxblood); font-weight: 300; }
+  .stat-cell .c { font-size: 13px; color: var(--char); line-height: 1.55; max-width: 24ch; letter-spacing: 0.02em; }
+  .stat-cell .yr { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--mute); letter-spacing: 0.18em; }
+
+  /* === Practice (photo cards with city/marble imagery) ========= */
+  .practice { padding: 140px 0; background: var(--paper); }
+  .section-head { display: grid; grid-template-columns: 1fr 1.8fr; gap: 56px; align-items: end; margin-bottom: 64px; }
+  @media (max-width: 760px) { .section-head { grid-template-columns: 1fr; gap: 24px; } }
+  .section-head h2 em { font-style: italic; color: var(--oxblood); font-weight: 300; }
+
+  .practice-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  @media (max-width: 980px) { .practice-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .practice-grid { grid-template-columns: 1fr; } }
+  .p-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    cursor: pointer;
+    background-size: cover; background-position: center;
+    transition: transform .4s ease;
+  }
+  .p-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(11,9,8,0.10) 0%, rgba(11,9,8,0.55) 55%, rgba(11,9,8,0.95) 100%);
+    transition: background .4s ease;
+  }
+  .p-card:hover { transform: translateY(-6px); }
+  .p-card:hover::before { background: linear-gradient(180deg, rgba(11,9,8,0.10) 0%, rgba(11,9,8,0.60) 50%, rgba(11,9,8,0.97) 100%); }
+  .p-card .body { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 24px; z-index: 2; }
+  .p-card .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .p-card h3 { font-family: 'Bespoke Serif', serif; font-size: 26px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.05; color: var(--bone); }
+  .p-card h3 em { font-style: italic; color: var(--gold); font-weight: 300; }
+  .p-card .desc { font-size: 12.5px; color: rgba(244,239,224,0.78); margin-top: 10px; line-height: 1.55; }
+  .p-card .arrow { display: inline-block; margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; transition: transform .25s ease; }
+  .p-card:hover .arrow { transform: translateX(4px); }
+
+  .p-card.ma     { background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&auto=format&fit=crop&q=85'); }
+  .p-card.pe     { background-image: url('https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=900&auto=format&fit=crop&q=85'); }
+  .p-card.cap    { background-image: url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=900&auto=format&fit=crop&q=85'); }
+  .p-card.restr  { background-image: url('https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=900&auto=format&fit=crop&q=85'); }
+
+  /* === Transactions feature band =============================== */
+  .features { padding: 140px 0; background: var(--ink); color: var(--bone); position: relative; overflow: hidden; }
+  .features::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--brass), transparent);
+  }
+  .features::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--brass), transparent);
+  }
+  .features .section-head h2 { color: var(--bone); }
+  .features .section-head h2 em { color: var(--gold); }
+  .features .label { color: var(--gold); }
+
+  .tx-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 48px; align-items: stretch; }
+  @media (max-width: 980px) { .tx-grid { grid-template-columns: 1fr; } }
+  .featured-tx {
+    background: rgba(244,239,224,0.04);
+    border: 1px solid var(--hair);
+    padding: 48px;
+    display: flex; flex-direction: column; gap: 22px;
+    position: relative;
+  }
+  .featured-tx::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 80px; height: 1px; background: var(--gold);
+  }
+  .featured-tx .meta { display: flex; gap: 14px; align-items: center; }
+  .featured-tx .date { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+  .featured-tx .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); opacity: 0.7; padding: 3px 10px; border: 1px solid var(--hair); }
+  .featured-tx .deal-size { font-family: 'Bespoke Serif', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 300; letter-spacing: -0.03em; color: var(--gold); line-height: 1; }
+  .featured-tx h3 { font-family: 'Bespoke Serif', serif; font-size: clamp(22px, 2.4vw, 30px); font-weight: 400; line-height: 1.2; letter-spacing: -0.015em; color: var(--bone); }
+  .featured-tx h3 em { font-style: italic; color: var(--gold); font-weight: 300; }
+  .featured-tx p { font-size: 14.5px; line-height: 1.65; color: rgba(244,239,224,0.78); }
+  .featured-tx .footnote { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--hair); display: flex; justify-content: space-between; align-items: baseline; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); opacity: 0.7; }
+  .featured-tx .footnote .read { color: var(--gold); }
+
+  .tx-side { display: flex; flex-direction: column; gap: 16px; }
+  .tx-row {
+    padding: 22px 24px;
+    background: rgba(244,239,224,0.03);
+    border: 1px solid rgba(168,137,89,0.18);
+    cursor: pointer; transition: border-color .3s ease, background .3s ease;
+  }
+  .tx-row:hover { border-color: var(--gold); background: rgba(244,239,224,0.06); }
+  .tx-row .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .tx-row .size { font-family: 'Bespoke Serif', serif; font-size: 22px; font-weight: 400; color: var(--gold); letter-spacing: -0.02em; }
+  .tx-row .dt { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(244,239,224,0.6); }
+  .tx-row p { font-size: 13.5px; color: rgba(244,239,224,0.88); margin-top: 10px; line-height: 1.5; }
+  .tx-row p em { color: var(--gold); font-style: italic; }
+
+  /* === Recognition row ========================================= */
+  .recog { padding: 120px 0; background: var(--bone); border-bottom: 1px solid var(--line); }
+  .recog-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .recog-head h2 { font-family: 'Bespoke Serif', serif; font-size: clamp(30px, 3.4vw, 48px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; }
+  .recog-head h2 em { font-style: italic; color: var(--oxblood); font-weight: 300; }
+  .recog-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  @media (max-width: 980px) { .recog-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) { .recog-grid { grid-template-columns: repeat(2, 1fr); } }
+  .award {
+    padding: 32px 22px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    text-align: center;
+    display: flex; flex-direction: column; gap: 6px; align-items: center;
+    transition: border-color .3s ease, transform .3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .award:hover { border-color: var(--brass); transform: translateY(-3px); }
+  .award::before {
+    content: ''; position: absolute; top: 0; left: 22%; right: 22%; height: 1px; background: var(--brass); opacity: 0.6;
+  }
+  .award .y { font-family: 'Bespoke Serif', serif; font-size: 30px; font-weight: 300; letter-spacing: -0.02em; color: var(--oxblood); line-height: 1; font-style: italic; }
+  .award .t { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--char); margin-top: 6px; font-weight: 500; }
+  .award .s { font-size: 11.5px; color: var(--mute); margin-top: 4px; line-height: 1.5; }
+
+  /* === People (photo tiles) ==================================== */
+  .people { padding: 140px 0; background: var(--paper); }
+  .people-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 980px) { .people-grid { grid-template-columns: repeat(2, 1fr); } }
+  .person {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    cursor: pointer;
+    background-size: cover; background-position: center;
+    transition: transform .35s ease;
+  }
+  .person::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(11,9,8,0.0) 50%, rgba(11,9,8,0.92) 100%);
+  }
+  .person:hover { transform: translateY(-4px); }
+  .person.p1 { background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop&q=85'); }
+  .person.p2 { background-image: url('https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&auto=format&fit=crop&q=85'); }
+  .person.p3 { background-image: url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&auto=format&fit=crop&q=85'); }
+  .person.p4 { background-image: url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=800&auto=format&fit=crop&q=85'); }
+  .person .info { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 22px; z-index: 2; color: var(--bone); }
+  .person .nm { font-family: 'Bespoke Serif', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; }
+  .person .role { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 8px; color: var(--gold); }
+  .person .area { font-size: 13px; margin-top: 8px; color: rgba(244,239,224,0.85); }
+
+  /* === Capabilities diagram ==================================== */
+  .diagram-section { padding: 140px 0; background: var(--bone); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .diagram { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: center; }
+  @media (max-width: 880px) { .diagram { grid-template-columns: 1fr; gap: 40px; } }
+  .diagram-side h2 em { color: var(--oxblood); font-style: italic; font-weight: 300; }
+  .diagram-side p { margin-top: 24px; }
+
+  .deal-stack {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 36px;
+    position: relative;
+  }
+  .deal-stack::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 80px; height: 1px; background: var(--oxblood);
+  }
+  .deal-stack-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); margin-bottom: 28px; }
+  .stack-row { display: grid; grid-template-columns: 14px 1fr auto; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .stack-row:last-child { border-bottom: 0; }
+  .stack-row .num-dot { width: 14px; height: 14px; background: var(--oxblood); border-radius: 50%; position: relative; }
+  .stack-row .num-dot::after { content: ''; position: absolute; top: -50px; left: 6px; width: 1px; height: 50px; background: var(--line-2); }
+  .stack-row:first-child .num-dot::after { display: none; }
+  .stack-row .step-name { font-family: 'Bespoke Serif', serif; font-size: 18px; font-weight: 400; letter-spacing: -0.01em; }
+  .stack-row .step-name em { color: var(--oxblood); font-style: italic; }
+  .stack-row .step-name .sub { display: block; font-family: 'Inter', sans-serif; font-size: 12.5px; color: var(--mute); margin-top: 2px; }
+  .stack-row .step-d { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: var(--brass); }
+
+  /* === News ==================================================== */
+  .news { padding: 140px 0; background: var(--paper); }
+  .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 880px) { .news-grid { grid-template-columns: 1fr; } }
+  .article {
+    background: var(--bone);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: transform .35s ease, border-color .35s ease;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .article:hover { transform: translateY(-4px); border-color: var(--oxblood); }
+  .article .img { aspect-ratio: 16/10; background-size: cover; background-position: center; position: relative; }
+  .article.a1 .img { background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1000&auto=format&fit=crop&q=80'); }
+  .article.a2 .img { background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1000&auto=format&fit=crop&q=80'); }
+  .article.a3 .img { background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1000&auto=format&fit=crop&q=80'); }
+  .article .img .cat { position: absolute; top: 14px; left: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; padding: 5px 11px; background: var(--ink); color: var(--gold); }
+  .article .body { padding: 28px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .article .date { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); }
+  .article h3 { font-family: 'Bespoke Serif', serif; font-size: 22px; font-weight: 400; line-height: 1.2; letter-spacing: -0.015em; color: var(--ink); }
+  .article h3 em { font-style: italic; color: var(--oxblood); }
+  .article p { font-size: 13.5px; color: var(--char); line-height: 1.55; }
+  .article .read-time { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--mute); display: flex; justify-content: space-between; }
+  .article .read-time .author { color: var(--ink); font-weight: 600; }
+
+  /* === Offices ================================================= */
+  .offices { padding: 140px 0; background: var(--ink); color: var(--bone); border-top: 1px solid var(--line); }
+  .offices .section-head h2 { color: var(--bone); }
+  .offices .section-head h2 em { color: var(--gold); }
+  .offices .label { color: var(--gold); }
+  .office-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hair); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+  @media (max-width: 880px) { .office-grid { grid-template-columns: repeat(2, 1fr); } }
+  .office {
+    background: var(--ink);
+    padding: 40px 28px;
+    cursor: pointer; transition: background .35s ease;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .office:hover { background: #181311; }
+  .office .city { font-family: 'Bespoke Serif', serif; font-size: 26px; font-weight: 400; letter-spacing: -0.01em; color: var(--bone); }
+  .office .city em { font-style: italic; color: var(--gold); font-weight: 300; }
+  .office .addr { font-size: 13.5px; color: rgba(244,239,224,0.78); line-height: 1.6; margin-top: 10px; }
+  .office .phone { margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--gold); letter-spacing: 0.06em; }
+  .office.coming { background: rgba(244,239,224,0.02); }
+  .office.coming .city { color: rgba(244,239,224,0.45); }
+  .office.coming .city em { color: rgba(197,165,114,0.6); }
+  .office.coming .addr { color: rgba(244,239,224,0.4); }
+
+  /* === End CTA ================================================= */
+  .end-cta { padding: 140px 0; background: var(--bone); position: relative; }
+  .end-cta::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--oxblood), transparent);
+  }
+  .end-content { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: end; }
+  @media (max-width: 760px) { .end-content { grid-template-columns: 1fr; gap: 32px; } }
+  .end-content h2 { max-width: 14ch; }
+  .end-content h2 em { font-style: italic; color: var(--oxblood); font-weight: 300; }
+  .end-content .right { display: flex; flex-direction: column; gap: 14px; }
+  .end-content .label { color: var(--brass); }
+  .contact-line {
+    font-family: 'Bespoke Serif', serif; font-size: 22px; font-weight: 400;
+    color: var(--oxblood); text-decoration: none;
+    border-bottom: 1px solid var(--oxblood);
+    padding-bottom: 6px;
+    align-self: flex-start;
+    letter-spacing: -0.01em;
+  }
+  .contact-line:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* === Footer ================================================== */
+  footer { background: var(--paper); padding: 80px 0 40px; border-top: 1px solid var(--line); }
+  .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 40px; }
+  @media (max-width: 980px) { .foot-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  @media (max-width: 600px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--oxblood); margin-bottom: 18px; }
+  .foot-col p, .foot-col a { font-size: 14px; color: var(--ink); line-height: 1.7; display: block; text-decoration: none; }
+  .foot-col a:hover { color: var(--oxblood); }
+  .foot-bottom { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 11.5px; color: var(--mute); letter-spacing: 0.04em; }
+  @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
+  .foot-logo { font-family: 'Bespoke Serif', serif; font-size: 28px; font-weight: 400; letter-spacing: 0.06em; }
+  .foot-logo em { font-style: italic; color: var(--oxblood); font-weight: 300; padding: 0 0.16em; }
+</style>
+</head>
+<body>
+
+<!-- Concept disclosure banner -->
+<div style="background:#0B0908;color:#C5A572;padding:9px 0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;border-bottom:1px solid rgba(168,137,89,0.4);">
+  <a href="/" style="color:#C5A572;text-decoration:none;">← Back to studio</a>
+  &nbsp;·&nbsp; Design study by OnCall Automation Studio &nbsp;·&nbsp; Not a current client engagement
+</div>
+
+<!-- Top utility bar -->
+<div class="util">
+  <div class="wrap">
+    <div class="links">
+      <a href="#offices">Offices</a>
+      <a href="#">Lateral inquiries</a>
+      <a href="#">Alumni</a>
+      <a href="#news">News &amp; insights</a>
+    </div>
+    <span class="right"><span class="dot"></span>Engaged on transactions exceeding $240B in aggregate</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="top">
+  <div class="wrap row">
+    <a href="#" class="brand">
+      <div class="mark"><span class="mg">H<em>&amp;</em>G</span></div>
+      <div class="wordmark">
+        <span class="w1">HALSTEAD <em>&amp;</em> GROVE</span>
+        <span class="w2">EST. 2008 · COUNSELLORS AT LAW</span>
+      </div>
+    </a>
+    <div class="menu">
+      <a href="#practice">Practice</a>
+      <a href="#transactions">Transactions</a>
+      <a href="#people">People</a>
+      <a href="#news">Insights</a>
+      <a href="#offices">Offices</a>
+    </div>
+    <a href="#contact" class="nav-cta">Engage Counsel →</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-content">
+    <div class="wrap">
+      <div>
+        <span class="crest"><span class="dot"></span>Chambers USA · Band 1 · Corporate / M&amp;A</span>
+        <h1 class="display xl">Counsel to <em>capital</em>.</h1>
+        <p class="sub">Halstead &amp; Grove represents investment banks, private equity sponsors, hedge funds, and the public companies they transact with — across mergers and acquisitions, private equity, capital markets, and the rare situations that demand all three at once.</p>
+        <div class="hero-cta-row">
+          <a href="#contact" class="pri-btn">Engage counsel</a>
+          <a href="#transactions" class="ghost-btn">Recent transactions</a>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <div class="h-row"><span class="k">Aggregate volume</span><span class="v">$248B+</span></div>
+        <div class="div"></div>
+        <div class="h-row"><span class="k">Transactions</span><span class="v">312 closed</span></div>
+        <div class="div"></div>
+        <div class="h-row"><span class="k">Sponsors served</span><span class="v">48</span></div>
+        <div class="div"></div>
+        <div class="h-row"><span class="k">Offices</span><span class="v">NY · London · DC</span></div>
+      </div>
+    </div>
+  </div>
+  <span class="hero-credit">One Vanderbilt · Forty-Fourth Floor</span>
+</section>
+
+<!-- Stats strip -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <span class="n">$248<sup>B+</sup></span>
+        <span class="c">Aggregate transaction volume advised</span>
+        <span class="yr">2018 – 2025</span>
+      </div>
+      <div class="stat-cell">
+        <span class="n">312</span>
+        <span class="c">Closed transactions across M&amp;A, PE, and capital markets</span>
+        <span class="yr">2018 – 2025</span>
+      </div>
+      <div class="stat-cell">
+        <span class="n">48</span>
+        <span class="c">Private equity sponsors served, including 9 of the top 25 by AUM</span>
+        <span class="yr">Active engagements</span>
+      </div>
+      <div class="stat-cell">
+        <span class="n">$14<sup>B</sup></span>
+        <span class="c">Largest closed transaction, all-cash carve-out</span>
+        <span class="yr">2024 · Industrials</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Practice areas (photo cards) -->
+<section class="practice" id="practice">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label">§ 01 · Practice</p>
+      <h2 class="display l">A narrow practice, <em>deliberately so</em>.</h2>
+    </div>
+
+    <div class="practice-grid">
+      <div class="p-card ma">
+        <div class="body">
+          <p class="num">01 / Strategic Transactions</p>
+          <h3>Mergers &amp; <em>acquisitions</em></h3>
+          <p class="desc">Public-company M&amp;A, cross-border, hostile, carve-outs, and stock-for-stock deals.</p>
+          <span class="arrow">View practice →</span>
+        </div>
+      </div>
+      <div class="p-card pe">
+        <div class="body">
+          <p class="num">02 / Private Equity</p>
+          <h3>Private equity &amp; <em>funds</em></h3>
+          <p class="desc">Buy-side, take-privates, secondary transactions, GP-led continuation funds.</p>
+          <span class="arrow">View practice →</span>
+        </div>
+      </div>
+      <div class="p-card cap">
+        <div class="body">
+          <p class="num">03 / Capital Markets</p>
+          <h3>Capital <em>markets</em></h3>
+          <p class="desc">IPOs, follow-ons, convertibles, high-yield, and 144A debt offerings.</p>
+          <span class="arrow">View practice →</span>
+        </div>
+      </div>
+      <div class="p-card restr">
+        <div class="body">
+          <p class="num">04 / Restructuring</p>
+          <h3>Bankruptcy &amp; <em>restructuring</em></h3>
+          <p class="desc">In-court Chapter 11, out-of-court workouts, DIP financing, plan negotiations.</p>
+          <span class="arrow">View practice →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured transactions (dark band) -->
+<section class="features" id="transactions">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label">§ 02 · Recent transactions</p>
+      <h2 class="display l">Selected representations.</h2>
+    </div>
+
+    <div class="tx-grid">
+      <div class="featured-tx">
+        <div class="meta">
+          <span class="date">2024 · S.D.N.Y.</span>
+          <span class="tag">All-cash · Carve-out</span>
+        </div>
+        <p class="deal-size">$14.2B</p>
+        <h3>Advised a Fortune 50 industrials client in its <em>all-cash carve-out acquisition</em> of a specialty chemicals division.</h3>
+        <p>Multi-jurisdictional regulatory review across DOJ Antitrust, FTC, European Commission, and CFIUS. Closed without divestiture. No remedies imposed.</p>
+        <div class="footnote">
+          <span>Strategic Transactions</span>
+          <span class="read">Read tombstone →</span>
+        </div>
+      </div>
+
+      <div class="tx-side">
+        <div class="tx-row">
+          <div class="top">
+            <span class="size">$3.4B</span>
+            <span class="dt">2025 · IPO</span>
+          </div>
+          <p>Underwriters' counsel on the <em>Nasdaq IPO</em> of a leading enterprise software issuer.</p>
+        </div>
+        <div class="tx-row">
+          <div class="top">
+            <span class="size">$2.8B</span>
+            <span class="dt">2024 · LBO</span>
+          </div>
+          <p>Represented a leading PE sponsor in its <em>take-private</em> of a specialty healthcare business.</p>
+        </div>
+        <div class="tx-row">
+          <div class="top">
+            <span class="size">$1.9B</span>
+            <span class="dt">2024 · Restructuring</span>
+          </div>
+          <p>Debtor's counsel in a <em>pre-arranged Chapter 11</em> for a private-equity-owned consumer brand.</p>
+        </div>
+        <div class="tx-row">
+          <div class="top">
+            <span class="size">$900M</span>
+            <span class="dt">2025 · Continuation</span>
+          </div>
+          <p>Advised on a <em>GP-led secondary</em> creating a single-asset continuation vehicle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recognition -->
+<section class="recog">
+  <div class="wrap">
+    <div class="recog-head">
+      <p class="label" style="margin-bottom: 16px;">§ 03 · Recognition</p>
+      <h2>Independently ranked among the top transaction practices in the country, year after <em>year</em>.</h2>
+    </div>
+    <div class="recog-grid">
+      <div class="award">
+        <span class="y">Band 1</span>
+        <span class="t">Chambers USA</span>
+        <span class="s">Corporate / M&amp;A</span>
+      </div>
+      <div class="award">
+        <span class="y">2024</span>
+        <span class="t">The American Lawyer</span>
+        <span class="s">Boutique of the Year</span>
+      </div>
+      <div class="award">
+        <span class="y">Tier 1</span>
+        <span class="t">Legal 500 US</span>
+        <span class="s">Private Equity Buyouts</span>
+      </div>
+      <div class="award">
+        <span class="y">9 of 25</span>
+        <span class="t">PE Sponsor Wins</span>
+        <span class="s">Top 25 PE firms · counsel</span>
+      </div>
+      <div class="award">
+        <span class="y">A+</span>
+        <span class="t">Benchmark</span>
+        <span class="s">Capital Markets</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- People -->
+<section class="people" id="people">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label">§ 04 · People</p>
+      <h2 class="display l">Twelve partners. <em>One bench</em>.</h2>
+    </div>
+    <div class="people-grid">
+      <div class="person p1">
+        <div class="info">
+          <p class="nm">Marina Halstead</p>
+          <p class="role">Founding Partner</p>
+          <p class="area">M&amp;A · Capital Markets</p>
+        </div>
+      </div>
+      <div class="person p2">
+        <div class="info">
+          <p class="nm">Robert M. Grove</p>
+          <p class="role">Founding Partner</p>
+          <p class="area">Private Equity · Funds</p>
+        </div>
+      </div>
+      <div class="person p3">
+        <div class="info">
+          <p class="nm">Anjali Krishnan</p>
+          <p class="role">Partner</p>
+          <p class="area">Strategic Transactions</p>
+        </div>
+      </div>
+      <div class="person p4">
+        <div class="info">
+          <p class="nm">Daniel Yusupov</p>
+          <p class="role">Partner</p>
+          <p class="area">Restructuring · Workouts</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Diagram: how we run a deal -->
+<section class="diagram-section">
+  <div class="wrap">
+    <div class="diagram">
+      <div class="diagram-side">
+        <p class="label">§ 05 · The desk</p>
+        <h2 class="display l" style="margin-top: 14px;">How a deal moves through <em>the firm</em>.</h2>
+        <p class="lead">Every engagement runs through the same five-phase model — refined over 300+ transactions and tuned to give principals visibility at every gate.</p>
+      </div>
+
+      <div class="deal-stack">
+        <p class="deal-stack-title">Standard transaction architecture</p>
+
+        <div class="stack-row">
+          <span class="num-dot"></span>
+          <span class="step-name">01 · <em>Origination &amp; conflicts</em><span class="sub">Engagement letter, conflicts clearance, deal team staffing</span></span>
+          <span class="step-d">D-30 to D-21</span>
+        </div>
+        <div class="stack-row">
+          <span class="num-dot"></span>
+          <span class="step-name">02 · <em>Diligence &amp; structure</em><span class="sub">Data room, structuring memos, tax and regulatory framing</span></span>
+          <span class="step-d">D-21 to D-7</span>
+        </div>
+        <div class="stack-row">
+          <span class="num-dot"></span>
+          <span class="step-name">03 · <em>Negotiation</em><span class="sub">Term sheet, definitives, ancillary agreements, debt commitment papers</span></span>
+          <span class="step-d">D-7 to D-1</span>
+        </div>
+        <div class="stack-row">
+          <span class="num-dot"></span>
+          <span class="step-name">04 · <em>Signing &amp; antitrust</em><span class="sub">HSR, foreign filings, regulatory pre-clearance, financing close</span></span>
+          <span class="step-d">D-0 to D+45</span>
+        </div>
+        <div class="stack-row">
+          <span class="num-dot"></span>
+          <span class="step-name">05 · <em>Closing &amp; integration</em><span class="sub">Funds flow, escrow, post-closing covenants, transition counsel</span></span>
+          <span class="step-d">D+45 to D+90</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- News -->
+<section class="news" id="news">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label">§ 06 · News &amp; insights</p>
+      <h2 class="display l">From <em>the desk</em>.</h2>
+    </div>
+    <div class="news-grid">
+      <article class="article a1">
+        <div class="img"><span class="cat">Insight</span></div>
+        <div class="body">
+          <span class="date">April 14, 2026 · M&amp;A</span>
+          <h3>What the Delaware Court's <em>recent reading</em> of pro-sandbagging clauses means for stock-for-stock deals.</h3>
+          <p>Buyers and sellers now face an asymmetric risk in the language of indemnity. A practical guide to revising your standard form.</p>
+          <div class="read-time"><span class="author">Marina Halstead</span><span>9 min read</span></div>
+        </div>
+      </article>
+      <article class="article a2">
+        <div class="img"><span class="cat">News</span></div>
+        <div class="body">
+          <span class="date">March 22, 2026 · Firm news</span>
+          <h3>Halstead &amp; Grove welcomes <em>Anjali Krishnan</em> as partner in the New York office.</h3>
+          <p>Krishnan joins from Wachtell Lipton, where she advised on bet-the-company transactions for over a decade.</p>
+          <div class="read-time"><span class="author">Firm communications</span><span>3 min read</span></div>
+        </div>
+      </article>
+      <article class="article a3">
+        <div class="img"><span class="cat">Insight</span></div>
+        <div class="body">
+          <span class="date">February 28, 2026 · Capital Markets</span>
+          <h3>Why <em>GP-led continuation funds</em> are no longer the alternative — they're the exit.</h3>
+          <p>A field note on the structures, conflicts disclosures, and LPAC dynamics that make these vehicles work.</p>
+          <div class="read-time"><span class="author">Robert M. Grove</span><span>12 min read</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Offices -->
+<section class="offices" id="offices">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="label">§ 07 · Offices</p>
+      <h2 class="display l">Three offices. <em>One bench</em>.</h2>
+    </div>
+    <div class="office-grid">
+      <div class="office">
+        <p class="city">New <em>York</em></p>
+        <p class="addr">One Vanderbilt<br>Suite 4400<br>New York, NY 10017</p>
+        <p class="phone">+1 212.555.0188</p>
+      </div>
+      <div class="office">
+        <p class="city">London</p>
+        <p class="addr">11 Old Broad Street<br>Floor 22<br>London EC2N 1AT</p>
+        <p class="phone">+44 20 7946 0188</p>
+      </div>
+      <div class="office">
+        <p class="city">Washington <em>D.C.</em></p>
+        <p class="addr">1101 New York Ave NW<br>Suite 900<br>Washington, DC 20005</p>
+        <p class="phone">+1 202.555.0144</p>
+      </div>
+      <div class="office coming">
+        <p class="city">San <em>Francisco</em></p>
+        <p class="addr">Opening Q4 2026.<br>Inquiries through New York.</p>
+        <p class="phone">—</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- End CTA -->
+<section class="end-cta" id="contact">
+  <div class="wrap">
+    <div class="end-content">
+      <h2 class="display l">If the transaction is <em>material</em>, we should speak.</h2>
+      <div class="right">
+        <p class="label">Direct line · partners only</p>
+        <a class="contact-line" href="mailto:counsel@halsteadgrove.com">counsel@halsteadgrove.com →</a>
+        <p style="margin-top: 18px; font-size: 14px; color: var(--char);">Conflicts inquiries: <span class="ox">conflicts@halsteadgrove.com</span></p>
+        <p style="font-size: 14px; color: var(--char);">Press: <span class="ox">press@halsteadgrove.com</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <p class="foot-logo">HALSTEAD <em>&amp;</em> GROVE</p>
+        <p style="margin-top: 16px;">Counsellors at law. Mergers, acquisitions, capital markets.<br>Attorney advertising.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Practice</h4>
+        <a href="#">M&amp;A</a>
+        <a href="#">Private equity</a>
+        <a href="#">Capital markets</a>
+        <a href="#">Restructuring</a>
+      </div>
+      <div class="foot-col">
+        <h4>The firm</h4>
+        <a href="#">People</a>
+        <a href="#">Transactions</a>
+        <a href="#">News &amp; insights</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="foot-col">
+        <h4>Offices</h4>
+        <a href="#">New York</a>
+        <a href="#">London</a>
+        <a href="#">Washington D.C.</a>
+        <a href="#">San Francisco (2026)</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="mailto:counsel@halsteadgrove.com">counsel@halsteadgrove.com</a>
+        <a href="#">Lateral inquiries</a>
+        <a href="#">Press</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Halstead &amp; Grove LLP · Attorney Advertising</span>
+      <span>Prior results do not guarantee a similar outcome.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

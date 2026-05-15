@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEMLOCK & HARE — Slow skincare from the Hudson Valley</title>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=bespoke-serif@300,400,500&f[]=cabinet-grotesk@400,500,700&display=swap">
+<style>
+  :root {
+    --bone:    #F4ECDC;
+    --paper:   #FAF4E6;
+    --milk:    #FDF9F0;
+    --moss:    #2F3D2E;
+    --moss-d:  #1E2A1E;
+    --char:    #2E342B;
+    --ink:     #161814;
+    --mute:    #7A7363;
+    --cobalt:  #1B2A5E;
+    --terra:   #B5572D;
+    --gold:    #B89668;
+    --line:    rgba(22,24,20,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: 'Cabinet Grotesk', -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Bespoke Serif', Georgia, serif; }
+  .display { font-family: 'Bespoke Serif', Georgia, serif; font-weight: 400; line-height: 1.02; letter-spacing: -0.02em; }
+  .xl { font-size: clamp(56px, 9vw, 140px); font-weight: 400; }
+  .l  { font-size: clamp(36px, 5.4vw, 80px); font-weight: 400; }
+  .m  { font-size: clamp(26px, 3vw, 44px); font-weight: 400; }
+  .italic { font-style: italic; }
+
+  .label { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--moss); }
+  .lead { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; color: var(--char); max-width: 50ch; }
+  .mute { color: var(--mute); }
+
+  .wrap { max-width: 1340px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width: 760px) { .wrap { padding: 0 20px; } }
+
+  /* === Top notice =============================================== */
+  .topline { background: var(--moss); color: var(--bone); padding: 9px 0; font-size: 11.5px; letter-spacing: 0.24em; text-transform: uppercase; text-align: center; font-weight: 500; }
+  .topline span { padding: 0 8px; }
+  .topline .dot { color: var(--gold); }
+
+  /* === Nav ====================================================== */
+  nav.top { position: sticky; top: 0; z-index: 50; background: var(--paper); border-bottom: 1px solid var(--line); }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+  .brand .mark {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--moss);
+    color: var(--bone);
+    display: grid; place-items: center;
+    font-family: 'Bespoke Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+  }
+  .brand .name { font-family: 'Bespoke Serif', serif; font-size: 22px; letter-spacing: 0.02em; }
+  .brand .name em { font-style: italic; color: var(--moss); padding: 0 0.06em; }
+
+  .menu { display: flex; gap: 32px; }
+  .menu a { font-size: 14px; color: var(--ink); text-decoration: none; transition: color .2s; }
+  .menu a:hover { color: var(--moss); }
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+  .nav-icon { font-size: 18px; color: var(--ink); cursor: pointer; transition: color .2s; }
+  .nav-icon:hover { color: var(--moss); }
+  .cart-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1.5px solid var(--ink); border-radius: 999px; font-weight: 500; font-size: 13px; cursor: pointer; transition: all .2s ease; }
+  .cart-pill:hover { background: var(--ink); color: var(--paper); }
+  @media (max-width: 880px) { .menu { display: none; } }
+
+  /* === Hero ===================================================== */
+  .hero { padding: 56px 0 0; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  .hero-left h1 { margin-top: 28px; max-width: 12ch; line-height: 0.96; }
+  .hero-left h1 em { font-style: italic; color: var(--moss); }
+  .hero-left .lead { margin-top: 28px; }
+  .hero-cta { display: flex; gap: 16px; margin-top: 36px; align-items: center; flex-wrap: wrap; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 0; background: var(--ink); color: var(--paper); font-weight: 500; font-size: 14px; text-decoration: none; letter-spacing: 0.04em; transition: background .25s ease; }
+  .pill:hover { background: var(--moss); }
+  .ghost { font-weight: 500; font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 3px; }
+
+  .hero-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .hero-meta .m-item .n { font-family: 'Bespoke Serif', serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em; color: var(--moss); }
+  .hero-meta .m-item .c { font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-top: 8px; font-weight: 500; }
+
+  /* Hero product card with image */
+  .hero-product {
+    position: relative;
+    aspect-ratio: 4/5;
+    background:
+      linear-gradient(180deg, rgba(22,24,20,0) 0%, rgba(22,24,20,0.32) 100%),
+      url('https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1400&auto=format&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+  .hero-product .tag {
+    position: absolute; top: 24px; left: 24px;
+    padding: 7px 14px; background: var(--bone); color: var(--ink);
+    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  }
+  .hero-product .product-card {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    background: var(--milk);
+    padding: 24px 28px;
+    display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+  }
+  .product-card .stars { color: var(--gold); letter-spacing: 1.5px; font-size: 13px; }
+  .product-card .reviews { font-size: 12px; color: var(--mute); margin-top: 4px; }
+  .product-card .pname { font-family: 'Bespoke Serif', serif; font-size: 22px; line-height: 1.15; letter-spacing: -0.015em; margin-top: 8px; }
+  .product-card .pname em { font-style: italic; color: var(--moss); }
+  .product-card .pn { font-family: 'Bespoke Serif', serif; font-size: 32px; line-height: 1; color: var(--ink); letter-spacing: -0.02em; }
+  .product-card .pn-c { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-top: 6px; font-weight: 500; }
+
+  /* === Ingredient strip ========================================= */
+  .ingredients { padding: 100px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 96px; }
+  .ing-head { text-align: center; max-width: 800px; margin: 0 auto 56px; }
+  .ing-head h2 em { font-style: italic; color: var(--moss); }
+  .ing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  @media (max-width: 880px) { .ing-grid { grid-template-columns: repeat(2, 1fr); } }
+  .ing { text-align: center; }
+  .ing .icon {
+    width: 96px; height: 96px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background-size: cover; background-position: center;
+    border: 1px solid var(--line);
+  }
+  .ing:nth-child(1) .icon { background-image: url('https://images.unsplash.com/photo-1571166050691-b3ae93a8f9f3?w=400&auto=format&fit=crop&q=80'); }
+  .ing:nth-child(2) .icon { background-image: url('https://images.unsplash.com/photo-1556760544-74068565f05c?w=400&auto=format&fit=crop&q=80'); }
+  .ing:nth-child(3) .icon { background-image: url('https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&auto=format&fit=crop&q=80'); }
+  .ing:nth-child(4) .icon { background-image: url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=400&auto=format&fit=crop&q=80'); }
+  .ing .latin { font-family: 'Bespoke Serif', serif; font-style: italic; font-size: 14px; color: var(--moss); margin-bottom: 6px; }
+  .ing .name { font-family: 'Bespoke Serif', serif; font-size: 19px; letter-spacing: -0.01em; }
+  .ing .desc { font-size: 13px; color: var(--char); margin-top: 8px; line-height: 1.5; max-width: 28ch; margin-inline: auto; }
+
+  /* === Best sellers ============================================== */
+  .shop { padding: 140px 0; }
+  .shop-head { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; align-items: end; margin-bottom: 56px; }
+  @media (max-width: 760px) { .shop-head { grid-template-columns: 1fr; gap: 16px; } }
+  .shop-head h2 em { font-style: italic; color: var(--moss); }
+  .shop-head .view { font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; justify-self: end; align-self: end; font-weight: 500; }
+
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  @media (max-width: 880px) { .product-grid { grid-template-columns: 1fr; } }
+  .product {
+    background: var(--milk);
+    border: 1px solid var(--line);
+    transition: transform .35s ease, border-color .35s ease;
+    cursor: pointer;
+  }
+  .product:hover { transform: translateY(-6px); border-color: var(--moss); }
+  .product .img {
+    aspect-ratio: 4/5;
+    background-size: cover; background-position: center;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .product.p1 .img { background-image: url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1000&auto=format&fit=crop&q=80'); }
+  .product.p2 .img { background-image: url('https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1000&auto=format&fit=crop&q=80'); }
+  .product.p3 .img { background-image: url('https://images.unsplash.com/photo-1612817288484-6f916006741a?w=1000&auto=format&fit=crop&q=80'); }
+  .product .img .badge { position: absolute; top: 16px; left: 16px; padding: 5px 12px; background: var(--moss); color: var(--bone); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; }
+  .product .body { padding: 28px 24px; display: flex; flex-direction: column; gap: 8px; }
+  .product .cat { font-family: 'Cabinet Grotesk', sans-serif; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); font-weight: 500; }
+  .product .nm { font-family: 'Bespoke Serif', serif; font-size: 24px; line-height: 1.15; letter-spacing: -0.015em; }
+  .product .nm em { font-style: italic; color: var(--moss); }
+  .product .desc { font-size: 13.5px; color: var(--char); line-height: 1.55; }
+  .product .row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .product .price { font-family: 'Bespoke Serif', serif; font-size: 22px; letter-spacing: -0.015em; }
+  .product .add { font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; font-weight: 500; }
+
+  /* === Manifesto (moss bg) ===================================== */
+  .manifesto { background: var(--moss); color: var(--bone); padding: 160px 0; position: relative; overflow: hidden; }
+  .manifesto::before { content: ''; position: absolute; inset: 0; opacity: 0.08; background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); pointer-events: none; }
+  .manifesto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; }
+  @media (max-width: 880px) { .manifesto-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .manifesto .label { color: var(--gold); }
+  .manifesto h2 { color: var(--bone); }
+  .manifesto h2 em { font-style: italic; color: var(--gold); }
+  .manifesto .lead { color: rgba(244,236,220,0.85); max-width: 50ch; }
+  .manifesto .lead + .lead { margin-top: 20px; }
+  .manifesto-img {
+    aspect-ratio: 4/5;
+    background:
+      linear-gradient(180deg, rgba(47,61,46,0) 50%, rgba(47,61,46,0.35) 100%),
+      url('https://images.unsplash.com/photo-1556760544-74068565f05c?w=1200&auto=format&fit=crop&q=80');
+    background-size: cover; background-position: center;
+    position: relative;
+  }
+  .manifesto-img .credit { position: absolute; bottom: 20px; left: 20px; font-family: 'Bespoke Serif', serif; font-style: italic; font-size: 14px; color: var(--bone); }
+
+  .signature { margin-top: 32px; font-family: 'Bespoke Serif', serif; font-style: italic; font-size: 19px; color: var(--bone); }
+  .signature .role { display: block; font-style: normal; font-family: 'Cabinet Grotesk', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-top: 8px; }
+
+  /* === Press ==================================================== */
+  .press { padding: 100px 0; border-bottom: 1px solid var(--line); }
+  .press p.label { text-align: center; margin-bottom: 32px; }
+  .press-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px; align-items: center; text-align: center; }
+  @media (max-width: 880px) { .press-row { grid-template-columns: repeat(2, 1fr); } }
+  .press-logo { font-family: 'Bespoke Serif', serif; font-size: 22px; font-style: italic; color: var(--char); letter-spacing: -0.01em; }
+
+  /* === Routine builder ========================================== */
+  .routine { padding: 140px 0; }
+  .routine-head { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; margin-bottom: 56px; align-items: end; }
+  @media (max-width: 760px) { .routine-head { grid-template-columns: 1fr; gap: 16px; } }
+  .routine-head h2 em { font-style: italic; color: var(--moss); }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  @media (max-width: 880px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
+  .rstep { padding: 32px 24px; background: var(--bone); position: relative; }
+  .rstep .n { font-family: 'Bespoke Serif', serif; font-size: 48px; font-weight: 400; color: var(--moss); line-height: 1; letter-spacing: -0.03em; }
+  .rstep .nm { font-family: 'Bespoke Serif', serif; font-size: 22px; margin-top: 20px; letter-spacing: -0.015em; }
+  .rstep .nm em { font-style: italic; color: var(--moss); }
+  .rstep .desc { font-size: 13.5px; color: var(--char); margin-top: 10px; line-height: 1.55; }
+  .rstep .price { margin-top: 20px; font-family: 'Bespoke Serif', serif; font-size: 18px; }
+
+  /* === Footer / final CTA ====================================== */
+  .end-cta { padding: 140px 0; background: var(--bone); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; }
+  .end-cta h2 { max-width: 16ch; margin: 0 auto; }
+  .end-cta h2 em { font-style: italic; color: var(--moss); }
+  .end-cta .pill { margin-top: 40px; }
+
+  footer { background: var(--paper); padding: 64px 0 40px; }
+  .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }
+  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-col h4 { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--moss); margin-bottom: 18px; }
+  .foot-col p, .foot-col a { font-size: 14px; color: var(--ink); line-height: 1.7; display: block; text-decoration: none; }
+  .foot-col a:hover { color: var(--moss); }
+  .foot-bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 12.5px; color: var(--mute); }
+  @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
+  .foot-logo { font-family: 'Bespoke Serif', serif; font-size: 30px; letter-spacing: 0.02em; }
+  .foot-logo em { font-style: italic; color: var(--moss); }
+</style>
+</head>
+<body>
+
+<!-- Concept disclosure banner -->
+<div style="background:#1E2A1E;color:#C5A572;padding:9px 0;font-family:'Cabinet Grotesk',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;border-bottom:1px solid rgba(197,165,114,0.4);">
+  <a href="/" style="color:#C5A572;text-decoration:none;">← Back to studio</a>
+  &nbsp;·&nbsp; Design study by OnCall Automation Studio &nbsp;·&nbsp; Not a current client engagement
+</div>
+
+<!-- Top line -->
+<div class="topline">
+  <span>Free shipping over $80</span>
+  <span class="dot">●</span>
+  <span>Made in small batches · Hudson Valley</span>
+  <span class="dot">●</span>
+  <span>Carbon-neutral packaging</span>
+</div>
+
+<!-- Nav -->
+<nav class="top">
+  <div class="wrap row">
+    <a href="#" class="brand">
+      <span class="mark">H</span>
+      <span class="name">Hemlock <em>&amp;</em> Hare</span>
+    </a>
+    <div class="menu">
+      <a href="#shop">Shop</a>
+      <a href="#routine">Routine</a>
+      <a href="#ingredients">Ingredients</a>
+      <a href="#manifesto">Our story</a>
+      <a href="#journal">Journal</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-icon">⌕</span>
+      <span class="nav-icon">♡</span>
+      <span class="cart-pill">Cart · 0</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <p class="label">Slow skincare · Hudson Valley · Since 2019</p>
+        <h1 class="display xl">A ritual, not a <em>routine</em>.</h1>
+        <p class="lead">
+          Cold-pressed botanicals from our farm in Rhinebeck. Eight ingredients per formula, no more. Made in small batches the same week you receive them, never sitting on a warehouse shelf for nine months.
+        </p>
+        <div class="hero-cta">
+          <a href="#shop" class="pill">Shop the collection →</a>
+          <a href="#routine" class="ghost">Build your routine</a>
+        </div>
+        <div class="hero-meta">
+          <div class="m-item"><p class="n">8</p><p class="c">ingredients max</p></div>
+          <div class="m-item"><p class="n">14d</p><p class="c">from batch to door</p></div>
+          <div class="m-item"><p class="n">100%</p><p class="c">recyclable glass</p></div>
+        </div>
+      </div>
+
+      <div class="hero-product">
+        <span class="tag">New · Spring batch</span>
+        <div class="product-card">
+          <div>
+            <span class="stars">★★★★★</span>
+            <p class="reviews">4.9 · 1,840 reviews</p>
+            <p class="pname"><em>Botanical</em> Phyto-Serum Nº1</p>
+          </div>
+          <div style="text-align: right;">
+            <p class="pn">$84</p>
+            <p class="pn-c">30 ml</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ingredient strip -->
+<section class="ingredients" id="ingredients">
+  <div class="wrap">
+    <div class="ing-head">
+      <p class="label">Eight ingredients, every formula.</p>
+      <h2 class="display l" style="margin-top: 16px;">Cold-pressed at the farm, <em>weeks before</em> they reach you.</h2>
+    </div>
+    <div class="ing-grid">
+      <div class="ing">
+        <div class="icon"></div>
+        <p class="latin">Lavandula angustifolia</p>
+        <p class="name">English Lavender</p>
+        <p class="desc">Calms skin reactivity, balances sebum.</p>
+      </div>
+      <div class="ing">
+        <div class="icon"></div>
+        <p class="latin">Rosa damascena</p>
+        <p class="name">Damask Rose</p>
+        <p class="desc">Distilled from petals in May, polish &amp; tone.</p>
+      </div>
+      <div class="ing">
+        <div class="icon"></div>
+        <p class="latin">Helichrysum italicum</p>
+        <p class="name">Immortelle</p>
+        <p class="desc">Phyto-radiance, repairs barrier function.</p>
+      </div>
+      <div class="ing">
+        <div class="icon"></div>
+        <p class="latin">Camellia sinensis</p>
+        <p class="name">Green Tea Leaf</p>
+        <p class="desc">Antioxidant, protects against oxidative stress.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Best sellers / shop -->
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="shop-head">
+      <div>
+        <p class="label">Shop</p>
+        <h2 class="display l" style="margin-top: 12px;">The ones <em>you'll reorder</em>.</h2>
+      </div>
+      <a class="view" href="#">View the full apothecary →</a>
+    </div>
+
+    <div class="product-grid">
+      <div class="product p1">
+        <div class="img"><span class="badge">Bestseller</span></div>
+        <div class="body">
+          <p class="cat">Treatment · 30 ml</p>
+          <p class="nm">Botanical <em>Phyto-Serum</em> Nº1</p>
+          <p class="desc">Eight cold-pressed botanicals. The serum the magazines call our "hero product." It is.</p>
+          <div class="row">
+            <span class="price">$84</span>
+            <span class="add">Add to cart →</span>
+          </div>
+        </div>
+      </div>
+      <div class="product p2">
+        <div class="img"><span class="badge">New</span></div>
+        <div class="body">
+          <p class="cat">Cleanse · 100 ml</p>
+          <p class="nm"><em>Cold-pressed</em> Cleansing Oil</p>
+          <p class="desc">Camellia, jojoba, calendula. Melts SPF and the day, leaves the barrier alone.</p>
+          <div class="row">
+            <span class="price">$48</span>
+            <span class="add">Add to cart →</span>
+          </div>
+        </div>
+      </div>
+      <div class="product p3">
+        <div class="img"></div>
+        <div class="body">
+          <p class="cat">Hydrate · 50 ml</p>
+          <p class="nm">Damask <em>Rose Cream</em></p>
+          <p class="desc">Cream finished with damask rose distillate, May harvest. Worth waiting for.</p>
+          <div class="row">
+            <span class="price">$72</span>
+            <span class="add">Add to cart →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Manifesto -->
+<section class="manifesto" id="manifesto">
+  <div class="wrap">
+    <div class="manifesto-grid">
+      <div class="manifesto-img">
+        <p class="credit">— Distillation room, Rhinebeck NY</p>
+      </div>
+      <div>
+        <p class="label">Our story</p>
+        <h2 class="display l" style="margin-top: 16px;">Skincare you can <em>read</em>.</h2>
+        <p class="lead">
+          We started Hemlock &amp; Hare in 2019 because the formula on the back of every bottle we loved had forty-three ingredients and we couldn't pronounce thirty-five of them.
+        </p>
+        <p class="lead">
+          Every product is built from eight or fewer cold-pressed botanicals. Each batch is made in a converted dairy barn in Rhinebeck and arrives at your door inside two weeks of being made. Nothing sits on a shelf for nine months pretending to be fresh.
+        </p>
+        <p class="signature">— Margot Halsey
+          <span class="role">Founder · Formulator</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Press -->
+<section class="press">
+  <div class="wrap">
+    <p class="label">As seen in</p>
+    <div class="press-row">
+      <span class="press-logo">Vogue</span>
+      <span class="press-logo">The Cut</span>
+      <span class="press-logo">Goop</span>
+      <span class="press-logo">Into the Gloss</span>
+      <span class="press-logo">Architectural Digest</span>
+    </div>
+  </div>
+</section>
+
+<!-- Routine builder -->
+<section class="routine" id="routine">
+  <div class="wrap">
+    <div class="routine-head">
+      <div>
+        <p class="label">The routine</p>
+        <h2 class="display l" style="margin-top: 12px;">Four steps. <em>Two minutes</em>.</h2>
+      </div>
+      <a class="view" href="#" style="justify-self: end; font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; font-weight: 500;">Build a custom set · save 15% →</a>
+    </div>
+
+    <div class="steps-grid">
+      <div class="rstep">
+        <p class="n">01</p>
+        <p class="nm"><em>Cleanse</em></p>
+        <p class="desc">Cold-pressed cleansing oil. AM and PM. 60 seconds, then rinse.</p>
+        <p class="price">$48</p>
+      </div>
+      <div class="rstep">
+        <p class="n">02</p>
+        <p class="nm">Tone</p>
+        <p class="desc">Damask rose distillate, pressed straight into the bottle.</p>
+        <p class="price">$38</p>
+      </div>
+      <div class="rstep">
+        <p class="n">03</p>
+        <p class="nm">Treat</p>
+        <p class="desc">Phyto-serum Nº1. Three pumps, neck and face.</p>
+        <p class="price">$84</p>
+      </div>
+      <div class="rstep">
+        <p class="n">04</p>
+        <p class="nm">Seal</p>
+        <p class="desc">Damask rose cream. A pearl per cheek, gently pressed.</p>
+        <p class="price">$72</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- End CTA -->
+<section class="end-cta">
+  <div class="wrap">
+    <p class="label">Begin</p>
+    <h2 class="display l" style="margin-top: 12px;">Start with one bottle. <em>See it on your skin</em>.</h2>
+    <a href="#shop" class="pill">Shop the collection →</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <p class="foot-logo">Hemlock <em>&amp;</em> Hare</p>
+        <p style="margin-top: 16px;">Slow skincare from the Hudson Valley.<br>Made in small batches, dated, shipped within two weeks.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="#">The full apothecary</a>
+        <a href="#">Build a routine</a>
+        <a href="#">Gift sets</a>
+        <a href="#">Subscribe + save 15%</a>
+      </div>
+      <div class="foot-col">
+        <h4>The farm</h4>
+        <a href="#">Our story</a>
+        <a href="#">Ingredient sourcing</a>
+        <a href="#">The journal</a>
+        <a href="#">Visit Rhinebeck</a>
+      </div>
+      <div class="foot-col">
+        <h4>Help</h4>
+        <a href="#">Returns &amp; refunds</a>
+        <a href="#">Shipping</a>
+        <a href="#">Contact</a>
+        <a href="#">Trade program</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Hemlock &amp; Hare Botanicals</span>
+      <span>Made in Rhinebeck, NY · Shipped from there too</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

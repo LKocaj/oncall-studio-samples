@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAPPA — Operations OS for B2B revenue teams</title>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,800,900&f[]=satoshi@400,500,700&f[]=jet-brains-mono@400,500&f[]=gambarino@400&display=swap">
+<style>
+  :root {
+    --bone: #f0ece1;
+    --paper: #f7f3e8;
+    --ink: #14110d;
+    --tang: #ff5b1f;
+    --kelp: #2a3a26;
+    --mute: #6a655c;
+    --line: rgba(20,17,13,0.13);
+    --soft: rgba(20,17,13,0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Satoshi', sans-serif; background: var(--bone); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  .display { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; letter-spacing: -0.045em; line-height: 0.86; }
+  .display-bk { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900; letter-spacing: -0.05em; line-height: 0.82; }
+  .editorial { font-family: 'Gambarino', serif; font-style: italic; font-weight: 400; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
+  .micro { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+  .tang { color: var(--tang); }
+  .tang-bg { background: var(--tang); color: var(--bone); }
+  .ink-bg { background: var(--ink); color: var(--bone); }
+  .kelp-bg { background: var(--kelp); color: var(--bone); }
+  .paper-bg { background: var(--paper); }
+  .muted { color: var(--mute); }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+  @media (max-width: 760px) { .container { padding: 0 1.25rem; } }
+
+  .grain { position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); }
+
+  /* Bauhaus geometry markers */
+  .circle { aspect-ratio: 1; border-radius: 50%; }
+  .square { aspect-ratio: 1; }
+  .triangle { width: 0; height: 0; border-left: 50% solid transparent; border-right: 50% solid transparent; }
+
+  .reveal { opacity: 0; transform: translateY(18px); animation: r 1.1s cubic-bezier(0.16,1,0.3,1) forwards; }
+  .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; } .d4 { animation-delay: 0.55s; }
+  @keyframes r { to { opacity: 1; transform: translateY(0); } }
+
+  .pulse { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  .blink { animation: blink 1.1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .float { animation: float 5s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+  .btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 1.5rem; border: 0; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s ease, color 0.3s ease, box-shadow 0.3s; }
+  .btn:active { transform: translateY(1px); }
+  .btn-ink { background: var(--ink); color: var(--bone); }
+  .btn-ink:hover { background: var(--tang); color: var(--ink); }
+  .btn-tang { background: var(--tang); color: var(--ink); }
+  .btn-tang:hover { background: var(--ink); color: var(--bone); }
+  .btn-line { border: 1px solid var(--ink); color: var(--ink); background: transparent; }
+  .btn-line:hover { background: var(--ink); color: var(--bone); }
+
+  .ticker { animation: tick 38s linear infinite; }
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- TOP BAR -->
+<div class="ink-bg" style="overflow: hidden; padding: 0.6rem 0;">
+  <div class="ticker mono" style="display: flex; gap: 3rem; white-space: nowrap; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;">
+    <span class="tang">●</span><span>v3.4 · just shipped: workflow studio</span>
+    <span class="tang">●</span><span>2,840 teams · 47 countries · 11.4M ops automated</span>
+    <span class="tang">●</span><span>SOC 2 type ii · GDPR · HIPAA</span>
+    <span class="tang">●</span><span>v3.4 · just shipped: workflow studio</span>
+    <span class="tang">●</span><span>2,840 teams · 47 countries · 11.4M ops automated</span>
+    <span class="tang">●</span><span>SOC 2 type ii · GDPR · HIPAA</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav style="border-bottom: 1px solid var(--line);">
+  <div class="container" style="padding: 1.4rem 2rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2rem;">
+    <a href="#" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.7rem;">
+      <div class="tang-bg square" style="width: 28px;"></div>
+      <span class="display-bk" style="font-size: 1.5rem; letter-spacing: 0.04em;">KAPPA</span>
+    </a>
+    <div class="micro" style="display: flex; gap: 1.6rem; justify-content: center;">
+      <a href="#" style="color: inherit; text-decoration: none;">Product</a>
+      <a href="#" style="color: inherit; text-decoration: none;">Workflows</a>
+      <a href="#" style="color: inherit; text-decoration: none;">Customers</a>
+      <a href="#" style="color: inherit; text-decoration: none;">Pricing</a>
+      <a href="#" style="color: inherit; text-decoration: none;">Docs</a>
+      <a href="#" style="color: inherit; text-decoration: none;">Changelog</a>
+    </div>
+    <div style="display: flex; gap: 0.8rem; align-items: center;">
+      <a href="#" class="micro" style="color: inherit; text-decoration: none;">Sign in</a>
+      <a href="#" class="btn btn-ink">Book a demo →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section style="padding: 5rem 0 4rem; position: relative;">
+  <!-- Bauhaus shapes scattered -->
+  <div class="tang-bg circle float" style="position: absolute; top: 8%; right: 4%; width: 90px; opacity: 0.9;"></div>
+  <div class="kelp-bg square" style="position: absolute; bottom: 12%; left: 3%; width: 60px; transform: rotate(15deg);"></div>
+
+  <div class="container" style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: end;">
+    <div>
+      <div class="micro reveal d1" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <span class="tang-bg" style="padding: 0.35rem 0.7rem; font-size: 9px; letter-spacing: 0.18em;">NEW</span>
+        Workflow Studio · build any ops automation in 4 minutes
+      </div>
+      <h1 class="display-bk reveal d2" style="font-size: clamp(3.6rem, 10vw, 11rem);">
+        Stop running<br>
+        ops in <span class="editorial">spreadsheets</span><br>
+        you forgot to update.
+      </h1>
+      <p class="reveal d3" style="max-width: 32rem; margin-top: 2rem; font-size: 1.05rem; line-height: 1.55; color: var(--mute);">
+        Kappa is the operating layer underneath your CRM, billing, and tooling. We connect your stack, automate the hand-offs that break, and report on what's actually shipping. Not a dashboard. The wiring.
+      </p>
+      <div class="reveal d4" style="margin-top: 2.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="#" class="btn btn-ink">Start free · 14 days →</a>
+        <a href="#" class="btn btn-line">Watch a 90-sec tour</a>
+      </div>
+      <div class="micro muted" style="margin-top: 1.5rem; font-size: 10px;">No credit card · No sales call · Cancel anytime</div>
+    </div>
+
+    <!-- Right: Bauhaus stat block -->
+    <div class="reveal d3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line);">
+      <div class="paper-bg" style="padding: 1.8rem;">
+        <div class="display-bk" style="font-size: 3rem; line-height: 1;">11.4<span class="editorial muted" style="font-size: 0.4em; letter-spacing: 0;">m</span></div>
+        <div class="micro muted" style="margin-top: 0.8rem; font-size: 10px;">ops automated · q1</div>
+      </div>
+      <div class="paper-bg" style="padding: 1.8rem; background: var(--ink); color: var(--bone);">
+        <div class="display-bk tang" style="font-size: 3rem; line-height: 1;">2,840</div>
+        <div class="micro" style="margin-top: 0.8rem; font-size: 10px; opacity: 0.6;">teams · 47 countries</div>
+      </div>
+      <div class="paper-bg" style="padding: 1.8rem;">
+        <div class="display-bk" style="font-size: 3rem; line-height: 1;">$1.4<span class="editorial muted" style="font-size: 0.4em; letter-spacing: 0;">b</span></div>
+        <div class="micro muted" style="margin-top: 0.8rem; font-size: 10px;">revenue moved · ttm</div>
+      </div>
+      <div class="paper-bg" style="padding: 1.8rem;">
+        <div class="display-bk" style="font-size: 3rem; line-height: 1;">94<span class="editorial muted" style="font-size: 0.4em;">%</span></div>
+        <div class="micro muted" style="margin-top: 0.8rem; font-size: 10px;">retention · 12-month</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT MOCKUP — chunky, not glassmorphism -->
+<section style="padding: 4rem 0 7rem;">
+  <div class="container">
+    <div class="ink-bg" style="padding: 1.5rem; box-shadow: 0 30px 80px -30px rgba(20,17,13,0.4); position: relative;">
+      <!-- Chrome -->
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid rgba(240,236,225,0.12); margin-bottom: 1rem;">
+        <div style="display: flex; gap: 0.4rem;">
+          <div style="width: 10px; height: 10px; background: var(--tang); border-radius: 50%;"></div>
+          <div style="width: 10px; height: 10px; background: rgba(240,236,225,0.3); border-radius: 50%;"></div>
+          <div style="width: 10px; height: 10px; background: rgba(240,236,225,0.3); border-radius: 50%;"></div>
+        </div>
+        <div class="mono" style="font-size: 11px; opacity: 0.55;">app.kappa.run / workflows / churn-prevention-v3</div>
+        <div class="micro" style="font-size: 10px; display: flex; align-items: center; gap: 0.5rem;">
+          <span class="pulse" style="width: 6px; height: 6px; background: var(--tang); border-radius: 50%; display: inline-block;"></span>
+          live
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 220px 1fr 280px; gap: 1px; background: rgba(240,236,225,0.08); min-height: 480px;">
+        <!-- Sidebar -->
+        <div class="ink-bg" style="padding: 1.4rem;">
+          <div class="micro" style="opacity: 0.4; font-size: 9px; margin-bottom: 1rem;">Workspace</div>
+          <div class="mono" style="font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="padding: 0.5rem 0.8rem; background: rgba(255,91,31,0.15); color: var(--tang); border-left: 2px solid var(--tang);">/ workflows</div>
+            <div style="padding: 0.5rem 0.8rem; opacity: 0.7;">/ data sources</div>
+            <div style="padding: 0.5rem 0.8rem; opacity: 0.7;">/ runs</div>
+            <div style="padding: 0.5rem 0.8rem; opacity: 0.7;">/ alerts</div>
+            <div style="padding: 0.5rem 0.8rem; opacity: 0.7;">/ team</div>
+          </div>
+          <div class="micro" style="opacity: 0.4; font-size: 9px; margin: 1.5rem 0 0.8rem;">Active workflows</div>
+          <div class="mono" style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 0.4rem; opacity: 0.75;">
+            <div>● churn-prevention-v3</div>
+            <div>● expansion-trigger</div>
+            <div>● invoice-recovery</div>
+            <div>● handoff-sales-cs</div>
+          </div>
+        </div>
+
+        <!-- Main canvas -->
+        <div class="ink-bg" style="padding: 1.6rem;">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.4rem;">
+            <div>
+              <div class="micro tang" style="font-size: 10px;">Workflow / churn prevention v3</div>
+              <h3 class="display" style="font-size: 1.6rem; margin-top: 0.3rem; color: var(--bone);">When NPS &lt; 7, route to CSM &amp; pause renewal email.</h3>
+            </div>
+            <div class="btn-tang btn" style="font-size: 10px; padding: 0.5rem 0.8rem;">+ run</div>
+          </div>
+
+          <!-- Flow nodes -->
+          <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+            <div style="display: flex; align-items: center; gap: 0.7rem;">
+              <div class="tang-bg square" style="width: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--ink); font-weight: 700;">1</div>
+              <div style="flex: 1; padding: 0.9rem 1.1rem; background: rgba(240,236,225,0.05); border-left: 2px solid var(--tang);">
+                <div class="mono" style="font-size: 0.85rem; color: var(--bone);">when <span class="tang">survey.nps</span> &lt; 7</div>
+                <div class="mono" style="font-size: 0.7rem; opacity: 0.5; margin-top: 0.25rem;">trigger · 4,128 events / 30d</div>
+              </div>
+            </div>
+            <div style="margin-left: 18px; height: 16px; border-left: 1px dashed rgba(240,236,225,0.3);"></div>
+            <div style="display: flex; align-items: center; gap: 0.7rem;">
+              <div class="square" style="width: 36px; background: rgba(240,236,225,0.15); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--bone); font-weight: 700;">2</div>
+              <div style="flex: 1; padding: 0.9rem 1.1rem; background: rgba(240,236,225,0.05);">
+                <div class="mono" style="font-size: 0.85rem; color: var(--bone);">enrich <span class="tang">account</span> from <span class="tang">salesforce</span> + <span class="tang">stripe</span></div>
+                <div class="mono" style="font-size: 0.7rem; opacity: 0.5; margin-top: 0.25rem;">avg latency · 312ms</div>
+              </div>
+            </div>
+            <div style="margin-left: 18px; height: 16px; border-left: 1px dashed rgba(240,236,225,0.3);"></div>
+            <div style="display: flex; align-items: center; gap: 0.7rem;">
+              <div class="square" style="width: 36px; background: rgba(240,236,225,0.15); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--bone); font-weight: 700;">3</div>
+              <div style="flex: 1; padding: 0.9rem 1.1rem; background: rgba(240,236,225,0.05);">
+                <div class="mono" style="font-size: 0.85rem; color: var(--bone);">if <span class="tang">arr</span> &gt; $50k → assign <span class="tang">account.csm</span> · slack #wins</div>
+              </div>
+            </div>
+            <div style="margin-left: 18px; height: 16px; border-left: 1px dashed rgba(240,236,225,0.3);"></div>
+            <div style="display: flex; align-items: center; gap: 0.7rem;">
+              <div class="square" style="width: 36px; background: rgba(240,236,225,0.15); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--bone); font-weight: 700;">4</div>
+              <div style="flex: 1; padding: 0.9rem 1.1rem; background: rgba(240,236,225,0.05);">
+                <div class="mono" style="font-size: 0.85rem; color: var(--bone);">pause <span class="tang">renewal_sequence</span> in customer.io · log to <span class="tang">notion</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right rail -->
+        <div class="ink-bg" style="padding: 1.4rem;">
+          <div class="micro" style="opacity: 0.4; font-size: 9px; margin-bottom: 1rem;">Last 30 days</div>
+          <div style="display: flex; flex-direction: column; gap: 1.4rem;">
+            <div>
+              <div class="display" style="font-size: 2.2rem; color: var(--bone);">487</div>
+              <div class="mono" style="font-size: 0.72rem; opacity: 0.55; margin-top: 0.2rem;">runs · all green</div>
+            </div>
+            <div>
+              <div class="display tang" style="font-size: 2.2rem;">$284k</div>
+              <div class="mono" style="font-size: 0.72rem; opacity: 0.55; margin-top: 0.2rem;">churn saved · est.</div>
+            </div>
+            <div>
+              <div class="display" style="font-size: 2.2rem; color: var(--bone);">7.4s</div>
+              <div class="mono" style="font-size: 0.72rem; opacity: 0.55; margin-top: 0.2rem;">avg run latency</div>
+            </div>
+          </div>
+          <div class="micro" style="opacity: 0.4; font-size: 9px; margin: 1.5rem 0 0.7rem;">Activity</div>
+          <div class="mono" style="font-size: 0.72rem; display: flex; flex-direction: column; gap: 0.4rem; opacity: 0.7;">
+            <div><span class="tang">+</span> avocet co · run 4128</div>
+            <div><span class="tang">+</span> hartwell labs · run 4127</div>
+            <div><span class="tang">+</span> oxbow ai · run 4126</div>
+            <div><span class="tang">+</span> kindred fin · run 4125</div>
+            <div><span class="tang">+</span> meridian · run 4124</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section style="padding: 4rem 0; border-y: 1px solid var(--line); background: var(--paper);">
+  <div class="container">
+    <div class="micro muted" style="text-align: center; margin-bottom: 2.5rem;">— Trusted by ops &amp; revops teams at</div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 3.5rem; opacity: 0.65;">
+      <span class="display-bk" style="font-size: 1.4rem;">AVOCET</span>
+      <span class="editorial" style="font-size: 1.8rem;">Hartwell</span>
+      <span class="display-bk" style="font-size: 1.4rem; letter-spacing: -0.06em;">OX/BOW</span>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 500;">[KINDRED]</span>
+      <span class="display-bk" style="font-size: 1.4rem;">MERIDIAN</span>
+      <span class="editorial" style="font-size: 1.8rem;">Cinder &amp; Quill</span>
+      <span class="display-bk" style="font-size: 1.4rem;">FIELD/STUDIO</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES — zigzag (no 3-col cliché) -->
+<section style="padding: 7rem 0;">
+  <div class="container">
+    <div style="display: grid; grid-template-columns: 1fr 2.6fr; gap: 3rem; margin-bottom: 5rem;">
+      <div class="micro tang">— Three things, done well</div>
+      <h2 class="display-bk" style="font-size: clamp(2.4rem, 6vw, 5.6rem);">We do <span class="editorial">three</span> things. Not a platform. Not a suite.</h2>
+    </div>
+
+    <!-- Zigzag rows -->
+    <div style="display: flex; flex-direction: column; gap: 1px; background: var(--line);">
+      <div class="paper-bg" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; padding: 4rem 2rem; align-items: center;">
+        <div>
+          <div class="tang-bg square" style="width: 40px; margin-bottom: 1.5rem;"></div>
+          <div class="mono tang" style="font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.5rem;">01 / connect</div>
+          <h3 class="display-bk" style="font-size: clamp(2rem, 3.5vw, 3.2rem);">Plug into <span class="editorial">your stack</span> in 14 minutes.</h3>
+        </div>
+        <div>
+          <p style="color: var(--mute); font-size: 1rem; line-height: 1.6;">240+ integrations covering CRM, billing, support, data warehouses, and the random internal tool you built four years ago. OAuth where possible, API keys where it isn't. We handle the auth, the rate limits, the schema drift.</p>
+        </div>
+        <div class="ink-bg" style="padding: 1.6rem; height: 240px; display: flex; flex-direction: column; gap: 0.4rem;">
+          <div class="mono" style="font-size: 0.7rem; opacity: 0.5;">— integrations · 23 active</div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin-top: 0.5rem; flex: 1;">
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">salesforce</div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">stripe</div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">snowflake</div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">slack</div>
+            <div style="background: var(--tang); color: var(--ink); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700;">customer.io</div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">notion</div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">linear</div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">intercom</div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.6rem; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;">+15 more</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="paper-bg" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; padding: 4rem 2rem; align-items: center;">
+        <div class="kelp-bg" style="height: 240px; padding: 1.6rem; position: relative;">
+          <div class="mono tang" style="font-size: 0.7rem;">— workflow studio</div>
+          <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem;">
+            <div style="background: rgba(240,236,225,0.08); padding: 0.7rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">when <span class="tang">payment.failed</span></div>
+            <div style="background: rgba(240,236,225,0.08); padding: 0.7rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">retry · 3 attempts</div>
+            <div style="background: rgba(255,91,31,0.18); border-left: 2px solid var(--tang); padding: 0.7rem 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">notify <span class="tang">account.owner</span> <span class="blink">|</span></div>
+          </div>
+        </div>
+        <div>
+          <p style="color: var(--mute); font-size: 1rem; line-height: 1.6;">Drag-drop logic that compiles to readable Python. Triggers, branches, retries, transforms, escalations. Anything you used to glue together in Zapier — but versioned, observable, and replayable.</p>
+        </div>
+        <div>
+          <div class="kelp-bg square" style="width: 40px; margin-bottom: 1.5rem; transform: rotate(45deg);"></div>
+          <div class="mono tang" style="font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.5rem;">02 / automate</div>
+          <h3 class="display-bk" style="font-size: clamp(2rem, 3.5vw, 3.2rem);">Build a workflow in <span class="editorial">four minutes</span>, ship it in zero.</h3>
+        </div>
+      </div>
+
+      <div class="paper-bg" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; padding: 4rem 2rem; align-items: center;">
+        <div>
+          <div class="tang-bg circle" style="width: 40px; margin-bottom: 1.5rem;"></div>
+          <div class="mono tang" style="font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.5rem;">03 / measure</div>
+          <h3 class="display-bk" style="font-size: clamp(2rem, 3.5vw, 3.2rem);">See what <span class="editorial">actually</span> shipped, not what you hoped did.</h3>
+        </div>
+        <div>
+          <p style="color: var(--mute); font-size: 1rem; line-height: 1.6;">Every run logged, every step timed, every alert traceable to a human. We tell you when a workflow is silently failing — not next quarter, this morning.</p>
+        </div>
+        <div class="ink-bg" style="padding: 1.6rem; height: 240px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="mono" style="font-size: 0.7rem; opacity: 0.5;">— last 7 days</div>
+          <div style="display: flex; align-items: end; gap: 0.4rem; height: 120px;">
+            <div style="flex: 1; background: var(--tang); height: 30%; opacity: 0.7;"></div>
+            <div style="flex: 1; background: var(--tang); height: 50%; opacity: 0.7;"></div>
+            <div style="flex: 1; background: var(--tang); height: 40%; opacity: 0.7;"></div>
+            <div style="flex: 1; background: var(--tang); height: 75%;"></div>
+            <div style="flex: 1; background: var(--tang); height: 60%; opacity: 0.7;"></div>
+            <div style="flex: 1; background: var(--tang); height: 85%;"></div>
+            <div style="flex: 1; background: var(--tang); height: 92%;"></div>
+          </div>
+          <div class="mono" style="font-size: 0.7rem; opacity: 0.5; display: flex; justify-content: space-between;">
+            <span>4,128 runs</span><span class="tang">100% green</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER QUOTE -->
+<section class="kelp-bg" style="padding: 7rem 0;">
+  <div class="container" style="max-width: 1080px;">
+    <div class="micro" style="margin-bottom: 2rem; color: var(--tang);">— Customer · Avocet ($24M ARR, B2B fintech)</div>
+    <p class="display" style="font-size: clamp(1.8rem, 4.5vw, 4rem); font-weight: 500; line-height: 1; color: var(--bone);">
+      "We replaced <span class="editorial tang">six tools</span>, four cron jobs, and one 'critical' Google Sheet with one Kappa workspace. Our churn is down <span class="editorial tang">38%</span> and our ops headcount didn't grow."
+    </p>
+    <div class="mono" style="margin-top: 2.5rem; font-size: 0.85rem; opacity: 0.75; letter-spacing: 0.18em; text-transform: uppercase;">— Salim Boukhari-Wells, VP Revenue Ops</div>
+  </div>
+</section>
+
+<!-- PRICING — three uneven columns -->
+<section style="padding: 7rem 0;">
+  <div class="container">
+    <div style="display: grid; grid-template-columns: 1fr 2.6fr; gap: 3rem; margin-bottom: 4rem;">
+      <div class="micro tang">— Pricing · per workspace, not per seat</div>
+      <h2 class="display-bk" style="font-size: clamp(2.4rem, 6vw, 5.6rem);">Bring your <span class="editorial">whole team</span>. We don't charge per chair.</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 1.5rem;">
+      <div style="border: 1px solid var(--line); padding: 2.5rem 2rem;">
+        <div class="micro muted" style="margin-bottom: 1rem;">Pilot</div>
+        <div class="display-bk" style="font-size: 4.4rem; line-height: 1;">$0</div>
+        <div class="muted" style="margin-top: 0.4rem; font-size: 0.85rem;">14 days · no card · cancel anytime</div>
+        <ul style="list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.92rem;">
+          <li><span class="tang">→</span> 3 active workflows</li>
+          <li><span class="tang">→</span> 5 integrations</li>
+          <li><span class="tang">→</span> 1,000 runs / mo</li>
+          <li><span class="tang">→</span> Community support</li>
+        </ul>
+        <a href="#" class="btn btn-line" style="width: 100%; justify-content: center; margin-top: 2rem;">Start free →</a>
+      </div>
+
+      <div class="ink-bg" style="padding: 2.5rem 2rem; position: relative;">
+        <div class="tang-bg micro" style="position: absolute; top: -14px; right: 1.5rem; padding: 0.4rem 0.7rem; font-size: 9px; color: var(--ink);">Most teams pick this</div>
+        <div class="micro tang" style="margin-bottom: 1rem;">Studio</div>
+        <div class="display-bk" style="font-size: 4.4rem; line-height: 1;">$429<span class="editorial muted" style="font-size: 0.32em; letter-spacing: 0; opacity: 0.6;"> / mo</span></div>
+        <div style="margin-top: 0.4rem; font-size: 0.85rem; opacity: 0.7;">Annual · billed once · 2 months free</div>
+        <ul style="list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.92rem; opacity: 0.9;">
+          <li><span class="tang">→</span> Unlimited workflows</li>
+          <li><span class="tang">→</span> All 240 integrations</li>
+          <li><span class="tang">→</span> 100k runs / mo</li>
+          <li><span class="tang">→</span> Workflow Studio</li>
+          <li><span class="tang">→</span> Slack support · 4hr SLA</li>
+          <li><span class="tang">→</span> Audit logs · SSO</li>
+        </ul>
+        <a href="#" class="btn btn-tang" style="width: 100%; justify-content: center; margin-top: 2rem;">Start 14-day trial →</a>
+      </div>
+
+      <div style="border: 1px solid var(--line); padding: 2.5rem 2rem;">
+        <div class="micro muted" style="margin-bottom: 1rem;">Enterprise</div>
+        <div class="display-bk" style="font-size: 4.4rem; line-height: 1;">Talk<span class="editorial muted" style="font-size: 0.32em; letter-spacing: 0;"> to us</span></div>
+        <div class="muted" style="margin-top: 0.4rem; font-size: 0.85rem;">Volume pricing · custom SLAs</div>
+        <ul style="list-style: none; margin-top: 2rem; display: flex; flex-direction: column; gap: 0.7rem; font-size: 0.92rem;">
+          <li><span class="tang">→</span> Everything in Studio</li>
+          <li><span class="tang">→</span> Unlimited runs</li>
+          <li><span class="tang">→</span> Dedicated solutions engineer</li>
+          <li><span class="tang">→</span> SOC 2 · HIPAA · custom DPA</li>
+          <li><span class="tang">→</span> Single-tenant deploy</li>
+        </ul>
+        <a href="#" class="btn btn-line" style="width: 100%; justify-content: center; margin-top: 2rem;">Book a demo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding: 7rem 0; position: relative;" class="ink-bg">
+  <div class="tang-bg circle" style="position: absolute; top: 8%; right: 5%; width: 80px;"></div>
+  <div class="container" style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 4rem; align-items: end;">
+    <h2 class="display-bk" style="font-size: clamp(2.6rem, 7vw, 7rem); color: var(--bone);">Stop fighting<br>your tools.<br><span class="editorial tang">Wire them up.</span></h2>
+    <div>
+      <p style="color: rgba(240,236,225,0.7); margin-bottom: 2rem; max-width: 28rem;">Two-week pilot. No card. No sales call. If it doesn't pay for itself in month one, we'll send a note and turn it off.</p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="#" class="btn btn-tang">Start free →</a>
+        <a href="#" class="btn" style="border: 1px solid rgba(240,236,225,0.3); color: var(--bone);">Book a demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="ink-bg" style="padding: 4rem 0 3rem; border-top: 1px solid rgba(240,236,225,0.1);">
+  <div class="container">
+    <div style="display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 2rem;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;">
+          <div class="tang-bg square" style="width: 24px;"></div>
+          <span class="display-bk" style="font-size: 1.3rem; letter-spacing: 0.04em;">KAPPA</span>
+        </div>
+        <p style="opacity: 0.65; max-width: 22rem; font-size: 0.9rem;">The operating layer for revenue teams. Built in Brooklyn &amp; Lisbon.</p>
+      </div>
+      <div>
+        <div class="micro tang" style="font-size: 9px; margin-bottom: 0.9rem;">Product</div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem; opacity: 0.85;">
+          <li>Workflows</li><li>Integrations</li><li>Studio</li><li>API</li>
+        </ul>
+      </div>
+      <div>
+        <div class="micro tang" style="font-size: 9px; margin-bottom: 0.9rem;">Company</div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem; opacity: 0.85;">
+          <li>Customers</li><li>Pricing</li><li>Careers</li><li>Press</li>
+        </ul>
+      </div>
+      <div>
+        <div class="micro tang" style="font-size: 9px; margin-bottom: 0.9rem;">Resources</div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem; opacity: 0.85;">
+          <li>Docs</li><li>Changelog</li><li>Status</li><li>Security</li>
+        </ul>
+      </div>
+      <div>
+        <div class="micro tang" style="font-size: 9px; margin-bottom: 0.9rem;">Connect</div>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem; opacity: 0.85;">
+          <li>hello@kappa.run</li><li>@kappadotrun</li><li>github</li>
+        </ul>
+      </div>
+    </div>
+    <div class="micro" style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(240,236,225,0.1); font-size: 9px; opacity: 0.5; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+      <span>© Kappa Technologies, 2026</span>
+      <span>SOC 2 type ii · GDPR · HIPAA · ISO 27001</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

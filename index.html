@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnCall Automation Studio — Concept showcase</title>
+<meta name="description" content="Design studies and product demos from OnCall Automation — independent engineering studio. Custom websites, AI agents, Stripe billing, lead intake, voice agents.">
+<meta name="theme-color" content="#0E1B2F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg:        #0E1B2F;
+    --surface:   #152340;
+    --surface-2: #1C2E52;
+    --line:      rgba(248,250,252,0.10);
+    --text:      #F8FAFC;
+    --text-d:    #CBD5E1;
+    --mute:      #94A3B8;
+    --violet:    #C4B5FD;
+    --violet-d:  #A78BFA;
+    --baby:      #7DD3FC;
+    --gold:      #C5A572;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .display { font-family: 'Inter Tight', sans-serif; font-weight: 600; line-height: 1.02; letter-spacing: -0.03em; }
+  .xl { font-size: clamp(48px, 7.5vw, 116px); }
+  .l  { font-size: clamp(32px, 4.4vw, 64px); }
+  .label { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--mute); }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .grad {
+    background: linear-gradient(135deg, var(--baby) 0%, var(--violet) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 760px) { .wrap { padding: 0 22px; } }
+
+  nav.top { position: sticky; top: 0; z-index: 50; background: rgba(14,27,47,0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
+  .mark { width: 36px; height: 36px; background: var(--violet); color: var(--bg); display: grid; place-items: center; border-radius: 8px; font-weight: 700; font-size: 14px; font-family: 'Inter Tight'; }
+  .wordmark { display: flex; flex-direction: column; gap: 1px; }
+  .wordmark .w1 { font-family: 'Inter Tight'; font-weight: 700; font-size: 16px; letter-spacing: -0.005em; }
+  .wordmark .w1 span { color: var(--violet); }
+  .wordmark .w2 { font-family: 'JetBrains Mono'; font-size: 9.5px; letter-spacing: 0.3em; color: var(--mute); text-transform: uppercase; }
+  .nav-right { display: flex; align-items: center; gap: 28px; }
+  .nav-right a { color: var(--text-d); text-decoration: none; font-size: 13.5px; transition: color .2s; }
+  .nav-right a:hover { color: var(--baby); }
+  .cta { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; background: var(--violet); color: var(--bg); border-radius: 999px; font-size: 13px; font-weight: 600; text-decoration: none; }
+  .cta:hover { background: var(--violet-d); }
+  @media (max-width: 760px) { .nav-right a:not(.cta) { display: none; } }
+
+  .hero { padding: 96px 0 64px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 900px 500px at 20% 40%, rgba(125,211,252,0.10), transparent 60%), radial-gradient(ellipse 700px 400px at 80% 60%, rgba(196,181,253,0.12), transparent 60%); pointer-events: none; }
+  .hero-content { position: relative; max-width: 1000px; }
+  .hero h1 { margin-top: 28px; max-width: 16ch; }
+  .hero .sub { margin-top: 28px; max-width: 64ch; font-size: clamp(16px, 1.4vw, 19px); color: var(--text-d); line-height: 1.65; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 56px; max-width: 920px; padding-top: 32px; border-top: 1px solid var(--line); }
+  @media (max-width: 760px) { .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 28px; } }
+  .stat-cell .n { font-family: 'Inter Tight'; font-size: clamp(28px, 3.5vw, 44px); font-weight: 600; line-height: 1; letter-spacing: -0.02em; color: var(--baby); }
+  .stat-cell .c { font-size: 12.5px; color: var(--mute); margin-top: 8px; letter-spacing: 0.04em; }
+
+  .section-head { display: grid; grid-template-columns: 1fr 1.8fr; gap: 56px; align-items: end; margin-bottom: 56px; }
+  @media (max-width: 760px) { .section-head { grid-template-columns: 1fr; gap: 16px; } }
+  .section-head h2 em { font-style: italic; font-weight: 400; color: var(--violet); }
+
+  section.work { padding: 96px 0 64px; }
+  .work-head .meta { font-size: 13px; color: var(--text-d); margin-top: 12px; max-width: 50ch; line-height: 1.6; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text);
+    display: flex; flex-direction: column;
+    transition: transform .35s ease, border-color .35s ease;
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--violet); }
+  .card .thumb { aspect-ratio: 16/10; background-size: cover; background-position: center; position: relative; border-bottom: 1px solid var(--line); }
+  .card .thumb::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,27,47,0) 60%, rgba(14,27,47,0.55) 100%); }
+  .card .badge { position: absolute; top: 14px; left: 14px; padding: 5px 11px; font-family: 'JetBrains Mono'; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; background: var(--bg); color: var(--violet); border: 1px solid var(--violet); border-radius: 999px; z-index: 2; }
+  .card .badge.live { color: var(--baby); border-color: var(--baby); }
+  .card .badge.demo { color: var(--gold); border-color: var(--gold); }
+
+  .card.law       .thumb { background-image: url('https://images.unsplash.com/photo-1496588152823-86ff7695e68f?w=1000&auto=format&fit=crop&q=80'); }
+  .card.agent     .thumb { background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1000&auto=format&fit=crop&q=80'); }
+  .card.restaurant .thumb { background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&auto=format&fit=crop&q=80'); }
+  .card.stripe    .thumb { background: linear-gradient(135deg, #635BFF 0%, #2D2A8C 100%); }
+  .card.crm       .thumb { background: linear-gradient(135deg, #4DD8C6 0%, #1B6B5E 100%); }
+  .card.voice     .thumb { background: linear-gradient(135deg, #F5BA3D 0%, #8B5E12 100%); }
+  .card.skincare  .thumb { background-image: url('https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1000&auto=format&fit=crop&q=80'); }
+  .card.parkway   .thumb { background-image: url('https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=1000&auto=format&fit=crop&q=80'); }
+
+  .card .body { padding: 26px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .card .cat { font-family: 'JetBrains Mono'; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); }
+  .card h3 { font-family: 'Inter Tight'; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+  .card h3 em { font-style: italic; color: var(--violet); font-weight: 500; }
+  .card p { font-size: 13.5px; color: var(--text-d); line-height: 1.55; }
+  .card .foot { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+  .card .foot .stack { color: var(--mute); font-family: 'JetBrains Mono'; letter-spacing: 0.04em; }
+  .card .foot .arrow { color: var(--violet); font-weight: 600; transition: transform .2s ease; }
+  .card:hover .arrow { transform: translateX(3px); }
+
+  .honesty {
+    margin: 96px 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--violet);
+    padding: 28px 32px;
+    display: flex; gap: 24px; align-items: flex-start;
+  }
+  @media (max-width: 600px) { .honesty { flex-direction: column; padding: 24px; } }
+  .honesty .icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(196,181,253,0.15); color: var(--violet); display: grid; place-items: center; font-family: 'Inter Tight'; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+  .honesty h4 { font-family: 'Inter Tight'; font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .honesty p { font-size: 14px; color: var(--text-d); line-height: 1.65; max-width: 70ch; }
+  .honesty p a { color: var(--baby); text-decoration: none; }
+
+  footer { background: var(--surface); padding: 64px 0 40px; border-top: 1px solid var(--line); margin-top: 64px; }
+  .foot-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; }
+  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-col h5 { font-family: 'JetBrains Mono'; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); margin-bottom: 16px; }
+  .foot-col p, .foot-col a { font-size: 14px; color: var(--text-d); line-height: 1.75; display: block; text-decoration: none; }
+  .foot-col a:hover { color: var(--baby); }
+  .foot-logo { font-family: 'Inter Tight'; font-size: 22px; font-weight: 700; letter-spacing: -0.005em; }
+  .foot-logo span { color: var(--violet); }
+  .foot-bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 12px; color: var(--mute); }
+  @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap row">
+    <a href="/" class="brand">
+      <span class="mark">◐</span>
+      <span class="wordmark">
+        <span class="w1">OnCall<span>·</span>Studio</span>
+        <span class="w2">Concept showcase</span>
+      </span>
+    </a>
+    <div class="nav-right">
+      <a href="#designs">Design studies</a>
+      <a href="#products">Product demos</a>
+      <a href="#live">Live work</a>
+      <a class="cta" href="https://oncallautomation.ai">oncallautomation.ai →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap hero-content">
+    <p class="label">OnCall Automation Studio · Concept showcase</p>
+    <h1 class="display xl">Design studies and product demos from an <span class="grad">independent engineering studio</span>.</h1>
+    <p class="sub">Self-directed concept work exploring how different industries and software products should feel. The visual language and architecture I bring to actual client engagements at oncallautomation.ai — not current client projects, with one explicit exception below.</p>
+    <div class="hero-stats">
+      <div class="stat-cell"><p class="n">3</p><p class="c">Design studies</p></div>
+      <div class="stat-cell"><p class="n">4</p><p class="c">Product demos</p></div>
+      <div class="stat-cell"><p class="n">1</p><p class="c">Live client site</p></div>
+      <div class="stat-cell"><p class="n">2026</p><p class="c">Built this spring</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="designs">
+  <div class="wrap">
+    <div class="section-head work-head">
+      <div>
+        <p class="label">§ 01</p>
+        <h2 class="display l" style="margin-top: 12px;">Design <em>studies</em></h2>
+        <p class="meta">Self-directed concept sites. Industry research, typography, palette, layout — not current client engagements.</p>
+      </div>
+      <p style="font-size: 14px; color: var(--text-d); line-height: 1.7; justify-self: end; max-width: 40ch;">Each piece explores the visual language a top-tier firm in its category would actually use. Click into any to see the full build.</p>
+    </div>
+
+    <div class="grid">
+      <a class="card law" href="/01-law-firm.html">
+        <div class="thumb"><span class="badge">Design study</span></div>
+        <div class="body">
+          <p class="cat">M&amp;A · Capital Markets</p>
+          <h3>Halstead <em>&amp;</em> Grove — Wall Street M&amp;A boutique</h3>
+          <p>Pierce &amp; Pierce-tier ivory + oxblood, didone serif, deal-tombstone transactions, recognition rankings.</p>
+          <div class="foot"><span class="stack">React · Tailwind · Bespoke Serif</span><span class="arrow">View →</span></div>
+        </div>
+      </a>
+
+      <a class="card restaurant" href="/03-restaurant.html">
+        <div class="thumb"><span class="badge">Design study</span></div>
+        <div class="body">
+          <p class="cat">Hospitality · Restaurant</p>
+          <h3>Via dell'Orto — West Village <em>cucina romana</em></h3>
+          <p>Lilia/Misi-tier Italian neighborhood restaurant. Full menu typesetting, Resy reservations, NYT/Eater press.</p>
+          <div class="foot"><span class="stack">React · Boska + Synonym</span><span class="arrow">View →</span></div>
+        </div>
+      </a>
+
+      <a class="card skincare" href="/07-shopify-skincare.html">
+        <div class="thumb"><span class="badge">Design study</span></div>
+        <div class="body">
+          <p class="cat">DTC · Shopify</p>
+          <h3>Hemlock <em>&amp;</em> Hare — slow skincare from the Hudson Valley</h3>
+          <p>Susanne Kaufmann-tier editorial DTC. Ingredient strip, routine builder, manifesto-as-branding.</p>
+          <div class="foot"><span class="stack">Shopify Hydrogen · Bespoke Serif</span><span class="arrow">View →</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="products">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="label">§ 02</p>
+        <h2 class="display l" style="margin-top: 12px;">Product <em>demos</em></h2>
+        <p class="meta">Working UI for the systems I actually build for clients. Same architecture I run in production at oncallchat.ai.</p>
+      </div>
+      <p style="font-size: 14px; color: var(--text-d); line-height: 1.7; justify-self: end; max-width: 40ch;">Each demo is a real interface from the OnCall stack — agent inbox, billing admin, lead intake, voice analytics. Realistic data, real interactions.</p>
+    </div>
+
+    <div class="grid">
+      <a class="card agent" href="/02-ai-agent-dashboard.html">
+        <div class="thumb"><span class="badge demo">Product demo</span></div>
+        <div class="body">
+          <p class="cat">AI Agent · Multi-channel</p>
+          <h3>OnCall Agents — <em>multi-channel inbox</em></h3>
+          <p>Web · SMS · WhatsApp · Voice (Vapi) · iMessage. GPT-4o lead scoring with reasoning. Same architecture as oncallchat.ai.</p>
+          <div class="foot"><span class="stack">React · FastAPI · OpenAI · Vapi</span><span class="arrow">View →</span></div>
+        </div>
+      </a>
+
+      <a class="card stripe" href="/04-ecommerce.html">
+        <div class="thumb"><span class="badge demo">Product demo</span></div>
+        <div class="body">
+          <p class="cat">SaaS Billing · Stripe</p>
+          <h3>Stripe billing admin — <em>tiers, portal, dunning</em></h3>
+          <p>Multi-tier subscription management. Customer portal, webhook-driven dunning, MRR analytics, Stripe Connect.</p>
+          <div class="foot"><span class="stack">React · FastAPI · Stripe</span><span class="arrow">View →</span></div>
+        </div>
+      </a>
+
+      <a class="card crm" href="/05-saas-landing.html">
+        <div class="thumb"><span class="badge demo">Product demo</span></div>
+        <div class="body">
+          <p class="cat">Lead Intake · CRM</p>
+          <h3>Lead intake CRM — <em>scoring, routing, sync</em></h3>
+          <p>GPT-4o lead scoring with explainable reasoning, auto-reply queue, multi-CRM sync to HubSpot/Salesforce/GHL/Pipedrive.</p>
+          <div class="foot"><span class="stack">React · GPT-4o · CRM APIs</span><span class="arrow">View →</span></div>
+        </div>
+      </a>
+
+      <a class="card voice" href="/06-fitness-studio.html">
+        <div class="thumb"><span class="badge demo">Product demo</span></div>
+        <div class="body">
+          <p class="cat">Voice AI · Vapi</p>
+          <h3>Voice agent analytics — <em>calls, transcripts, bookings</em></h3>
+          <p>Vapi-powered voice agent dashboard. Live call queue, intent extraction, booking conversion funnel, recordings archive.</p>
+          <div class="foot"><span class="stack">React · FastAPI · Vapi · Twilio</span><span class="arrow">View →</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="live">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="label">§ 03</p>
+        <h2 class="display l" style="margin-top: 12px;">Live <em>client work</em></h2>
+        <p class="meta">Real engagements, shipped and indexed. The only entry on this page that is a current client deliverable.</p>
+      </div>
+      <p style="font-size: 14px; color: var(--text-d); line-height: 1.7; justify-self: end; max-width: 40ch;">Production sites I built and maintain. Public URLs you can verify directly.</p>
+    </div>
+
+    <div class="grid">
+      <a class="card parkway" href="https://parkwaycafe-scarsdale.com" target="_blank" rel="noopener">
+        <div class="thumb"><span class="badge live">Live client</span></div>
+        <div class="body">
+          <p class="cat">Hospitality · Live Site</p>
+          <h3>Parkway Café — <em>family-owned</em> Scarsdale diner since 1961</h3>
+          <p>Custom React + Supabase. Owner-editable menu CMS. Full Restaurant + Menu + FAQ schema. Indexed across Westchester.</p>
+          <div class="foot"><span class="stack">React 19 · Supabase · Framer Motion</span><span class="arrow">Visit live →</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="honesty">
+    <span class="icon">i</span>
+    <div>
+      <h4>About this showcase</h4>
+      <p>Sections 01 and 02 are self-directed design studies and product demos — not current client engagements. They demonstrate the visual language, architecture, and craft I bring to actual client work at <a href="https://oncallautomation.ai">oncallautomation.ai</a>. Section 03 is live client work with a public URL. If you're a prospective client, this page is meant to show you how I think and what I ship — not to imply unrelated firms are clients of mine.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <p class="foot-logo">OnCall<span>·</span>Studio</p>
+        <p style="margin-top: 14px;">Independent engineering studio. Websites, custom software, agent systems for service businesses.</p>
+      </div>
+      <div class="foot-col">
+        <h5>The studio</h5>
+        <a href="https://oncallautomation.ai">oncallautomation.ai</a>
+        <a href="https://oncallchat.ai">oncallchat.ai</a>
+        <a href="https://www.upwork.com/freelancers/~01c8d60c4b982265c6">Upwork profile</a>
+      </div>
+      <div class="foot-col">
+        <h5>Sections</h5>
+        <a href="#designs">Design studies</a>
+        <a href="#products">Product demos</a>
+        <a href="#live">Live work</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="mailto:lawrencekocaj@oncallautomation.ai">lawrencekocaj@oncallautomation.ai</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 OnCall Automation LLC</span>
+      <span>Concept showcase · samples.oncallautomation.ai</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

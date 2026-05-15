@@ -1,0 +1,21 @@
+.DS_Store
+.netlify/
+node_modules/
+*.log
+.env
+.env.*
+
+# Personal strategy docs — do NOT publish
+UPWORK_PLAYBOOK.md
+ABOUT_LETTER_CLAUDE.md
+UPWORK_UPDATE_CHECKLIST.md
+
+# Scratch/exploration files — not part of the showcase
+02-dental-practice.html
+sample-A-vertical-rail.html
+sample-B-bento-cards.html
+sample-C-accordion.html
+sample-about-section.html
+sample-industries-section.html
+industry-tabs-demo.html
+industry-tabs-oncall-theme.html

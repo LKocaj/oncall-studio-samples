@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIA DELL'ORTO — Cucina romana · West Village</title>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=boska@300,400,500&f[]=synonym@400,500,600&display=swap">
+<style>
+  :root {
+    --paper:  #F6F0E4;
+    --cream:  #F0E8D6;
+    --bone:   #E6DCC6;
+    --ink:    #0E0E0E;
+    --char:   #2F2A22;
+    --mute:   #6A5F4E;
+    --tomato: #B83B2E;
+    --brass:  #B89668;
+    --line:   rgba(14,14,14,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: 'Synonym', -apple-system, sans-serif;
+    font-size: 16.5px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Boska', Georgia, serif; }
+  .display { font-family: 'Boska', Georgia, serif; font-weight: 400; line-height: 1; letter-spacing: -0.02em; }
+  .xl { font-size: clamp(64px, 11vw, 168px); font-weight: 400; }
+  .l  { font-size: clamp(40px, 6vw, 84px); font-weight: 400; }
+  .m  { font-size: clamp(28px, 3.2vw, 46px); font-weight: 400; }
+  .italic { font-style: italic; }
+
+  .label { font-family: 'Synonym', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--tomato); }
+  .lead { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; color: var(--char); max-width: 50ch; }
+  .mute { color: var(--mute); }
+
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width: 760px) { .wrap { padding: 0 20px; } }
+
+  /* === Top ribbon ============================================== */
+  .ribbon { background: var(--ink); color: var(--paper); padding: 8px 0; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; }
+  .ribbon .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .ribbon .brass { color: var(--brass); }
+
+  /* === Nav ===================================================== */
+  nav.top { position: sticky; top: 0; z-index: 50; background: var(--paper); border-bottom: 1px solid var(--line); }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+
+  .brand { display: flex; flex-direction: column; align-items: flex-start; text-decoration: none; color: var(--ink); }
+  .brand .name { font-family: 'Boska', serif; font-weight: 500; font-size: 24px; letter-spacing: 0.04em; line-height: 1; }
+  .brand .name em { font-style: italic; color: var(--tomato); padding: 0 0.04em; }
+  .brand .sub { font-family: 'Synonym', sans-serif; font-size: 9.5px; font-weight: 500; letter-spacing: 0.36em; text-transform: uppercase; color: var(--mute); margin-top: 6px; }
+
+  .menu { display: flex; gap: 32px; }
+  .menu a { font-family: 'Synonym', sans-serif; font-size: 13.5px; color: var(--ink); text-decoration: none; transition: color .2s; }
+  .menu a:hover { color: var(--tomato); }
+  .resy { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: var(--ink); color: var(--paper); font-family: 'Synonym', sans-serif; font-weight: 600; font-size: 13px; text-decoration: none; letter-spacing: 0.04em; transition: background .25s ease; }
+  .resy:hover { background: var(--tomato); }
+  @media (max-width: 880px) { .menu { display: none; } }
+
+  /* === HERO ==================================================== */
+  .hero { position: relative; padding: 0; }
+  .hero-img {
+    position: relative;
+    height: 78vh;
+    min-height: 600px;
+    background:
+      linear-gradient(180deg, rgba(14,14,14,0.10) 0%, rgba(14,14,14,0.05) 40%, rgba(14,14,14,0.65) 100%),
+      url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&auto=format&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-img::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.18;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .hero-text {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 0 56px;
+    color: var(--paper);
+  }
+  .hero-text .wrap { display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; align-items: end; }
+  @media (max-width: 880px) { .hero-text .wrap { grid-template-columns: 1fr; gap: 24px; } }
+  .hero-text .label { color: var(--brass); }
+  .hero-text h1 { margin-top: 20px; max-width: 12ch; line-height: 0.92; }
+  .hero-text h1 em { font-style: italic; color: var(--brass); }
+  .hero-text .meta { display: flex; flex-direction: column; gap: 14px; font-family: 'Synonym', sans-serif; font-size: 13.5px; letter-spacing: 0.06em; }
+  .hero-text .meta .row { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(246,240,228,0.25); }
+  .hero-text .meta .row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .hero-text .meta .k { color: var(--brass); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+
+  .photo-credit { position: absolute; bottom: 16px; right: 24px; font-family: 'Synonym', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(246,240,228,0.6); }
+
+  /* === Reservation bar ========================================== */
+  .reserve-bar { background: var(--ink); color: var(--paper); padding: 28px 0; }
+  .reserve-bar .wrap { display: grid; grid-template-columns: auto 1fr auto; gap: 40px; align-items: center; }
+  @media (max-width: 880px) { .reserve-bar .wrap { grid-template-columns: 1fr; gap: 20px; text-align: center; } }
+  .reserve-bar h3 { font-family: 'Boska', serif; font-size: 24px; font-weight: 400; }
+  .reserve-bar h3 em { font-style: italic; color: var(--brass); }
+  .reserve-bar .picker { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .reserve-bar .chip { padding: 10px 18px; border: 1px solid rgba(246,240,228,0.3); font-size: 13px; font-weight: 500; letter-spacing: 0.04em; cursor: pointer; transition: all .2s ease; }
+  .reserve-bar .chip:hover, .reserve-bar .chip.active { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .reserve-bar .btn { padding: 14px 28px; background: var(--brass); color: var(--ink); font-weight: 700; font-size: 13px; letter-spacing: 0.06em; cursor: pointer; border: 0; transition: background .25s ease; }
+  .reserve-bar .btn:hover { background: var(--paper); }
+
+  /* === The menu ================================================= */
+  .menu-section { padding: 140px 0; }
+  .menu-head { display: grid; grid-template-columns: 1fr 1.6fr; gap: 56px; margin-bottom: 80px; align-items: end; }
+  @media (max-width: 760px) { .menu-head { grid-template-columns: 1fr; gap: 20px; } }
+  .menu-head h2 { max-width: 14ch; }
+  .menu-head h2 em { font-style: italic; color: var(--tomato); }
+
+  .course { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 120px; }
+  .course:last-child { margin-bottom: 0; }
+  .course.reverse { direction: rtl; }
+  .course.reverse > * { direction: ltr; }
+  @media (max-width: 880px) { .course, .course.reverse { grid-template-columns: 1fr; gap: 40px; direction: ltr; } }
+
+  .course-img {
+    aspect-ratio: 4/5;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+  .course-img.primi {
+    background-image:
+      linear-gradient(180deg, rgba(14,14,14,0) 60%, rgba(14,14,14,0.3) 100%),
+      url('https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=1200&auto=format&fit=crop&q=80');
+  }
+  .course-img.secondi {
+    background-image:
+      linear-gradient(180deg, rgba(14,14,14,0) 60%, rgba(14,14,14,0.3) 100%),
+      url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&auto=format&fit=crop&q=80');
+  }
+  .course-img.dolci {
+    background-image:
+      linear-gradient(180deg, rgba(14,14,14,0) 60%, rgba(14,14,14,0.3) 100%),
+      url('https://images.unsplash.com/photo-1551024601-bec78aea704b?w=1200&auto=format&fit=crop&q=80');
+  }
+  .course-img .frame { position: absolute; inset: 16px; border: 1px solid rgba(246,240,228,0.35); pointer-events: none; }
+  .course-img .stamp {
+    position: absolute; top: 28px; left: 28px;
+    font-family: 'Boska', serif; font-style: italic; font-size: 13px; letter-spacing: 0.06em;
+    color: var(--paper); writing-mode: vertical-rl; transform: rotate(180deg);
+  }
+  .course-num { font-family: 'Boska', serif; font-size: 96px; font-weight: 400; color: var(--tomato); line-height: 0.9; letter-spacing: -0.04em; opacity: 0.85; }
+
+  .course-list { display: flex; flex-direction: column; gap: 8px; margin-top: 28px; }
+  .course-list .item { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px dashed var(--line); }
+  .course-list .item:last-child { border-bottom: 0; }
+  .course-list .name { font-family: 'Boska', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.005em; }
+  .course-list .name em { font-style: italic; color: var(--tomato); }
+  .course-list .desc { font-size: 13.5px; color: var(--mute); margin-top: 4px; max-width: 44ch; line-height: 1.5; }
+  .course-list .price { font-family: 'Boska', serif; font-size: 20px; color: var(--ink); white-space: nowrap; }
+
+  /* === Two-up bar shot + story ================================= */
+  .story { background: var(--cream); padding: 140px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  @media (max-width: 880px) { .story-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .story h2 em { font-style: italic; color: var(--tomato); }
+  .story-img {
+    aspect-ratio: 4/5;
+    background:
+      linear-gradient(180deg, rgba(14,14,14,0) 60%, rgba(14,14,14,0.35) 100%),
+      url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&auto=format&fit=crop&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .story-img .credit { position: absolute; bottom: 20px; left: 20px; color: rgba(246,240,228,0.85); font-family: 'Boska', serif; font-style: italic; font-size: 14px; }
+  .story p { margin-top: 24px; }
+  .story .signature { margin-top: 32px; font-family: 'Boska', serif; font-style: italic; font-size: 19px; color: var(--ink); }
+  .story .signature .role { display: block; font-style: normal; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); font-family: 'Synonym', sans-serif; margin-top: 6px; }
+
+  /* === Press strip ============================================== */
+  .press { padding: 80px 0; border-bottom: 1px solid var(--line); }
+  .press-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  @media (max-width: 760px) { .press-grid { grid-template-columns: 1fr; } }
+  .quote-card { display: flex; flex-direction: column; gap: 18px; padding: 36px 28px; background: var(--cream); border: 1px solid var(--line); }
+  .quote-card .src { font-family: 'Synonym', sans-serif; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--tomato); font-weight: 600; }
+  .quote-card .q { font-family: 'Boska', serif; font-size: 20px; line-height: 1.35; font-style: italic; letter-spacing: -0.01em; }
+  .quote-card .by { font-family: 'Synonym', sans-serif; font-size: 12px; letter-spacing: 0.06em; color: var(--mute); }
+
+  /* === Hours / visit ============================================ */
+  .visit { padding: 140px 0; }
+  .visit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  @media (max-width: 760px) { .visit-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .visit h2 em { font-style: italic; color: var(--tomato); }
+  .hours-list { margin-top: 32px; }
+  .hours-list .row { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .hours-list .day { font-family: 'Boska', serif; font-size: 20px; }
+  .hours-list .time { font-family: 'Synonym', sans-serif; font-size: 14px; color: var(--char); letter-spacing: 0.04em; }
+  .hours-list .row.closed .time { color: var(--mute); }
+  .visit .addr { font-family: 'Boska', serif; font-size: 28px; line-height: 1.3; }
+  .visit .addr em { font-style: italic; color: var(--tomato); }
+  .visit .map-note { margin-top: 24px; font-size: 14px; color: var(--mute); line-height: 1.6; max-width: 40ch; }
+  .visit .resy-cta { display: inline-block; margin-top: 32px; padding: 16px 28px; background: var(--ink); color: var(--paper); font-family: 'Synonym', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-decoration: none; transition: background .25s ease; }
+  .visit .resy-cta:hover { background: var(--tomato); }
+
+  /* === Footer =================================================== */
+  footer { background: var(--ink); color: var(--paper); padding: 80px 0 40px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-col h4 { font-family: 'Synonym', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); margin-bottom: 18px; }
+  .foot-col p, .foot-col a { font-size: 14.5px; color: var(--paper); line-height: 1.7; display: block; text-decoration: none; opacity: 0.85; }
+  .foot-col a:hover { color: var(--brass); opacity: 1; }
+  .foot-bottom { margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(246,240,228,0.18); display: flex; justify-content: space-between; font-size: 12px; color: rgba(246,240,228,0.55); letter-spacing: 0.06em; }
+  @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
+  .foot-logo { font-family: 'Boska', serif; font-size: 32px; letter-spacing: 0.04em; }
+  .foot-logo em { font-style: italic; color: var(--brass); }
+</style>
+</head>
+<body>
+
+<!-- Concept disclosure banner -->
+<div style="background:#0E0E0E;color:#B89668;padding:9px 0;font-family:'Synonym',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;border-bottom:1px solid rgba(184,150,104,0.4);">
+  <a href="/" style="color:#B89668;text-decoration:none;">← Back to studio</a>
+  &nbsp;·&nbsp; Design study by OnCall Automation Studio &nbsp;·&nbsp; Not a current client engagement
+</div>
+
+<!-- Top ribbon -->
+<div class="ribbon">
+  <div class="wrap">
+    <span>Bedford Street · West Village</span>
+    <span><span class="brass">●</span> Walk-ins welcome at the bar</span>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="top">
+  <div class="wrap row">
+    <a href="#" class="brand">
+      <span class="name">VIA <em>DELL'</em>ORTO</span>
+      <span class="sub">Cucina Romana · Est. 2019</span>
+    </a>
+    <div class="menu">
+      <a href="#menu">Menu</a>
+      <a href="#story">The kitchen</a>
+      <a href="#press">Press</a>
+      <a href="#visit">Visit</a>
+    </div>
+    <a href="#resy" class="resy">Reserve a table →</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-img">
+    <span class="photo-credit">Photo · Eric Wolfinger</span>
+  </div>
+  <div class="hero-text">
+    <div class="wrap">
+      <div>
+        <p class="label">Roman cucina · West Village · Since 2019</p>
+        <h1 class="display xl">Cucina <em>romana</em>, on Bedford Street.</h1>
+      </div>
+      <div class="meta">
+        <div class="row">
+          <span class="k">Open</span>
+          <span>Tue – Sun · 5:30 – 11pm</span>
+        </div>
+        <div class="row">
+          <span class="k">Bar</span>
+          <span>From 5:00pm · Walk-ins</span>
+        </div>
+        <div class="row">
+          <span class="k">Reservations</span>
+          <span>30 days out, midnight ET</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reservation bar -->
+<section class="reserve-bar" id="resy">
+  <div class="wrap">
+    <h3>Book a table <em>tonight</em>.</h3>
+    <div class="picker">
+      <span class="chip">2 guests</span>
+      <span class="chip active">4 guests</span>
+      <span class="chip">6 guests</span>
+      <span class="chip">Bar seat</span>
+    </div>
+    <button class="btn">Find a time on Resy →</button>
+  </div>
+</section>
+
+<!-- The menu -->
+<section class="menu-section" id="menu">
+  <div class="wrap">
+    <div class="menu-head">
+      <p class="label">The menu</p>
+      <h2 class="display l">A short menu, written <em>every morning</em>.</h2>
+    </div>
+
+    <!-- Primi -->
+    <div class="course">
+      <div class="course-img primi">
+        <div class="frame"></div>
+        <span class="stamp">Primi · Pasta &amp; Risotti</span>
+      </div>
+      <div>
+        <p class="course-num">01</p>
+        <p class="label" style="margin-top: 12px;">Primi</p>
+        <h3 class="display m" style="margin-top: 8px;">Pasta, hand-rolled · Risotti</h3>
+        <div class="course-list">
+          <div class="item">
+            <div>
+              <p class="name"><em>Cacio e pepe</em></p>
+              <p class="desc">Pecorino romano, tellicherry pepper, rigatoni hand-cut at 4pm</p>
+            </div>
+            <p class="price">$26</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Tonnarelli alla <em>carbonara</em></p>
+              <p class="desc">Guanciale from Iowa, egg yolk, pecorino, cracked pepper</p>
+            </div>
+            <p class="price">$28</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Rigatoni <em>all'amatriciana</em></p>
+              <p class="desc">San marzano, guanciale, onion, white wine</p>
+            </div>
+            <p class="price">$27</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Risotto alla <em>milanese</em></p>
+              <p class="desc">Acquerello rice, saffron, bone marrow, finished tableside</p>
+            </div>
+            <p class="price">$32</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondi -->
+    <div class="course reverse">
+      <div class="course-img secondi">
+        <div class="frame"></div>
+        <span class="stamp">Secondi · From the hearth</span>
+      </div>
+      <div>
+        <p class="course-num">02</p>
+        <p class="label" style="margin-top: 12px;">Secondi</p>
+        <h3 class="display m" style="margin-top: 8px;">From the wood-fired hearth</h3>
+        <div class="course-list">
+          <div class="item">
+            <div>
+              <p class="name"><em>Saltimbocca</em> alla romana</p>
+              <p class="desc">Veal, prosciutto, sage, white wine, butter</p>
+            </div>
+            <p class="price">$38</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Branzino <em>al sale</em></p>
+              <p class="desc">Whole branzino baked in sea salt crust, for two</p>
+            </div>
+            <p class="price">$74</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Pollo alla <em>diavola</em></p>
+              <p class="desc">Half chicken, calabrian chile, lemon, charred over oak</p>
+            </div>
+            <p class="price">$34</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Tagliata <em>di manzo</em></p>
+              <p class="desc">Sliced ribeye, arugula, parmigiano, aged balsamic</p>
+            </div>
+            <p class="price">$46</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dolci -->
+    <div class="course">
+      <div class="course-img dolci">
+        <div class="frame"></div>
+        <span class="stamp">Dolci · End of the meal</span>
+      </div>
+      <div>
+        <p class="course-num">03</p>
+        <p class="label" style="margin-top: 12px;">Dolci</p>
+        <h3 class="display m" style="margin-top: 8px;">The end of the meal</h3>
+        <div class="course-list">
+          <div class="item">
+            <div>
+              <p class="name"><em>Tiramisù</em></p>
+              <p class="desc">Mascarpone, espresso, savoiardi, cocoa — finished tableside</p>
+            </div>
+            <p class="price">$14</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Maritozzo <em>con panna</em></p>
+              <p class="desc">Sweet roman bun, whipped cream, candied orange</p>
+            </div>
+            <p class="price">$12</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Affogato</p>
+              <p class="desc">Hazelnut gelato, double shot of espresso</p>
+            </div>
+            <p class="price">$11</p>
+          </div>
+          <div class="item">
+            <div>
+              <p class="name">Amaro <em>flight</em></p>
+              <p class="desc">Three rotating amari from the back-bar selection</p>
+            </div>
+            <p class="price">$22</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-img">
+        <p class="credit">— The kitchen, 4:42pm</p>
+      </div>
+      <div>
+        <p class="label">The kitchen</p>
+        <h2 class="display l" style="margin-top: 16px;">A trattoria, run like one.</h2>
+        <p class="lead">
+          We opened Via dell'Orto in 2019 to cook the food we grew up eating in Trastevere. Most of the menu hasn't moved since. The pasta is still rolled by hand at 4pm. The amari are still poured by Marcello, who runs the bar like a Roman side street.
+        </p>
+        <p class="lead">
+          We don't take more than two seatings a night, and we don't take phone reservations. Resy at midnight, thirty days out. Walk in at the bar before 6 and you'll usually get a seat.
+        </p>
+        <p class="signature">— Chef Antonio Forte
+          <span class="role">Co-owner · Chef de cuisine</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Press -->
+<section class="press" id="press">
+  <div class="wrap">
+    <div class="press-grid">
+      <div class="quote-card">
+        <p class="src">The New York Times</p>
+        <p class="q">"The cacio e pepe is the version Romans wish they were eating in Rome."</p>
+        <p class="by">Pete Wells · 2024 review · ★★★</p>
+      </div>
+      <div class="quote-card">
+        <p class="src">Eater NY</p>
+        <p class="q">"A West Village trattoria that earns the comparison to Lilia without trying to be Lilia."</p>
+        <p class="by">Robert Sietsema · Best New Restaurants 2024</p>
+      </div>
+      <div class="quote-card">
+        <p class="src">The Infatuation</p>
+        <p class="q">"The kind of small dining room New Yorkers swear is their secret, even though Resy says otherwise."</p>
+        <p class="by">9.4 · "Perfect For" Date Night</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Visit -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="visit-grid">
+      <div>
+        <p class="label">Visit</p>
+        <p class="addr" style="margin-top: 16px;">88 Bedford Street, <em>West Village</em><br>New York, NY 10014</p>
+        <p class="map-note">Two blocks from the Christopher Street 1 train. No private parking; metered street parking after 7pm on Hudson.</p>
+        <a class="resy-cta" href="#">Reserve on Resy →</a>
+      </div>
+      <div>
+        <p class="label">Hours</p>
+        <div class="hours-list">
+          <div class="row closed">
+            <span class="day">Monday</span>
+            <span class="time">Closed</span>
+          </div>
+          <div class="row">
+            <span class="day">Tuesday – Thursday</span>
+            <span class="time">5:30pm – 10:30pm</span>
+          </div>
+          <div class="row">
+            <span class="day">Friday – Saturday</span>
+            <span class="time">5:30pm – 11:30pm</span>
+          </div>
+          <div class="row">
+            <span class="day">Sunday</span>
+            <span class="time">5:00pm – 10:00pm</span>
+          </div>
+          <div class="row">
+            <span class="day">Bar</span>
+            <span class="time">Opens 5:00pm · walk-in</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <p class="foot-logo">VIA <em>DELL'</em>ORTO</p>
+        <p style="margin-top: 16px;">Cucina romana. West Village. Since 2019.<br>A small dining room and a long bar.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Visit</h4>
+        <a href="#">88 Bedford Street</a>
+        <a href="#">New York, NY 10014</a>
+        <a href="#">212.555.0188</a>
+      </div>
+      <div class="foot-col">
+        <h4>Menu</h4>
+        <a href="#">Primi</a>
+        <a href="#">Secondi</a>
+        <a href="#">Dolci</a>
+        <a href="#">Wine list</a>
+      </div>
+      <div class="foot-col">
+        <h4>Follow</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Resy</a>
+        <a href="#">Newsletter</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Via dell'Orto Hospitality LLC</span>
+      <span>Built in the West Village.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

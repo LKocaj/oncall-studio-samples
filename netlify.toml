@@ -1,0 +1,70 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/01"
+  to = "/01-law-firm.html"
+  status = 301
+
+[[redirects]]
+  from = "/02"
+  to = "/02-ai-agent-dashboard.html"
+  status = 301
+
+[[redirects]]
+  from = "/03"
+  to = "/03-restaurant.html"
+  status = 301
+
+[[redirects]]
+  from = "/04"
+  to = "/04-ecommerce.html"
+  status = 301
+
+[[redirects]]
+  from = "/05"
+  to = "/05-saas-landing.html"
+  status = 301
+
+[[redirects]]
+  from = "/06"
+  to = "/06-fitness-studio.html"
+  status = 301
+
+[[redirects]]
+  from = "/07"
+  to = "/07-shopify-skincare.html"
+  status = 301
+
+[[redirects]]
+  from = "/law"
+  to = "/01-law-firm.html"
+  status = 301
+
+[[redirects]]
+  from = "/agent"
+  to = "/02-ai-agent-dashboard.html"
+  status = 301
+
+[[redirects]]
+  from = "/restaurant"
+  to = "/03-restaurant.html"
+  status = 301
+
+[[redirects]]
+  from = "/skincare"
+  to = "/07-shopify-skincare.html"
+  status = 301

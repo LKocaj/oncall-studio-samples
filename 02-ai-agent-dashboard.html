@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnCall Agents — Multi-channel inbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg:        #0A0A0F;
+    --panel:     #0F0F18;
+    --panel-2:   #15151F;
+    --raised:    #1B1B27;
+    --line:      rgba(255,255,255,0.06);
+    --line-2:    rgba(255,255,255,0.12);
+    --text:      #F2F1F6;
+    --text-d:    #B4B2C0;
+    --mute:      #74717F;
+    --violet:    #8B7CFF;
+    --violet-d:  #6A5BFF;
+    --teal:      #4DD8C6;
+    --amber:     #F5BA3D;
+    --coral:     #F47878;
+    --green:     #4ADE80;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mute { color: var(--mute); }
+
+  /* === Layout shell ============================================ */
+  .app { display: grid; grid-template-columns: 232px 320px 1fr 360px; min-height: 100vh; }
+  @media (max-width: 1280px) { .app { grid-template-columns: 200px 280px 1fr 320px; } }
+  @media (max-width: 1024px) { .app { grid-template-columns: 1fr; } }
+
+  /* === Sidebar ================================================= */
+  .sidebar { background: var(--panel); border-right: 1px solid var(--line); padding: 20px 16px; display: flex; flex-direction: column; gap: 28px; }
+  .brand-block { display: flex; align-items: center; gap: 10px; padding: 6px 6px 14px; border-bottom: 1px solid var(--line); }
+  .brand-mark {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--violet) 0%, var(--violet-d) 100%);
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 14px; color: var(--text);
+    box-shadow: 0 6px 20px -8px rgba(139,124,255,0.5);
+  }
+  .brand-mark::after { content: '◐'; font-size: 14px; }
+  .brand-name { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+  .brand-name span { color: var(--violet); }
+  .org-pick {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px; border-radius: 8px; background: var(--panel-2);
+    font-size: 12.5px; color: var(--text-d); cursor: pointer;
+    border: 1px solid var(--line);
+  }
+  .org-pick:hover { background: var(--raised); }
+  .org-pick .arrow { font-size: 10px; color: var(--mute); }
+
+  .nav-section { display: flex; flex-direction: column; gap: 2px; }
+  .nav-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); padding: 0 12px 8px; }
+  .nav-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 12px; border-radius: 8px;
+    color: var(--text-d); font-size: 13.5px;
+    cursor: pointer; transition: background .15s ease;
+  }
+  .nav-item:hover { background: var(--panel-2); color: var(--text); }
+  .nav-item.active { background: var(--panel-2); color: var(--text); }
+  .nav-item.active::before { content: ''; position: absolute; left: 0; width: 3px; height: 18px; background: var(--violet); border-radius: 3px; transform: translateX(-16px); }
+  .nav-item .left { display: flex; align-items: center; gap: 10px; }
+  .nav-item .ico { width: 16px; height: 16px; display: grid; place-items: center; font-size: 14px; }
+  .nav-item .count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mute); padding: 1px 7px; background: rgba(255,255,255,0.05); border-radius: 999px; }
+  .nav-item.active .count { background: var(--violet); color: var(--bg); }
+
+  .sidebar-foot { margin-top: auto; padding: 12px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--violet)); display: grid; place-items: center; font-weight: 700; font-size: 12px; color: var(--bg); }
+  .who { font-size: 13px; font-weight: 500; }
+  .who span { display: block; font-size: 11px; color: var(--mute); }
+
+  /* === Conversation list ====================================== */
+  .convo-list { background: var(--panel); border-right: 1px solid var(--line); display: flex; flex-direction: column; overflow: hidden; }
+  .list-head { padding: 18px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .list-head h2 { font-size: 15px; font-weight: 600; }
+  .list-head .filters { display: flex; gap: 4px; }
+  .filter-pill { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 4px 9px; border-radius: 6px; color: var(--mute); cursor: pointer; }
+  .filter-pill.active { background: var(--raised); color: var(--text); }
+
+  .search { padding: 14px 20px; border-bottom: 1px solid var(--line); position: relative; }
+  .search input {
+    width: 100%; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--text); padding: 9px 14px 9px 36px; border-radius: 8px; font-size: 13px;
+    font-family: inherit; outline: none;
+  }
+  .search input::placeholder { color: var(--mute); }
+  .search::before { content: '⌕'; position: absolute; left: 32px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--mute); }
+
+  .convo-scroll { overflow-y: auto; flex: 1; }
+  .convo {
+    display: grid; grid-template-columns: 36px 1fr auto;
+    gap: 12px; padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer; transition: background .15s ease;
+    position: relative;
+  }
+  .convo:hover { background: var(--panel-2); }
+  .convo.active { background: var(--panel-2); }
+  .convo.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--violet); }
+  .convo .av { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--bg); }
+  .convo:nth-child(1) .av { background: linear-gradient(135deg, #FFB07A, #F47878); }
+  .convo:nth-child(2) .av { background: linear-gradient(135deg, #7AC3FF, #5B6BFF); }
+  .convo:nth-child(3) .av { background: linear-gradient(135deg, #4DD8C6, #4ADE80); }
+  .convo:nth-child(4) .av { background: linear-gradient(135deg, #C68EFF, #8B7CFF); }
+  .convo:nth-child(5) .av { background: linear-gradient(135deg, #F5BA3D, #FF8E5B); }
+  .convo:nth-child(6) .av { background: linear-gradient(135deg, #7AC3FF, #4DD8C6); }
+  .convo .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .convo .top { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+  .convo .name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+  .convo .ch { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; padding: 1px 6px; border-radius: 4px; letter-spacing: 0.06em; }
+  .convo .ch.web { background: rgba(139,124,255,0.15); color: var(--violet); }
+  .convo .ch.sms { background: rgba(77,216,198,0.15); color: var(--teal); }
+  .convo .ch.wa  { background: rgba(74,222,128,0.15); color: var(--green); }
+  .convo .ch.voice { background: rgba(245,186,61,0.15); color: var(--amber); }
+  .convo .ch.im  { background: rgba(122,195,255,0.15); color: #7AC3FF; }
+  .convo .snippet { font-size: 12.5px; color: var(--mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .convo .time { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .convo .ts { font-size: 11.5px; color: var(--mute); white-space: nowrap; }
+  .convo .badge { background: var(--violet); color: var(--bg); font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 999px; min-width: 18px; text-align: center; }
+
+  /* === Thread ================================================== */
+  .thread { display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+  .thread-head { padding: 14px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .thread-head .who { display: flex; align-items: center; gap: 12px; }
+  .thread-head .who .av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #FFB07A, #F47878); display: grid; place-items: center; font-weight: 700; font-size: 14px; color: var(--bg); }
+  .thread-head h3 { font-size: 15px; font-weight: 600; }
+  .thread-head .meta { font-size: 12px; color: var(--mute); }
+  .thread-head .meta span { color: var(--teal); margin-left: 6px; }
+  .thread-head .actions { display: flex; gap: 6px; }
+  .icon-btn { padding: 7px 10px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--text-d); font-size: 13px; cursor: pointer; transition: all .15s ease; }
+  .icon-btn:hover { background: var(--panel-2); color: var(--text); }
+  .icon-btn.primary { background: var(--violet); color: var(--bg); border-color: var(--violet); font-weight: 600; padding: 7px 14px; }
+  .icon-btn.primary:hover { background: var(--violet-d); }
+
+  .messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .msg { max-width: 70%; padding: 12px 16px; border-radius: 14px; font-size: 13.5px; line-height: 1.5; }
+  .msg.user { align-self: flex-start; background: var(--panel-2); color: var(--text); }
+  .msg.agent { align-self: flex-end; background: linear-gradient(135deg, var(--violet) 0%, var(--violet-d) 100%); color: var(--bg); font-weight: 500; }
+  .msg .meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mute); margin-top: 6px; letter-spacing: 0.04em; }
+  .msg.agent .meta { color: rgba(10,10,15,0.6); }
+
+  .agent-action {
+    align-self: center;
+    display: inline-flex; gap: 10px; align-items: center;
+    padding: 6px 14px; border: 1px dashed var(--line-2); border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mute);
+  }
+  .agent-action .dot { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; }
+
+  .composer { padding: 16px 24px; border-top: 1px solid var(--line); background: var(--panel); }
+  .composer-box { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .composer-box .suggested { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--violet); margin-bottom: 10px; letter-spacing: 0.06em; }
+  .composer-box .draft { font-size: 13.5px; color: var(--text-d); line-height: 1.55; }
+  .composer-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .composer-bar .left-actions { display: flex; gap: 6px; }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 5px 10px; border-radius: 6px; background: var(--raised); color: var(--text-d); cursor: pointer;
+  }
+  .chip:hover { color: var(--text); }
+  .send-row { display: flex; gap: 8px; }
+  .send { padding: 8px 16px; background: var(--violet); color: var(--bg); border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; border: 0; }
+  .send:hover { background: var(--violet-d); }
+
+  /* === Right rail (contact + actions) ========================= */
+  .rail { background: var(--panel); border-left: 1px solid var(--line); padding: 22px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+  .rail .card { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+  .rail .card h4 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); margin-bottom: 14px; }
+
+  .contact .av { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #FFB07A, #F47878); display: grid; place-items: center; font-weight: 700; font-size: 22px; color: var(--bg); margin-bottom: 14px; }
+  .contact .nm { font-size: 17px; font-weight: 600; }
+  .contact .sub { font-size: 12.5px; color: var(--mute); margin-top: 4px; }
+  .contact .meta-list { margin-top: 16px; display: grid; gap: 10px; }
+  .contact .meta-list .row { display: grid; grid-template-columns: 78px 1fr; gap: 12px; font-size: 12.5px; }
+  .contact .meta-list .k { color: var(--mute); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; padding-top: 1px; }
+  .contact .meta-list .v { color: var(--text-d); }
+  .contact .meta-list .v.green { color: var(--green); }
+
+  .score .ring { display: flex; align-items: center; gap: 16px; }
+  .ring-svg { width: 84px; height: 84px; }
+  .score .num { font-size: 36px; font-weight: 700; line-height: 1; }
+  .score .label-r { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); font-family: 'JetBrains Mono', monospace; margin-top: 6px; }
+  .score .reason { margin-top: 14px; font-size: 12.5px; color: var(--text-d); line-height: 1.55; }
+  .score .reason em { color: var(--teal); font-style: normal; font-weight: 600; }
+
+  .actions-card .row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .actions-card .row:last-child { border-bottom: 0; }
+  .actions-card .row:hover .name { color: var(--violet); }
+  .actions-card .name { font-size: 13px; font-weight: 500; }
+  .actions-card .meta { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--mute); }
+
+  .timeline-card .item { display: grid; grid-template-columns: 14px 1fr; gap: 12px; padding: 9px 0; font-size: 12px; }
+  .timeline-card .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); margin-top: 5px; }
+  .timeline-card .item:nth-child(2) .dot { background: var(--teal); }
+  .timeline-card .item:nth-child(3) .dot { background: var(--amber); }
+  .timeline-card .item:nth-child(4) .dot { background: var(--mute); }
+  .timeline-card .text { color: var(--text-d); line-height: 1.5; }
+  .timeline-card .t { color: var(--mute); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; }
+
+  /* === Top metric strip ======================================== */
+  .topstrip { grid-column: 1 / -1; background: var(--panel); border-bottom: 1px solid var(--line); padding: 10px 28px; display: flex; gap: 28px; align-items: center; font-size: 12px; flex-wrap: wrap; }
+  .topstrip .stat { display: flex; gap: 8px; align-items: baseline; }
+  .topstrip .k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); }
+  .topstrip .v { font-weight: 600; }
+  .topstrip .delta.up { color: var(--green); }
+  .topstrip .delta.down { color: var(--coral); }
+  .topstrip .right { margin-left: auto; display: flex; gap: 10px; align-items: center; color: var(--mute); }
+  .live { display: inline-flex; align-items: center; gap: 6px; color: var(--green); font-weight: 600; }
+  .live .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 0 4px rgba(74,222,128,0.18); }
+</style>
+</head>
+<body>
+
+<!-- Product demo disclosure banner -->
+<div style="background:#0A0A0F;color:#C5A572;padding:9px 0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;border-bottom:1px solid rgba(197,165,114,0.3);">
+  <a href="/" style="color:#C5A572;text-decoration:none;">← Back to studio</a>
+  &nbsp;·&nbsp; Product demo · same architecture I run in production at oncallchat.ai
+</div>
+
+<div class="app">
+
+  <!-- Top metric strip -->
+  <div class="topstrip">
+    <span class="live"><span class="dot"></span>Live</span>
+    <span class="stat"><span class="k">Open</span><span class="v">42</span><span class="delta up">+8 since 9am</span></span>
+    <span class="stat"><span class="k">Avg response</span><span class="v">11s</span><span class="delta up">-3s</span></span>
+    <span class="stat"><span class="k">Booked today</span><span class="v">19</span><span class="delta up">+24%</span></span>
+    <span class="stat"><span class="k">Resolved by agent</span><span class="v">87%</span></span>
+    <span class="stat"><span class="k">Escalations</span><span class="v">3</span></span>
+    <span class="right">
+      <span class="chip">⌘ K · Quick action</span>
+    </span>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand-block">
+      <div class="brand-mark"></div>
+      <div class="brand-name">OnCall<span>·</span>Agents</div>
+    </div>
+
+    <div class="org-pick">
+      <span>Halstead Dental · NY</span>
+      <span class="arrow">▾</span>
+    </div>
+
+    <div class="nav-section">
+      <p class="nav-label">Workspace</p>
+      <div class="nav-item active"><span class="left"><span class="ico">⌥</span>Inbox</span><span class="count">42</span></div>
+      <div class="nav-item"><span class="left"><span class="ico">⌘</span>Conversations</span></div>
+      <div class="nav-item"><span class="left"><span class="ico">◇</span>Bookings</span><span class="count">19</span></div>
+      <div class="nav-item"><span class="left"><span class="ico">◎</span>Contacts</span></div>
+    </div>
+
+    <div class="nav-section">
+      <p class="nav-label">Channels</p>
+      <div class="nav-item"><span class="left"><span class="ico" style="color: var(--violet);">●</span>Web widget</span><span class="count">23</span></div>
+      <div class="nav-item"><span class="left"><span class="ico" style="color: var(--teal);">●</span>SMS · Twilio</span><span class="count">8</span></div>
+      <div class="nav-item"><span class="left"><span class="ico" style="color: var(--green);">●</span>WhatsApp</span><span class="count">4</span></div>
+      <div class="nav-item"><span class="left"><span class="ico" style="color: var(--amber);">●</span>Voice · Vapi</span><span class="count">2</span></div>
+      <div class="nav-item"><span class="left"><span class="ico" style="color: #7AC3FF;">●</span>iMessage</span><span class="count">6</span></div>
+      <div class="nav-item"><span class="left"><span class="ico" style="color: #F1A28C;">●</span>Messenger</span></div>
+    </div>
+
+    <div class="nav-section">
+      <p class="nav-label">Agent</p>
+      <div class="nav-item"><span class="left"><span class="ico">◐</span>Knowledge base</span></div>
+      <div class="nav-item"><span class="left"><span class="ico">⌬</span>Playbooks</span></div>
+      <div class="nav-item"><span class="left"><span class="ico">⊿</span>Analytics</span></div>
+      <div class="nav-item"><span class="left"><span class="ico">⊕</span>Integrations</span></div>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="avatar">LK</div>
+      <div class="who">Lawrence Kocaj<span>Founder · admin</span></div>
+    </div>
+  </aside>
+
+  <!-- Conversation list -->
+  <section class="convo-list">
+    <div class="list-head">
+      <h2>Inbox · all channels</h2>
+      <div class="filters">
+        <span class="filter-pill active">All</span>
+        <span class="filter-pill">Unread</span>
+        <span class="filter-pill">Hot</span>
+      </div>
+    </div>
+    <div class="search"><input placeholder="Search conversations, contacts, intent…" /></div>
+    <div class="convo-scroll">
+      <div class="convo active">
+        <div class="av">SM</div>
+        <div class="body">
+          <div class="top"><span class="name">Sara Marino</span><span class="ch web">WEB</span></div>
+          <span class="snippet">Yes — Thursday at 4pm works for me. Should I bring…</span>
+        </div>
+        <div class="time"><span class="ts">just now</span><span class="badge">3</span></div>
+      </div>
+      <div class="convo">
+        <div class="av">DW</div>
+        <div class="body">
+          <div class="top"><span class="name">Devin Walsh</span><span class="ch sms">SMS</span></div>
+          <span class="snippet">Hi! Is there a slot tomorrow morning for a cleaning?</span>
+        </div>
+        <div class="time"><span class="ts">2m</span><span class="badge">1</span></div>
+      </div>
+      <div class="convo">
+        <div class="av">RP</div>
+        <div class="body">
+          <div class="top"><span class="name">Raul Pena</span><span class="ch wa">WA</span></div>
+          <span class="snippet">Agent · Booked · 04:00pm Thursday confirmed with Dr. Rooks</span>
+        </div>
+        <div class="time"><span class="ts">6m</span></div>
+      </div>
+      <div class="convo">
+        <div class="av">KC</div>
+        <div class="body">
+          <div class="top"><span class="name">Karen Chen</span><span class="ch voice">CALL</span></div>
+          <span class="snippet">Voice transcript · "wondering about a second opinion…"</span>
+        </div>
+        <div class="time"><span class="ts">14m</span></div>
+      </div>
+      <div class="convo">
+        <div class="av">AB</div>
+        <div class="body">
+          <div class="top"><span class="name">Amelia Brooks</span><span class="ch im">iMSG</span></div>
+          <span class="snippet">Perfect, thanks! See you Thursday.</span>
+        </div>
+        <div class="time"><span class="ts">22m</span></div>
+      </div>
+      <div class="convo">
+        <div class="av">TM</div>
+        <div class="body">
+          <div class="top"><span class="name">Tomas Mendez</span><span class="ch web">WEB</span></div>
+          <span class="snippet">Agent escalated · waiting for human review</span>
+        </div>
+        <div class="time"><span class="ts">31m</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thread -->
+  <section class="thread">
+    <div class="thread-head">
+      <div class="who">
+        <div class="av">SM</div>
+        <div>
+          <h3>Sara Marino <span class="mono mute" style="font-size: 12px; font-weight: 400;">· new patient · web widget</span></h3>
+          <p class="meta">Started 6 min ago · <span>Hot lead</span> · Agent has full context</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="icon-btn">Notes</button>
+        <button class="icon-btn">Transfer</button>
+        <button class="icon-btn primary">Book Sara →</button>
+      </div>
+    </div>
+
+    <div class="messages">
+      <div class="msg user">
+        Hi — does your office take Cigna PPO? Looking for a cleaning + a couple of fillings, hopefully next week.
+        <div class="meta">10:42 AM · via web widget</div>
+      </div>
+
+      <div class="agent-action"><span class="dot"></span>Agent checked: Cigna PPO accepted · Available Thursday after 3pm</div>
+
+      <div class="msg agent">
+        Yes — we accept Cigna PPO. For a cleaning + two fillings I'd block 90 minutes with Dr. Rooks. Thursday at 4:00pm or 4:30pm both open this week. Which works better?
+        <div class="meta">10:42 AM · agent · resp 11s</div>
+      </div>
+
+      <div class="msg user">
+        Yes — Thursday at 4pm works for me. Should I bring anything?
+        <div class="meta">10:43 AM</div>
+      </div>
+
+      <div class="agent-action"><span class="dot"></span>Drafting response · awaiting send</div>
+    </div>
+
+    <div class="composer">
+      <div class="composer-box">
+        <p class="suggested">Suggested by agent · confidence 94%</p>
+        <p class="draft">Perfect — Thursday at 4:00pm with Dr. Rooks is locked in. If this is your first visit, please bring your insurance card and a list of any medications you're on. We'll text you a 15-minute heads-up. Looking forward to it, Sara.</p>
+        <div class="composer-bar">
+          <div class="left-actions">
+            <span class="chip">+ Attach</span>
+            <span class="chip">+ Form</span>
+            <span class="chip">+ Pay link</span>
+          </div>
+          <div class="send-row">
+            <button class="icon-btn">Edit draft</button>
+            <button class="send">Send →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Right rail -->
+  <aside class="rail">
+    <div class="card contact">
+      <h4>Contact</h4>
+      <div class="av">SM</div>
+      <p class="nm">Sara Marino</p>
+      <p class="sub">First contact · today, 10:42am</p>
+      <div class="meta-list">
+        <div class="row"><span class="k">PHONE</span><span class="v">+1 914 555 0192</span></div>
+        <div class="row"><span class="k">EMAIL</span><span class="v">sara.m@gmail.com</span></div>
+        <div class="row"><span class="k">CHANNEL</span><span class="v">Web widget · /book</span></div>
+        <div class="row"><span class="k">INSURANCE</span><span class="v green">Cigna PPO ✓</span></div>
+        <div class="row"><span class="k">REFERRAL</span><span class="v">Google · "Scarsdale dentist"</span></div>
+      </div>
+    </div>
+
+    <div class="card score">
+      <h4>Lead score · GPT-4o</h4>
+      <div class="ring">
+        <svg class="ring-svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.08)" stroke-width="8" fill="none"/>
+          <circle cx="50" cy="50" r="40" stroke="url(#g)" stroke-width="8" stroke-linecap="round" fill="none" stroke-dasharray="251" stroke-dashoffset="38" transform="rotate(-90 50 50)"/>
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8B7CFF"/>
+              <stop offset="1" stop-color="#4DD8C6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div>
+          <p class="num">85</p>
+          <p class="label-r">Hot · book today</p>
+        </div>
+      </div>
+      <p class="reason">Cigna PPO accepted, named procedures, asked for a specific week. Best signal: <em>"hopefully next week."</em> Strong intent.</p>
+    </div>
+
+    <div class="card actions-card">
+      <h4>Quick actions</h4>
+      <div class="row"><span class="name">Send pre-visit form</span><span class="meta">⌘ 1</span></div>
+      <div class="row"><span class="name">Email confirmation</span><span class="meta">⌘ 2</span></div>
+      <div class="row"><span class="name">Add to Mailchimp · "patients"</span><span class="meta">⌘ 3</span></div>
+      <div class="row"><span class="name">Push to Salesforce</span><span class="meta">⌘ 4</span></div>
+    </div>
+
+    <div class="card timeline-card">
+      <h4>Timeline</h4>
+      <div class="item"><span class="dot"></span><div><p class="text">Agent drafted response</p><p class="t">10:43 AM</p></div></div>
+      <div class="item"><span class="dot"></span><div><p class="text">Patient confirmed 4pm Thursday</p><p class="t">10:43 AM</p></div></div>
+      <div class="item"><span class="dot"></span><div><p class="text">Agent verified Cigna PPO in real time</p><p class="t">10:42 AM</p></div></div>
+      <div class="item"><span class="dot"></span><div><p class="text">Sara opened web widget · /book</p><p class="t">10:42 AM</p></div></div>
+    </div>
+  </aside>
+
+</div>
+
+</body>
+</html>
