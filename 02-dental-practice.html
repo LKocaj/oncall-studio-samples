@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rook & Well — Cosmetic dentistry · Madison Avenue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --white:    #FFFFFF;
+    --paper:    #F4F9FB;
+    --soft:     #E6F0F5;
+    --ink:      #0B2240;
+    --char:     #1F3A5C;
+    --mute:     #6B7A8E;
+    --sage:     #4DA3D8;            /* dental blue */
+    --sage-d:   #1F76D4;
+    --coral:    #F0816F;            /* warm coral kept */
+    --coral-d:  #D8654F;
+    --tooth:    #FBFEFF;
+    --line:     rgba(11,34,64,0.08);
+    --line-2:   rgba(11,34,64,0.16);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--white); color: var(--ink); }
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'DM Serif Display', Georgia, serif; }
+  .display { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; line-height: 0.95; letter-spacing: -0.02em; }
+  .xxl { font-size: clamp(72px, 13vw, 200px); }
+  .xl  { font-size: clamp(56px, 9vw, 140px); }
+  .l   { font-size: clamp(40px, 6vw, 84px); }
+  .m   { font-size: clamp(28px, 3.4vw, 48px); }
+  .italic { font-style: italic; }
+
+  .label { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.30em; text-transform: uppercase; color: var(--sage-d); }
+  .label.coral { color: var(--coral-d); }
+  .lead { font-size: clamp(17px, 1.4vw, 21px); line-height: 1.7; color: var(--char); max-width: 56ch; font-weight: 400; }
+  .mute { color: var(--mute); }
+
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+  .wrap-narrow { max-width: 900px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 760px) { .wrap, .wrap-narrow { padding: 0 22px; } }
+
+  /* === Concept disclosure ====================================== */
+  .concept-banner { background: var(--ink); color: var(--sage); padding: 9px 0; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
+  .concept-banner a { color: var(--sage); text-decoration: none; }
+
+  /* === Nav (clean, white, no fixed) ============================ */
+  nav.top { background: var(--white); border-bottom: 1px solid var(--line); }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; }
+
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--ink); }
+  .brand .mark {
+    width: 40px; height: 40px;
+    background: var(--sage-d);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    position: relative;
+    box-shadow: 0 8px 24px -8px rgba(31,118,212,0.45);
+  }
+  .brand .mark svg { width: 22px; height: 22px; fill: var(--white); }
+  .brand .wm { display: flex; flex-direction: column; gap: 3px; }
+  .brand .name { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 26px; letter-spacing: -0.005em; line-height: 1; }
+  .brand .name em { font-style: italic; color: var(--sage-d); }
+  .brand .sub { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 10px; letter-spacing: 0.30em; text-transform: uppercase; color: var(--mute); }
+  @media (max-width: 760px) { .brand .sub { display: none; } }
+
+  .menu { display: flex; gap: 32px; align-items: center; }
+  .menu a { font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: var(--ink); text-decoration: none; font-weight: 500; transition: color .2s ease; }
+  .menu a:hover { color: var(--coral); }
+  .consult {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px;
+    background: var(--ink); color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 0;
+    border: 1px solid var(--ink);
+    transition: all .25s ease;
+  }
+  .consult:hover { background: var(--coral); border-color: var(--coral); }
+  @media (max-width: 980px) { .menu a:not(.consult) { display: none; } }
+
+  /* === HERO: centered, text-first, image strip below =========== */
+  .hero { padding: 96px 0 0; text-align: center; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 760px) { .hero-inner { padding: 0 22px; } }
+  .hero .crest { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px; background: var(--paper); color: var(--char); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; }
+  .hero .crest .dot { width: 6px; height: 6px; background: var(--coral); border-radius: 50%; }
+  .hero h1 { margin-top: 36px; }
+  .hero h1 em { font-style: italic; color: var(--coral); }
+  .hero .sub { margin-top: 32px; max-width: 50ch; margin-left: auto; margin-right: auto; }
+  .hero-cta-row { display: flex; gap: 14px; margin-top: 44px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .pri-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 30px;
+    background: var(--ink); color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    transition: all .25s ease;
+  }
+  .pri-btn:hover { background: var(--coral); border-color: var(--coral); }
+  .ghost-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 24px;
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--line-2);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none;
+    transition: all .25s ease;
+  }
+  .ghost-btn:hover { border-color: var(--ink); }
+
+  .hero-image-strip {
+    margin-top: 96px;
+    width: 100%;
+    aspect-ratio: 21/9;
+    background:
+      linear-gradient(180deg, rgba(26,26,24,0) 60%, rgba(26,26,24,0.25) 100%),
+      url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=2400&auto=format&fit=crop&q=85');
+    background-size: cover; background-position: center;
+    position: relative;
+  }
+  .hero-image-strip .meta-overlay {
+    position: absolute; bottom: 32px; left: 48px; right: 48px;
+    display: flex; justify-content: space-between; gap: 48px; color: var(--white);
+  }
+  @media (max-width: 760px) { .hero-image-strip .meta-overlay { left: 22px; right: 22px; bottom: 22px; flex-direction: column; gap: 16px; } }
+  .hero-image-strip .caption { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(20px, 2vw, 28px); line-height: 1.2; }
+  .hero-image-strip .caption em { color: var(--sage); }
+  .hero-image-strip .addr { font-family: 'DM Sans', sans-serif; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(252,252,247,0.85); align-self: end; min-width: max-content; }
+
+  /* === Trust strip (real dental practice signal) =============== */
+  .trust { padding: 64px 0; background: var(--soft); border-bottom: 1px solid var(--line); }
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  @media (max-width: 880px) { .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 24px; } }
+  .trust-cell { display: flex; flex-direction: column; gap: 8px; padding-right: 24px; border-right: 1px solid var(--line); }
+  .trust-cell:last-child { border-right: 0; }
+  @media (max-width: 880px) { .trust-cell:nth-child(2) { border-right: 0; } }
+  .trust-cell .n { font-family: 'DM Serif Display', serif; font-size: clamp(36px, 4.4vw, 56px); font-weight: 400; line-height: 1; letter-spacing: -0.02em; color: var(--sage-d); }
+  .trust-cell .n em { font-style: italic; }
+  .trust-cell .c { font-size: 13px; color: var(--char); line-height: 1.5; font-weight: 500; max-width: 24ch; }
+
+  /* === Press logos (horizontal text row, no cards) ============= */
+  .press-row { padding: 80px 0; border-bottom: 1px solid var(--line); }
+  .press-row .label { text-align: center; margin-bottom: 32px; }
+  .press-list { display: flex; gap: clamp(24px, 5vw, 80px); justify-content: center; align-items: center; flex-wrap: wrap; }
+  .press-list span { font-family: 'DM Serif Display', serif; font-size: clamp(18px, 2vw, 28px); color: var(--char); letter-spacing: -0.01em; opacity: 0.65; transition: opacity .25s ease, color .25s ease; }
+  .press-list span:hover { opacity: 1; color: var(--sage-d); }
+  .press-list span.italic { font-style: italic; }
+  .press-list span.caps { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1.1vw, 16px); letter-spacing: 0.24em; text-transform: uppercase; }
+
+  /* === Treatments: horizontal scroll cards ===================== */
+  .treatments { padding: 160px 0; }
+  .treatments-head { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; margin-bottom: 64px; }
+  @media (max-width: 760px) { .treatments-head { grid-template-columns: 1fr; gap: 20px; } }
+  .treatments-head h2 em { font-style: italic; color: var(--coral); }
+  .treatments-head .right p { font-size: 17px; color: var(--char); max-width: 50ch; line-height: 1.7; justify-self: end; }
+
+  .scroll-wrap { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--sage) transparent; padding-bottom: 24px; }
+  .scroll-wrap::-webkit-scrollbar { height: 4px; }
+  .scroll-wrap::-webkit-scrollbar-thumb { background: var(--sage); }
+  .scroll-row { display: flex; gap: 24px; padding: 0 48px; }
+  @media (max-width: 760px) { .scroll-row { padding: 0 22px; } }
+  .t-card {
+    flex: 0 0 360px;
+    scroll-snap-align: start;
+    background: var(--paper);
+    overflow: hidden;
+    transition: transform .35s ease;
+    cursor: pointer;
+  }
+  @media (max-width: 540px) { .t-card { flex: 0 0 280px; } }
+  .t-card:hover { transform: translateY(-6px); }
+  .t-card .img {
+    aspect-ratio: 3/4;
+    background-size: cover; background-position: center;
+  }
+  .t-card.veneers   .img { background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=900&auto=format&fit=crop&q=85'); }
+  .t-card.smile     .img { background-image: url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=900&auto=format&fit=crop&q=85'); }
+  .t-card.invisalign .img { background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=900&auto=format&fit=crop&q=85'); }
+  .t-card.implants  .img { background-image: url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=900&auto=format&fit=crop&q=85'); }
+  .t-card.whitening .img { background-image: url('https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=900&auto=format&fit=crop&q=85'); }
+  .t-card.bonding   .img { background-image: url('https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=900&auto=format&fit=crop&q=85'); }
+  .t-card .body { padding: 24px 28px 32px; }
+  .t-card .num { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--sage-d); margin-bottom: 14px; }
+  .t-card h3 { font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
+  .t-card h3 em { font-style: italic; color: var(--coral); }
+  .t-card .desc { font-size: 13.5px; color: var(--char); margin-top: 10px; line-height: 1.6; }
+
+  /* === Doctor: FULL-BLEED with overlay card =================== */
+  .doctor { position: relative; height: 90vh; min-height: 720px; }
+  .doctor-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg, rgba(26,26,24,0.10) 0%, rgba(26,26,24,0.55) 100%),
+      url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=2400&auto=format&fit=crop&q=85');
+    background-size: cover; background-position: center;
+  }
+  .doctor-content { position: absolute; inset: 0; display: flex; align-items: center; }
+  .doctor-card {
+    background: var(--white);
+    padding: 56px 56px;
+    max-width: 540px;
+    margin-left: clamp(22px, 6vw, 80px);
+    border-top: 4px solid var(--sage);
+  }
+  @media (max-width: 760px) { .doctor-card { padding: 36px 28px; margin: 22px; } }
+  .doctor-card .label { margin-bottom: 14px; }
+  .doctor-card h2 em { font-style: italic; color: var(--sage-d); }
+  .doctor-card p { margin-top: 22px; font-size: 15px; line-height: 1.65; color: var(--char); }
+  .doctor-card .name {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; letter-spacing: -0.015em;
+  }
+  .doctor-card .name .role {
+    display: block;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--coral-d);
+    margin-top: 6px;
+  }
+
+  /* === Smile gallery: editorial 4-column =====================  */
+  .gallery { padding: 160px 0; }
+  .gallery-head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+  .gallery-head h2 em { font-style: italic; color: var(--coral); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  @media (max-width: 880px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+  .g-item {
+    aspect-ratio: 4/5;
+    background-size: cover; background-position: center;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    transition: transform .35s ease;
+  }
+  .g-item:hover { transform: scale(1.02); z-index: 1; }
+  .g-item::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,26,24,0) 60%, rgba(26,26,24,0.4) 100%);
+    opacity: 0; transition: opacity .35s ease;
+  }
+  .g-item:hover::before { opacity: 1; }
+  .g-item .tag { position: absolute; bottom: 16px; left: 16px; padding: 5px 11px; background: var(--white); color: var(--sage-d); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0; transition: opacity .35s ease; }
+  .g-item:hover .tag { opacity: 1; }
+  .g-item.g1 { background-image: url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=800&auto=format&fit=crop&q=85'); }
+  .g-item.g2 { background-image: url('https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=800&auto=format&fit=crop&q=85'); }
+  .g-item.g3 { background-image: url('https://images.unsplash.com/photo-1581585504143-5b1f8b8a8c44?w=800&auto=format&fit=crop&q=85'); }
+  .g-item.g4 { background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=800&auto=format&fit=crop&q=85'); }
+  .g-item.g5 { background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&auto=format&fit=crop&q=85'); }
+  .g-item.g6 { background-image: url('https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=800&auto=format&fit=crop&q=85'); }
+  .g-item.g7 { background-image: url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=800&auto=format&fit=crop&q=85'); }
+  .g-item.g8 { background-image: url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&auto=format&fit=crop&q=85'); }
+  .gallery-note { text-align: center; margin-top: 28px; font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); font-weight: 500; }
+
+  /* === Press quotes: magazine-style, NO cards ================= */
+  .quotes { padding: 160px 0; background: var(--paper); }
+  .quotes-list { max-width: 920px; margin: 0 auto; }
+  .quote-row {
+    padding: 56px 0;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  .quote-row:last-child { border-bottom: 1px solid var(--line); }
+  .quote-row .src { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--sage-d); }
+  .quote-row blockquote {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.4vw, 48px);
+    font-style: italic;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 24px auto 18px;
+    max-width: 22ch;
+  }
+  .quote-row cite { display: block; font-style: normal; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 13px; color: var(--char); letter-spacing: 0.04em; }
+
+  /* === Office: long single hero ================================ */
+  .office-tour { padding: 0; }
+  .office-shot {
+    width: 100%; aspect-ratio: 21/9;
+    background:
+      linear-gradient(180deg, rgba(26,26,24,0) 60%, rgba(26,26,24,0.45) 100%),
+      url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=2400&auto=format&fit=crop&q=85');
+    background-size: cover; background-position: center 40%;
+    position: relative;
+  }
+  .office-shot .caption {
+    position: absolute; bottom: 40px; left: 48px; right: 48px;
+    display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: end;
+    color: var(--white);
+  }
+  @media (max-width: 760px) { .office-shot .caption { grid-template-columns: 1fr; gap: 16px; left: 22px; right: 22px; bottom: 22px; } }
+  .office-shot h3 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3vw, 44px); font-weight: 400; max-width: 18ch; line-height: 1.1; letter-spacing: -0.015em; }
+  .office-shot h3 em { font-style: italic; color: var(--sage); }
+  .office-shot .detail { font-family: 'DM Sans', sans-serif; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(252,252,247,0.85); min-width: max-content; }
+
+  /* === Visit / consultation =================================== */
+  .visit { padding: 160px 0; text-align: center; }
+  .visit-card { max-width: 760px; margin: 0 auto; }
+  .visit-card h2 em { font-style: italic; color: var(--coral); }
+  .visit-card p { margin-top: 28px; font-size: 17px; line-height: 1.7; color: var(--char); max-width: 56ch; margin-left: auto; margin-right: auto; }
+  .visit-card .addr-block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 48px; text-align: left; max-width: 640px; margin-left: auto; margin-right: auto; }
+  @media (max-width: 600px) { .visit-card .addr-block { grid-template-columns: 1fr; gap: 24px; } }
+  .visit-card .addr-block .k { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--sage-d); margin-bottom: 8px; }
+  .visit-card .addr-block .v { font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.35; }
+  .visit-card .addr-block .v em { font-style: italic; color: var(--coral); }
+  .visit-card .addr-block .sub { font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: var(--char); margin-top: 6px; line-height: 1.5; }
+  .visit-card .pri-btn { margin-top: 56px; }
+  .visit-card .note { margin-top: 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--mute); letter-spacing: 0.04em; }
+
+  /* === Footer ================================================== */
+  footer { background: var(--ink); color: var(--white); padding: 64px 0 40px; }
+  .foot-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 48px; }
+  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  .foot-col h4 { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--sage); margin-bottom: 18px; }
+  .foot-col p, .foot-col a { font-size: 14px; color: var(--white); line-height: 1.75; display: block; text-decoration: none; opacity: 0.78; }
+  .foot-col a:hover { color: var(--coral); opacity: 1; }
+  .foot-bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(252,252,247,0.12); display: flex; justify-content: space-between; font-size: 12px; color: rgba(252,252,247,0.55); letter-spacing: 0.04em; }
+  @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
+  .foot-logo { font-family: 'DM Serif Display', serif; font-size: 30px; font-weight: 400; letter-spacing: -0.01em; }
+  .foot-logo em { font-style: italic; color: var(--sage); }
+</style>
+</head>
+<body>
+
+<!-- Concept disclosure -->
+<div class="concept-banner">
+  <a href="/">← Back to studio</a>
+  &nbsp;·&nbsp; Design study by OnCall Automation Studio &nbsp;·&nbsp; Not a current client engagement
+</div>
+
+<!-- Nav -->
+<nav class="top">
+  <div class="wrap row">
+    <a href="#" class="brand">
+      <span class="mark">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2c-2.2 0-4 1.4-4.6 3.4-.7-.2-1.5-.4-2.4-.4-2.2 0-4 1.8-4 4 0 3.5 1.5 6.3 2.5 9.5.7 2.2 1.4 5.5 3 5.5 1.5 0 1.8-2.5 2.5-4.5.5-1.5 1.2-2.5 3-2.5s2.5 1 3 2.5c.7 2 1 4.5 2.5 4.5 1.6 0 2.3-3.3 3-5.5 1-3.2 2.5-6 2.5-9.5 0-2.2-1.8-4-4-4-.9 0-1.7.2-2.4.4C16 3.4 14.2 2 12 2z"/>
+        </svg>
+      </span>
+      <span class="wm">
+        <span class="name">Rook <em>&amp;</em> Well</span>
+        <span class="sub">Cosmetic Dentistry · Madison Avenue</span>
+      </span>
+    </a>
+    <div class="menu">
+      <a href="#treatments">Treatments</a>
+      <a href="#doctor">Dr. Rooks</a>
+      <a href="#gallery">Smile gallery</a>
+      <a href="#quotes">Press</a>
+      <a href="#visit" class="consult">Request consultation →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO: centered editorial -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="crest"><span class="dot"></span>Now accepting new patients · 2026</span>
+    <h1 class="display xxl">Cosmetic <em>dentistry</em>.</h1>
+    <p class="lead sub">A boutique cosmetic and restorative practice on Madison Avenue. The work designed to disappear into the face — to make the smile look like the smile you should have had.</p>
+    <div class="hero-cta-row">
+      <a href="#visit" class="pri-btn">Request a consultation</a>
+      <a href="#gallery" class="ghost-btn">View smile gallery</a>
+    </div>
+  </div>
+  <div class="hero-image-strip">
+    <div class="meta-overlay">
+      <p class="caption">Studio. <em>Floor four.</em> 1009 Madison Avenue.</p>
+      <p class="addr">By appointment · +1 212.555.0182</p>
+    </div>
+  </div>
+</section>
+
+<!-- Trust strip -->
+<section class="trust">
+  <div class="wrap">
+    <div class="trust-grid">
+      <div class="trust-cell">
+        <p class="n">12 <em>yrs</em></p>
+        <p class="c">Caring for Manhattan patients since 2014</p>
+      </div>
+      <div class="trust-cell">
+        <p class="n">3,400+</p>
+        <p class="c">Smiles transformed in the practice</p>
+      </div>
+      <div class="trust-cell">
+        <p class="n">Top 1%</p>
+        <p class="c">Diamond-tier Invisalign provider by case volume</p>
+      </div>
+      <div class="trust-cell">
+        <p class="n">5.0 ★</p>
+        <p class="c">Average across 480+ Google reviews</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Press logos -->
+<section class="press-row">
+  <div class="wrap">
+    <p class="label">As featured in</p>
+    <div class="press-list">
+      <span class="italic">Vogue</span>
+      <span class="italic">Allure</span>
+      <span class="caps">New York Magazine</span>
+      <span class="italic">Town &amp; Country</span>
+      <span class="caps">The Cut</span>
+      <span class="italic">Harper's Bazaar</span>
+      <span class="caps">Architectural Digest</span>
+    </div>
+  </div>
+</section>
+
+<!-- Treatments: horizontal scroll -->
+<section class="treatments" id="treatments">
+  <div class="wrap">
+    <div class="treatments-head">
+      <div>
+        <p class="label">The work</p>
+        <h2 class="display xl" style="margin-top: 18px;">Six <em>treatments</em>.</h2>
+      </div>
+      <div class="right">
+        <p>A deliberately short list. Each procedure is performed by Dr. Rooks personally — and finished by hand in the on-site ceramics lab. Scroll →</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-wrap">
+    <div class="scroll-row">
+      <div class="t-card veneers">
+        <div class="img"></div>
+        <div class="body">
+          <p class="num">01 / Veneers</p>
+          <h3>Porcelain <em>veneers</em></h3>
+          <p class="desc">Custom-layered ceramic, hand-finished in our on-site lab.</p>
+        </div>
+      </div>
+      <div class="t-card smile">
+        <div class="img"></div>
+        <div class="body">
+          <p class="num">02 / Smile design</p>
+          <h3>Smile <em>makeover</em></h3>
+          <p class="desc">A redesign of the smile line — color, shape, proportion, fit to the face.</p>
+        </div>
+      </div>
+      <div class="t-card invisalign">
+        <div class="img"></div>
+        <div class="body">
+          <p class="num">03 / Orthodontics</p>
+          <h3><em>Invisalign</em></h3>
+          <p class="desc">Diamond-tier provider. Adult orthodontics planned around your face.</p>
+        </div>
+      </div>
+      <div class="t-card implants">
+        <div class="img"></div>
+        <div class="body">
+          <p class="num">04 / Restorative</p>
+          <h3>Dental <em>implants</em></h3>
+          <p class="desc">Single-tooth and full-arch restoration. Same-day temporary crowns.</p>
+        </div>
+      </div>
+      <div class="t-card whitening">
+        <div class="img"></div>
+        <div class="body">
+          <p class="num">05 / Aesthetic</p>
+          <h3>In-office <em>whitening</em></h3>
+          <p class="desc">KöR deep bleaching protocol with a custom maintenance regimen.</p>
+        </div>
+      </div>
+      <div class="t-card bonding">
+        <div class="img"></div>
+        <div class="body">
+          <p class="num">06 / Conservative</p>
+          <h3>Composite <em>bonding</em></h3>
+          <p class="desc">Direct composite reshaping when veneers aren't the right answer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Doctor: full-bleed with overlay card -->
+<section class="doctor" id="doctor">
+  <div class="doctor-bg"></div>
+  <div class="doctor-content">
+    <div class="doctor-card">
+      <p class="label">The practice</p>
+      <h2 class="display l">Trained in aesthetic <em>dentistry</em>.</h2>
+      <p>Dr. Mira Rooks founded Rook &amp; Well in 2014 after a residency at the New York University College of Dentistry. Her training brought her to the lab as often as the chair, which is why every veneer leaving her practice is finished by hand on-site.</p>
+      <p>New York Magazine Top Dentist (2022, 2023, 2024) · Diamond-tier Invisalign provider · NYU Aesthetic Advantage · Kois Center alumna.</p>
+      <p class="name">Mira Rooks, DDS
+        <span class="role">Founder · Lead practitioner</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Smile gallery -->
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="gallery-head">
+      <p class="label">Smile gallery</p>
+      <h2 class="display xl" style="margin-top: 18px;">Recent <em>work</em>.</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item g1"><span class="tag">Veneers</span></div>
+      <div class="g-item g2"><span class="tag">Invisalign</span></div>
+      <div class="g-item g3"><span class="tag">Smile design</span></div>
+      <div class="g-item g4"><span class="tag">Veneers</span></div>
+      <div class="g-item g5"><span class="tag">Bonding</span></div>
+      <div class="g-item g6"><span class="tag">Whitening</span></div>
+      <div class="g-item g7"><span class="tag">Implants</span></div>
+      <div class="g-item g8"><span class="tag">Smile design</span></div>
+    </div>
+    <p class="gallery-note">Patient photographs used with consent · Additional cases available at consultation</p>
+  </div>
+</section>
+
+<!-- Press quotes: magazine-style, single column, big italics -->
+<section class="quotes" id="quotes">
+  <div class="wrap">
+    <div class="gallery-head">
+      <p class="label">Press</p>
+      <h2 class="display xl" style="margin-top: 18px;">What's been <em>said</em>.</h2>
+    </div>
+    <div class="quotes-list">
+      <div class="quote-row">
+        <p class="src">Vogue · 2024</p>
+        <blockquote>"The kind of dentistry that looks like it never happened."</blockquote>
+        <cite>— "The new face of cosmetic dentistry"</cite>
+      </div>
+      <div class="quote-row">
+        <p class="src">New York Magazine · 2024</p>
+        <blockquote>"On the very short list of Manhattan dentists who treat veneers as fine art."</blockquote>
+        <cite>— Best Doctors issue · Cosmetic Dentistry</cite>
+      </div>
+      <div class="quote-row">
+        <p class="src">Allure · 2023</p>
+        <blockquote>"A practice that prefers the conservative answer when a conservative answer exists."</blockquote>
+        <cite>— "Where the editors go"</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Office: long single shot -->
+<section class="office-tour">
+  <div class="office-shot">
+    <div class="caption">
+      <h3>Six operatories, one floor, and a <em>ceramics lab</em> down the hall.</h3>
+      <p class="detail">1009 Madison Avenue · Floor 4</p>
+    </div>
+  </div>
+</section>
+
+<!-- Visit / consultation -->
+<section class="visit" id="visit">
+  <div class="wrap-narrow">
+    <div class="visit-card">
+      <p class="label">Visit</p>
+      <h2 class="display xl" style="margin-top: 18px;">The first visit is a <em>conversation</em>.</h2>
+      <p>New-patient consultations begin with a comprehensive intraoral and aesthetic evaluation, a photographic record, and a written treatment plan emailed before you leave. We do not publish fees online — pricing is shared in person, in context.</p>
+
+      <div class="addr-block">
+        <div>
+          <p class="k">Address</p>
+          <p class="v">1009 Madison Avenue<br>Floor 4 · <em>NY 10075</em></p>
+          <p class="sub">Between East 77th and 78th Street. A short walk from the 77th Street 6 train.</p>
+        </div>
+        <div>
+          <p class="k">Hours</p>
+          <p class="v">Mon – Thu · 8 – 6<br>Fri · 8 – 4</p>
+          <p class="sub">Saturday by appointment. Closed Sunday.</p>
+        </div>
+      </div>
+
+      <a href="mailto:consult@rookandwell.com" class="pri-btn">Request consultation →</a>
+      <p class="note">Or call · +1 212.555.0182</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <p class="foot-logo">Rook <em>&amp;</em> Well</p>
+        <p style="margin-top: 16px;">Cosmetic &amp; restorative dentistry. Madison Avenue. By appointment.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Treatments</h4>
+        <a href="#">Porcelain veneers</a>
+        <a href="#">Smile makeover</a>
+        <a href="#">Invisalign</a>
+        <a href="#">Implants</a>
+        <a href="#">Whitening</a>
+      </div>
+      <div class="foot-col">
+        <h4>The practice</h4>
+        <a href="#doctor">Dr. Mira Rooks</a>
+        <a href="#gallery">Smile gallery</a>
+        <a href="#quotes">Press</a>
+        <a href="#">Patient resources</a>
+      </div>
+      <div class="foot-col">
+        <h4>Visit</h4>
+        <a href="#">1009 Madison Ave</a>
+        <a href="#">+1 212.555.0182</a>
+        <a href="mailto:consult@rookandwell.com">consult@rookandwell.com</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Rook &amp; Well, PLLC</span>
+      <span>Patient photography used with consent</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
