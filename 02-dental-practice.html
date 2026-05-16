@@ -6,296 +6,330 @@
 <title>Rook & Well — Family, Cosmetic & Restorative Dentistry · NYC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap">
 <style>
   :root {
     --white:     #FFFFFF;
-    --paper:     #FAF7FA;
-    --soft:      #F0E6F0;
-    --bone:      #E7DCE7;
-    --ink:       #1F1530;
-    --char:      #3A2E48;
-    --mute:      #7A7080;
-    --plum:      #5A1F47;          /* deep purple/burgundy primary */
-    --plum-d:    #3F0F2D;
-    --plum-l:    #8E3C72;
-    --coral:     #E07A5F;          /* warm coral accent */
-    --coral-d:   #B85F46;
-    --med-blue:  #2D7DCE;          /* medical/trust blue */
-    --gold:      #C8A55C;
-    --line:      rgba(31,21,48,0.08);
-    --line-2:    rgba(31,21,48,0.16);
+    --paper:     #F7FAFB;
+    --soft:      #E8F4F4;
+    --ink:       #1C2B30;
+    --char:      #3C4C52;
+    --mute:      #6E7D83;
+    --teal:      #0FA3A3;          /* Michigan TMJ primary teal */
+    --teal-d:    #0A8585;
+    --teal-l:    #4FBEBE;
+    --plum:      #5A1F47;          /* secondary accent */
+    --coral:     #F08566;
+    --gold:      #F0B848;
+    --line:      rgba(28,43,48,0.08);
+    --line-2:    rgba(28,43,48,0.16);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--white); color: var(--ink); }
   body {
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'Open Sans', -apple-system, sans-serif;
     font-size: 16px;
     line-height: 1.7;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  .display { font-family: 'Inter Tight', sans-serif; font-weight: 700; line-height: 1.05; letter-spacing: -0.035em; }
+  .display { font-family: 'Montserrat', sans-serif; font-weight: 800; line-height: 1.05; letter-spacing: -0.025em; }
   .xl { font-size: clamp(48px, 7vw, 96px); }
   .l  { font-size: clamp(36px, 5vw, 64px); }
-  .m  { font-size: clamp(24px, 3vw, 38px); }
-  .italic { font-style: italic; font-weight: 500; }
+  .m  { font-size: clamp(26px, 3.2vw, 42px); }
+  .italic { font-style: italic; font-weight: 700; color: var(--teal); }
 
-  .label { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--plum); }
-  .label.coral { color: var(--coral-d); }
-  .label.blue { color: var(--med-blue); }
-  .lead { font-size: clamp(17px, 1.4vw, 21px); line-height: 1.65; color: var(--char); max-width: 56ch; }
+  .label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); }
+  .label.plum { color: var(--plum); }
+  .lead { font-size: clamp(17px, 1.4vw, 21px); line-height: 1.7; color: var(--char); max-width: 60ch; }
   .mute { color: var(--mute); }
 
-  .wrap { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
   @media (max-width: 760px) { .wrap { padding: 0 22px; } }
 
   /* === Concept disclosure ====================================== */
-  .concept-banner { background: var(--ink); color: var(--gold); padding: 9px 0; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
+  .concept-banner { background: var(--ink); color: var(--gold); padding: 9px 0; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
   .concept-banner a { color: var(--gold); text-decoration: none; }
 
-  /* === Top utility (insurance, hours, phone) =================== */
-  .util { background: var(--plum); color: var(--white); padding: 11px 0; font-size: 12px; font-weight: 500; }
+  /* === Top utility ribbon ====================================== */
+  .util { background: var(--teal); color: var(--white); padding: 12px 0; font-size: 13px; font-weight: 500; }
   .util .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
-  .util .left { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
-  .util .item { display: flex; gap: 8px; align-items: center; opacity: 0.92; }
+  .util .left { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+  .util .item { display: flex; gap: 8px; align-items: center; }
   .util .item .ico { color: var(--gold); font-weight: 700; }
-  .util .phone { font-weight: 700; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; }
+  .util .phone { font-weight: 700; color: var(--white); text-decoration: none; letter-spacing: 0.02em; display: inline-flex; gap: 6px; align-items: center; }
 
   /* === Nav ===================================================== */
-  nav.top { background: var(--white); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
+  nav.top { background: var(--white); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 0 rgba(28,43,48,0.04); }
   nav.top .row { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
 
   .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--ink); }
   .brand .mark {
-    width: 44px; height: 44px;
-    background: var(--plum);
+    width: 48px; height: 48px;
+    background: var(--teal);
     border-radius: 50%;
     display: grid; place-items: center;
     position: relative;
-    box-shadow: 0 8px 24px -8px rgba(90,31,71,0.45);
+    box-shadow: 0 8px 24px -6px rgba(15,163,163,0.5);
   }
-  .brand .mark svg { width: 24px; height: 24px; fill: var(--white); }
+  .brand .mark svg { width: 26px; height: 26px; fill: var(--white); }
   .brand .wm { display: flex; flex-direction: column; gap: 2px; }
-  .brand .name { font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; line-height: 1; color: var(--ink); }
-  .brand .name em { font-style: italic; font-weight: 600; color: var(--plum); }
-  .brand .sub { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--mute); }
+  .brand .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.01em; line-height: 1; color: var(--ink); }
+  .brand .name em { font-style: normal; color: var(--teal); }
+  .brand .sub { font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
   @media (max-width: 760px) { .brand .sub { display: none; } }
 
-  .menu { display: flex; gap: 30px; align-items: center; }
-  .menu a { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--char); text-decoration: none; font-weight: 500; transition: color .2s ease; }
-  .menu a:hover { color: var(--plum); }
+  .menu { display: flex; gap: 28px; align-items: center; }
+  .menu a { font-family: 'Montserrat', sans-serif; font-size: 14px; color: var(--char); text-decoration: none; font-weight: 600; transition: color .2s ease; }
+  .menu a:hover { color: var(--teal); }
   .appt-btn {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 13px 24px;
-    background: var(--plum); color: var(--white);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600; font-size: 13px; letter-spacing: 0.04em;
+    background: var(--teal); color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 13px; letter-spacing: 0.02em;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 999px;
     transition: background .25s ease;
   }
-  .appt-btn:hover { background: var(--plum-d); }
+  .appt-btn:hover { background: var(--teal-d); }
   @media (max-width: 980px) { .menu a:not(.appt-btn) { display: none; } }
 
-  /* === HERO: split with patient/doctor photo =================== */
-  .hero { padding: 80px 0 100px; background: var(--paper); position: relative; overflow: hidden; }
+  /* === HERO: TEXT-CENTERED, NO BIG PHOTO ====================== */
+  .hero { padding: 100px 0 80px; text-align: center; position: relative; background: var(--white); }
   .hero::before {
-    content: ''; position: absolute; inset: 0; opacity: 0.6;
-    background: radial-gradient(ellipse 800px 500px at 90% 50%, rgba(224,122,95,0.12), transparent 60%),
-                radial-gradient(ellipse 600px 400px at 10% 30%, rgba(45,125,206,0.08), transparent 60%);
-    pointer-events: none;
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 1000px 600px at 50% 0%, rgba(15,163,163,0.08), transparent 70%);
   }
-  .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; position: relative; }
-  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
-
-  .hero .crest { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; background: var(--white); border: 1px solid var(--line); color: var(--char); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; border-radius: 999px; }
-  .hero .crest .dot { width: 7px; height: 7px; background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 4px rgba(224,122,95,0.18); }
-  .hero h1 { margin-top: 28px; max-width: 14ch; }
-  .hero h1 em { font-style: italic; color: var(--plum); font-weight: 700; }
-  .hero .sub { margin-top: 24px; max-width: 52ch; }
-  .hero-cta-row { display: flex; gap: 14px; margin-top: 36px; align-items: center; flex-wrap: wrap; }
+  .hero-inner { position: relative; max-width: 980px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 760px) { .hero-inner { padding: 0 22px; } }
+  .hero .pre {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 18px;
+    background: var(--soft); color: var(--teal-d);
+    border-radius: 999px;
+    font-family: 'Montserrat', sans-serif; font-weight: 700;
+    font-size: 12px; letter-spacing: 0.06em;
+  }
+  .hero .pre .dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; box-shadow: 0 0 0 4px rgba(15,163,163,0.18); }
+  .hero h1 { margin-top: 32px; }
+  .hero h1 em { font-style: italic; color: var(--teal); }
+  .hero .sub { margin-top: 28px; max-width: 60ch; margin-left: auto; margin-right: auto; font-size: 19px; color: var(--char); line-height: 1.65; }
+  .hero-cta-row { display: flex; gap: 14px; margin-top: 40px; justify-content: center; align-items: center; flex-wrap: wrap; }
   .pri-btn {
     display: inline-flex; align-items: center; gap: 10px;
-    padding: 16px 28px;
-    background: var(--plum); color: var(--white);
-    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
+    padding: 18px 36px;
+    background: var(--teal); color: var(--white);
+    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
     text-decoration: none;
-    border-radius: 6px;
-    box-shadow: 0 10px 30px -10px rgba(90,31,71,0.4);
-    transition: all .25s ease;
-  }
-  .pri-btn:hover { background: var(--plum-d); transform: translateY(-2px); }
-  .ghost-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 16px 24px;
-    background: var(--white); color: var(--ink);
-    border: 1px solid var(--line-2);
-    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all .25s ease;
-  }
-  .ghost-btn:hover { border-color: var(--plum); color: var(--plum); }
-
-  .hero-trust { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
-  .hero-trust .item { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--char); font-weight: 500; }
-  .hero-trust .item .ic { color: var(--coral-d); font-weight: 700; }
-
-  /* Hero photo */
-  .hero-photo {
-    aspect-ratio: 4/5;
-    background:
-      linear-gradient(180deg, rgba(31,21,48,0) 50%, rgba(31,21,48,0.25) 100%),
-      url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&auto=format&fit=crop&q=85');
-    background-size: cover; background-position: center;
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 40px 80px -30px rgba(31,21,48,0.35);
-  }
-  .hero-photo .badge {
-    position: absolute; top: 24px; left: 24px;
-    padding: 10px 16px;
-    background: var(--white); color: var(--plum);
-    font-family: 'Inter', sans-serif; font-weight: 700;
-    font-size: 12px; letter-spacing: 0.06em;
     border-radius: 999px;
-    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 12px 32px -10px rgba(15,163,163,0.5);
+    transition: all .25s ease;
   }
-  .hero-photo .badge .stars { color: var(--coral); letter-spacing: 1.5px; }
-  .hero-photo .rating-card {
-    position: absolute; bottom: 24px; left: 24px; right: 24px;
+  .pri-btn:hover { background: var(--teal-d); transform: translateY(-2px); }
+  .call-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 32px;
+    background: var(--white); color: var(--teal-d);
+    border: 2px solid var(--teal);
+    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all .25s ease;
+  }
+  .call-btn:hover { background: var(--teal); color: var(--white); }
+
+  /* === 3 value props (Sleep Better / Relieve Pain / Transform) === */
+  .props { padding: 80px 0; background: var(--paper); border-top: 1px solid var(--line); }
+  .props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  @media (max-width: 880px) { .props-grid { grid-template-columns: 1fr; } }
+  .prop { text-align: center; padding: 32px 24px; }
+  .prop .ic {
+    width: 72px; height: 72px;
     background: var(--white);
-    padding: 20px 22px;
-    border-radius: 10px;
-    display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
+    border: 2px solid var(--teal);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    margin: 0 auto 24px;
+    color: var(--teal);
+    font-size: 32px; font-weight: 800;
   }
-  .rating-card .quote { font-size: 15px; line-height: 1.4; color: var(--ink); font-weight: 500; max-width: 26ch; }
-  .rating-card .quote em { font-style: italic; color: var(--plum); }
-  .rating-card .src { font-size: 11px; color: var(--mute); margin-top: 6px; letter-spacing: 0.04em; font-weight: 500; }
-  .rating-card .num { font-family: 'Inter Tight', sans-serif; font-size: 36px; font-weight: 700; color: var(--plum); line-height: 1; letter-spacing: -0.025em; }
-  .rating-card .num-c { font-size: 10.5px; color: var(--mute); margin-top: 4px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+  .prop h3 { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
+  .prop p { font-size: 15px; line-height: 1.65; color: var(--char); margin-top: 12px; max-width: 32ch; margin-left: auto; margin-right: auto; }
 
-  /* === 3-step process (Michigan TMJ signature) ================ */
-  .process { padding: 100px 0; background: var(--white); }
-  .process-head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
-  .process-head h2 em { font-style: italic; color: var(--plum); }
-  .process-head p { margin-top: 16px; color: var(--char); font-size: 17px; }
+  /* === Approach band (TMJ Precision Approach equivalent) ====== */
+  .approach { padding: 100px 0; background: var(--white); }
+  .approach-inner { max-width: 920px; margin: 0 auto; text-align: center; padding: 0 48px; }
+  @media (max-width: 760px) { .approach-inner { padding: 0 22px; } }
+  .approach .label { margin-bottom: 16px; }
+  .approach h2 em { font-style: italic; color: var(--teal); }
+  .approach p { font-size: 18px; color: var(--char); margin-top: 24px; line-height: 1.7; max-width: 60ch; margin-left: auto; margin-right: auto; }
+  .approach .tm { font-size: 12px; vertical-align: super; color: var(--teal); }
+  .approach .pri-btn { margin-top: 36px; }
 
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  /* === 3-step process ========================================== */
+  .process { padding: 100px 0; background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .process-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .process-head h2 em { font-style: italic; color: var(--teal); }
+  .process-head p { margin-top: 14px; color: var(--char); font-size: 17px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; }
   @media (max-width: 880px) { .steps { grid-template-columns: 1fr; } }
   .step {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    padding: 36px 32px;
+    background: var(--white);
+    padding: 36px 28px;
+    border-radius: 16px;
+    text-align: center;
     position: relative;
-    border-radius: 12px;
+    box-shadow: 0 4px 24px -8px rgba(28,43,48,0.08);
     transition: all .35s ease;
   }
-  .step:hover { transform: translateY(-4px); border-color: var(--plum); box-shadow: 0 20px 40px -20px rgba(90,31,71,0.2); }
+  .step:hover { transform: translateY(-4px); box-shadow: 0 12px 32px -8px rgba(15,163,163,0.2); }
   .step .num {
+    position: absolute; top: -24px; left: 50%; transform: translateX(-50%);
     width: 48px; height: 48px;
     border-radius: 50%;
-    background: var(--plum);
+    background: var(--teal);
     color: var(--white);
     display: grid; place-items: center;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 700; font-size: 17px;
-    margin-bottom: 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800; font-size: 18px;
+    box-shadow: 0 8px 20px -4px rgba(15,163,163,0.5);
   }
-  .step h3 { font-family: 'Inter Tight', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.2; }
-  .step h3 em { font-style: italic; color: var(--plum); font-weight: 600; }
+  .step h3 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; margin-top: 20px; }
   .step p { font-size: 14.5px; line-height: 1.6; color: var(--char); margin-top: 12px; }
-  .step .time { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--coral-d); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
 
-  /* === Services (6 cards with images, healthcare scope) ======== */
-  .services { padding: 120px 0; background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .services-head { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; margin-bottom: 56px; }
-  @media (max-width: 760px) { .services-head { grid-template-columns: 1fr; gap: 16px; } }
-  .services-head h2 em { font-style: italic; color: var(--plum); }
-  .services-head .right { font-size: 17px; color: var(--char); line-height: 1.7; max-width: 50ch; justify-self: end; }
+  /* === Assessment tool boxes (Epworth-style) =================== */
+  .assess { padding: 100px 0; background: var(--white); }
+  .assess-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .assess-head h2 em { font-style: italic; color: var(--teal); }
+  .assess-head p { margin-top: 14px; color: var(--char); font-size: 17px; }
 
-  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  @media (max-width: 880px) { .service-grid { grid-template-columns: 1fr; } }
+  .assess-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 760px) { .assess-grid { grid-template-columns: 1fr; } }
+  .assess-card {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
+    color: var(--white);
+    padding: 48px 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px -16px rgba(15,163,163,0.4);
+  }
+  .assess-card:nth-child(2) {
+    background: linear-gradient(135deg, var(--plum) 0%, #3F0F2D 100%);
+    box-shadow: 0 20px 40px -16px rgba(90,31,71,0.4);
+  }
+  .assess-card .badge {
+    display: inline-block;
+    padding: 5px 12px;
+    background: rgba(255,255,255,0.18);
+    color: var(--white);
+    border-radius: 999px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 11px; letter-spacing: 0.14em;
+    margin-bottom: 16px;
+  }
+  .assess-card h3 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 800; line-height: 1.15; letter-spacing: -0.015em; }
+  .assess-card p { margin-top: 14px; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.92); }
+  .assess-card .begin-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 24px;
+    padding: 14px 28px;
+    background: var(--white); color: var(--ink);
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all .25s ease;
+  }
+  .assess-card .begin-btn:hover { background: var(--gold); transform: translateY(-2px); }
+
+  /* === Doctor section ========================================== */
+  .doctor { padding: 100px 0; background: var(--paper); }
+  .doctor-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center; }
+  @media (max-width: 880px) { .doctor-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .doctor-photo {
+    aspect-ratio: 4/5;
+    background:
+      linear-gradient(180deg, rgba(28,43,48,0) 50%, rgba(28,43,48,0.4) 100%),
+      url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&auto=format&fit=crop&q=85');
+    background-size: cover; background-position: center;
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 30px 60px -24px rgba(28,43,48,0.4);
+  }
+  .doctor-photo .stamp {
+    position: absolute; bottom: 24px; left: 24px;
+    background: var(--white);
+    padding: 16px 22px;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px -10px rgba(28,43,48,0.3);
+  }
+  .doctor-photo .stamp .nm { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.005em; }
+  .doctor-photo .stamp .rl { font-size: 12px; color: var(--teal-d); margin-top: 4px; letter-spacing: 0.06em; font-weight: 700; text-transform: uppercase; }
+  .doctor-side h2 em { font-style: italic; color: var(--teal); }
+  .doctor-side p { margin-top: 18px; max-width: 50ch; }
+  .creds-grid { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 540px) { .creds-grid { grid-template-columns: 1fr; } }
+  .cred-cell {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 20px 22px;
+    border-radius: 10px;
+  }
+  .cred-cell .num { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 28px; color: var(--teal); line-height: 1; letter-spacing: -0.02em; }
+  .cred-cell .t { font-size: 13px; color: var(--char); margin-top: 8px; line-height: 1.5; font-weight: 500; }
+
+  /* === Services (4-card grid like Michigan TMJ) ================ */
+  .services { padding: 100px 0; background: var(--white); }
+  .services-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .services-head h2 em { font-style: italic; color: var(--teal); }
+  .services-head p { margin-top: 14px; color: var(--char); font-size: 17px; }
+
+  .svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media (max-width: 980px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .svc-grid { grid-template-columns: 1fr; } }
   .svc {
     background: var(--white);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     transition: all .35s ease;
     cursor: pointer;
     display: flex; flex-direction: column;
   }
-  .svc:hover { transform: translateY(-4px); border-color: var(--plum); box-shadow: 0 20px 40px -20px rgba(90,31,71,0.2); }
-  .svc .img { aspect-ratio: 16/10; background-size: cover; background-position: center; border-bottom: 1px solid var(--line); }
-  .svc.s1 .img { background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=900&auto=format&fit=crop&q=85'); }
-  .svc.s2 .img { background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=900&auto=format&fit=crop&q=85'); }
-  .svc.s3 .img { background-image: url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=900&auto=format&fit=crop&q=85'); }
-  .svc.s4 .img { background-image: url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=900&auto=format&fit=crop&q=85'); }
-  .svc.s5 .img { background-image: url('https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=900&auto=format&fit=crop&q=85'); }
-  .svc.s6 .img { background-image: url('https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=900&auto=format&fit=crop&q=85'); }
-  .svc .body { padding: 24px 26px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .svc .cat { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--coral-d); }
-  .svc h3 { font-family: 'Inter Tight', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; }
+  .svc:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 16px 32px -16px rgba(15,163,163,0.3); }
+  .svc .top {
+    aspect-ratio: 16/10;
+    background: var(--soft);
+    display: grid; place-items: center;
+    color: var(--teal);
+    font-size: 56px;
+    font-weight: 800;
+    border-bottom: 1px solid var(--line);
+  }
+  .svc.s1 .top { background: linear-gradient(135deg, #E8F4F4 0%, #C8E8E8 100%); }
+  .svc.s2 .top { background: linear-gradient(135deg, #F4ECF5 0%, #E2C8E2 100%); color: var(--plum); }
+  .svc.s3 .top { background: linear-gradient(135deg, #FBE7DC 0%, #F2C5A8 100%); color: var(--coral); }
+  .svc.s4 .top { background: linear-gradient(135deg, #FBF1D8 0%, #F2DD9F 100%); color: var(--gold); }
+  .svc .body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .svc h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
   .svc p { font-size: 14px; line-height: 1.55; color: var(--char); }
   .svc .more {
     margin-top: auto; padding-top: 14px;
-    font-family: 'Inter', sans-serif;
-    font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em;
-    color: var(--plum);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--teal);
     display: inline-flex; align-items: center; gap: 6px;
   }
 
-  /* === Doctor section ========================================== */
-  .doctor { padding: 120px 0; background: var(--white); }
-  .doctor-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
-  @media (max-width: 880px) { .doctor-grid { grid-template-columns: 1fr; gap: 40px; } }
-  .doctor-photo {
-    aspect-ratio: 4/5;
-    background: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1200&auto=format&fit=crop&q=85');
-    background-size: cover; background-position: center;
-    border-radius: 12px;
-    position: relative;
-    box-shadow: 0 30px 70px -30px rgba(31,21,48,0.3);
-  }
-  .doctor-photo .credentials-card {
-    position: absolute; bottom: 24px; right: -32px;
-    background: var(--plum); color: var(--white);
-    padding: 24px 28px;
-    border-radius: 10px;
-    box-shadow: 0 20px 40px -20px rgba(90,31,71,0.4);
-    max-width: 280px;
-  }
-  @media (max-width: 880px) { .doctor-photo .credentials-card { right: 24px; bottom: 24px; max-width: none; } }
-  .credentials-card .label-c { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-  .credentials-card .name { font-family: 'Inter Tight', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; }
-  .credentials-card .role { font-size: 12.5px; color: rgba(255,255,255,0.85); margin-top: 4px; letter-spacing: 0.04em; }
-  .doctor-side h2 em { font-style: italic; color: var(--plum); }
-  .doctor-side p { margin-top: 20px; max-width: 52ch; }
-  .creds-row { margin-top: 36px; display: grid; gap: 12px; }
-  .cred-item { display: grid; grid-template-columns: 32px 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: start; }
-  .cred-item:last-child { border-bottom: 0; }
-  .cred-item .ic {
-    width: 32px; height: 32px;
-    background: var(--soft);
-    color: var(--plum);
-    border-radius: 50%;
-    display: grid; place-items: center;
-    font-size: 13px; font-weight: 700;
-  }
-  .cred-item .text { font-size: 14.5px; color: var(--char); line-height: 1.5; }
-  .cred-item .text strong { color: var(--ink); font-weight: 700; }
-
-  /* === Patient testimonials =================================== */
-  .testimonials { padding: 120px 0; background: var(--paper); }
+  /* === Testimonials ============================================ */
+  .testimonials { padding: 100px 0; background: var(--paper); border-top: 1px solid var(--line); }
   .test-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
-  .test-head h2 em { font-style: italic; color: var(--plum); }
+  .test-head h2 em { font-style: italic; color: var(--teal); }
   .test-head .rating { display: inline-flex; align-items: center; gap: 12px; margin-top: 20px; }
-  .test-head .stars { color: var(--coral); font-size: 24px; letter-spacing: 3px; }
-  .test-head .rating-num { font-family: 'Inter Tight', sans-serif; font-size: 28px; font-weight: 700; color: var(--ink); }
-  .test-head .rating-count { font-size: 14px; color: var(--mute); }
+  .test-head .stars { color: var(--gold); font-size: 24px; letter-spacing: 3px; }
+  .test-head .rating-num { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 800; color: var(--ink); }
+  .test-head .rating-count { font-size: 14px; color: var(--mute); font-weight: 500; }
 
   .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   @media (max-width: 880px) { .test-grid { grid-template-columns: 1fr; } }
@@ -303,102 +337,109 @@
     background: var(--white);
     border: 1px solid var(--line);
     padding: 32px 28px;
-    border-radius: 12px;
+    border-radius: 16px;
     display: flex; flex-direction: column; gap: 16px;
+    box-shadow: 0 4px 16px -8px rgba(28,43,48,0.06);
   }
-  .test .stars-row { color: var(--coral); font-size: 16px; letter-spacing: 2px; }
-  .test .quote { font-size: 15px; line-height: 1.65; color: var(--char); font-style: italic; }
-  .test .quote::before { content: '"'; color: var(--plum); font-weight: 700; }
-  .test .quote::after { content: '"'; color: var(--plum); font-weight: 700; }
+  .test .stars-row { color: var(--gold); font-size: 16px; letter-spacing: 2px; }
+  .test .quote { font-size: 15px; line-height: 1.65; color: var(--char); }
   .test .patient { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); display: flex; gap: 14px; align-items: center; }
   .test .avatar {
     width: 44px; height: 44px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--plum-l), var(--plum));
+    background: linear-gradient(135deg, var(--teal-l), var(--teal));
     color: var(--white);
     display: grid; place-items: center;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 700; font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800; font-size: 14px;
   }
-  .test .patient-info .name { font-family: 'Inter Tight', sans-serif; font-weight: 700; font-size: 14.5px; color: var(--ink); }
+  .test .patient-info .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14.5px; color: var(--ink); }
   .test .patient-info .meta { font-size: 12px; color: var(--mute); margin-top: 2px; }
 
-  /* === Insurance & New Patient strip ========================== */
-  .new-patient { padding: 100px 0; background: var(--plum); color: var(--white); }
-  .np-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: center; }
-  @media (max-width: 880px) { .np-grid { grid-template-columns: 1fr; gap: 40px; } }
-  .np-grid h2 { color: var(--white); }
-  .np-grid h2 em { font-style: italic; color: var(--gold); }
-  .np-grid .left p { color: rgba(255,255,255,0.85); margin-top: 20px; max-width: 44ch; font-size: 16px; line-height: 1.65; }
-  .np-grid .left .pri-btn { background: var(--white); color: var(--plum); margin-top: 32px; box-shadow: none; }
-  .np-grid .left .pri-btn:hover { background: var(--paper); }
-
-  .np-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 540px) { .np-cards { grid-template-columns: 1fr; } }
-  .np-card {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 24px 22px;
-    border-radius: 10px;
-  }
-  .np-card .ic {
-    width: 40px; height: 40px; border-radius: 8px;
-    background: var(--gold); color: var(--plum);
+  /* === Contact form (Michigan TMJ has one mid-page) ============ */
+  .contact { padding: 100px 0; background: var(--white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .contact-side h2 em { font-style: italic; color: var(--teal); }
+  .contact-side p { margin-top: 18px; }
+  .contact-info { margin-top: 32px; display: grid; gap: 16px; }
+  .info-row { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: start; }
+  .info-row:last-child { border-bottom: 0; }
+  .info-row .ic {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--soft); color: var(--teal);
     display: grid; place-items: center;
-    font-weight: 800; font-size: 18px;
-    margin-bottom: 16px;
+    font-size: 18px; font-weight: 700;
   }
-  .np-card h4 { font-family: 'Inter Tight', sans-serif; font-size: 17px; font-weight: 700; }
-  .np-card p { font-size: 13.5px; color: rgba(255,255,255,0.78); margin-top: 8px; line-height: 1.55; }
+  .info-row .text .k { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-bottom: 4px; }
+  .info-row .text .v { font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700; }
+  .info-row .text .v em { font-style: italic; color: var(--teal); }
+  .info-row .text .sub { font-size: 13px; color: var(--char); margin-top: 2px; line-height: 1.5; }
 
-  /* === Visit / Schedule appointment =========================== */
-  .visit { padding: 120px 0; background: var(--white); }
-  .visit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  @media (max-width: 760px) { .visit-grid { grid-template-columns: 1fr; gap: 40px; } }
-  .visit h2 em { font-style: italic; color: var(--plum); }
-  .visit .addr-card {
+  .form-card {
     background: var(--paper);
     border: 1px solid var(--line);
-    padding: 36px 32px;
-    border-radius: 12px;
-    margin-top: 32px;
+    border-radius: 16px;
+    padding: 40px;
   }
-  .visit .addr-card .row { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: start; }
-  .visit .addr-card .row:last-child { border-bottom: 0; }
-  .visit .addr-card .ic {
-    width: 36px; height: 36px;
-    background: var(--white); color: var(--plum);
+  @media (max-width: 540px) { .form-card { padding: 24px; } }
+  .form-card h3 { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.015em; }
+  .form-card p { font-size: 14px; color: var(--char); margin-top: 6px; }
+  .form-fields { margin-top: 28px; display: grid; gap: 16px; }
+  .form-fields .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 540px) { .form-fields .row { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--char); }
+  .field input, .field select, .field textarea {
+    padding: 13px 16px;
+    background: var(--white);
+    border: 1px solid var(--line-2);
     border-radius: 8px;
-    display: grid; place-items: center;
-    font-weight: 800; font-size: 14px;
-    border: 1px solid var(--line);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    transition: border-color .2s ease, box-shadow .2s ease;
   }
-  .visit .addr-card .text .k { font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); font-weight: 600; }
-  .visit .addr-card .text .v { font-family: 'Inter Tight', sans-serif; font-size: 17px; font-weight: 600; margin-top: 4px; letter-spacing: -0.005em; }
-  .visit .addr-card .text .v em { font-style: italic; color: var(--plum); }
-  .visit .addr-card .text .sub { font-size: 13px; color: var(--char); margin-top: 4px; line-height: 1.5; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(15,163,163,0.15);
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .form-card .submit { width: 100%; margin-top: 16px; justify-content: center; }
 
-  .visit .schedule-card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    padding: 36px 32px;
-    border-radius: 12px;
-    margin-top: 32px;
+  /* === Insurance band ========================================== */
+  .insurance { padding: 80px 0; background: var(--ink); color: var(--white); }
+  .ins-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 56px; align-items: center; }
+  @media (max-width: 880px) { .ins-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .ins-grid h2 { color: var(--white); }
+  .ins-grid h2 em { font-style: italic; color: var(--gold); }
+  .ins-grid .left p { color: rgba(255,255,255,0.85); margin-top: 16px; line-height: 1.7; max-width: 44ch; }
+  .ins-logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 540px) { .ins-logos { grid-template-columns: repeat(2, 1fr); } }
+  .ins-logo {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 18px 14px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 13px;
+    color: var(--white);
+    transition: all .25s ease;
   }
-  .visit .schedule-card .pri-btn { width: 100%; justify-content: center; margin-top: 20px; }
-  .visit .schedule-card .insurance-note { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--char); line-height: 1.55; }
-  .visit .schedule-card .insurance-note strong { color: var(--plum); }
+  .ins-logo:hover { background: rgba(255,255,255,0.12); border-color: var(--gold); color: var(--gold); }
 
   /* === Footer ================================================== */
-  footer { background: var(--ink); color: var(--white); padding: 64px 0 36px; }
+  footer { background: var(--ink); color: var(--white); padding: 64px 0 36px; border-top: 1px solid rgba(255,255,255,0.10); }
   .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }
   @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
-  .foot-col h4 { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  .foot-col h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
   .foot-col p, .foot-col a { font-size: 14px; color: var(--white); line-height: 1.75; display: block; text-decoration: none; opacity: 0.78; }
-  .foot-col a:hover { color: var(--gold); opacity: 1; }
+  .foot-col a:hover { color: var(--teal-l); opacity: 1; }
   .foot-bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
   @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
-  .foot-logo { font-family: 'Inter Tight', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
-  .foot-logo em { font-style: italic; color: var(--gold); }
+  .foot-logo { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
+  .foot-logo em { font-style: italic; color: var(--teal-l); }
 </style>
 </head>
 <body>
@@ -417,7 +458,7 @@
       <span class="item">Most PPO insurance accepted</span>
       <span class="item">Same-day emergency care</span>
     </div>
-    <a href="tel:+12125550182" class="phone">📞 (212) 555-0182</a>
+    <a href="tel:+12125550182" class="phone">📞 Call Today! (212) 555-0182</a>
   </div>
 </div>
 
@@ -432,52 +473,62 @@
       </span>
       <span class="wm">
         <span class="name">Rook <em>&amp;</em> Well</span>
-        <span class="sub">Family, Cosmetic &amp; Restorative Dentistry</span>
+        <span class="sub">Family · Cosmetic · Restorative Dentistry</span>
       </span>
     </a>
     <div class="menu">
       <a href="#services">Services</a>
-      <a href="#doctor">Our team</a>
-      <a href="#testimonials">Patient reviews</a>
-      <a href="#visit">Visit</a>
-      <a href="#visit" class="appt-btn">Request appointment →</a>
+      <a href="#doctor">Meet Dr. Rooks</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="appt-btn">Request Appointment →</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO: text-centered, NO close-up teeth photo -->
 <section class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <span class="crest"><span class="dot"></span>New patient? We make it easy.</span>
-        <h1 class="display xl">Dentistry, done <em>well</em>.</h1>
-        <p class="lead">A boutique dental practice on Madison Avenue offering comprehensive care — preventive cleanings, family dentistry, cosmetic work, and restorative procedures. Most major PPO insurance accepted.</p>
-        <div class="hero-cta-row">
-          <a href="#visit" class="pri-btn">Request an appointment →</a>
-          <a href="#services" class="ghost-btn">See all services</a>
-        </div>
-        <div class="hero-trust">
-          <div class="item"><span class="ic">✓</span>Most PPO insurance accepted</div>
-          <div class="item"><span class="ic">✓</span>Same-day emergency care</div>
-          <div class="item"><span class="ic">✓</span>Open Saturdays</div>
-        </div>
-      </div>
+  <div class="hero-inner">
+    <span class="pre"><span class="dot"></span>Now offering FREE virtual consultations</span>
+    <h1 class="display xl">Start <em>Smiling</em> Again.</h1>
+    <p class="sub">Comprehensive dental care in the heart of Manhattan — preventive, cosmetic, and restorative. Most major PPO insurance accepted. Same-week appointments. Same-day care for existing-patient emergencies.</p>
+    <div class="hero-cta-row">
+      <a href="#contact" class="pri-btn">Request an appointment →</a>
+      <a href="tel:+12125550182" class="call-btn">📞 Call (212) 555-0182</a>
+    </div>
+  </div>
+</section>
 
-      <div class="hero-photo">
-        <span class="badge"><span class="stars">★★★★★</span> 5.0 · 480+ reviews</span>
-        <div class="rating-card">
-          <div>
-            <p class="quote">"<em>Honestly the best dental experience I've ever had.</em> They genuinely listen."</p>
-            <p class="src">— Sarah M. · Patient since 2022</p>
-          </div>
-          <div style="text-align: right;">
-            <p class="num">5.0★</p>
-            <p class="num-c">Google reviews</p>
-          </div>
-        </div>
+<!-- 3 value props -->
+<section class="props">
+  <div class="wrap">
+    <div class="props-grid">
+      <div class="prop">
+        <div class="ic">✓</div>
+        <h3>Sleep Better</h3>
+        <p>Sleep apnea, snoring, and oral airway treatment with custom appliances. Wake up rested, not sore.</p>
+      </div>
+      <div class="prop">
+        <div class="ic">✦</div>
+        <h3>Smile Better</h3>
+        <p>Cosmetic dentistry, Invisalign, veneers, and whitening — finished by hand in our on-site lab.</p>
+      </div>
+      <div class="prop">
+        <div class="ic">♡</div>
+        <h3>Live Better</h3>
+        <p>From routine cleanings to full-mouth reconstruction — your entire dental life under one roof.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- Approach band (the "TMJ Precision Approach™" equivalent) -->
+<section class="approach">
+  <div class="approach-inner">
+    <p class="label">The Rook &amp; Well approach<span class="tm">™</span></p>
+    <h2 class="display l" style="margin-top: 12px;">A <em>different kind</em> of dental visit.</h2>
+    <p>For twelve years we've been refining a simple idea: that dental care should feel calm, clear, and built around the patient — not the schedule. Every new patient gets a full comprehensive evaluation, a written treatment plan, and exactly zero pressure to move forward today.</p>
+    <a href="#contact" class="pri-btn">Schedule your visit →</a>
   </div>
 </section>
 
@@ -485,98 +536,50 @@
 <section class="process">
   <div class="wrap">
     <div class="process-head">
-      <p class="label">Our process</p>
-      <h2 class="display l" style="margin-top: 16px;">Three steps to your <em>next appointment</em>.</h2>
-      <p>We've designed the new-patient experience to be simple, transparent, and on your schedule.</p>
+      <p class="label">How it works</p>
+      <h2 class="display l" style="margin-top: 12px;">Three steps to your <em>next visit</em>.</h2>
+      <p>Simple. Transparent. On your schedule.</p>
     </div>
-    <div class="steps">
+    <div class="steps" style="margin-top: 56px;">
       <div class="step">
         <div class="num">1</div>
-        <h3>Request your <em>appointment</em></h3>
-        <p>Pick a time online or call the office. Most new patients are seen within a week. We verify your insurance benefits before you arrive — no surprises.</p>
-        <p class="time">~ 5 minutes</p>
+        <h3>Request appointment</h3>
+        <p>Pick a time online or call the office. We verify your insurance benefits before you arrive.</p>
       </div>
       <div class="step">
         <div class="num">2</div>
-        <h3>Your first <em>visit</em></h3>
-        <p>Comprehensive exam, digital x-rays, hygiene cleaning, and a personalized treatment plan. Dr. Rooks walks you through everything before any work is scheduled.</p>
-        <p class="time">~ 60–75 minutes</p>
+        <h3>Comprehensive exam</h3>
+        <p>Digital x-rays, hygiene cleaning, and a personalized treatment plan with Dr. Rooks.</p>
       </div>
       <div class="step">
         <div class="num">3</div>
-        <h3>Care that <em>fits your life</em></h3>
-        <p>Routine cleanings every six months, treatment as needed, and easy text reminders. You'll always know what's coming, what it costs, and why.</p>
-        <p class="time">Lifetime care</p>
+        <h3>Lifelong care</h3>
+        <p>Six-month cleanings, treatment as needed, text reminders. We do the remembering.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Services -->
-<section class="services" id="services">
+<!-- Assessment tools (Michigan TMJ signature) -->
+<section class="assess">
   <div class="wrap">
-    <div class="services-head">
-      <div>
-        <p class="label">Services</p>
-        <h2 class="display l" style="margin-top: 16px;">Comprehensive <em>dental care</em> for the whole family.</h2>
-      </div>
-      <p class="right">From routine cleanings to full-mouth reconstruction, every service is delivered in our single-floor Madison Avenue practice — by the same team you'll see every visit.</p>
+    <div class="assess-head">
+      <p class="label">Free self-assessments</p>
+      <h2 class="display l" style="margin-top: 12px;">Not sure where to <em>start</em>?</h2>
+      <p>Take a 60-second self-assessment to figure out what kind of visit makes sense.</p>
     </div>
-
-    <div class="service-grid">
-      <div class="svc s1">
-        <div class="img"></div>
-        <div class="body">
-          <p class="cat">Preventive</p>
-          <h3>Cleanings &amp; exams</h3>
-          <p>Routine hygiene visits, oral cancer screenings, periodontal evaluations, and personalized home-care guidance.</p>
-          <span class="more">Learn more →</span>
-        </div>
+    <div class="assess-grid">
+      <div class="assess-card">
+        <span class="badge">Smile Assessment</span>
+        <h3>How healthy is your smile?</h3>
+        <p>A 9-question self-evaluation covering tooth sensitivity, gum health, alignment, and aesthetic concerns. Get a personalized recommendation before you book.</p>
+        <a href="#" class="begin-btn">Begin Test →</a>
       </div>
-      <div class="svc s2">
-        <div class="img"></div>
-        <div class="body">
-          <p class="cat">Cosmetic</p>
-          <h3>Veneers &amp; smile design</h3>
-          <p>Custom porcelain veneers, smile makeovers, and composite bonding — finished by hand in our on-site lab.</p>
-          <span class="more">Learn more →</span>
-        </div>
-      </div>
-      <div class="svc s3">
-        <div class="img"></div>
-        <div class="body">
-          <p class="cat">Orthodontics</p>
-          <h3>Invisalign &amp; aligners</h3>
-          <p>Diamond-tier Invisalign provider. Clear aligners for adults and teens, planned around your face — not just your teeth.</p>
-          <span class="more">Learn more →</span>
-        </div>
-      </div>
-      <div class="svc s4">
-        <div class="img"></div>
-        <div class="body">
-          <p class="cat">Restorative</p>
-          <h3>Implants &amp; crowns</h3>
-          <p>Single-tooth and full-arch implant restoration, custom-milled crowns, bridges, and same-day temporaries.</p>
-          <span class="more">Learn more →</span>
-        </div>
-      </div>
-      <div class="svc s5">
-        <div class="img"></div>
-        <div class="body">
-          <p class="cat">Aesthetic</p>
-          <h3>Whitening</h3>
-          <p>In-office KöR deep bleaching protocol, take-home trays, and a maintenance regimen for long-lasting results.</p>
-          <span class="more">Learn more →</span>
-        </div>
-      </div>
-      <div class="svc s6">
-        <div class="img"></div>
-        <div class="body">
-          <p class="cat">Emergency</p>
-          <h3>Same-day emergency care</h3>
-          <p>Existing patients with dental pain, broken teeth, or lost restorations are seen the same day. Just call.</p>
-          <span class="more">Learn more →</span>
-        </div>
+      <div class="assess-card">
+        <span class="badge">Insurance Verifier</span>
+        <h3>Will my insurance cover this?</h3>
+        <p>Tell us your provider and we'll check your benefits before you make a decision. Real numbers, real coverage, no surprise bills.</p>
+        <a href="#" class="begin-btn">Verify Coverage →</a>
       </div>
     </div>
   </div>
@@ -587,38 +590,31 @@
   <div class="wrap">
     <div class="doctor-grid">
       <div class="doctor-photo">
-        <div class="credentials-card">
-          <p class="label-c">Lead practitioner</p>
-          <p class="name">Mira Rooks, DDS</p>
-          <p class="role">Founder · Cosmetic &amp; Restorative</p>
+        <div class="stamp">
+          <p class="nm">Mira Rooks, DDS</p>
+          <p class="rl">Founder · Lead Dentist</p>
         </div>
       </div>
       <div class="doctor-side">
         <p class="label">Meet Dr. Rooks</p>
-        <h2 class="display l" style="margin-top: 14px;">Twelve years of <em>careful work</em>.</h2>
-        <p class="lead">Dr. Mira Rooks founded Rook &amp; Well in 2014 after completing her DDS at the New York University College of Dentistry. Her training brought her to the lab as often as to the chair — every veneer and crown leaving her practice is finished by hand on-site.</p>
-        <p class="lead">She's been recognized as a New York Magazine Top Dentist for three consecutive years and is a Diamond-tier Invisalign provider — the top 1% nationally.</p>
-
-        <div class="creds-row">
-          <div class="cred-item">
-            <div class="ic">✓</div>
-            <div class="text"><strong>NYU College of Dentistry</strong> · Doctor of Dental Surgery, 2014</div>
+        <h2 class="display l" style="margin-top: 12px;">Twelve years of careful, <em>gentle dentistry</em>.</h2>
+        <p class="lead">Dr. Mira Rooks founded Rook &amp; Well in 2014 after completing her DDS at NYU. Her training brought her to the lab as often as the chair — every veneer and crown is finished by hand on-site. She and her team have been recognized as New York Magazine Top Dentists for three consecutive years.</p>
+        <div class="creds-grid">
+          <div class="cred-cell">
+            <p class="num">12 yrs</p>
+            <p class="t">Caring for Manhattan patients since 2014</p>
           </div>
-          <div class="cred-item">
-            <div class="ic">✓</div>
-            <div class="text"><strong>NYU Aesthetic Advantage</strong> · Continuum in cosmetic dentistry</div>
+          <div class="cred-cell">
+            <p class="num">3,400+</p>
+            <p class="t">Smiles transformed in the practice</p>
           </div>
-          <div class="cred-item">
-            <div class="ic">✓</div>
-            <div class="text"><strong>Kois Center</strong> · Advanced occlusion and full-mouth rehabilitation</div>
+          <div class="cred-cell">
+            <p class="num">Top 1%</p>
+            <p class="t">Diamond Invisalign provider by case volume</p>
           </div>
-          <div class="cred-item">
-            <div class="ic">★</div>
-            <div class="text"><strong>NY Magazine Top Dentist</strong> 2022, 2023, 2024 · Cosmetic Dentistry</div>
-          </div>
-          <div class="cred-item">
-            <div class="ic">◆</div>
-            <div class="text"><strong>Diamond Invisalign Provider</strong> · Top 1% by case volume</div>
+          <div class="cred-cell">
+            <p class="num">3×</p>
+            <p class="t">New York Magazine Top Dentist (2022–24)</p>
           </div>
         </div>
       </div>
@@ -626,12 +622,58 @@
   </div>
 </section>
 
-<!-- Patient testimonials -->
+<!-- Services: 4-card grid like Michigan TMJ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="services-head">
+      <p class="label">Our services</p>
+      <h2 class="display l" style="margin-top: 12px;">Comprehensive care, <em>all under one roof</em>.</h2>
+      <p>From routine cleanings to full smile makeovers, you'll see the same team every visit.</p>
+    </div>
+
+    <div class="svc-grid">
+      <div class="svc s1">
+        <div class="top">✓</div>
+        <div class="body">
+          <h3>Preventive care</h3>
+          <p>Cleanings, exams, fluoride, sealants, oral cancer screenings, and periodontal evaluations.</p>
+          <span class="more">Learn more →</span>
+        </div>
+      </div>
+      <div class="svc s2">
+        <div class="top">✦</div>
+        <div class="body">
+          <h3>Cosmetic dentistry</h3>
+          <p>Porcelain veneers, smile makeovers, composite bonding, gum contouring, in-office whitening.</p>
+          <span class="more">Learn more →</span>
+        </div>
+      </div>
+      <div class="svc s3">
+        <div class="top">◐</div>
+        <div class="body">
+          <h3>Invisalign &amp; orthodontics</h3>
+          <p>Diamond-tier Invisalign provider. Clear aligners for adults and teens. Free consultation.</p>
+          <span class="more">Learn more →</span>
+        </div>
+      </div>
+      <div class="svc s4">
+        <div class="top">⊕</div>
+        <div class="body">
+          <h3>Restorative &amp; emergencies</h3>
+          <p>Implants, crowns, bridges, root canals, and same-day emergency care for existing patients.</p>
+          <span class="more">Learn more →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
 <section class="testimonials" id="testimonials">
   <div class="wrap">
     <div class="test-head">
       <p class="label">What patients say</p>
-      <h2 class="display l" style="margin-top: 16px;">Real <em>reviews</em> from real patients.</h2>
+      <h2 class="display l" style="margin-top: 12px;">Real <em>reviews</em>, real patients.</h2>
       <div class="rating">
         <span class="stars">★★★★★</span>
         <span class="rating-num">5.0</span>
@@ -642,7 +684,7 @@
     <div class="test-grid">
       <div class="test">
         <div class="stars-row">★★★★★</div>
-        <p class="quote">Honestly the best dental experience I've ever had. The team is warm, the office is gorgeous, and Dr. Rooks actually listens. I drive in from Brooklyn for my cleanings and it's worth it.</p>
+        <p class="quote">"Honestly the best dental experience I've ever had. The team is warm, the office is gorgeous, and Dr. Rooks actually listens. I drive in from Brooklyn for my cleanings and it's worth it."</p>
         <div class="patient">
           <div class="avatar">SM</div>
           <div class="patient-info">
@@ -653,7 +695,7 @@
       </div>
       <div class="test">
         <div class="stars-row">★★★★★</div>
-        <p class="quote">I was terrified of dentists for fifteen years. Dr. Rooks did my Invisalign and four veneers and somehow made the whole thing feel calm. My smile is the best it has ever looked.</p>
+        <p class="quote">"I was terrified of dentists for fifteen years. Dr. Rooks did my Invisalign and four veneers and somehow made the whole thing feel calm. My smile is the best it has ever looked."</p>
         <div class="patient">
           <div class="avatar">DK</div>
           <div class="patient-info">
@@ -664,7 +706,7 @@
       </div>
       <div class="test">
         <div class="stars-row">★★★★★</div>
-        <p class="quote">My whole family comes here — me, my husband, and our two kids. The staff treats my kids like they're nieces and nephews. Never had a single bad visit in six years.</p>
+        <p class="quote">"My whole family comes here — me, my husband, and our two kids. The staff treats my kids like they're nieces and nephews. Never had a single bad visit in six years."</p>
         <div class="patient">
           <div class="avatar">RH</div>
           <div class="patient-info">
@@ -677,88 +719,114 @@
   </div>
 </section>
 
-<!-- Insurance / new patient info (purple band) -->
-<section class="new-patient">
+<!-- Contact form -->
+<section class="contact" id="contact">
   <div class="wrap">
-    <div class="np-grid">
-      <div class="left">
-        <p class="label" style="color: var(--gold);">Insurance &amp; new patients</p>
-        <h2 class="display l" style="margin-top: 14px;">No insurance hurdles. <em>No surprise bills</em>.</h2>
-        <p>We accept most major PPO plans (Delta Dental, Cigna, MetLife, Aetna, Guardian, United Concordia). We verify your benefits before your first visit and walk you through exactly what's covered and what isn't — in writing, before any work begins.</p>
-        <a href="#visit" class="pri-btn">Verify my insurance →</a>
+    <div class="contact-grid">
+      <div class="contact-side">
+        <p class="label">Got questions?</p>
+        <h2 class="display l" style="margin-top: 12px;">Let's <em>talk</em>.</h2>
+        <p class="lead">Tell us what you're looking for and we'll get back to you the same business day. Most new patients are scheduled within a week.</p>
+        <div class="contact-info">
+          <div class="info-row">
+            <div class="ic">📍</div>
+            <div class="text">
+              <p class="k">Visit</p>
+              <p class="v">1009 Madison Ave, Fl 4 · <em>NY 10075</em></p>
+              <p class="sub">Between East 77th and 78th · 5 min walk from 6 train</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="ic">📞</div>
+            <div class="text">
+              <p class="k">Call</p>
+              <p class="v"><em>(212) 555-0182</em></p>
+              <p class="sub">Existing-patient emergencies routed 24/7</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="ic">⏱</div>
+            <div class="text">
+              <p class="k">Hours</p>
+              <p class="v">Mon – Thu · 8 – 6 · Fri · 8 – 4</p>
+              <p class="sub">Saturday by appointment · Closed Sunday</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="np-cards">
-        <div class="np-card">
-          <div class="ic">✓</div>
-          <h4>Insurance verified upfront</h4>
-          <p>We check your benefits before your appointment, not after.</p>
-        </div>
-        <div class="np-card">
-          <div class="ic">$</div>
-          <h4>Transparent pricing</h4>
-          <p>Written treatment plans. No "surprise out-of-network" bills.</p>
-        </div>
-        <div class="np-card">
-          <div class="ic">⊕</div>
-          <h4>Flexible payment</h4>
-          <p>0% financing through CareCredit. Major credit cards. HSA/FSA welcome.</p>
-        </div>
-        <div class="np-card">
-          <div class="ic">⏱</div>
-          <h4>Same-day emergencies</h4>
-          <p>Existing patients with dental pain seen the same day, every time.</p>
-        </div>
+      <div class="form-card">
+        <h3>Request an appointment</h3>
+        <p>We'll text or call back within one business hour.</p>
+        <form class="form-fields">
+          <div class="row">
+            <div class="field">
+              <label>First name</label>
+              <input type="text" placeholder="First name">
+            </div>
+            <div class="field">
+              <label>Last name</label>
+              <input type="text" placeholder="Last name">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label>Phone</label>
+              <input type="tel" placeholder="(___) ___-____">
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" placeholder="you@email.com">
+            </div>
+          </div>
+          <div class="field">
+            <label>I'm interested in</label>
+            <select>
+              <option>New patient cleaning &amp; exam</option>
+              <option>Cosmetic consultation (veneers, smile design)</option>
+              <option>Invisalign consultation</option>
+              <option>Implants or restorative work</option>
+              <option>Emergency care</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Best time to reach you</label>
+            <select>
+              <option>Morning (8am – noon)</option>
+              <option>Afternoon (noon – 4pm)</option>
+              <option>Early evening (4pm – 6pm)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Anything we should know?</label>
+            <textarea placeholder="Optional — share anything that would help us prep for your visit."></textarea>
+          </div>
+          <a href="#" class="pri-btn submit">Request appointment →</a>
+        </form>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Visit -->
-<section class="visit" id="visit">
+<!-- Insurance band -->
+<section class="insurance">
   <div class="wrap">
-    <div class="visit-grid">
-      <div>
-        <p class="label">Visit the practice</p>
-        <h2 class="display l" style="margin-top: 14px;">A single-floor practice on <em>Madison Avenue</em>.</h2>
-        <div class="addr-card">
-          <div class="row">
-            <div class="ic">📍</div>
-            <div class="text">
-              <p class="k">Address</p>
-              <p class="v">1009 Madison Avenue, Floor 4<br><em>New York, NY 10075</em></p>
-              <p class="sub">Between East 77th and 78th. 5-minute walk from the 6 train.</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="ic">⏱</div>
-            <div class="text">
-              <p class="k">Hours</p>
-              <p class="v">Mon – Thu · 8am – 6pm</p>
-              <p class="sub">Fri · 8am – 4pm · Sat by appointment · Closed Sun</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="ic">📞</div>
-            <div class="text">
-              <p class="k">Phone</p>
-              <p class="v"><em>(212) 555-0182</em></p>
-              <p class="sub">Existing patient emergencies routed 24/7.</p>
-            </div>
-          </div>
-        </div>
+    <div class="ins-grid">
+      <div class="left">
+        <p class="label" style="color: var(--gold);">Insurance</p>
+        <h2 class="display m" style="margin-top: 12px;">Most major <em>PPO insurance</em> accepted.</h2>
+        <p>We verify your benefits before your first visit and walk you through exactly what's covered — in writing — before any work begins.</p>
       </div>
-
-      <div>
-        <p class="label">Request an appointment</p>
-        <h2 class="display l" style="margin-top: 14px;">We'll see you <em>this week</em>.</h2>
-        <div class="schedule-card">
-          <p style="font-size: 15.5px; color: var(--char); line-height: 1.65;">New patients are typically scheduled within a week. Request an appointment online or call the office during business hours — we'll verify your insurance benefits and confirm a time that works.</p>
-          <a href="mailto:appointments@rookandwell.com" class="pri-btn">Request appointment →</a>
-          <div class="insurance-note">
-            <strong>Insurance:</strong> Delta Dental · Cigna · MetLife · Aetna · Guardian · United Concordia · BCBS · most PPOs. Don't see yours? Call — we likely accept it.
-          </div>
-        </div>
+      <div class="ins-logos">
+        <a class="ins-logo">Delta Dental</a>
+        <a class="ins-logo">Cigna</a>
+        <a class="ins-logo">MetLife</a>
+        <a class="ins-logo">Aetna</a>
+        <a class="ins-logo">Guardian</a>
+        <a class="ins-logo">United Concordia</a>
+        <a class="ins-logo">BCBS</a>
+        <a class="ins-logo">+ More</a>
       </div>
     </div>
   </div>
@@ -770,12 +838,12 @@
     <div class="foot-grid">
       <div class="foot-col">
         <p class="foot-logo">Rook <em>&amp;</em> Well</p>
-        <p style="margin-top: 14px;">Family, cosmetic &amp; restorative dentistry on Madison Avenue. Accepting new patients · Most PPO insurance.</p>
+        <p style="margin-top: 14px;">Family, cosmetic &amp; restorative dentistry on Madison Avenue. Accepting new patients · Most PPO insurance accepted.</p>
       </div>
       <div class="foot-col">
         <h4>Services</h4>
-        <a href="#">Cleanings &amp; exams</a>
-        <a href="#">Veneers &amp; smile design</a>
+        <a href="#">Preventive care</a>
+        <a href="#">Cosmetic dentistry</a>
         <a href="#">Invisalign</a>
         <a href="#">Implants &amp; crowns</a>
         <a href="#">Emergency care</a>
@@ -789,7 +857,7 @@
       </div>
       <div class="foot-col">
         <h4>Contact</h4>
-        <a href="#">1009 Madison Ave, Floor 4</a>
+        <a href="#">1009 Madison Ave, Fl 4</a>
         <a href="tel:+12125550182">(212) 555-0182</a>
         <a href="mailto:appointments@rookandwell.com">appointments@rookandwell.com</a>
       </div>
