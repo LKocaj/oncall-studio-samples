@@ -10,19 +10,25 @@
 <style>
   :root {
     --white:     #FFFFFF;
-    --paper:     #F7FAFB;
-    --soft:      #E8F4F4;
-    --ink:       #1C2B30;
-    --char:      #3C4C52;
-    --mute:      #6E7D83;
-    --teal:      #2C3FB2;          /* royal blue primary (Michigan TMJ) */
-    --teal-d:    #1E2E8F;
-    --teal-l:    #6E7DD8;
-    --plum:      #7A2E9C;          /* purple accent (Living/wordmark) */
-    --coral:     #D9388A;          /* magenta/pink CTA */
-    --gold:      #F0B848;
-    --line:      rgba(28,43,48,0.08);
-    --line-2:    rgba(28,43,48,0.16);
+    --paper:     #F5F6FA;
+    --soft:      #EEF0FA;
+    --ink:       #1B1F3B;
+    --char:      #3A3E5B;
+    --mute:      #6E7390;
+
+    --blue:      #2C3FB2;          /* primary headline/wordmark blue */
+    --blue-d:    #1F2E8F;
+    --blue-deep: #1B2680;          /* blue band background */
+
+    --purple:    #5E2F87;          /* PRIMARY CTA — all "Request Appointment" buttons */
+    --purple-d:  #441D67;
+    --purple-l:  #8B5BA8;
+
+    --pink:      #D81E5B;          /* accent for STEP labels, patient names, dot */
+    --pink-d:    #A8174A;
+
+    --line:      rgba(27,31,59,0.08);
+    --line-2:    rgba(27,31,59,0.16);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--white); color: var(--ink); }
@@ -34,429 +40,399 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  .display { font-family: 'Montserrat', sans-serif; font-weight: 800; line-height: 1.05; letter-spacing: -0.025em; }
+  .display { font-family: 'Montserrat', sans-serif; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--blue); }
   .xl { font-size: clamp(48px, 7vw, 96px); }
-  .l  { font-size: clamp(36px, 5vw, 64px); }
-  .m  { font-size: clamp(26px, 3.2vw, 42px); }
-  .italic { font-style: italic; font-weight: 700; color: var(--teal); }
+  .l  { font-size: clamp(36px, 5vw, 60px); }
+  .m  { font-size: clamp(26px, 3.2vw, 40px); }
+  .italic { font-style: italic; font-weight: 700; color: var(--purple); }
 
-  .label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); }
-  .label.plum { color: var(--plum); }
-  .lead { font-size: clamp(17px, 1.4vw, 21px); line-height: 1.7; color: var(--char); max-width: 60ch; }
+  .label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--purple); }
+  .label.pink { color: var(--pink); }
+  .lead { font-size: clamp(17px, 1.4vw, 19px); line-height: 1.7; color: var(--char); }
   .mute { color: var(--mute); }
 
   .wrap { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
   @media (max-width: 760px) { .wrap { padding: 0 22px; } }
 
   /* === Concept disclosure ====================================== */
-  .concept-banner { background: var(--ink); color: var(--gold); padding: 9px 0; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
-  .concept-banner a { color: var(--gold); text-decoration: none; }
+  .concept-banner { background: var(--ink); color: #F0B848; padding: 9px 0; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
+  .concept-banner a { color: #F0B848; text-decoration: none; }
 
-  /* === Top utility ribbon ====================================== */
-  .util { background: var(--teal); color: var(--white); padding: 12px 0; font-size: 13px; font-weight: 500; }
-  .util .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
-  .util .left { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
-  .util .item { display: flex; gap: 8px; align-items: center; }
-  .util .item .ico { color: var(--gold); font-weight: 700; }
-  .util .phone { font-weight: 700; color: var(--white); text-decoration: none; letter-spacing: 0.02em; display: inline-flex; gap: 6px; align-items: center; }
-
-  /* === Nav ===================================================== */
-  nav.top { background: var(--white); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 0 rgba(28,43,48,0.04); }
-  nav.top .row { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+  /* === Nav (clean white, sticky) =============================== */
+  nav.top { background: var(--white); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; gap: 24px; }
 
   .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--ink); }
-  /* Bold M-style mark — diagonal stripes like Michigan TMJ logo */
-  .brand .mark {
-    width: 56px; height: 56px;
-    background: var(--white);
-    display: grid; place-items: center;
-    position: relative;
-  }
+  .brand .mark { width: 56px; height: 56px; display: grid; place-items: center; }
   .brand .mark svg { width: 56px; height: 56px; }
-  .brand .wm { display: flex; flex-direction: column; gap: 4px; }
-  .brand .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.005em; line-height: 1.1; color: var(--teal-d); }
-  .brand .name em { font-style: italic; color: var(--plum); font-weight: 800; }
-  .brand .sub { font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: 0; text-transform: none; color: var(--teal-d); line-height: 1.2; }
+  .brand .wm { display: flex; flex-direction: column; gap: 2px; }
+  .brand .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.005em; line-height: 1.1; color: var(--blue); }
+  .brand .name em { font-style: italic; color: var(--purple); font-weight: 800; }
+  .brand .sub { font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 11px; color: var(--blue-d); line-height: 1.2; }
   @media (max-width: 760px) { .brand .sub { display: none; } }
 
-  .menu { display: flex; gap: 28px; align-items: center; }
-  .menu a { font-family: 'Montserrat', sans-serif; font-size: 14px; color: var(--char); text-decoration: none; font-weight: 600; transition: color .2s ease; }
-  .menu a:hover { color: var(--teal); }
+  .menu { display: flex; gap: 24px; align-items: center; }
+  .menu a:not(.phone-btn):not(.doctors-btn) { font-family: 'Montserrat', sans-serif; font-size: 14px; color: var(--ink); text-decoration: none; font-weight: 600; transition: color .2s ease; display: inline-flex; align-items: center; gap: 4px; }
+  .menu a:not(.phone-btn):not(.doctors-btn):hover { color: var(--purple); }
+  .menu a:not(.phone-btn):not(.doctors-btn)::after { content: '▾'; font-size: 9px; opacity: 0.6; }
+  .menu a.no-arrow::after { display: none; }
+
   .menu a.phone-btn {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 14px 22px;
-    background: var(--plum) !important; color: #FFFFFF !important;
+    background: var(--purple) !important; color: #FFFFFF !important;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 800; font-size: 17px; letter-spacing: 0;
+    font-weight: 800; font-size: 16px; letter-spacing: 0;
     text-decoration: none;
     border-radius: 999px;
     transition: background .25s ease;
   }
-  .menu a.phone-btn:hover { background: #5E1F7C !important; color: #FFFFFF !important; }
+  .menu a.phone-btn:hover { background: var(--purple-d) !important; color: #FFFFFF !important; }
   .menu a.doctors-btn {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 13px 22px;
-    background: #FFFFFF !important; color: var(--teal-d) !important;
-    border: 2px solid var(--teal) !important;
+    background: #FFFFFF !important; color: var(--purple) !important;
+    border: 2px solid var(--purple) !important;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700; font-size: 14px; letter-spacing: 0.02em;
+    font-weight: 700; font-size: 14px;
     text-decoration: none;
     border-radius: 999px;
     transition: all .25s ease;
   }
   .menu a.doctors-btn:hover { background: var(--soft) !important; }
-  @media (max-width: 980px) { .menu a:not(.phone-btn):not(.doctors-btn) { display: none; } }
+  @media (max-width: 1100px) { .menu a:not(.phone-btn):not(.doctors-btn) { display: none; } }
 
-  /* === HERO: SPLIT — text left, smiling patient photo right === */
-  .hero { padding: 80px 0; position: relative; background: var(--white); overflow: hidden; }
-  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1320px; margin: 0 auto; padding: 0 48px; }
-  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; padding: 0 22px; } }
+  /* === HERO: split with smiling patient photo on right ========= */
+  .hero { padding: 60px 0 40px; background: var(--white); overflow: hidden; position: relative; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } }
   .hero-text { padding-right: 32px; }
   @media (max-width: 980px) { .hero-text { padding-right: 0; text-align: center; } }
-  .hero .pre {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 8px 18px;
-    background: var(--soft); color: var(--teal-d);
-    border-radius: 999px;
-    font-family: 'Montserrat', sans-serif; font-weight: 700;
-    font-size: 12px; letter-spacing: 0.06em;
+
+  .hero .brand-big {
+    font-family: 'Montserrat', sans-serif; font-weight: 800;
+    font-size: clamp(36px, 5.5vw, 72px);
+    color: var(--blue);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
   }
-  .hero .pre .dot { width: 7px; height: 7px; background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 4px rgba(217,56,138,0.18); }
-  .hero h1 { margin-top: 32px; color: var(--teal-d); font-size: clamp(56px, 8vw, 116px); line-height: 0.95; }
-  .hero h1 em { font-style: italic; color: var(--plum); font-family: 'Montserrat', sans-serif; font-weight: 800; }
-  .hero .sub { margin-top: 28px; max-width: 50ch; font-size: clamp(18px, 1.5vw, 24px); color: var(--teal-d); font-weight: 600; line-height: 1.5; }
-  @media (max-width: 980px) { .hero .sub { margin-left: auto; margin-right: auto; } }
+  .hero .brand-big em { font-style: italic; color: var(--purple); font-weight: 800; }
+  .hero .brand-sub { font-size: clamp(18px, 2vw, 28px); color: var(--blue); font-weight: 600; margin-bottom: 32px; }
+
+  .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--blue); font-size: clamp(56px, 8vw, 100px); line-height: 0.95; letter-spacing: -0.025em; margin-top: 24px; }
+  .hero h1 em { font-style: italic; font-weight: 700; color: var(--purple); font-family: 'Montserrat', sans-serif; }
+  .hero .virtual { margin-top: 28px; font-size: clamp(20px, 1.8vw, 28px); color: var(--blue); font-weight: 600; line-height: 1.4; }
+  .hero .virtual strong { color: var(--purple); font-weight: 800; font-style: italic; }
   .hero-cta-row { display: flex; gap: 14px; margin-top: 40px; align-items: center; flex-wrap: wrap; }
   @media (max-width: 980px) { .hero-cta-row { justify-content: center; } }
+
+  .pri-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 36px;
+    background: var(--purple); color: var(--white);
+    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all .25s ease;
+  }
+  .pri-btn:hover { background: var(--purple-d); transform: translateY(-2px); }
+
+  .out-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 32px;
+    background: var(--white); color: var(--purple);
+    border: 2px solid var(--purple);
+    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all .25s ease;
+  }
+  .out-btn:hover { background: var(--purple); color: var(--white); }
 
   .hero-photo {
     aspect-ratio: 4/5;
     background:
-      url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&auto=format&fit=crop&q=85');
+      url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1400&auto=format&fit=crop&q=85');
     background-size: cover;
     background-position: center top;
-    border-radius: 0;
-    position: relative;
   }
   @media (max-width: 980px) { .hero-photo { max-width: 480px; margin: 0 auto; aspect-ratio: 1/1; } }
-  .pri-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 18px 36px;
-    background: var(--coral); color: var(--white);
-    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
-    text-decoration: none;
-    border-radius: 999px;
-    box-shadow: 0 12px 32px -10px rgba(217,56,138,0.5);
-    transition: all .25s ease;
-  }
-  .pri-btn:hover { background: var(--coral-d); transform: translateY(-2px); }
-  .call-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 18px 32px;
-    background: var(--white); color: var(--teal-d);
-    border: 2px solid var(--teal);
-    font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
-    text-decoration: none;
-    border-radius: 999px;
-    transition: all .25s ease;
-  }
-  .call-btn:hover { background: var(--teal); color: var(--white); }
 
-  /* === 3 value props: SOLID BLUE BAND with white text =========== */
-  .props { padding: 56px 0; background: var(--teal); color: var(--white); }
-  .props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  /* === BLUE BAND: 3 value props ================================ */
+  .props { background: var(--blue-deep); color: var(--white); padding: 48px 0; }
+  .props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   @media (max-width: 880px) { .props-grid { grid-template-columns: 1fr; gap: 20px; } }
   .prop { text-align: center; padding: 16px 24px; position: relative; }
-  .prop:not(:last-child)::after {
-    content: ''; position: absolute; top: 50%; right: 0; transform: translateY(-50%);
-    width: 1px; height: 40px; background: rgba(255,255,255,0.25);
-  }
+  .prop:not(:last-child)::after { content: ''; position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 1px; height: 40px; background: rgba(255,255,255,0.25); }
   @media (max-width: 880px) { .prop::after { display: none; } }
   .prop h3 { font-family: 'Montserrat', sans-serif; font-size: clamp(24px, 2.6vw, 36px); font-weight: 800; letter-spacing: -0.015em; color: var(--white); line-height: 1.1; }
-  .prop p { font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,0.85); margin-top: 8px; max-width: 32ch; margin-left: auto; margin-right: auto; }
 
-  /* === Approach band (TMJ Precision Approach equivalent) ====== */
-  .approach { padding: 100px 0; background: var(--white); }
-  .approach-inner { max-width: 920px; margin: 0 auto; text-align: center; padding: 0 48px; }
-  @media (max-width: 760px) { .approach-inner { padding: 0 22px; } }
-  .approach .label { margin-bottom: 16px; }
-  .approach h2 em { font-style: italic; color: var(--teal); }
-  .approach p { font-size: 18px; color: var(--char); margin-top: 24px; line-height: 1.7; max-width: 60ch; margin-left: auto; margin-right: auto; }
-  .approach .tm { font-size: 12px; vertical-align: super; color: var(--teal); }
-  .approach .pri-btn { margin-top: 36px; }
+  /* === PRECISION APPROACH intro section ======================== */
+  .approach { padding: 110px 0 100px; text-align: center; background: var(--white); }
+  .approach .label { letter-spacing: 0.32em; }
+  .approach h2 { margin-top: 20px; }
+  .approach h2 em { font-style: italic; color: var(--purple); font-weight: 700; }
+  .approach p { margin: 32px auto 0; max-width: 70ch; font-size: 17px; line-height: 1.7; color: var(--char); }
+  .approach .cta-row { display: flex; gap: 14px; justify-content: center; margin-top: 40px; flex-wrap: wrap; }
+
+  /* === Doctor preview (split: photo left, copy right) ========== */
+  .doctor-preview { padding: 0 0 100px; background: var(--white); }
+  .dp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  @media (max-width: 880px) { .dp-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .dp-photo {
+    aspect-ratio: 4/3;
+    background: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&auto=format&fit=crop&q=85');
+    background-size: cover; background-position: center;
+    border-radius: 8px;
+  }
+  .dp-side h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: clamp(28px, 3.4vw, 44px); color: var(--blue); letter-spacing: -0.02em; line-height: 1.15; }
+  .dp-side h3 em { font-style: italic; color: var(--purple); }
+  .dp-side p { margin-top: 20px; font-size: 16px; color: var(--char); line-height: 1.7; max-width: 50ch; }
+  .dp-side .pri-btn { margin-top: 32px; }
 
   /* === 3-step process ========================================== */
-  .process { padding: 100px 0; background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .process-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
-  .process-head h2 em { font-style: italic; color: var(--teal); }
-  .process-head p { margin-top: 14px; color: var(--char); font-size: 17px; }
+  .process { padding: 100px 0; background: var(--paper); }
+  .process-head { text-align: center; max-width: 760px; margin: 0 auto 64px; }
+  .process-head h2 em { font-style: italic; color: var(--purple); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  @media (max-width: 880px) { .steps { grid-template-columns: 1fr; gap: 36px; } }
+  .step { display: flex; flex-direction: column; gap: 14px; }
+  .step .icon-wrap { width: 56px; height: 56px; color: var(--purple); }
+  .step .icon-wrap svg { width: 100%; height: 100%; stroke: var(--purple); fill: none; stroke-width: 1.4; }
+  .step .step-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pink); margin-top: 4px; }
+  .step h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 28px; color: var(--blue); letter-spacing: -0.015em; line-height: 1.15; }
+  .step h3 em { font-style: italic; color: var(--purple); }
+  .step p { font-size: 15px; color: var(--char); line-height: 1.65; max-width: 36ch; }
 
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; }
-  @media (max-width: 880px) { .steps { grid-template-columns: 1fr; } }
-  .step {
-    background: var(--white);
-    padding: 36px 28px;
-    border-radius: 16px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 4px 24px -8px rgba(28,43,48,0.08);
-    transition: all .35s ease;
-  }
-  .step:hover { transform: translateY(-4px); box-shadow: 0 12px 32px -8px rgba(15,163,163,0.2); }
-  .step .num {
-    position: absolute; top: -24px; left: 50%; transform: translateX(-50%);
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: var(--teal);
-    color: var(--white);
-    display: grid; place-items: center;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 800; font-size: 18px;
-    box-shadow: 0 8px 20px -4px rgba(15,163,163,0.5);
-  }
-  .step h3 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; margin-top: 20px; }
-  .step p { font-size: 14.5px; line-height: 1.6; color: var(--char); margin-top: 12px; }
+  /* === Approach #2 (Sleep / Insurance equivalent) ============== */
+  .approach-2 { padding: 100px 0; text-align: center; background: var(--white); }
+  .approach-2 .label { letter-spacing: 0.32em; }
+  .approach-2 h2 { margin-top: 20px; }
+  .approach-2 h2 em { font-style: italic; color: var(--purple); }
+  .approach-2 p { margin: 32px auto 0; max-width: 70ch; font-size: 17px; line-height: 1.7; color: var(--char); }
+  .approach-2 .cta-row { display: flex; gap: 14px; justify-content: center; margin-top: 40px; flex-wrap: wrap; }
 
-  /* === Assessment tool boxes (Epworth-style) =================== */
-  .assess { padding: 100px 0; background: var(--white); }
-  .assess-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
-  .assess-head h2 em { font-style: italic; color: var(--teal); }
-  .assess-head p { margin-top: 14px; color: var(--char); font-size: 17px; }
-
-  .assess-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  @media (max-width: 760px) { .assess-grid { grid-template-columns: 1fr; } }
-  .assess-card {
-    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
-    color: var(--white);
-    padding: 48px 40px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px -16px rgba(15,163,163,0.4);
-  }
-  .assess-card:nth-child(2) {
-    background: linear-gradient(135deg, var(--plum) 0%, #3F0F2D 100%);
-    box-shadow: 0 20px 40px -16px rgba(90,31,71,0.4);
-  }
-  .assess-card .badge {
-    display: inline-block;
-    padding: 5px 12px;
-    background: rgba(255,255,255,0.18);
-    color: var(--white);
-    border-radius: 999px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700; font-size: 11px; letter-spacing: 0.14em;
-    margin-bottom: 16px;
-  }
-  .assess-card h3 { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 800; line-height: 1.15; letter-spacing: -0.015em; }
-  .assess-card p { margin-top: 14px; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.92); }
-  .assess-card .begin-btn {
-    display: inline-flex; align-items: center; gap: 10px;
+  /* === Assessment BLUE BAND ==================================== */
+  .assess { padding: 80px 0; background: var(--blue-deep); color: var(--white); }
+  .assess-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  @media (max-width: 880px) { .assess-grid { grid-template-columns: 1fr; gap: 56px; } }
+  .a-card { display: grid; grid-template-columns: 88px 1fr; gap: 24px; align-items: start; color: var(--white); }
+  @media (max-width: 540px) { .a-card { grid-template-columns: 64px 1fr; gap: 16px; } }
+  .a-card .ic-box { width: 88px; height: 88px; }
+  .a-card .ic-box svg { width: 100%; height: 100%; fill: rgba(255,255,255,0.85); }
+  .a-card .copy h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.4; }
+  .a-card .copy h3 strong { font-weight: 800; }
+  .a-card .copy p { font-size: 15px; line-height: 1.6; margin-top: 4px; }
+  .a-card .copy .ghost-btn {
+    display: inline-flex; align-items: center; gap: 8px;
     margin-top: 24px;
     padding: 14px 28px;
-    background: var(--white); color: var(--ink);
+    background: transparent; color: var(--white);
+    border: 2px solid var(--white);
     font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px;
     text-decoration: none;
     border-radius: 999px;
     transition: all .25s ease;
   }
-  .assess-card .begin-btn:hover { background: var(--gold); transform: translateY(-2px); }
+  .a-card .copy .ghost-btn:hover { background: var(--white); color: var(--blue-deep); }
 
-  /* === Doctor section ========================================== */
-  .doctor { padding: 100px 0; background: var(--paper); }
-  .doctor-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center; }
+  /* === Doctor full section ===================================== */
+  .doctor { padding: 100px 0; background: var(--white); }
+  .doctor-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; }
   @media (max-width: 880px) { .doctor-grid { grid-template-columns: 1fr; gap: 40px; } }
   .doctor-photo {
-    aspect-ratio: 4/5;
-    background:
-      linear-gradient(180deg, rgba(28,43,48,0) 50%, rgba(28,43,48,0.4) 100%),
-      url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&auto=format&fit=crop&q=85');
+    aspect-ratio: 4/3;
+    background: url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1400&auto=format&fit=crop&q=85');
     background-size: cover; background-position: center;
-    border-radius: 16px;
-    position: relative;
-    box-shadow: 0 30px 60px -24px rgba(28,43,48,0.4);
-  }
-  .doctor-photo .stamp {
-    position: absolute; bottom: 24px; left: 24px;
-    background: var(--white);
-    padding: 16px 22px;
-    border-radius: 12px;
-    box-shadow: 0 12px 32px -10px rgba(28,43,48,0.3);
-  }
-  .doctor-photo .stamp .nm { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.005em; }
-  .doctor-photo .stamp .rl { font-size: 12px; color: var(--teal-d); margin-top: 4px; letter-spacing: 0.06em; font-weight: 700; text-transform: uppercase; }
-  .doctor-side h2 em { font-style: italic; color: var(--teal); }
-  .doctor-side p { margin-top: 18px; max-width: 50ch; }
-  .creds-grid { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 540px) { .creds-grid { grid-template-columns: 1fr; } }
-  .cred-cell {
-    background: var(--white);
-    border: 1px solid var(--line);
-    padding: 20px 22px;
-    border-radius: 10px;
-  }
-  .cred-cell .num { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 28px; color: var(--teal); line-height: 1; letter-spacing: -0.02em; }
-  .cred-cell .t { font-size: 13px; color: var(--char); margin-top: 8px; line-height: 1.5; font-weight: 500; }
-
-  /* === Services (4-card grid like Michigan TMJ) ================ */
-  .services { padding: 100px 0; background: var(--white); }
-  .services-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
-  .services-head h2 em { font-style: italic; color: var(--teal); }
-  .services-head p { margin-top: 14px; color: var(--char); font-size: 17px; }
-
-  .svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  @media (max-width: 980px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 540px) { .svc-grid { grid-template-columns: 1fr; } }
-  .svc {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: all .35s ease;
-    cursor: pointer;
-    display: flex; flex-direction: column;
-  }
-  .svc:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 16px 32px -16px rgba(15,163,163,0.3); }
-  .svc .top {
-    aspect-ratio: 16/10;
-    background: var(--soft);
-    display: grid; place-items: center;
-    color: var(--teal);
-    font-size: 56px;
-    font-weight: 800;
-    border-bottom: 1px solid var(--line);
-  }
-  .svc.s1 .top { background: linear-gradient(135deg, #E8F4F4 0%, #C8E8E8 100%); }
-  .svc.s2 .top { background: linear-gradient(135deg, #F4ECF5 0%, #E2C8E2 100%); color: var(--plum); }
-  .svc.s3 .top { background: linear-gradient(135deg, #FBE7DC 0%, #F2C5A8 100%); color: var(--coral); }
-  .svc.s4 .top { background: linear-gradient(135deg, #FBF1D8 0%, #F2DD9F 100%); color: var(--gold); }
-  .svc .body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .svc h3 { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
-  .svc p { font-size: 14px; line-height: 1.55; color: var(--char); }
-  .svc .more {
-    margin-top: auto; padding-top: 14px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
-    color: var(--teal);
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-
-  /* === Testimonials ============================================ */
-  .testimonials { padding: 100px 0; background: var(--paper); border-top: 1px solid var(--line); }
-  .test-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
-  .test-head h2 em { font-style: italic; color: var(--teal); }
-  .test-head .rating { display: inline-flex; align-items: center; gap: 12px; margin-top: 20px; }
-  .test-head .stars { color: var(--gold); font-size: 24px; letter-spacing: 3px; }
-  .test-head .rating-num { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 800; color: var(--ink); }
-  .test-head .rating-count { font-size: 14px; color: var(--mute); font-weight: 500; }
-
-  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  @media (max-width: 880px) { .test-grid { grid-template-columns: 1fr; } }
-  .test {
-    background: var(--white);
-    border: 1px solid var(--line);
-    padding: 32px 28px;
-    border-radius: 16px;
-    display: flex; flex-direction: column; gap: 16px;
-    box-shadow: 0 4px 16px -8px rgba(28,43,48,0.06);
-  }
-  .test .stars-row { color: var(--gold); font-size: 16px; letter-spacing: 2px; }
-  .test .quote { font-size: 15px; line-height: 1.65; color: var(--char); }
-  .test .patient { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); display: flex; gap: 14px; align-items: center; }
-  .test .avatar {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--teal-l), var(--teal));
-    color: var(--white);
-    display: grid; place-items: center;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 800; font-size: 14px;
-  }
-  .test .patient-info .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14.5px; color: var(--ink); }
-  .test .patient-info .meta { font-size: 12px; color: var(--mute); margin-top: 2px; }
-
-  /* === Contact form (Michigan TMJ has one mid-page) ============ */
-  .contact { padding: 100px 0; background: var(--white); }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
-  .contact-side h2 em { font-style: italic; color: var(--teal); }
-  .contact-side p { margin-top: 18px; }
-  .contact-info { margin-top: 32px; display: grid; gap: 16px; }
-  .info-row { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: start; }
-  .info-row:last-child { border-bottom: 0; }
-  .info-row .ic {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--soft); color: var(--teal);
-    display: grid; place-items: center;
-    font-size: 18px; font-weight: 700;
-  }
-  .info-row .text .k { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-bottom: 4px; }
-  .info-row .text .v { font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700; }
-  .info-row .text .v em { font-style: italic; color: var(--teal); }
-  .info-row .text .sub { font-size: 13px; color: var(--char); margin-top: 2px; line-height: 1.5; }
-
-  .form-card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 40px;
-  }
-  @media (max-width: 540px) { .form-card { padding: 24px; } }
-  .form-card h3 { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.015em; }
-  .form-card p { font-size: 14px; color: var(--char); margin-top: 6px; }
-  .form-fields { margin-top: 28px; display: grid; gap: 16px; }
-  .form-fields .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  @media (max-width: 540px) { .form-fields .row { grid-template-columns: 1fr; } }
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--char); }
-  .field input, .field select, .field textarea {
-    padding: 13px 16px;
-    background: var(--white);
-    border: 1px solid var(--line-2);
     border-radius: 8px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    color: var(--ink);
-    transition: border-color .2s ease, box-shadow .2s ease;
   }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    outline: none;
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px rgba(15,163,163,0.15);
-  }
-  .field textarea { resize: vertical; min-height: 80px; }
-  .form-card .submit { width: 100%; margin-top: 16px; justify-content: center; }
+  .doctor-side .label { color: var(--blue); letter-spacing: 0.18em; font-size: 16px; font-weight: 700; text-transform: none; }
+  .doctor-side h2 { margin-top: 8px; }
+  .doctor-side h2 em { font-style: italic; color: var(--purple); }
+  .doctor-side p { margin-top: 24px; font-size: 16px; line-height: 1.75; color: var(--char); max-width: 50ch; }
+  .doctor-side .cta-row { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
 
-  /* === Insurance band ========================================== */
-  .insurance { padding: 80px 0; background: var(--ink); color: var(--white); }
-  .ins-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 56px; align-items: center; }
-  @media (max-width: 880px) { .ins-grid { grid-template-columns: 1fr; gap: 32px; } }
-  .ins-grid h2 { color: var(--white); }
-  .ins-grid h2 em { font-style: italic; color: var(--gold); }
-  .ins-grid .left p { color: rgba(255,255,255,0.85); margin-top: 16px; line-height: 1.7; max-width: 44ch; }
-  .ins-logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  @media (max-width: 540px) { .ins-logos { grid-template-columns: repeat(2, 1fr); } }
-  .ins-logo {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 18px 14px;
-    border-radius: 10px;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700; font-size: 13px;
+  /* === Contact form on photo bg with blue overlay ============= */
+  .contact-form {
+    padding: 100px 0;
+    background:
+      linear-gradient(rgba(44,63,178,0.78), rgba(44,63,178,0.78)),
+      url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=2000&auto=format&fit=crop&q=85');
+    background-size: cover; background-position: center;
     color: var(--white);
+  }
+  .contact-form h2 { text-align: center; max-width: 32ch; margin: 0 auto; color: var(--white); }
+  .contact-form h2 em { font-style: italic; color: #FFFFFF; }
+  .form-fields { margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px 32px; }
+  @media (max-width: 880px) { .form-fields { grid-template-columns: 1fr; gap: 24px; } }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field-full { grid-column: 1 / -1; }
+  .field input, .field select, .field textarea {
+    padding: 12px 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid rgba(255,255,255,0.55);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: var(--white);
+  }
+  .field input::placeholder, .field select, .field textarea::placeholder { color: rgba(255,255,255,0.78); }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-bottom-color: var(--white); }
+  .field select option { color: var(--ink); }
+  .form-submit { text-align: center; margin-top: 48px; }
+  .form-submit .submit-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 56px;
+    background: transparent; color: var(--white);
+    border: 2px solid var(--white);
+    font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.22em;
+    text-decoration: none;
+    border-radius: 999px;
+    cursor: pointer;
     transition: all .25s ease;
   }
-  .ins-logo:hover { background: rgba(255,255,255,0.12); border-color: var(--gold); color: var(--gold); }
+  .form-submit .submit-btn:hover { background: var(--white); color: var(--purple); }
+
+  /* === Patient reviews ======================================== */
+  .reviews { padding: 100px 0; background: var(--white); }
+  .reviews-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+  .reviews-head h2 em { font-style: italic; color: var(--purple); }
+  .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  @media (max-width: 880px) { .review-grid { grid-template-columns: 1fr; gap: 36px; } }
+  .review { text-align: center; }
+  .review .open-quote { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 36px; color: var(--purple); line-height: 1; margin-bottom: 8px; }
+  .review .quote { font-size: 16.5px; line-height: 1.65; color: var(--char); max-width: 38ch; margin: 0 auto; }
+  .review .quote strong { font-weight: 700; color: var(--ink); }
+  .review .name { margin-top: 20px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px; color: var(--pink); font-style: italic; }
+  .reviews-cta { text-align: center; margin-top: 64px; }
+  .reviews-cta-row { display: inline-flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+  /* === Service cards: 4 photo cards with purple bottom strip === */
+  .services-cards { padding: 0 0 0; background: var(--white); }
+  .sc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  @media (max-width: 980px) { .sc-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .sc-grid { grid-template-columns: 1fr; } }
+  .sc-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    cursor: pointer;
+    background-size: cover; background-position: center;
+  }
+  .sc-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(94,47,135,0.55) 0%, rgba(44,63,178,0.55) 60%, rgba(94,47,135,0.95) 100%);
+    transition: opacity .35s ease;
+  }
+  .sc-card:hover::before { background: linear-gradient(180deg, rgba(94,47,135,0.40) 0%, rgba(44,63,178,0.50) 60%, rgba(94,47,135,0.95) 100%); }
+  .sc-card.s1 { background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1200&auto=format&fit=crop&q=85'); }
+  .sc-card.s2 { background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&auto=format&fit=crop&q=85'); }
+  .sc-card.s3 { background-image: url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&auto=format&fit=crop&q=85'); }
+  .sc-card.s4 { background-image: url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1200&auto=format&fit=crop&q=85'); }
+  .sc-card .strip {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+    background: var(--purple);
+    padding: 24px 24px;
+    text-align: center;
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: clamp(18px, 1.8vw, 24px);
+    letter-spacing: -0.005em;
+  }
+
+  /* === Treatment alternating sections ========================== */
+  .treatment { padding: 100px 0; background: var(--white); }
+  .treatment + .treatment { padding-top: 0; }
+  .t-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  @media (max-width: 880px) { .t-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .treatment.flip .t-grid > :first-child { order: 2; }
+  @media (max-width: 880px) { .treatment.flip .t-grid > :first-child { order: 0; } }
+
+  .t-photo {
+    aspect-ratio: 4/5;
+    border-radius: 12px;
+    position: relative; overflow: hidden;
+    background-size: cover; background-position: center;
+  }
+  .t-photo::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(94,47,135,0.45) 0%, rgba(216,30,91,0.30) 100%);
+  }
+  .t-photo.cosmetic { background-image: url('https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&auto=format&fit=crop&q=85'); }
+  .t-photo.invisalign { background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?w=1200&auto=format&fit=crop&q=85'); }
+
+  .treatment h2 em { font-style: italic; color: var(--purple); }
+  .treatment p { margin-top: 22px; font-size: 16px; color: var(--char); line-height: 1.75; max-width: 50ch; }
+  .faq { margin-top: 32px; }
+  .faq-item { padding: 18px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .faq-item .q { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 17px; color: var(--ink); }
+  .faq-item .chev { color: var(--pink); font-size: 18px; font-weight: 800; }
+  .treatment .cta-row { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
+
+  /* === Video band (blue) ======================================= */
+  .video-band { background: var(--blue-deep); padding: 80px 0; }
+  .vb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 880px) { .vb-grid { grid-template-columns: 1fr; } }
+  .vb-card {
+    background: linear-gradient(180deg, #FFFFFF 0%, #E8E5E5 100%);
+    aspect-ratio: 16/9;
+    border-radius: 6px;
+    position: relative;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 24px;
+  }
+  .vb-card .play {
+    width: 56px; height: 56px;
+    background: rgba(94,47,135,0.7);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--white);
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .vb-card .label-v { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 12px; color: var(--purple); letter-spacing: 0.18em; text-transform: uppercase; }
+  .vb-card .name-v { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: var(--blue); margin-top: 4px; }
+  .vb-card .info { font-size: 11px; color: var(--char); margin-top: 6px; line-height: 1.5; }
+  .vb-cta { text-align: center; margin-top: 48px; }
+  .vb-cta .out-btn { background: transparent; color: var(--white); border-color: var(--white); }
+  .vb-cta .out-btn:hover { background: var(--white); color: var(--purple); }
 
   /* === Footer ================================================== */
-  footer { background: var(--ink); color: var(--white); padding: 64px 0 36px; border-top: 1px solid rgba(255,255,255,0.10); }
-  .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }
-  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
-  .foot-col h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
-  .foot-col p, .foot-col a { font-size: 14px; color: var(--white); line-height: 1.75; display: block; text-decoration: none; opacity: 0.78; }
-  .foot-col a:hover { color: var(--teal-l); opacity: 1; }
-  .foot-bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
-  @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
-  .foot-logo { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
-  .foot-logo em { font-style: italic; color: var(--teal-l); }
+  footer { background: var(--white); padding: 80px 0 40px; border-top: 1px solid var(--line); }
+  .foot-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 64px; align-items: start; }
+  @media (max-width: 880px) { .foot-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; } }
+  .foot-brand .mark { width: 60px; height: 60px; }
+  .foot-brand .mark svg { width: 60px; height: 60px; }
+  .foot-brand .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 28px; color: var(--blue); letter-spacing: -0.01em; margin-top: 12px; }
+  .foot-brand .name em { font-style: italic; color: var(--purple); }
+  .foot-brand .sub { font-family: 'Open Sans', sans-serif; font-weight: 600; color: var(--blue-d); font-size: 13px; }
+  .foot-brand .phone-link { margin-top: 18px; display: block; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 22px; color: var(--purple); text-decoration: none; }
+  .foot-brand .socials { margin-top: 18px; display: flex; gap: 12px; justify-content: flex-start; }
+  @media (max-width: 880px) { .foot-brand .socials { justify-content: center; } }
+  .foot-brand .socials a {
+    width: 40px; height: 40px;
+    border: 2px solid var(--purple);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--purple);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all .2s ease;
+  }
+  .foot-brand .socials a:hover { background: var(--purple); color: var(--white); }
+  .foot-info h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; color: var(--blue); margin-bottom: 16px; }
+  .foot-info p { font-size: 15px; color: var(--char); line-height: 1.65; }
+  .foot-info p strong { font-weight: 700; color: var(--blue); }
+  .foot-info .pri-btn { margin-top: 24px; }
+
+  .foot-stories { background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%); padding: 40px 32px; border-radius: 12px; text-align: center; color: var(--white); }
+  .foot-stories .top { font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+  .foot-stories .big { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 32px; margin-top: 8px; }
+  .foot-stories .arrow { display: inline-block; margin-top: 16px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.04em; }
+
+  .foot-bottom { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); text-align: center; font-size: 12px; color: var(--mute); letter-spacing: 0.04em; }
 </style>
 </head>
 <body>
@@ -467,75 +443,82 @@
   &nbsp;·&nbsp; Design study by OnCall Automation Studio &nbsp;·&nbsp; Not a current client engagement
 </div>
 
-
 <!-- Nav -->
 <nav class="top">
   <div class="wrap row">
     <a href="#" class="brand">
       <span class="mark">
         <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-          <!-- Bold R&W "M-style" mark — diagonal stripes like Michigan TMJ -->
           <polygon points="0,52 12,4 22,4 14,52" fill="#2C3FB2"/>
-          <polygon points="14,52 26,4 36,4 24,52" fill="#7A2E9C"/>
-          <polygon points="24,52 36,4 46,4 34,52" fill="#D9388A"/>
+          <polygon points="14,52 26,4 36,4 24,52" fill="#5E2F87"/>
+          <polygon points="24,52 36,4 46,4 34,52" fill="#D81E5B"/>
         </svg>
       </span>
       <span class="wm">
         <span class="name">Rook <em>&amp;</em> Well</span>
-        <span class="sub">Family, Cosmetic &amp; Restorative Dentistry</span>
+        <span class="sub">for Cosmetic &amp; Family Dentistry</span>
       </span>
     </a>
     <div class="menu">
-      <a href="#doctor">About</a>
+      <a href="#about">About</a>
       <a href="#services">Services</a>
-      <a href="#testimonials">Reviews</a>
-      <a href="#contact">Contact</a>
+      <a href="#" class="no-arrow">Media</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact" class="no-arrow">Contact</a>
       <a href="tel:+12125550182" class="phone-btn">(212) 555-0182</a>
       <a href="#" class="doctors-btn">For Doctors</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO: split — text left, smiling patient photo right -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-text">
-      <span class="pre"><span class="dot"></span>We are now offering FREE virtual consults!</span>
-      <h1 class="display">Start <em>Smiling</em> Again.</h1>
-      <p class="sub">Comprehensive dental care in Manhattan — preventive, cosmetic, and restorative.</p>
-      <div class="hero-cta-row">
-        <a href="#contact" class="pri-btn">Request Appointment →</a>
-        <a href="tel:+12125550182" class="call-btn">📞 (212) 555-0182</a>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>Start <em>Smiling</em> Again!</h1>
+        <p class="virtual">We are now offering <strong>FREE</strong> virtual consults!</p>
+        <div class="hero-cta-row">
+          <a href="#contact" class="pri-btn">Request Appointment</a>
+          <a href="tel:+12125550182" class="out-btn">📞 Call Today!</a>
+        </div>
       </div>
+      <div class="hero-photo"></div>
     </div>
-    <div class="hero-photo"></div>
   </div>
 </section>
 
-<!-- 3 value props: SOLID BLUE BAND -->
+<!-- BLUE BAND: 3 value props -->
 <section class="props">
   <div class="wrap">
     <div class="props-grid">
-      <div class="prop">
-        <h3>Smile Better</h3>
-      </div>
-      <div class="prop">
-        <h3>Live Better</h3>
-      </div>
-      <div class="prop">
-        <h3>Transform Your Life</h3>
-      </div>
+      <div class="prop"><h3>Smile Better</h3></div>
+      <div class="prop"><h3>Live Better</h3></div>
+      <div class="prop"><h3>Transform Your Life</h3></div>
     </div>
   </div>
 </section>
 
-<!-- Approach band (the "TMJ Precision Approach™" equivalent) -->
-<section class="approach">
-  <div class="approach-inner">
-    <p class="label">The Rook &amp; Well approach<span class="tm">™</span></p>
-    <h2 class="display l" style="margin-top: 12px;">A <em>different kind</em> of dental visit.</h2>
-    <p>For twelve years we've been refining a simple idea: that dental care should feel calm, clear, and built around the patient — not the schedule. Every new patient gets a full comprehensive evaluation, a written treatment plan, and exactly zero pressure to move forward today.</p>
-    <a href="#contact" class="pri-btn">Schedule your visit →</a>
+<!-- PRECISION APPROACH intro -->
+<section class="approach" id="about">
+  <div class="wrap">
+    <p class="label">Cosmetic Precision Approach™</p>
+    <h2 class="display l">Transform Your Smile With <em>Dr. Mira Rooks</em></h2>
+    <p>Are you tired of dental visits that feel rushed or sales-driven? We understand. Dr. Mira Rooks has been working with patients for over 12 years, transforming their smiles with her proprietary technique, the COSMETIC PRECISION APPROACH™. Her approach to cosmetic dentistry surpasses others by focusing on the root cause of aesthetic concerns and using hand-finished ceramics to give each patient a result that looks like the smile they should have had. If you suffer from cracked, stained, or misaligned teeth, call the cosmetic expert, Dr. Rooks, at <strong style="color: var(--purple); font-weight: 800;">(212) 555-0182</strong>. Her unique and remarkable approach to dentistry has helped thousands; it can help you too.</p>
+  </div>
+</section>
+
+<!-- Doctor preview (split) -->
+<section class="doctor-preview">
+  <div class="wrap">
+    <div class="dp-grid">
+      <div class="dp-photo"></div>
+      <div class="dp-side">
+        <h3>Led by Dr. Rooks, our team stands as Manhattan's <em>leading authority</em> on cosmetic and restorative dentistry.</h3>
+        <p>With over 12 years of experience in successfully treating patients, Dr. Rooks and her team not only provide hand-finished aesthetic results but also educate other dentists and medical professionals in cutting-edge ceramic techniques. Let us help you find the smile you've been seeking — contact us today for an appointment.</p>
+        <a href="#contact" class="pri-btn">Request Appointment</a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -543,298 +526,294 @@
 <section class="process">
   <div class="wrap">
     <div class="process-head">
-      <p class="label">How it works</p>
-      <h2 class="display l" style="margin-top: 12px;">Three steps to your <em>next visit</em>.</h2>
-      <p>Simple. Transparent. On your schedule.</p>
+      <h2 class="display l">Your New Smile is Only <em>Three Steps Away</em></h2>
     </div>
-    <div class="steps" style="margin-top: 56px;">
+    <div class="steps">
       <div class="step">
-        <div class="num">1</div>
-        <h3>Request appointment</h3>
-        <p>Pick a time online or call the office. We verify your insurance benefits before you arrive.</p>
+        <div class="icon-wrap">
+          <svg viewBox="0 0 56 56">
+            <rect x="8" y="10" width="40" height="38" rx="3"/>
+            <line x1="8" y1="20" x2="48" y2="20"/>
+            <line x1="18" y1="6" x2="18" y2="14"/>
+            <line x1="38" y1="6" x2="38" y2="14"/>
+            <circle cx="20" cy="30" r="2" fill="#5E2F87" stroke="none"/>
+            <circle cx="28" cy="30" r="2" fill="#5E2F87" stroke="none"/>
+            <circle cx="36" cy="30" r="2" fill="#5E2F87" stroke="none"/>
+            <circle cx="20" cy="38" r="2" fill="#5E2F87" stroke="none"/>
+            <circle cx="28" cy="38" r="2" fill="#5E2F87" stroke="none"/>
+          </svg>
+        </div>
+        <p class="step-label">Step 1</p>
+        <h3>Make An <em>Appointment</em></h3>
+        <p><a href="#contact" style="color: var(--purple); text-decoration: underline; font-weight: 700;">Make an appointment</a> with Manhattan's #1 cosmetic and family dentistry team.</p>
       </div>
       <div class="step">
-        <div class="num">2</div>
-        <h3>Comprehensive exam</h3>
-        <p>Digital x-rays, hygiene cleaning, and a personalized treatment plan with Dr. Rooks.</p>
+        <div class="icon-wrap">
+          <svg viewBox="0 0 56 56">
+            <path d="M14 6 h22 l8 8 v36 a2 2 0 0 1 -2 2 h-28 a2 2 0 0 1 -2 -2 z"/>
+            <path d="M36 6 v8 h8"/>
+            <line x1="18" y1="24" x2="38" y2="24"/>
+            <line x1="18" y1="30" x2="38" y2="30"/>
+            <line x1="18" y1="36" x2="32" y2="36"/>
+          </svg>
+        </div>
+        <p class="step-label">Step 2</p>
+        <h3>Start Your <em>Treatment Journey</em></h3>
+        <p>Your journey begins with a comprehensive consultation and exam — and ends with the smile you've been waiting for.</p>
       </div>
       <div class="step">
-        <div class="num">3</div>
-        <h3>Lifelong care</h3>
-        <p>Six-month cleanings, treatment as needed, text reminders. We do the remembering.</p>
+        <div class="icon-wrap">
+          <svg viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="22"/>
+            <path d="M18 32 Q28 42 38 32"/>
+            <circle cx="22" cy="24" r="1.5" fill="#5E2F87" stroke="none"/>
+            <circle cx="34" cy="24" r="1.5" fill="#5E2F87" stroke="none"/>
+          </svg>
+        </div>
+        <p class="step-label">Step 3</p>
+        <h3>Start <em>Smiling Again!</em></h3>
+        <p>Live your life to the fullest, free of self-consciousness about your smile. A higher quality of life is closer than you think!</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Assessment tools (Michigan TMJ signature) -->
+<!-- Second approach: Insurance / family equivalent -->
+<section class="approach-2">
+  <div class="wrap">
+    <p class="label">Family Dentistry Precision Approach™</p>
+    <h2 class="display l">Comprehensive Care for the <em>Whole Family</em></h2>
+    <p>Routine dental care shouldn't feel like a battle with your insurance. We're an in-network provider for most major PPO plans — Delta Dental, Cigna, MetLife, Aetna, Guardian, United Concordia, and BCBS. We verify benefits before your visit, walk you through coverage in writing, and offer 0% financing through CareCredit for everything insurance doesn't cover. No surprise bills. Ever.</p>
+    <div class="cta-row">
+      <a href="#contact" class="pri-btn">Verify My Insurance</a>
+      <a href="#contact" class="out-btn">Request Appointment</a>
+    </div>
+  </div>
+</section>
+
+<!-- Assessment BLUE BAND -->
 <section class="assess">
   <div class="wrap">
-    <div class="assess-head">
-      <p class="label">Free self-assessments</p>
-      <h2 class="display l" style="margin-top: 12px;">Not sure where to <em>start</em>?</h2>
-      <p>Take a 60-second self-assessment to figure out what kind of visit makes sense.</p>
-    </div>
     <div class="assess-grid">
-      <div class="assess-card">
-        <span class="badge">Smile Assessment</span>
-        <h3>How healthy is your smile?</h3>
-        <p>A 9-question self-evaluation covering tooth sensitivity, gum health, alignment, and aesthetic concerns. Get a personalized recommendation before you book.</p>
-        <a href="#" class="begin-btn">Begin Test →</a>
+      <div class="a-card">
+        <div class="ic-box">
+          <svg viewBox="0 0 88 88">
+            <rect x="18" y="12" width="52" height="68" rx="3" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+            <rect x="32" y="4" width="24" height="14" rx="2" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+            <line x1="28" y1="34" x2="60" y2="34" stroke="#FFFFFF" stroke-width="2"/>
+            <line x1="28" y1="44" x2="60" y2="44" stroke="#FFFFFF" stroke-width="2"/>
+            <line x1="28" y1="54" x2="50" y2="54" stroke="#FFFFFF" stroke-width="2"/>
+            <line x1="28" y1="64" x2="60" y2="64" stroke="#FFFFFF" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="copy">
+          <h3><strong>The Smile Assessment</strong> is used to evaluate your aesthetic concerns and recommend the right cosmetic treatment plan.</h3>
+          <a href="#" class="ghost-btn">Begin Test</a>
+        </div>
       </div>
-      <div class="assess-card">
-        <span class="badge">Insurance Verifier</span>
-        <h3>Will my insurance cover this?</h3>
-        <p>Tell us your provider and we'll check your benefits before you make a decision. Real numbers, real coverage, no surprise bills.</p>
-        <a href="#" class="begin-btn">Verify Coverage →</a>
+      <div class="a-card">
+        <div class="ic-box">
+          <svg viewBox="0 0 88 88">
+            <rect x="18" y="12" width="52" height="68" rx="3" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+            <rect x="32" y="4" width="24" height="14" rx="2" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+            <circle cx="30" cy="34" r="2.5" fill="#FFFFFF"/>
+            <line x1="38" y1="34" x2="62" y2="34" stroke="#FFFFFF" stroke-width="2"/>
+            <circle cx="30" cy="44" r="2.5" fill="#FFFFFF"/>
+            <line x1="38" y1="44" x2="62" y2="44" stroke="#FFFFFF" stroke-width="2"/>
+            <circle cx="30" cy="54" r="2.5" fill="#FFFFFF"/>
+            <line x1="38" y1="54" x2="62" y2="54" stroke="#FFFFFF" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="copy">
+          <h3><strong>Our Insurance Verifier</strong> provides a quick check of your PPO benefits, including what's covered and what isn't, before you book.</h3>
+          <a href="#" class="ghost-btn">Verify Coverage</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Doctor -->
+<!-- Doctor full section -->
 <section class="doctor" id="doctor">
   <div class="wrap">
     <div class="doctor-grid">
-      <div class="doctor-photo">
-        <div class="stamp">
-          <p class="nm">Mira Rooks, DDS</p>
-          <p class="rl">Founder · Lead Dentist</p>
-        </div>
-      </div>
+      <div class="doctor-photo"></div>
       <div class="doctor-side">
-        <p class="label">Meet Dr. Rooks</p>
-        <h2 class="display l" style="margin-top: 12px;">Twelve years of careful, <em>gentle dentistry</em>.</h2>
-        <p class="lead">Dr. Mira Rooks founded Rook &amp; Well in 2014 after completing her DDS at NYU. Her training brought her to the lab as often as the chair — every veneer and crown is finished by hand on-site. She and her team have been recognized as New York Magazine Top Dentists for three consecutive years.</p>
-        <div class="creds-grid">
-          <div class="cred-cell">
-            <p class="num">12 yrs</p>
-            <p class="t">Caring for Manhattan patients since 2014</p>
-          </div>
-          <div class="cred-cell">
-            <p class="num">3,400+</p>
-            <p class="t">Smiles transformed in the practice</p>
-          </div>
-          <div class="cred-cell">
-            <p class="num">Top 1%</p>
-            <p class="t">Diamond Invisalign provider by case volume</p>
-          </div>
-          <div class="cred-cell">
-            <p class="num">3×</p>
-            <p class="t">New York Magazine Top Dentist (2022–24)</p>
-          </div>
+        <p class="label">Manhattan Cosmetic &amp; Family Dentist</p>
+        <h2 class="display l">Meet <em>Dr. Mira Rooks</em></h2>
+        <p>Dr. Mira Rooks is in the business of transforming lives and increasing her patients' confidence. Her passion for cosmetic and family dentistry is unparalleled in Manhattan. Her skill is time-tested and proven by her post-doctoral training, advanced ceramics work, progressive techniques, and hundreds of happy patients. If you're tired of feeling self-conscious about your smile, our team can help.</p>
+        <div class="cta-row">
+          <a href="#" class="pri-btn">Meet Dr. Rooks</a>
+          <a href="#contact" class="out-btn">Request Appointment</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Services: 4-card grid like Michigan TMJ -->
-<section class="services" id="services">
+<!-- Contact form on blue overlay -->
+<section class="contact-form" id="contact">
   <div class="wrap">
-    <div class="services-head">
-      <p class="label">Our services</p>
-      <h2 class="display l" style="margin-top: 12px;">Comprehensive care, <em>all under one roof</em>.</h2>
-      <p>From routine cleanings to full smile makeovers, you'll see the same team every visit.</p>
+    <h2 class="display l">Got dental questions? We'd <em>love to hear from you!</em></h2>
+    <form class="form-fields">
+      <div class="field"><input type="text" placeholder="Name"></div>
+      <div class="field"><input type="tel" placeholder="Phone"></div>
+      <div class="field"><input type="email" placeholder="Email"></div>
+      <div class="field">
+        <select>
+          <option>I am interested in...</option>
+          <option>New patient cleaning &amp; exam</option>
+          <option>Cosmetic consultation</option>
+          <option>Invisalign</option>
+          <option>Implants or restorative</option>
+          <option>Emergency care</option>
+        </select>
+      </div>
+      <div class="field">
+        <select>
+          <option>Preferred Call Back Time</option>
+          <option>Morning (8am – noon)</option>
+          <option>Afternoon (noon – 4pm)</option>
+          <option>Evening (4pm – 6pm)</option>
+        </select>
+      </div>
+      <div class="field"><input type="text" placeholder="Message"></div>
+    </form>
+    <div class="form-submit">
+      <button class="submit-btn">SUBMIT</button>
     </div>
+  </div>
+</section>
 
-    <div class="svc-grid">
-      <div class="svc s1">
-        <div class="top">✓</div>
-        <div class="body">
-          <h3>Preventive care</h3>
-          <p>Cleanings, exams, fluoride, sealants, oral cancer screenings, and periodontal evaluations.</p>
-          <span class="more">Learn more →</span>
-        </div>
+<!-- Patient reviews -->
+<section class="reviews" id="reviews">
+  <div class="wrap">
+    <div class="reviews-head">
+      <h2 class="display l">What Our Patients <em>Say About Us</em></h2>
+    </div>
+    <div class="review-grid">
+      <div class="review">
+        <p class="open-quote">"</p>
+        <p class="quote"><strong>My smile is completely transformed</strong> thanks to Rook &amp; Well. It was an easy process, everyone was extremely professional and helpful."</p>
+        <p class="name">– Anthony C.</p>
       </div>
-      <div class="svc s2">
-        <div class="top">✦</div>
-        <div class="body">
-          <h3>Cosmetic dentistry</h3>
-          <p>Porcelain veneers, smile makeovers, composite bonding, gum contouring, in-office whitening.</p>
-          <span class="more">Learn more →</span>
-        </div>
+      <div class="review">
+        <p class="open-quote">"</p>
+        <p class="quote"><strong>My Invisalign treatment improved my bite</strong>, reduced TMJ pain, and gave me the alignment I always wanted. Highly recommended."</p>
+        <p class="name">– Gene S.</p>
       </div>
-      <div class="svc s3">
-        <div class="top">◐</div>
-        <div class="body">
-          <h3>Invisalign &amp; orthodontics</h3>
-          <p>Diamond-tier Invisalign provider. Clear aligners for adults and teens. Free consultation.</p>
-          <span class="more">Learn more →</span>
-        </div>
+      <div class="review">
+        <p class="open-quote">"</p>
+        <p class="quote">Dr. Rooks and her assistant Rachel <strong>worked tirelessly to restore my natural bite</strong> and they can do the same for you. Don't suffer any longer — make an appointment."</p>
+        <p class="name">– Mike S.</p>
       </div>
-      <div class="svc s4">
-        <div class="top">⊕</div>
-        <div class="body">
-          <h3>Restorative &amp; emergencies</h3>
-          <p>Implants, crowns, bridges, root canals, and same-day emergency care for existing patients.</p>
-          <span class="more">Learn more →</span>
+    </div>
+    <div class="reviews-cta">
+      <div class="reviews-cta-row">
+        <a href="#" class="pri-btn">Read More Reviews</a>
+        <a href="#contact" class="out-btn">Request Appointment</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Service cards: 4 photo cards with purple bottom strip -->
+<section class="services-cards" id="services">
+  <div class="sc-grid">
+    <div class="sc-card s1">
+      <div class="strip">Cosmetic Dentistry</div>
+    </div>
+    <div class="sc-card s2">
+      <div class="strip">Invisalign &amp; Orthodontics</div>
+    </div>
+    <div class="sc-card s3">
+      <div class="strip">Implants &amp; Restorative</div>
+    </div>
+    <div class="sc-card s4">
+      <div class="strip">Family &amp; Preventive Care</div>
+    </div>
+  </div>
+</section>
+
+<!-- Treatment: Cosmetic -->
+<section class="treatment">
+  <div class="wrap">
+    <div class="t-grid">
+      <div class="t-photo cosmetic"></div>
+      <div>
+        <h2 class="display m">Improve Your Smile with <em>Cosmetic Dentistry</em></h2>
+        <p>Do you have cracked, stained, or misaligned teeth that make you self-conscious in photos? Cosmetic dentistry can be transformative when done right — and at Rook &amp; Well, we transform the smiles of patients who've spent years hiding theirs. We offer hand-finished porcelain veneers, smile makeovers, composite bonding, and in-office whitening — each finished in our on-site ceramics lab.</p>
+        <div class="faq">
+          <div class="faq-item">
+            <span class="q">What is a smile makeover?</span>
+            <span class="chev">▾</span>
+          </div>
+          <div class="faq-item">
+            <span class="q">How long do veneers last?</span>
+            <span class="chev">▾</span>
+          </div>
+        </div>
+        <div class="cta-row">
+          <a href="#" class="pri-btn">Cosmetic Dentistry</a>
+          <a href="#contact" class="out-btn">Request Appointment</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Testimonials -->
-<section class="testimonials" id="testimonials">
+<!-- Treatment: Invisalign (flipped) -->
+<section class="treatment flip">
   <div class="wrap">
-    <div class="test-head">
-      <p class="label">What patients say</p>
-      <h2 class="display l" style="margin-top: 12px;">Real <em>reviews</em>, real patients.</h2>
-      <div class="rating">
-        <span class="stars">★★★★★</span>
-        <span class="rating-num">5.0</span>
-        <span class="rating-count">across 480+ Google reviews</span>
-      </div>
-    </div>
-
-    <div class="test-grid">
-      <div class="test">
-        <div class="stars-row">★★★★★</div>
-        <p class="quote">"Honestly the best dental experience I've ever had. The team is warm, the office is gorgeous, and Dr. Rooks actually listens. I drive in from Brooklyn for my cleanings and it's worth it."</p>
-        <div class="patient">
-          <div class="avatar">SM</div>
-          <div class="patient-info">
-            <p class="name">Sarah M.</p>
-            <p class="meta">Patient since 2022 · Cosmetic + preventive</p>
+    <div class="t-grid">
+      <div>
+        <h2 class="display m">Improve Your Bite with <em>Invisalign Treatment</em></h2>
+        <p>Living with misaligned teeth can affect your confidence, your bite, and your long-term dental health. But at Rook &amp; Well, you matter. As a Diamond-tier Invisalign provider, we successfully treat adults and teens with custom clear aligners so you can start smiling again. Your treatment is planned around your face — not just your teeth.</p>
+        <div class="faq">
+          <div class="faq-item">
+            <span class="q">How long does Invisalign treatment take?</span>
+            <span class="chev">▾</span>
+          </div>
+          <div class="faq-item">
+            <span class="q">Is Invisalign covered by insurance?</span>
+            <span class="chev">▾</span>
           </div>
         </div>
-      </div>
-      <div class="test">
-        <div class="stars-row">★★★★★</div>
-        <p class="quote">"I was terrified of dentists for fifteen years. Dr. Rooks did my Invisalign and four veneers and somehow made the whole thing feel calm. My smile is the best it has ever looked."</p>
-        <div class="patient">
-          <div class="avatar">DK</div>
-          <div class="patient-info">
-            <p class="name">Daniel K.</p>
-            <p class="meta">Patient since 2023 · Invisalign + veneers</p>
-          </div>
+        <div class="cta-row">
+          <a href="#" class="pri-btn">Invisalign Treatment</a>
+          <a href="#contact" class="out-btn">Request Appointment</a>
         </div>
       </div>
-      <div class="test">
-        <div class="stars-row">★★★★★</div>
-        <p class="quote">"My whole family comes here — me, my husband, and our two kids. The staff treats my kids like they're nieces and nephews. Never had a single bad visit in six years."</p>
-        <div class="patient">
-          <div class="avatar">RH</div>
-          <div class="patient-info">
-            <p class="name">Rebecca H.</p>
-            <p class="meta">Patient since 2019 · Family dentistry</p>
-          </div>
-        </div>
-      </div>
+      <div class="t-photo invisalign"></div>
     </div>
   </div>
 </section>
 
-<!-- Contact form -->
-<section class="contact" id="contact">
+<!-- Video band -->
+<section class="video-band">
   <div class="wrap">
-    <div class="contact-grid">
-      <div class="contact-side">
-        <p class="label">Got questions?</p>
-        <h2 class="display l" style="margin-top: 12px;">Let's <em>talk</em>.</h2>
-        <p class="lead">Tell us what you're looking for and we'll get back to you the same business day. Most new patients are scheduled within a week.</p>
-        <div class="contact-info">
-          <div class="info-row">
-            <div class="ic">📍</div>
-            <div class="text">
-              <p class="k">Visit</p>
-              <p class="v">1009 Madison Ave, Fl 4 · <em>NY 10075</em></p>
-              <p class="sub">Between East 77th and 78th · 5 min walk from 6 train</p>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="ic">📞</div>
-            <div class="text">
-              <p class="k">Call</p>
-              <p class="v"><em>(212) 555-0182</em></p>
-              <p class="sub">Existing-patient emergencies routed 24/7</p>
-            </div>
-          </div>
-          <div class="info-row">
-            <div class="ic">⏱</div>
-            <div class="text">
-              <p class="k">Hours</p>
-              <p class="v">Mon – Thu · 8 – 6 · Fri · 8 – 4</p>
-              <p class="sub">Saturday by appointment · Closed Sunday</p>
-            </div>
-          </div>
-        </div>
+    <div class="vb-grid">
+      <div class="vb-card">
+        <div class="play">▶</div>
+        <p class="label-v">Get Smile Confidence!</p>
+        <p class="name-v">Rook &amp; Well · Cosmetic Dentistry</p>
+        <p class="info">(212) 555-0182<br>www.rookandwell.com<br>1009 Madison Ave Fl 4 | New York, NY 10075</p>
       </div>
-
-      <div class="form-card">
-        <h3>Request an appointment</h3>
-        <p>We'll text or call back within one business hour.</p>
-        <form class="form-fields">
-          <div class="row">
-            <div class="field">
-              <label>First name</label>
-              <input type="text" placeholder="First name">
-            </div>
-            <div class="field">
-              <label>Last name</label>
-              <input type="text" placeholder="Last name">
-            </div>
-          </div>
-          <div class="row">
-            <div class="field">
-              <label>Phone</label>
-              <input type="tel" placeholder="(___) ___-____">
-            </div>
-            <div class="field">
-              <label>Email</label>
-              <input type="email" placeholder="you@email.com">
-            </div>
-          </div>
-          <div class="field">
-            <label>I'm interested in</label>
-            <select>
-              <option>New patient cleaning &amp; exam</option>
-              <option>Cosmetic consultation (veneers, smile design)</option>
-              <option>Invisalign consultation</option>
-              <option>Implants or restorative work</option>
-              <option>Emergency care</option>
-              <option>Something else</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Best time to reach you</label>
-            <select>
-              <option>Morning (8am – noon)</option>
-              <option>Afternoon (noon – 4pm)</option>
-              <option>Early evening (4pm – 6pm)</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Anything we should know?</label>
-            <textarea placeholder="Optional — share anything that would help us prep for your visit."></textarea>
-          </div>
-          <a href="#" class="pri-btn submit">Request appointment →</a>
-        </form>
+      <div class="vb-card">
+        <div class="play">▶</div>
+        <p class="label-v">Invisalign &amp; Orthodontic Care</p>
+        <p class="name-v">Rook &amp; Well · Cosmetic Dentistry</p>
+        <p class="info">(212) 555-0182<br>www.rookandwell.com<br>1009 Madison Ave Fl 4 | New York, NY 10075</p>
+      </div>
+      <div class="vb-card">
+        <div class="play">▶</div>
+        <p class="label-v">Implant &amp; Restorative Care</p>
+        <p class="name-v">Rook &amp; Well · Cosmetic Dentistry</p>
+        <p class="info">(212) 555-0182<br>www.rookandwell.com<br>1009 Madison Ave Fl 4 | New York, NY 10075</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- Insurance band -->
-<section class="insurance">
-  <div class="wrap">
-    <div class="ins-grid">
-      <div class="left">
-        <p class="label" style="color: var(--gold);">Insurance</p>
-        <h2 class="display m" style="margin-top: 12px;">Most major <em>PPO insurance</em> accepted.</h2>
-        <p>We verify your benefits before your first visit and walk you through exactly what's covered — in writing — before any work begins.</p>
-      </div>
-      <div class="ins-logos">
-        <a class="ins-logo">Delta Dental</a>
-        <a class="ins-logo">Cigna</a>
-        <a class="ins-logo">MetLife</a>
-        <a class="ins-logo">Aetna</a>
-        <a class="ins-logo">Guardian</a>
-        <a class="ins-logo">United Concordia</a>
-        <a class="ins-logo">BCBS</a>
-        <a class="ins-logo">+ More</a>
-      </div>
+    <div class="vb-cta">
+      <a href="#" class="out-btn">More Videos</a>
     </div>
   </div>
 </section>
@@ -843,35 +822,40 @@
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-col">
-        <p class="foot-logo">Rook <em>&amp;</em> Well</p>
-        <p style="margin-top: 14px;">Family, cosmetic &amp; restorative dentistry on Madison Avenue. Accepting new patients · Most PPO insurance accepted.</p>
+      <div class="foot-brand">
+        <span class="mark">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,52 12,4 22,4 14,52" fill="#2C3FB2"/>
+            <polygon points="14,52 26,4 36,4 24,52" fill="#5E2F87"/>
+            <polygon points="24,52 36,4 46,4 34,52" fill="#D81E5B"/>
+          </svg>
+        </span>
+        <p class="name">Rook <em>&amp;</em> Well</p>
+        <p class="sub">for Cosmetic &amp; Family Dentistry</p>
+        <a href="tel:+12125550182" class="phone-link">(212) 555-0182</a>
+        <div class="socials">
+          <a href="#">f</a>
+          <a href="#">◐</a>
+          <a href="#">▶</a>
+          <a href="#">★</a>
+        </div>
       </div>
-      <div class="foot-col">
-        <h4>Services</h4>
-        <a href="#">Preventive care</a>
-        <a href="#">Cosmetic dentistry</a>
-        <a href="#">Invisalign</a>
-        <a href="#">Implants &amp; crowns</a>
-        <a href="#">Emergency care</a>
+      <div class="foot-info">
+        <h4>Hours &amp; location</h4>
+        <p><strong>Monday – Thursday</strong>  8am to 6pm<br><strong>Friday</strong>  8am to 4pm</p>
+        <p style="margin-top: 16px;"><strong>1009 Madison Avenue, Floor 4</strong><br>New York, NY 10075</p>
+        <a href="#contact" class="pri-btn">Request Appointment</a>
       </div>
-      <div class="foot-col">
-        <h4>Practice</h4>
-        <a href="#doctor">Meet Dr. Rooks</a>
-        <a href="#testimonials">Patient reviews</a>
-        <a href="#">Insurance &amp; financing</a>
-        <a href="#">New patient forms</a>
-      </div>
-      <div class="foot-col">
-        <h4>Contact</h4>
-        <a href="#">1009 Madison Ave, Fl 4</a>
-        <a href="tel:+12125550182">(212) 555-0182</a>
-        <a href="mailto:appointments@rookandwell.com">appointments@rookandwell.com</a>
+      <div>
+        <a href="#" class="foot-stories" style="text-decoration: none; display: block;">
+          <p class="top">Read some of our amazing</p>
+          <p class="big">Patient Stories</p>
+          <p class="arrow">→</p>
+        </a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Rook &amp; Well, PLLC · NYS License</span>
-      <span>HIPAA compliant · Patient privacy protected</span>
+      © 2026 Rook &amp; Well, PLLC · NYS License · HIPAA compliant
     </div>
   </div>
 </footer>
