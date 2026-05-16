@@ -15,11 +15,11 @@
     --ink:       #1C2B30;
     --char:      #3C4C52;
     --mute:      #6E7D83;
-    --teal:      #0FA3A3;          /* Michigan TMJ primary teal */
-    --teal-d:    #0A8585;
-    --teal-l:    #4FBEBE;
-    --plum:      #5A1F47;          /* secondary accent */
-    --coral:     #F08566;
+    --teal:      #2C3FB2;          /* royal blue primary (Michigan TMJ) */
+    --teal-d:    #1E2E8F;
+    --teal-l:    #6E7DD8;
+    --plum:      #7A2E9C;          /* purple accent (Living/wordmark) */
+    --coral:     #D9388A;          /* magenta/pink CTA */
     --gold:      #F0B848;
     --line:      rgba(28,43,48,0.08);
     --line-2:    rgba(28,43,48,0.16);
@@ -65,45 +65,54 @@
   nav.top .row { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
 
   .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--ink); }
+  /* Bold M-style mark — diagonal stripes like Michigan TMJ logo */
   .brand .mark {
-    width: 48px; height: 48px;
-    background: var(--teal);
-    border-radius: 50%;
+    width: 56px; height: 56px;
+    background: var(--white);
     display: grid; place-items: center;
     position: relative;
-    box-shadow: 0 8px 24px -6px rgba(15,163,163,0.5);
   }
-  .brand .mark svg { width: 26px; height: 26px; fill: var(--white); }
-  .brand .wm { display: flex; flex-direction: column; gap: 2px; }
-  .brand .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.01em; line-height: 1; color: var(--ink); }
-  .brand .name em { font-style: normal; color: var(--teal); }
-  .brand .sub { font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); }
+  .brand .mark svg { width: 56px; height: 56px; }
+  .brand .wm { display: flex; flex-direction: column; gap: 4px; }
+  .brand .name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.005em; line-height: 1.1; color: var(--teal-d); }
+  .brand .name em { font-style: italic; color: var(--plum); font-weight: 800; }
+  .brand .sub { font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: 0; text-transform: none; color: var(--teal-d); line-height: 1.2; }
   @media (max-width: 760px) { .brand .sub { display: none; } }
 
   .menu { display: flex; gap: 28px; align-items: center; }
   .menu a { font-family: 'Montserrat', sans-serif; font-size: 14px; color: var(--char); text-decoration: none; font-weight: 600; transition: color .2s ease; }
   .menu a:hover { color: var(--teal); }
-  .appt-btn {
+  .phone-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 13px 24px;
-    background: var(--teal); color: var(--white);
+    padding: 14px 22px;
+    background: var(--plum); color: var(--white);
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700; font-size: 13px; letter-spacing: 0.02em;
+    font-weight: 800; font-size: 17px; letter-spacing: 0;
     text-decoration: none;
     border-radius: 999px;
     transition: background .25s ease;
   }
-  .appt-btn:hover { background: var(--teal-d); }
-  @media (max-width: 980px) { .menu a:not(.appt-btn) { display: none; } }
-
-  /* === HERO: TEXT-CENTERED, NO BIG PHOTO ====================== */
-  .hero { padding: 100px 0 80px; text-align: center; position: relative; background: var(--white); }
-  .hero::before {
-    content: ''; position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse 1000px 600px at 50% 0%, rgba(15,163,163,0.08), transparent 70%);
+  .phone-btn:hover { background: #5E1F7C; }
+  .doctors-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 22px;
+    background: var(--white); color: var(--teal-d);
+    border: 2px solid var(--teal-l);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.02em;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all .25s ease;
   }
-  .hero-inner { position: relative; max-width: 980px; margin: 0 auto; padding: 0 48px; }
-  @media (max-width: 760px) { .hero-inner { padding: 0 22px; } }
+  .doctors-btn:hover { background: var(--soft); }
+  @media (max-width: 980px) { .menu a:not(.phone-btn):not(.doctors-btn) { display: none; } }
+
+  /* === HERO: SPLIT — text left, smiling patient photo right === */
+  .hero { padding: 80px 0; position: relative; background: var(--white); overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1320px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; padding: 0 22px; } }
+  .hero-text { padding-right: 32px; }
+  @media (max-width: 980px) { .hero-text { padding-right: 0; text-align: center; } }
   .hero .pre {
     display: inline-flex; align-items: center; gap: 10px;
     padding: 8px 18px;
@@ -112,22 +121,35 @@
     font-family: 'Montserrat', sans-serif; font-weight: 700;
     font-size: 12px; letter-spacing: 0.06em;
   }
-  .hero .pre .dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; box-shadow: 0 0 0 4px rgba(15,163,163,0.18); }
-  .hero h1 { margin-top: 32px; }
-  .hero h1 em { font-style: italic; color: var(--teal); }
-  .hero .sub { margin-top: 28px; max-width: 60ch; margin-left: auto; margin-right: auto; font-size: 19px; color: var(--char); line-height: 1.65; }
-  .hero-cta-row { display: flex; gap: 14px; margin-top: 40px; justify-content: center; align-items: center; flex-wrap: wrap; }
+  .hero .pre .dot { width: 7px; height: 7px; background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 4px rgba(217,56,138,0.18); }
+  .hero h1 { margin-top: 32px; color: var(--teal-d); font-size: clamp(56px, 8vw, 116px); line-height: 0.95; }
+  .hero h1 em { font-style: italic; color: var(--plum); font-family: 'Montserrat', sans-serif; font-weight: 800; }
+  .hero .sub { margin-top: 28px; max-width: 50ch; font-size: clamp(18px, 1.5vw, 24px); color: var(--teal-d); font-weight: 600; line-height: 1.5; }
+  @media (max-width: 980px) { .hero .sub { margin-left: auto; margin-right: auto; } }
+  .hero-cta-row { display: flex; gap: 14px; margin-top: 40px; align-items: center; flex-wrap: wrap; }
+  @media (max-width: 980px) { .hero-cta-row { justify-content: center; } }
+
+  .hero-photo {
+    aspect-ratio: 4/5;
+    background:
+      url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&auto=format&fit=crop&q=85');
+    background-size: cover;
+    background-position: center top;
+    border-radius: 0;
+    position: relative;
+  }
+  @media (max-width: 980px) { .hero-photo { max-width: 480px; margin: 0 auto; aspect-ratio: 1/1; } }
   .pri-btn {
     display: inline-flex; align-items: center; gap: 10px;
     padding: 18px 36px;
-    background: var(--teal); color: var(--white);
+    background: var(--coral); color: var(--white);
     font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
     text-decoration: none;
     border-radius: 999px;
-    box-shadow: 0 12px 32px -10px rgba(15,163,163,0.5);
+    box-shadow: 0 12px 32px -10px rgba(217,56,138,0.5);
     transition: all .25s ease;
   }
-  .pri-btn:hover { background: var(--teal-d); transform: translateY(-2px); }
+  .pri-btn:hover { background: var(--coral-d); transform: translateY(-2px); }
   .call-btn {
     display: inline-flex; align-items: center; gap: 10px;
     padding: 18px 32px;
@@ -140,23 +162,18 @@
   }
   .call-btn:hover { background: var(--teal); color: var(--white); }
 
-  /* === 3 value props (Sleep Better / Relieve Pain / Transform) === */
-  .props { padding: 80px 0; background: var(--paper); border-top: 1px solid var(--line); }
+  /* === 3 value props: SOLID BLUE BAND with white text =========== */
+  .props { padding: 56px 0; background: var(--teal); color: var(--white); }
   .props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  @media (max-width: 880px) { .props-grid { grid-template-columns: 1fr; } }
-  .prop { text-align: center; padding: 32px 24px; }
-  .prop .ic {
-    width: 72px; height: 72px;
-    background: var(--white);
-    border: 2px solid var(--teal);
-    border-radius: 50%;
-    display: grid; place-items: center;
-    margin: 0 auto 24px;
-    color: var(--teal);
-    font-size: 32px; font-weight: 800;
+  @media (max-width: 880px) { .props-grid { grid-template-columns: 1fr; gap: 20px; } }
+  .prop { text-align: center; padding: 16px 24px; position: relative; }
+  .prop:not(:last-child)::after {
+    content: ''; position: absolute; top: 50%; right: 0; transform: translateY(-50%);
+    width: 1px; height: 40px; background: rgba(255,255,255,0.25);
   }
-  .prop h3 { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); }
-  .prop p { font-size: 15px; line-height: 1.65; color: var(--char); margin-top: 12px; max-width: 32ch; margin-left: auto; margin-right: auto; }
+  @media (max-width: 880px) { .prop::after { display: none; } }
+  .prop h3 { font-family: 'Montserrat', sans-serif; font-size: clamp(24px, 2.6vw, 36px); font-weight: 800; letter-spacing: -0.015em; color: var(--white); line-height: 1.1; }
+  .prop p { font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,0.85); margin-top: 8px; max-width: 32ch; margin-left: auto; margin-right: auto; }
 
   /* === Approach band (TMJ Precision Approach equivalent) ====== */
   .approach { padding: 100px 0; background: var(--white); }
@@ -450,73 +467,63 @@
   &nbsp;·&nbsp; Design study by OnCall Automation Studio &nbsp;·&nbsp; Not a current client engagement
 </div>
 
-<!-- Top utility -->
-<div class="util">
-  <div class="wrap">
-    <div class="left">
-      <span class="item"><span class="ico">●</span>Accepting new patients</span>
-      <span class="item">Most PPO insurance accepted</span>
-      <span class="item">Same-day emergency care</span>
-    </div>
-    <a href="tel:+12125550182" class="phone">📞 Call Today! (212) 555-0182</a>
-  </div>
-</div>
 
 <!-- Nav -->
 <nav class="top">
   <div class="wrap row">
     <a href="#" class="brand">
       <span class="mark">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2c-2.2 0-4 1.4-4.6 3.4-.7-.2-1.5-.4-2.4-.4-2.2 0-4 1.8-4 4 0 3.5 1.5 6.3 2.5 9.5.7 2.2 1.4 5.5 3 5.5 1.5 0 1.8-2.5 2.5-4.5.5-1.5 1.2-2.5 3-2.5s2.5 1 3 2.5c.7 2 1 4.5 2.5 4.5 1.6 0 2.3-3.3 3-5.5 1-3.2 2.5-6 2.5-9.5 0-2.2-1.8-4-4-4-.9 0-1.7.2-2.4.4C16 3.4 14.2 2 12 2z"/>
+        <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bold R&W "M-style" mark — diagonal stripes like Michigan TMJ -->
+          <polygon points="0,52 12,4 22,4 14,52" fill="#2C3FB2"/>
+          <polygon points="14,52 26,4 36,4 24,52" fill="#7A2E9C"/>
+          <polygon points="24,52 36,4 46,4 34,52" fill="#D9388A"/>
         </svg>
       </span>
       <span class="wm">
         <span class="name">Rook <em>&amp;</em> Well</span>
-        <span class="sub">Family · Cosmetic · Restorative Dentistry</span>
+        <span class="sub">Family, Cosmetic &amp; Restorative Dentistry</span>
       </span>
     </a>
     <div class="menu">
+      <a href="#doctor">About</a>
       <a href="#services">Services</a>
-      <a href="#doctor">Meet Dr. Rooks</a>
       <a href="#testimonials">Reviews</a>
       <a href="#contact">Contact</a>
-      <a href="#contact" class="appt-btn">Request Appointment →</a>
+      <a href="tel:+12125550182" class="phone-btn">(212) 555-0182</a>
+      <a href="#" class="doctors-btn">For Doctors</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO: text-centered, NO close-up teeth photo -->
+<!-- HERO: split — text left, smiling patient photo right -->
 <section class="hero">
-  <div class="hero-inner">
-    <span class="pre"><span class="dot"></span>Now offering FREE virtual consultations</span>
-    <h1 class="display xl">Start <em>Smiling</em> Again.</h1>
-    <p class="sub">Comprehensive dental care in the heart of Manhattan — preventive, cosmetic, and restorative. Most major PPO insurance accepted. Same-week appointments. Same-day care for existing-patient emergencies.</p>
-    <div class="hero-cta-row">
-      <a href="#contact" class="pri-btn">Request an appointment →</a>
-      <a href="tel:+12125550182" class="call-btn">📞 Call (212) 555-0182</a>
+  <div class="hero-grid">
+    <div class="hero-text">
+      <span class="pre"><span class="dot"></span>We are now offering FREE virtual consults!</span>
+      <h1 class="display">Start <em>Smiling</em> Again.</h1>
+      <p class="sub">Comprehensive dental care in Manhattan — preventive, cosmetic, and restorative.</p>
+      <div class="hero-cta-row">
+        <a href="#contact" class="pri-btn">Request Appointment →</a>
+        <a href="tel:+12125550182" class="call-btn">📞 (212) 555-0182</a>
+      </div>
     </div>
+    <div class="hero-photo"></div>
   </div>
 </section>
 
-<!-- 3 value props -->
+<!-- 3 value props: SOLID BLUE BAND -->
 <section class="props">
   <div class="wrap">
     <div class="props-grid">
       <div class="prop">
-        <div class="ic">✓</div>
-        <h3>Sleep Better</h3>
-        <p>Sleep apnea, snoring, and oral airway treatment with custom appliances. Wake up rested, not sore.</p>
-      </div>
-      <div class="prop">
-        <div class="ic">✦</div>
         <h3>Smile Better</h3>
-        <p>Cosmetic dentistry, Invisalign, veneers, and whitening — finished by hand in our on-site lab.</p>
       </div>
       <div class="prop">
-        <div class="ic">♡</div>
         <h3>Live Better</h3>
-        <p>From routine cleanings to full-mouth reconstruction — your entire dental life under one roof.</p>
+      </div>
+      <div class="prop">
+        <h3>Transform Your Life</h3>
       </div>
     </div>
   </div>
