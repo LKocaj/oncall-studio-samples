@@ -82,29 +82,29 @@
   .menu { display: flex; gap: 28px; align-items: center; }
   .menu a { font-family: 'Montserrat', sans-serif; font-size: 14px; color: var(--char); text-decoration: none; font-weight: 600; transition: color .2s ease; }
   .menu a:hover { color: var(--teal); }
-  .phone-btn {
+  .menu a.phone-btn {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 14px 22px;
-    background: var(--plum); color: var(--white);
+    background: var(--plum) !important; color: #FFFFFF !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: 800; font-size: 17px; letter-spacing: 0;
     text-decoration: none;
     border-radius: 999px;
     transition: background .25s ease;
   }
-  .phone-btn:hover { background: #5E1F7C; }
-  .doctors-btn {
+  .menu a.phone-btn:hover { background: #5E1F7C !important; color: #FFFFFF !important; }
+  .menu a.doctors-btn {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 13px 22px;
-    background: var(--white); color: var(--teal-d);
-    border: 2px solid var(--teal-l);
+    background: #FFFFFF !important; color: var(--teal-d) !important;
+    border: 2px solid var(--teal) !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700; font-size: 14px; letter-spacing: 0.02em;
     text-decoration: none;
     border-radius: 999px;
     transition: all .25s ease;
   }
-  .doctors-btn:hover { background: var(--soft); }
+  .menu a.doctors-btn:hover { background: var(--soft) !important; }
   @media (max-width: 980px) { .menu a:not(.phone-btn):not(.doctors-btn) { display: none; } }
 
   /* === HERO: SPLIT — text left, smiling patient photo right === */
