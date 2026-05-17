@@ -3,532 +3,539 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HEMLOCK & HARE — Slow skincare from the Hudson Valley</title>
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=bespoke-serif@300,400,500&f[]=cabinet-grotesk@400,500,700&display=swap">
+<title>LATERAL CO. — Independent Label · Distributor · Publisher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@500;600;700;800;900&display=swap">
 <style>
   :root {
-    --bone:    #F4ECDC;
-    --paper:   #FAF4E6;
-    --milk:    #FDF9F0;
-    --moss:    #2F3D2E;
-    --moss-d:  #1E2A1E;
-    --char:    #2E342B;
-    --ink:     #161814;
-    --mute:    #7A7363;
-    --cobalt:  #1B2A5E;
-    --terra:   #B5572D;
-    --gold:    #B89668;
-    --line:    rgba(22,24,20,0.10);
+    --white:    #FFFFFF;
+    --paper:    #FAFAFA;
+    --soft:     #F2F2F2;
+    --gray:     #E8E8E8;
+    --gray-d:   #D4D4D4;
+    --ink:      #0A0A0A;
+    --char:     #2A2A2A;
+    --mute:     #6B6B6B;
+    --line:     rgba(10,10,10,0.08);
+    --line-2:   rgba(10,10,10,0.18);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--paper); color: var(--ink); }
+  html, body { background: var(--white); color: var(--ink); }
   body {
-    font-family: 'Cabinet Grotesk', -apple-system, sans-serif;
-    font-size: 16px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15px;
     line-height: 1.6;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  .serif { font-family: 'Bespoke Serif', Georgia, serif; }
-  .display { font-family: 'Bespoke Serif', Georgia, serif; font-weight: 400; line-height: 1.02; letter-spacing: -0.02em; }
-  .xl { font-size: clamp(56px, 9vw, 140px); font-weight: 400; }
-  .l  { font-size: clamp(36px, 5.4vw, 80px); font-weight: 400; }
-  .m  { font-size: clamp(26px, 3vw, 44px); font-weight: 400; }
-  .italic { font-style: italic; }
-
-  .label { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--moss); }
-  .lead { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.65; color: var(--char); max-width: 50ch; }
+  .display { font-family: 'Inter Tight', sans-serif; font-weight: 900; line-height: 0.85; letter-spacing: -0.04em; text-transform: uppercase; }
+  .xxl { font-size: clamp(80px, 14vw, 220px); }
+  .xl  { font-size: clamp(56px, 9vw, 144px); }
+  .l   { font-size: clamp(40px, 6vw, 88px); }
+  .label { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
   .mute { color: var(--mute); }
 
-  .wrap { max-width: 1340px; margin: 0 auto; padding: 0 40px; }
-  @media (max-width: 760px) { .wrap { padding: 0 20px; } }
+  .wrap { max-width: 1480px; margin: 0 auto; padding: 0 48px; }
+  @media (max-width: 760px) { .wrap { padding: 0 22px; } }
 
-  /* === Top notice =============================================== */
-  .topline { background: var(--moss); color: var(--bone); padding: 9px 0; font-size: 11.5px; letter-spacing: 0.24em; text-transform: uppercase; text-align: center; font-weight: 500; }
-  .topline span { padding: 0 8px; }
-  .topline .dot { color: var(--gold); }
+  /* === Concept disclosure ====================================== */
+  .concept-banner { background: var(--ink); color: rgba(255,255,255,0.6); padding: 9px 0; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .concept-banner a { color: rgba(255,255,255,0.85); text-decoration: none; }
 
-  /* === Nav ====================================================== */
-  nav.top { position: sticky; top: 0; z-index: 50; background: var(--paper); border-bottom: 1px solid var(--line); }
-  nav.top .row { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+  /* === Promo bar =============================================== */
+  .promo { background: var(--ink); color: var(--white); padding: 12px 0; text-align: center; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; }
 
-  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
-  .brand .mark {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: var(--moss);
-    color: var(--bone);
-    display: grid; place-items: center;
-    font-family: 'Bespoke Serif', serif;
-    font-style: italic;
-    font-size: 18px;
+  /* === Nav ===================================================== */
+  nav.top { background: var(--white); padding: 24px 0; position: sticky; top: 0; z-index: 50; }
+  nav.top .row { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .nav-left { display: flex; gap: 32px; align-items: center; }
+  .nav-left a { font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink); text-decoration: none; font-weight: 500; }
+  .nav-left a:hover { opacity: 0.6; }
+
+  .brand-mark {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    text-decoration: none;
   }
-  .brand .name { font-family: 'Bespoke Serif', serif; font-size: 22px; letter-spacing: 0.02em; }
-  .brand .name em { font-style: italic; color: var(--moss); padding: 0 0.06em; }
-
-  .menu { display: flex; gap: 32px; }
-  .menu a { font-size: 14px; color: var(--ink); text-decoration: none; transition: color .2s; }
-  .menu a:hover { color: var(--moss); }
-  .nav-right { display: flex; align-items: center; gap: 18px; }
-  .nav-icon { font-size: 18px; color: var(--ink); cursor: pointer; transition: color .2s; }
-  .nav-icon:hover { color: var(--moss); }
-  .cart-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1.5px solid var(--ink); border-radius: 999px; font-weight: 500; font-size: 13px; cursor: pointer; transition: all .2s ease; }
-  .cart-pill:hover { background: var(--ink); color: var(--paper); }
-  @media (max-width: 880px) { .menu { display: none; } }
-
-  /* === Hero ===================================================== */
-  .hero { padding: 56px 0 0; }
-  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
-
-  .hero-left h1 { margin-top: 28px; max-width: 12ch; line-height: 0.96; }
-  .hero-left h1 em { font-style: italic; color: var(--moss); }
-  .hero-left .lead { margin-top: 28px; }
-  .hero-cta { display: flex; gap: 16px; margin-top: 36px; align-items: center; flex-wrap: wrap; }
-  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 0; background: var(--ink); color: var(--paper); font-weight: 500; font-size: 14px; text-decoration: none; letter-spacing: 0.04em; transition: background .25s ease; }
-  .pill:hover { background: var(--moss); }
-  .ghost { font-weight: 500; font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 3px; }
-
-  .hero-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); }
-  .hero-meta .m-item .n { font-family: 'Bespoke Serif', serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em; color: var(--moss); }
-  .hero-meta .m-item .c { font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-top: 8px; font-weight: 500; }
-
-  /* Hero product card with image */
-  .hero-product {
+  .brand-mark .circle {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    display: grid; place-items: center;
     position: relative;
-    aspect-ratio: 4/5;
+  }
+  .brand-mark .circle svg { width: 28px; height: 28px; }
+  .brand-mark .word { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 9px; color: var(--ink); letter-spacing: 0.32em; text-align: center; margin-top: 6px; }
+
+  .nav-right { display: flex; gap: 28px; align-items: center; }
+  .nav-right a { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); text-decoration: none; font-weight: 500; }
+  .nav-right .cart { display: flex; align-items: center; gap: 6px; }
+  .nav-right .bag { width: 22px; height: 22px; }
+  .nav-right .count { font-weight: 700; }
+
+  /* === HERO: full-bleed artist photo ========================== */
+  .hero {
+    position: relative;
+    height: calc(100vh - 200px);
+    min-height: 720px;
     background:
-      linear-gradient(180deg, rgba(22,24,20,0) 0%, rgba(22,24,20,0.32) 100%),
-      url('https://images.unsplash.com/photo-1556228720-195a672e8a03?w=1400&auto=format&fit=crop&q=80');
-    background-size: cover;
-    background-position: center;
+      linear-gradient(180deg, rgba(10,10,10,0.10) 0%, rgba(10,10,10,0.20) 60%, rgba(10,10,10,0.55) 100%),
+      url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=2400&auto=format&fit=crop&q=85');
+    background-size: cover; background-position: center 20%;
     overflow: hidden;
   }
-  .hero-product .tag {
-    position: absolute; top: 24px; left: 24px;
-    padding: 7px 14px; background: var(--bone); color: var(--ink);
-    font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500;
-    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  .hero::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.08;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
-  .hero-product .product-card {
-    position: absolute; bottom: 24px; left: 24px; right: 24px;
-    background: var(--milk);
-    padding: 24px 28px;
-    display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+  .hero-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 96px; color: var(--white); text-align: center; }
+  .hero-content h1 { font-family: 'Inter Tight', sans-serif; font-weight: 900; font-size: clamp(80px, 13vw, 200px); letter-spacing: -0.04em; line-height: 0.9; color: var(--white); }
+  .hero-content .sub { font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(20px, 2.4vw, 32px); letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); margin-top: 12px; }
+  .hero-content .sub em { font-style: normal; }
+  .listen-btn {
+    margin-top: 36px;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 56px;
+    background: var(--white); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.02em;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all .25s ease;
   }
-  .product-card .stars { color: var(--gold); letter-spacing: 1.5px; font-size: 13px; }
-  .product-card .reviews { font-size: 12px; color: var(--mute); margin-top: 4px; }
-  .product-card .pname { font-family: 'Bespoke Serif', serif; font-size: 22px; line-height: 1.15; letter-spacing: -0.015em; margin-top: 8px; }
-  .product-card .pname em { font-style: italic; color: var(--moss); }
-  .product-card .pn { font-family: 'Bespoke Serif', serif; font-size: 32px; line-height: 1; color: var(--ink); letter-spacing: -0.02em; }
-  .product-card .pn-c { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-top: 6px; font-weight: 500; }
+  .listen-btn:hover { background: var(--soft); transform: translateY(-2px); }
 
-  /* === Ingredient strip ========================================= */
-  .ingredients { padding: 100px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 96px; }
-  .ing-head { text-align: center; max-width: 800px; margin: 0 auto 56px; }
-  .ing-head h2 em { font-style: italic; color: var(--moss); }
-  .ing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-  @media (max-width: 880px) { .ing-grid { grid-template-columns: repeat(2, 1fr); } }
-  .ing { text-align: center; }
-  .ing .icon {
-    width: 96px; height: 96px;
-    margin: 0 auto 20px;
-    border-radius: 50%;
-    background-size: cover; background-position: center;
-    border: 1px solid var(--line);
+  .hero-arrows { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 32px; pointer-events: none; }
+  .hero-arrow { color: var(--white); font-size: 32px; cursor: pointer; pointer-events: auto; opacity: 0.7; transition: opacity .2s ease; user-select: none; }
+  .hero-arrow:hover { opacity: 1; }
+
+  .hero-dots { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; }
+  .hero-dot { width: 8px; height: 2px; background: rgba(255,255,255,0.5); }
+  .hero-dot.active { background: var(--white); }
+
+  /* === Section with big header + filter pills ================= */
+  .big-section { padding: 120px 0 100px; }
+  .big-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; gap: 24px; }
+  @media (max-width: 760px) { .big-head { flex-direction: column; align-items: flex-start; } }
+  .big-head h2 { font-family: 'Inter Tight', sans-serif; font-weight: 900; font-size: clamp(56px, 10vw, 160px); letter-spacing: -0.045em; line-height: 0.85; color: var(--ink); text-transform: uppercase; }
+
+  .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .pill {
+    padding: 12px 22px;
+    border: 1.5px solid var(--ink);
+    background: var(--white); color: var(--ink);
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+    cursor: pointer;
+    transition: all .2s ease;
   }
-  .ing:nth-child(1) .icon { background-image: url('https://images.unsplash.com/photo-1571166050691-b3ae93a8f9f3?w=400&auto=format&fit=crop&q=80'); }
-  .ing:nth-child(2) .icon { background-image: url('https://images.unsplash.com/photo-1556760544-74068565f05c?w=400&auto=format&fit=crop&q=80'); }
-  .ing:nth-child(3) .icon { background-image: url('https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&auto=format&fit=crop&q=80'); }
-  .ing:nth-child(4) .icon { background-image: url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=400&auto=format&fit=crop&q=80'); }
-  .ing .latin { font-family: 'Bespoke Serif', serif; font-style: italic; font-size: 14px; color: var(--moss); margin-bottom: 6px; }
-  .ing .name { font-family: 'Bespoke Serif', serif; font-size: 19px; letter-spacing: -0.01em; }
-  .ing .desc { font-size: 13px; color: var(--char); margin-top: 8px; line-height: 1.5; max-width: 28ch; margin-inline: auto; }
+  .pill.active { background: var(--ink); color: var(--white); }
+  .pill:hover { background: var(--ink); color: var(--white); }
+  .pill.muted { border-color: var(--gray-d); color: var(--mute); }
+  .pill.muted:hover { border-color: var(--ink); background: var(--ink); color: var(--white); }
+  .pill.black-solid {
+    background: var(--ink); color: var(--white); border-color: var(--ink);
+    padding: 16px 32px; font-size: 14px;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .pill.black-solid:hover { background: var(--char); }
 
-  /* === Best sellers ============================================== */
-  .shop { padding: 140px 0; }
-  .shop-head { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; align-items: end; margin-bottom: 56px; }
-  @media (max-width: 760px) { .shop-head { grid-template-columns: 1fr; gap: 16px; } }
-  .shop-head h2 em { font-style: italic; color: var(--moss); }
-  .shop-head .view { font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; justify-self: end; align-self: end; font-weight: 500; }
-
-  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  @media (max-width: 880px) { .product-grid { grid-template-columns: 1fr; } }
+  /* === SHOP: product grid ===================================== */
+  .product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  @media (max-width: 1100px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
   .product {
-    background: var(--milk);
-    border: 1px solid var(--line);
-    transition: transform .35s ease, border-color .35s ease;
+    text-decoration: none; color: var(--ink);
+    display: flex; flex-direction: column;
+    transition: transform .25s ease;
     cursor: pointer;
   }
-  .product:hover { transform: translateY(-6px); border-color: var(--moss); }
-  .product .img {
-    aspect-ratio: 4/5;
-    background-size: cover; background-position: center;
-    border-bottom: 1px solid var(--line);
+  .product:hover { transform: translateY(-4px); }
+  .product .img-box {
+    aspect-ratio: 1/1;
+    background: var(--soft);
+    border-radius: 4px;
     position: relative;
+    overflow: hidden;
+    display: grid; place-items: center;
   }
-  .product.p1 .img { background-image: url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1000&auto=format&fit=crop&q=80'); }
-  .product.p2 .img { background-image: url('https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1000&auto=format&fit=crop&q=80'); }
-  .product.p3 .img { background-image: url('https://images.unsplash.com/photo-1612817288484-6f916006741a?w=1000&auto=format&fit=crop&q=80'); }
-  .product .img .badge { position: absolute; top: 16px; left: 16px; padding: 5px 12px; background: var(--moss); color: var(--bone); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; }
-  .product .body { padding: 28px 24px; display: flex; flex-direction: column; gap: 8px; }
-  .product .cat { font-family: 'Cabinet Grotesk', sans-serif; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute); font-weight: 500; }
-  .product .nm { font-family: 'Bespoke Serif', serif; font-size: 24px; line-height: 1.15; letter-spacing: -0.015em; }
-  .product .nm em { font-style: italic; color: var(--moss); }
-  .product .desc { font-size: 13.5px; color: var(--char); line-height: 1.55; }
-  .product .row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
-  .product .price { font-family: 'Bespoke Serif', serif; font-size: 22px; letter-spacing: -0.015em; }
-  .product .add { font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; font-weight: 500; }
+  .product .img-box::before {
+    /* gradient placeholder for product image */
+    content: ''; position: absolute; inset: 16%;
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+  }
+  .product.p1 .img-box::before { background-image: url('https://images.unsplash.com/photo-1539375665275-f9de415ef9ac?w=600&auto=format&fit=crop&q=85'); border-radius: 6px; background-size: cover; }
+  .product.p2 .img-box::before { background-image: url('https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?w=600&auto=format&fit=crop&q=85'); border-radius: 6px; background-size: cover; }
+  .product.p3 .img-box::before { background-image: url('https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&auto=format&fit=crop&q=85'); background-size: cover; }
+  .product.p4 .img-box::before { background-image: url('https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&auto=format&fit=crop&q=85'); background-size: cover; }
+  .product.p5 .img-box::before { background-image: url('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&auto=format&fit=crop&q=85'); background-size: cover; }
+  .product .cat-badge {
+    position: absolute; top: 16px; left: 16px;
+    padding: 6px 14px;
+    background: var(--ink); color: var(--white);
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    border-radius: 999px;
+    z-index: 2;
+  }
+  .product .body { padding: 18px 4px 0; }
+  .product .name { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px; line-height: 1.35; }
+  .product .price { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14.5px; margin-top: 6px; color: var(--char); }
 
-  /* === Manifesto (moss bg) ===================================== */
-  .manifesto { background: var(--moss); color: var(--bone); padding: 160px 0; position: relative; overflow: hidden; }
-  .manifesto::before { content: ''; position: absolute; inset: 0; opacity: 0.08; background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); pointer-events: none; }
-  .manifesto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; }
-  @media (max-width: 880px) { .manifesto-grid { grid-template-columns: 1fr; gap: 40px; } }
-  .manifesto .label { color: var(--gold); }
-  .manifesto h2 { color: var(--bone); }
-  .manifesto h2 em { font-style: italic; color: var(--gold); }
-  .manifesto .lead { color: rgba(244,236,220,0.85); max-width: 50ch; }
-  .manifesto .lead + .lead { margin-top: 20px; }
-  .manifesto-img {
-    aspect-ratio: 4/5;
-    background:
-      linear-gradient(180deg, rgba(47,61,46,0) 50%, rgba(47,61,46,0.35) 100%),
-      url('https://images.unsplash.com/photo-1556760544-74068565f05c?w=1200&auto=format&fit=crop&q=80');
+  /* === NEWS: article cards ==================================== */
+  .news-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 880px) { .news-grid { grid-template-columns: 1fr; } }
+
+  .article {
+    background: var(--soft);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .25s ease;
+    display: flex;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .article:hover { transform: translateY(-4px); }
+  .article.feature { grid-column: 1 / 2; grid-row: 1 / 3; flex-direction: row; }
+  @media (max-width: 880px) { .article.feature { flex-direction: column; grid-column: auto; grid-row: auto; } }
+  .article.feature .img { width: 48%; }
+  @media (max-width: 880px) { .article.feature .img { width: 100%; } }
+  .article.feature .body { padding: 40px 40px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .article .img {
+    aspect-ratio: 16/10;
     background-size: cover; background-position: center;
     position: relative;
+    flex-shrink: 0;
   }
-  .manifesto-img .credit { position: absolute; bottom: 20px; left: 20px; font-family: 'Bespoke Serif', serif; font-style: italic; font-size: 14px; color: var(--bone); }
+  .article.feature .img { aspect-ratio: auto; min-height: 320px; }
+  .article.a1 .img { background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1200&auto=format&fit=crop&q=85'); }
+  .article.a2 .img { background-image: url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1000&auto=format&fit=crop&q=85'); }
+  .article.a3 .img { background-image: url('https://images.unsplash.com/photo-1518609571773-39b7d303a87b?w=1000&auto=format&fit=crop&q=85'); }
+  .article .cat-pill {
+    position: absolute; top: 16px; right: 16px;
+    padding: 8px 16px;
+    background: var(--ink); color: var(--white);
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    border-radius: 999px;
+  }
+  .article .body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 12px; }
+  .article h3 { font-family: 'Inter Tight', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.2; letter-spacing: -0.015em; }
+  .article.feature h3 { font-size: clamp(26px, 2.8vw, 40px); }
+  .article p { font-size: 14px; line-height: 1.55; color: var(--char); }
+  .article .read-time { margin-top: 8px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
 
-  .signature { margin-top: 32px; font-family: 'Bespoke Serif', serif; font-style: italic; font-size: 19px; color: var(--bone); }
-  .signature .role { display: block; font-style: normal; font-family: 'Cabinet Grotesk', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-top: 8px; }
+  /* === SOCIALS: scroll row ==================================== */
+  .socials-row {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px;
+  }
+  @media (max-width: 1100px) { .socials-row { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px) { .socials-row { grid-template-columns: repeat(2, 1fr); } }
+  .social-tile {
+    aspect-ratio: 1/1;
+    background-size: cover; background-position: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform .25s ease;
+  }
+  .social-tile:hover { transform: scale(1.02); z-index: 1; }
+  .social-tile.t1 { background-image: url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&auto=format&fit=crop&q=85'); }
+  .social-tile.t2 { background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&auto=format&fit=crop&q=85'); }
+  .social-tile.t3 { background-image: url('https://images.unsplash.com/photo-1518609571773-39b7d303a87b?w=800&auto=format&fit=crop&q=85'); }
+  .social-tile.t4 { background-image: url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800&auto=format&fit=crop&q=85'); }
+  .social-tile.t5 { background-image: url('https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?w=800&auto=format&fit=crop&q=85'); }
+  .social-tile.t6 { background-image: url('https://images.unsplash.com/photo-1539375665275-f9de415ef9ac?w=800&auto=format&fit=crop&q=85'); }
 
-  /* === Press ==================================================== */
-  .press { padding: 100px 0; border-bottom: 1px solid var(--line); }
-  .press p.label { text-align: center; margin-bottom: 32px; }
-  .press-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 32px; align-items: center; text-align: center; }
-  @media (max-width: 880px) { .press-row { grid-template-columns: repeat(2, 1fr); } }
-  .press-logo { font-family: 'Bespoke Serif', serif; font-size: 22px; font-style: italic; color: var(--char); letter-spacing: -0.01em; }
+  /* === Marquee ================================================= */
+  .marquee { background: var(--ink); color: var(--white); padding: 28px 0; overflow: hidden; }
+  .marquee-track { display: flex; gap: 56px; white-space: nowrap; animation: tick 50s linear infinite; align-items: center; }
+  .marquee-track span { font-family: 'Inter Tight', sans-serif; font-weight: 900; font-size: clamp(32px, 4vw, 64px); letter-spacing: -0.02em; text-transform: uppercase; }
+  .marquee-track .logo-dot { width: 38px; height: 38px; flex-shrink: 0; }
+  .marquee-track .logo-dot svg { width: 100%; height: 100%; }
+  @keyframes tick { to { transform: translateX(-50%); } }
 
-  /* === Routine builder ========================================== */
-  .routine { padding: 140px 0; }
-  .routine-head { display: grid; grid-template-columns: 1fr 1.6fr; gap: 48px; margin-bottom: 56px; align-items: end; }
-  @media (max-width: 760px) { .routine-head { grid-template-columns: 1fr; gap: 16px; } }
-  .routine-head h2 em { font-style: italic; color: var(--moss); }
-  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-  @media (max-width: 880px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
-  .rstep { padding: 32px 24px; background: var(--bone); position: relative; }
-  .rstep .n { font-family: 'Bespoke Serif', serif; font-size: 48px; font-weight: 400; color: var(--moss); line-height: 1; letter-spacing: -0.03em; }
-  .rstep .nm { font-family: 'Bespoke Serif', serif; font-size: 22px; margin-top: 20px; letter-spacing: -0.015em; }
-  .rstep .nm em { font-style: italic; color: var(--moss); }
-  .rstep .desc { font-size: 13.5px; color: var(--char); margin-top: 10px; line-height: 1.55; }
-  .rstep .price { margin-top: 20px; font-family: 'Bespoke Serif', serif; font-size: 18px; }
+  /* === Footer ================================================== */
+  footer { background: var(--ink); color: var(--white); padding: 100px 0 60px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 64px; }
+  @media (max-width: 880px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  .foot-brand .mark-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    display: grid; place-items: center;
+    margin-bottom: 14px;
+  }
+  .foot-brand .mark-circle svg { width: 40px; height: 40px; }
+  .foot-brand .name-word { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 12px; letter-spacing: 0.36em; color: var(--white); margin-top: 12px; }
+  .foot-brand .descr { font-family: 'Inter', sans-serif; font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 24px; max-width: 28ch; line-height: 1.6; }
+  .foot-brand .socials { margin-top: 32px; display: flex; gap: 18px; }
+  .foot-brand .socials a { width: 28px; height: 28px; display: grid; place-items: center; color: var(--white); text-decoration: none; font-size: 16px; opacity: 0.8; transition: opacity .2s ease; }
+  .foot-brand .socials a:hover { opacity: 1; }
 
-  /* === Footer / final CTA ====================================== */
-  .end-cta { padding: 140px 0; background: var(--bone); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; }
-  .end-cta h2 { max-width: 16ch; margin: 0 auto; }
-  .end-cta h2 em { font-style: italic; color: var(--moss); }
-  .end-cta .pill { margin-top: 40px; }
+  .foot-col h4 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); margin-bottom: 24px; opacity: 0.7; }
+  .foot-col a { display: block; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--white); text-decoration: none; line-height: 2.2; transition: opacity .2s ease; }
+  .foot-col a:hover { opacity: 0.7; }
 
-  footer { background: var(--paper); padding: 64px 0 40px; }
-  .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; }
-  @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
-  .foot-col h4 { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--moss); margin-bottom: 18px; }
-  .foot-col p, .foot-col a { font-size: 14px; color: var(--ink); line-height: 1.7; display: block; text-decoration: none; }
-  .foot-col a:hover { color: var(--moss); }
-  .foot-bottom { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 12.5px; color: var(--mute); }
+  .foot-bottom { margin-top: 80px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.10); display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.04em; }
   @media (max-width: 600px) { .foot-bottom { flex-direction: column; gap: 12px; } }
-  .foot-logo { font-family: 'Bespoke Serif', serif; font-size: 30px; letter-spacing: 0.02em; }
-  .foot-logo em { font-style: italic; color: var(--moss); }
 </style>
 </head>
 <body>
 
-<!-- Concept disclosure banner -->
-<div style="background:#1E2A1E;color:#C5A572;padding:9px 0;font-family:'Cabinet Grotesk',sans-serif;font-weight:500;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;text-align:center;border-bottom:1px solid rgba(197,165,114,0.4);">
-  <a href="/" style="color:#C5A572;text-decoration:none;">← Back to studio</a>
+<!-- Concept disclosure -->
+<div class="concept-banner">
+  <a href="/">← Back to studio</a>
   &nbsp;·&nbsp; Design study by OnCall Automation Studio &nbsp;·&nbsp; Not a current client engagement
 </div>
 
-<!-- Top line -->
-<div class="topline">
-  <span>Free shipping over $80</span>
-  <span class="dot">●</span>
-  <span>Made in small batches · Hudson Valley</span>
-  <span class="dot">●</span>
-  <span>Carbon-neutral packaging</span>
-</div>
+<!-- Promo bar -->
+<div class="promo">Get 10% Off Your First Order · Subscribe</div>
 
 <!-- Nav -->
 <nav class="top">
   <div class="wrap row">
-    <a href="#" class="brand">
-      <span class="mark">H</span>
-      <span class="name">Hemlock <em>&amp;</em> Hare</span>
-    </a>
-    <div class="menu">
+    <div class="nav-left">
+      <a href="#">Home</a>
       <a href="#shop">Shop</a>
-      <a href="#routine">Routine</a>
-      <a href="#ingredients">Ingredients</a>
-      <a href="#manifesto">Our story</a>
-      <a href="#journal">Journal</a>
+      <a href="#news">News</a>
+      <a href="#">Contact</a>
     </div>
+    <a class="brand-mark" href="#">
+      <div class="circle">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4 L24 20 L20 36 L16 20 Z" fill="#0A0A0A"/>
+          <path d="M4 20 L20 16 L36 20 L20 24 Z" fill="#0A0A0A"/>
+          <circle cx="20" cy="20" r="3" fill="#FFFFFF"/>
+        </svg>
+      </div>
+      <p class="word">LATERAL</p>
+    </a>
     <div class="nav-right">
-      <span class="nav-icon">⌕</span>
-      <span class="nav-icon">♡</span>
-      <span class="cart-pill">Cart · 0</span>
+      <a href="#">Search</a>
+      <a href="#" class="cart">
+        <svg class="bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M6 8 H18 L17 21 H7 Z"/>
+          <path d="M9 8 V6 a3 3 0 0 1 6 0 V8"/>
+        </svg>
+        <span class="count">0</span>
+      </a>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
+<!-- HERO: full-bleed artist photo -->
 <section class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-left">
-        <p class="label">Slow skincare · Hudson Valley · Since 2019</p>
-        <h1 class="display xl">A ritual, not a <em>routine</em>.</h1>
-        <p class="lead">
-          Cold-pressed botanicals from our farm in Rhinebeck. Eight ingredients per formula, no more. Made in small batches the same week you receive them, never sitting on a warehouse shelf for nine months.
-        </p>
-        <div class="hero-cta">
-          <a href="#shop" class="pill">Shop the collection →</a>
-          <a href="#routine" class="ghost">Build your routine</a>
-        </div>
-        <div class="hero-meta">
-          <div class="m-item"><p class="n">8</p><p class="c">ingredients max</p></div>
-          <div class="m-item"><p class="n">14d</p><p class="c">from batch to door</p></div>
-          <div class="m-item"><p class="n">100%</p><p class="c">recyclable glass</p></div>
-        </div>
-      </div>
-
-      <div class="hero-product">
-        <span class="tag">New · Spring batch</span>
-        <div class="product-card">
-          <div>
-            <span class="stars">★★★★★</span>
-            <p class="reviews">4.9 · 1,840 reviews</p>
-            <p class="pname"><em>Botanical</em> Phyto-Serum Nº1</p>
-          </div>
-          <div style="text-align: right;">
-            <p class="pn">$84</p>
-            <p class="pn-c">30 ml</p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="hero-arrows">
+    <span class="hero-arrow">‹</span>
+    <span class="hero-arrow">›</span>
+  </div>
+  <div class="hero-content">
+    <h1 class="display">MIRAI</h1>
+    <p class="sub">'NORTHBOUND' <em>OUT NOW</em></p>
+    <a href="#" class="listen-btn">Listen</a>
+  </div>
+  <div class="hero-dots">
+    <span class="hero-dot active"></span>
+    <span class="hero-dot"></span>
+    <span class="hero-dot"></span>
+    <span class="hero-dot"></span>
+    <span class="hero-dot"></span>
+    <span class="hero-dot"></span>
   </div>
 </section>
 
-<!-- Ingredient strip -->
-<section class="ingredients" id="ingredients">
+<!-- SHOP -->
+<section class="big-section" id="shop">
   <div class="wrap">
-    <div class="ing-head">
-      <p class="label">Eight ingredients, every formula.</p>
-      <h2 class="display l" style="margin-top: 16px;">Cold-pressed at the farm, <em>weeks before</em> they reach you.</h2>
-    </div>
-    <div class="ing-grid">
-      <div class="ing">
-        <div class="icon"></div>
-        <p class="latin">Lavandula angustifolia</p>
-        <p class="name">English Lavender</p>
-        <p class="desc">Calms skin reactivity, balances sebum.</p>
-      </div>
-      <div class="ing">
-        <div class="icon"></div>
-        <p class="latin">Rosa damascena</p>
-        <p class="name">Damask Rose</p>
-        <p class="desc">Distilled from petals in May, polish &amp; tone.</p>
-      </div>
-      <div class="ing">
-        <div class="icon"></div>
-        <p class="latin">Helichrysum italicum</p>
-        <p class="name">Immortelle</p>
-        <p class="desc">Phyto-radiance, repairs barrier function.</p>
-      </div>
-      <div class="ing">
-        <div class="icon"></div>
-        <p class="latin">Camellia sinensis</p>
-        <p class="name">Green Tea Leaf</p>
-        <p class="desc">Antioxidant, protects against oxidative stress.</p>
+    <div class="big-head">
+      <h2>Shop</h2>
+      <div class="filter-pills">
+        <span class="pill active">Trending</span>
+        <span class="pill muted">Bestsellers</span>
+        <span class="pill muted">Box Sets</span>
+        <span class="pill muted">Merch</span>
+        <span class="pill muted">Shop All</span>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- Best sellers / shop -->
-<section class="shop" id="shop">
-  <div class="wrap">
-    <div class="shop-head">
-      <div>
-        <p class="label">Shop</p>
-        <h2 class="display l" style="margin-top: 12px;">The ones <em>you'll reorder</em>.</h2>
-      </div>
-      <a class="view" href="#">View the full apothecary →</a>
-    </div>
-
     <div class="product-grid">
-      <div class="product p1">
-        <div class="img"><span class="badge">Bestseller</span></div>
+      <a class="product p1" href="#">
+        <div class="img-box"><span class="cat-badge">Vinyl</span></div>
         <div class="body">
-          <p class="cat">Treatment · 30 ml</p>
-          <p class="nm">Botanical <em>Phyto-Serum</em> Nº1</p>
-          <p class="desc">Eight cold-pressed botanicals. The serum the magazines call our "hero product." It is.</p>
-          <div class="row">
-            <span class="price">$84</span>
-            <span class="add">Add to cart →</span>
-          </div>
+          <p class="name">Mirai — Northbound (LP, Gold Crown Vinyl: D2C Exclusive)</p>
+          <p class="price">$40.00</p>
         </div>
-      </div>
-      <div class="product p2">
-        <div class="img"><span class="badge">New</span></div>
+      </a>
+      <a class="product p2" href="#">
+        <div class="img-box"><span class="cat-badge">Vinyl</span></div>
         <div class="body">
-          <p class="cat">Cleanse · 100 ml</p>
-          <p class="nm"><em>Cold-pressed</em> Cleansing Oil</p>
-          <p class="desc">Camellia, jojoba, calendula. Melts SPF and the day, leaves the barrier alone.</p>
-          <div class="row">
-            <span class="price">$48</span>
-            <span class="add">Add to cart →</span>
-          </div>
+          <p class="name">Mirai — Northbound (LP, Royalty Blue &amp; Gold Vinyl)</p>
+          <p class="price">$30.00</p>
         </div>
-      </div>
-      <div class="product p3">
-        <div class="img"></div>
+      </a>
+      <a class="product p3" href="#">
+        <div class="img-box"><span class="cat-badge">Snapback Hat</span></div>
         <div class="body">
-          <p class="cat">Hydrate · 50 ml</p>
-          <p class="nm">Damask <em>Rose Cream</em></p>
-          <p class="desc">Cream finished with damask rose distillate, May harvest. Worth waiting for.</p>
-          <div class="row">
-            <span class="price">$72</span>
-            <span class="add">Add to cart →</span>
-          </div>
+          <p class="name">Lateral × New Era 9FORTY Red Snapback</p>
+          <p class="price">$45.00</p>
         </div>
-      </div>
+      </a>
+      <a class="product p4" href="#">
+        <div class="img-box"><span class="cat-badge">Hoodie</span></div>
+        <div class="body">
+          <p class="name">Lateral 1M Hoodie</p>
+          <p class="price">$80.00</p>
+        </div>
+      </a>
+      <a class="product p5" href="#">
+        <div class="img-box"><span class="cat-badge">Tee</span></div>
+        <div class="body">
+          <p class="name">Lateral 1M Tee</p>
+          <p class="price">$40.00</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- Manifesto -->
-<section class="manifesto" id="manifesto">
+<!-- NEWS -->
+<section class="big-section" id="news">
   <div class="wrap">
-    <div class="manifesto-grid">
-      <div class="manifesto-img">
-        <p class="credit">— Distillation room, Rhinebeck NY</p>
-      </div>
-      <div>
-        <p class="label">Our story</p>
-        <h2 class="display l" style="margin-top: 16px;">Skincare you can <em>read</em>.</h2>
-        <p class="lead">
-          We started Hemlock &amp; Hare in 2019 because the formula on the back of every bottle we loved had forty-three ingredients and we couldn't pronounce thirty-five of them.
-        </p>
-        <p class="lead">
-          Every product is built from eight or fewer cold-pressed botanicals. Each batch is made in a converted dairy barn in Rhinebeck and arrives at your door inside two weeks of being made. Nothing sits on a shelf for nine months pretending to be fresh.
-        </p>
-        <p class="signature">— Margot Halsey
-          <span class="role">Founder · Formulator</span>
-        </p>
-      </div>
+    <div class="big-head">
+      <h2>News</h2>
+      <a class="pill black-solid" href="#">All News</a>
+    </div>
+    <div class="news-grid">
+      <a class="article feature a1" href="#">
+        <div class="img"><span class="cat-pill">New Artist</span></div>
+        <div class="body">
+          <h3>Aurora Volk Signs Partnership With LATERAL</h3>
+          <p>Three-time Grammy-nominated singer-songwriter Aurora Volk has gone indie and entered a partnership with powerhouse Bay Area independent label LATERAL CO.</p>
+          <p class="read-time">5 min read</p>
+        </div>
+      </a>
+      <a class="article a2" href="#">
+        <div class="img"><span class="cat-pill">Interview</span></div>
+        <div class="body">
+          <h3>The Bay's All-Star: How LATERAL's Founder Brought the Music Business to San Francisco</h3>
+          <p class="read-time">8 min read</p>
+        </div>
+      </a>
+      <a class="article a3" href="#">
+        <div class="img"><span class="cat-pill">Field Note</span></div>
+        <div class="body">
+          <h3>Inside the Mission HQ: Building the Independent Engine</h3>
+          <p class="read-time">4 min read</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- Press -->
-<section class="press">
+<!-- SOCIALS -->
+<section class="big-section">
   <div class="wrap">
-    <p class="label">As seen in</p>
-    <div class="press-row">
-      <span class="press-logo">Vogue</span>
-      <span class="press-logo">The Cut</span>
-      <span class="press-logo">Goop</span>
-      <span class="press-logo">Into the Gloss</span>
-      <span class="press-logo">Architectural Digest</span>
+    <div class="big-head">
+      <h2>Socials</h2>
+      <a class="pill black-solid" href="#">Follow Us</a>
+    </div>
+    <div class="socials-row">
+      <div class="social-tile t1"></div>
+      <div class="social-tile t2"></div>
+      <div class="social-tile t3"></div>
+      <div class="social-tile t4"></div>
+      <div class="social-tile t5"></div>
+      <div class="social-tile t6"></div>
     </div>
   </div>
 </section>
 
-<!-- Routine builder -->
-<section class="routine" id="routine">
-  <div class="wrap">
-    <div class="routine-head">
-      <div>
-        <p class="label">The routine</p>
-        <h2 class="display l" style="margin-top: 12px;">Four steps. <em>Two minutes</em>.</h2>
-      </div>
-      <a class="view" href="#" style="justify-self: end; font-size: 14px; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 2px; font-weight: 500;">Build a custom set · save 15% →</a>
-    </div>
-
-    <div class="steps-grid">
-      <div class="rstep">
-        <p class="n">01</p>
-        <p class="nm"><em>Cleanse</em></p>
-        <p class="desc">Cold-pressed cleansing oil. AM and PM. 60 seconds, then rinse.</p>
-        <p class="price">$48</p>
-      </div>
-      <div class="rstep">
-        <p class="n">02</p>
-        <p class="nm">Tone</p>
-        <p class="desc">Damask rose distillate, pressed straight into the bottle.</p>
-        <p class="price">$38</p>
-      </div>
-      <div class="rstep">
-        <p class="n">03</p>
-        <p class="nm">Treat</p>
-        <p class="desc">Phyto-serum Nº1. Three pumps, neck and face.</p>
-        <p class="price">$84</p>
-      </div>
-      <div class="rstep">
-        <p class="n">04</p>
-        <p class="nm">Seal</p>
-        <p class="desc">Damask rose cream. A pearl per cheek, gently pressed.</p>
-        <p class="price">$72</p>
-      </div>
-    </div>
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Defining Independence</span>
+    <span class="logo-dot">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+        <path d="M20 4 L24 20 L20 36 L16 20 Z" fill="#FFFFFF"/>
+        <path d="M4 20 L20 16 L36 20 L20 24 Z" fill="#FFFFFF"/>
+      </svg>
+    </span>
+    <span>Defining Independence</span>
+    <span class="logo-dot">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+        <path d="M20 4 L24 20 L20 36 L16 20 Z" fill="#FFFFFF"/>
+        <path d="M4 20 L20 16 L36 20 L20 24 Z" fill="#FFFFFF"/>
+      </svg>
+    </span>
+    <span>Defining Independence</span>
+    <span class="logo-dot">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+        <path d="M20 4 L24 20 L20 36 L16 20 Z" fill="#FFFFFF"/>
+        <path d="M4 20 L20 16 L36 20 L20 24 Z" fill="#FFFFFF"/>
+      </svg>
+    </span>
+    <span>Defining Independence</span>
+    <span class="logo-dot">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="18" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+        <path d="M20 4 L24 20 L20 36 L16 20 Z" fill="#FFFFFF"/>
+        <path d="M4 20 L20 16 L36 20 L20 24 Z" fill="#FFFFFF"/>
+      </svg>
+    </span>
   </div>
-</section>
-
-<!-- End CTA -->
-<section class="end-cta">
-  <div class="wrap">
-    <p class="label">Begin</p>
-    <h2 class="display l" style="margin-top: 12px;">Start with one bottle. <em>See it on your skin</em>.</h2>
-    <a href="#shop" class="pill">Shop the collection →</a>
-  </div>
-</section>
+</div>
 
 <!-- Footer -->
 <footer>
   <div class="wrap">
     <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="mark-circle">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4 L24 20 L20 36 L16 20 Z" fill="#FFFFFF"/>
+            <path d="M4 20 L20 16 L36 20 L20 24 Z" fill="#FFFFFF"/>
+            <circle cx="20" cy="20" r="3" fill="#0A0A0A"/>
+          </svg>
+        </div>
+        <p class="name-word">LATERAL CO.</p>
+        <p class="descr">100% Independent · Label · Distributor · Publisher</p>
+        <div class="socials">
+          <a href="#">◐</a>
+          <a href="#">𝕏</a>
+          <a href="#">f</a>
+          <a href="#">♪</a>
+          <a href="#">♫</a>
+        </div>
+      </div>
       <div class="foot-col">
-        <p class="foot-logo">Hemlock <em>&amp;</em> Hare</p>
-        <p style="margin-top: 16px;">Slow skincare from the Hudson Valley.<br>Made in small batches, dated, shipped within two weeks.</p>
+        <h4>Company</h4>
+        <a href="#">Contact Us</a>
       </div>
       <div class="foot-col">
         <h4>Shop</h4>
-        <a href="#">The full apothecary</a>
-        <a href="#">Build a routine</a>
-        <a href="#">Gift sets</a>
-        <a href="#">Subscribe + save 15%</a>
+        <a href="#">All Products</a>
+        <a href="#">Music</a>
+        <a href="#">Clothing</a>
+        <a href="#">Accessories</a>
+        <a href="#">Collab</a>
+        <a href="#">Home &amp; Lifestyle</a>
       </div>
       <div class="foot-col">
-        <h4>The farm</h4>
-        <a href="#">Our story</a>
-        <a href="#">Ingredient sourcing</a>
-        <a href="#">The journal</a>
-        <a href="#">Visit Rhinebeck</a>
-      </div>
-      <div class="foot-col">
-        <h4>Help</h4>
-        <a href="#">Returns &amp; refunds</a>
-        <a href="#">Shipping</a>
-        <a href="#">Contact</a>
-        <a href="#">Trade program</a>
+        <h4>Legal</h4>
+        <a href="#">Cookie policy</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Store Policies</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Sitemap</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 Hemlock &amp; Hare Botanicals</span>
-      <span>Made in Rhinebeck, NY · Shipped from there too</span>
+      <span>© 2026 LATERAL CO.</span>
+      <span>San Francisco · New York · Lagos</span>
     </div>
   </div>
 </footer>
