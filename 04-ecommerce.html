@@ -3,427 +3,672 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TANNIN &amp; LOAM — Natural wine, sourced honestly</title>
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,800&f[]=gambarino@400&f[]=satoshi@400,500&f[]=jet-brains-mono@400&display=swap">
+<title>OnCall Bill — Stripe billing admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
   :root {
-    --bone: #e9e2cf;
-    --paper: #f0e9d6;
-    --ink: #1a1612;
-    --burnt: #b04a26;
-    --moss: #4a553a;
-    --plum: #54243a;
-    --mute: #7c7466;
-    --line: rgba(26,22,18,0.15);
+    --bg:        #0A0B14;
+    --surface:   #11121F;
+    --surface-2: #1A1B2E;
+    --raised:    #232540;
+    --line:      rgba(255,255,255,0.06);
+    --line-2:    rgba(255,255,255,0.12);
+    --text:      #F4F4F8;
+    --text-d:    #C8CADB;
+    --mute:      #7B7E9A;
+
+    --indigo:    #635BFF;          /* Stripe brand */
+    --indigo-d:  #5046E5;
+    --indigo-s:  rgba(99,91,255,0.14);
+    --green:     #4ADE80;
+    --green-s:   rgba(74,222,128,0.14);
+    --amber:     #F59E0B;
+    --amber-s:   rgba(245,158,11,0.14);
+    --rose:      #F43F5E;
+    --rose-s:    rgba(244,63,94,0.14);
+    --cyan:      #22D3EE;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Satoshi', sans-serif; background: var(--bone); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-  .display { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; letter-spacing: -0.04em; line-height: 0.86; }
-  .editorial { font-family: 'Gambarino', serif; font-style: italic; font-weight: 400; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  .micro { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
-  .burnt { color: var(--burnt); }
-  .burnt-bg { background: var(--burnt); color: var(--paper); }
-  .ink-bg { background: var(--ink); color: var(--bone); }
-  .moss-bg { background: var(--moss); color: var(--paper); }
-  .plum-bg { background: var(--plum); color: var(--paper); }
-  .paper-bg { background: var(--paper); }
-  .muted { color: var(--mute); }
+  html, body { background: var(--bg); color: var(--text); height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
 
-  .container { max-width: 1480px; margin: 0 auto; padding: 0 2rem; }
-  @media (max-width: 760px) { .container { padding: 0 1.25rem; } }
+  /* === Concept disclosure ====================================== */
+  .concept-banner { background: #000000; color: rgba(255,255,255,0.6); padding: 9px 0; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
+  .concept-banner a { color: rgba(255,255,255,0.85); text-decoration: none; }
 
-  .grain { position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.06; mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); }
+  /* === Shell =================================================== */
+  .app { display: grid; grid-template-columns: 224px 1fr; height: calc(100vh - 38px); }
 
-  .reveal { opacity: 0; transform: translateY(18px); animation: r 1.1s cubic-bezier(0.16,1,0.3,1) forwards; }
-  .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; } .d4 { animation-delay: 0.55s; }
-  @keyframes r { to { opacity: 1; transform: translateY(0); } }
+  /* === Sidebar ================================================= */
+  .sidebar { background: var(--surface); border-right: 1px solid var(--line); padding: 18px 12px; display: flex; flex-direction: column; gap: 24px; }
+  .brand-block { display: flex; align-items: center; gap: 10px; padding: 6px 8px 14px; border-bottom: 1px solid var(--line); }
+  .brand-mark { width: 30px; height: 30px; background: var(--indigo); border-radius: 7px; display: grid; place-items: center; font-weight: 800; font-size: 13px; color: var(--text); font-family: 'Inter Tight'; box-shadow: 0 6px 20px -8px rgba(99,91,255,0.55); }
+  .brand-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 14.5px; letter-spacing: -0.005em; }
+  .brand-name span { color: var(--indigo); }
 
-  .ticker { animation: tick 60s linear infinite; }
-  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .org-pick { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; border-radius: 8px; background: var(--surface-2); font-size: 12.5px; color: var(--text-d); cursor: pointer; border: 1px solid var(--line); }
+  .org-pick:hover { background: var(--raised); }
+  .org-pick .arrow { color: var(--mute); font-size: 10px; }
 
-  .btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 1.6rem; border: 0; cursor: pointer;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s ease, color 0.3s ease; }
-  .btn:active { transform: translateY(1px); }
-  .btn-ink { background: var(--ink); color: var(--bone); }
-  .btn-ink:hover { background: var(--burnt); }
-  .btn-line { border: 1px solid var(--ink); color: var(--ink); background: transparent; }
-  .btn-line:hover { background: var(--ink); color: var(--bone); }
+  .nav-section { display: flex; flex-direction: column; gap: 2px; }
+  .nav-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); padding: 0 12px 8px; }
+  .nav-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 7px; color: var(--text-d); font-size: 13.5px; cursor: pointer; transition: background .15s ease; }
+  .nav-item:hover { background: var(--surface-2); color: var(--text); }
+  .nav-item.active { background: var(--surface-2); color: var(--text); }
+  .nav-item.active::before { content: ''; position: absolute; left: 0; width: 3px; height: 16px; background: var(--indigo); border-radius: 0 3px 3px 0; transform: translateX(-12px); }
+  .nav-item .l { display: flex; align-items: center; gap: 10px; }
+  .nav-item .ico { width: 16px; text-align: center; font-size: 13px; }
+  .nav-item .badge { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--mute); padding: 1px 7px; background: rgba(255,255,255,0.06); border-radius: 999px; }
+  .nav-item.active .badge { background: var(--indigo); color: #FFFFFF; }
+  .nav-item .pos { position: relative; }
 
-  /* Wine bottle illustration */
-  .bottle-wine { width: 30%; aspect-ratio: 1/4; margin: auto; position: relative;
-    background: linear-gradient(180deg, #2a0e1a 0%, #4a1a2a 30%, #6a2a3a 100%);
-    border-radius: 6px 6px 14px 14px;
-    box-shadow: inset 4px 0 8px rgba(255,255,255,0.08), inset -4px 0 8px rgba(0,0,0,0.3), 0 30px 50px -20px rgba(0,0,0,0.4); }
-  .bottle-wine::before { content: ''; position: absolute; top: -28%; left: 32%; width: 36%; height: 32%;
-    background: linear-gradient(180deg, #3a2018 0%, #1a0e08 100%); border-radius: 4px 4px 1px 1px;
-    box-shadow: inset 0 4px 8px rgba(0,0,0,0.3); }
-  .bottle-wine::after { content: ''; position: absolute; top: 30%; left: 8%; width: 84%; height: 38%;
-    background: linear-gradient(180deg, #ebd9b5 0%, #d8c79f 100%);
-    box-shadow: inset 0 1px 0 rgba(0,0,0,0.1); }
+  .sidebar-foot { margin-top: auto; padding: 10px 12px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
+  .av { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--indigo), var(--cyan)); display: grid; place-items: center; font-weight: 700; font-size: 11px; color: var(--bg); }
+  .who { font-size: 12.5px; font-weight: 600; }
+  .who span { display: block; font-size: 10.5px; color: var(--mute); font-weight: 400; }
 
-  .bottle-wine.amber { background: linear-gradient(180deg, #4a2810 0%, #6a3815 30%, #c9883c 100%); }
-  .bottle-wine.amber::before { background: linear-gradient(180deg, #8a5a28 0%, #4a2810 100%); }
-  .bottle-wine.green { background: linear-gradient(180deg, #1a2a1a 0%, #2a3a2a 30%, #4a5a3a 100%); }
-  .bottle-wine.green::before { background: linear-gradient(180deg, #1a2a1a 0%, #0a1a0a 100%); }
-  .bottle-wine.rose { background: linear-gradient(180deg, #3a1a1a 0%, #6a3a3a 30%, #c98080 100%); }
-  .bottle-wine.rose::before { background: linear-gradient(180deg, #3a1a1a 0%, #1a0a0a 100%); }
+  /* === Main ==================================================== */
+  .main { display: flex; flex-direction: column; overflow: hidden; }
+  .main-head { padding: 18px 28px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .main-head h1 { font-family: 'Inter Tight'; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
+  .main-head .right { display: flex; gap: 10px; align-items: center; }
+  .btn { padding: 8px 14px; border-radius: 7px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 0; display: inline-flex; gap: 6px; align-items: center; }
+  .btn.primary { background: var(--indigo); color: #FFFFFF; }
+  .btn.primary:hover { background: var(--indigo-d); }
+  .btn.ghost { background: transparent; color: var(--text-d); border: 1px solid var(--line-2); }
+  .btn.ghost:hover { background: var(--surface); color: var(--text); }
 
-  .stage { background: linear-gradient(170deg, var(--paper) 0%, #d8c79f 100%); }
-  .scene-vine { background: radial-gradient(ellipse at 30% 60%, #6a7a4a 0%, #4a553a 50%, #2a352a 100%); }
+  .main-body { flex: 1; overflow-y: auto; padding: 24px 28px; display: flex; flex-direction: column; gap: 24px; }
 
-  .prod-card { transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
-  .prod-card:hover { transform: translateY(-4px); }
-  .prod-card .add { transition: padding-left 0.4s cubic-bezier(0.16,1,0.3,1); }
-  .prod-card:hover .add { padding-left: 0.5rem; }
+  /* === Stat strip ============================================== */
+  .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 20px; border-radius: 12px; }
+  .stat-card .label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); font-weight: 600; }
+  .stat-card .v { font-family: 'Inter Tight'; font-weight: 700; font-size: 28px; letter-spacing: -0.02em; margin-top: 6px; }
+  .stat-card .delta { font-size: 12px; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .delta.up { color: var(--green); }
+  .delta.down { color: var(--rose); }
 
-  details summary { cursor: pointer; list-style: none; }
-  details summary::-webkit-details-marker { display: none; }
+  /* === Chart ================================================== */
+  .chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; }
+  .chart-head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 16px; }
+  .chart-head .legend { display: flex; gap: 16px; }
+  .chart-head .legend span { font-size: 11.5px; color: var(--mute); display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+  .chart-head .legend .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .chart-head .legend .dot.indigo { background: var(--indigo); }
+  .chart-head .legend .dot.cyan { background: var(--cyan); }
+  .chart-svg { width: 100%; height: 200px; }
+
+  /* === Two-col split =========================================== */
+  .split { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+  @media (max-width: 1100px) { .split { grid-template-columns: 1fr; } }
+
+  /* === Customer table ========================================== */
+  .table-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .table-head { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .table-head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 16px; }
+  .filter-pills { display: flex; gap: 4px; background: var(--surface-2); padding: 3px; border-radius: 7px; }
+  .filter-pill { padding: 5px 11px; border-radius: 5px; font-size: 11.5px; font-weight: 600; color: var(--mute); cursor: pointer; transition: all .15s ease; user-select: none; }
+  .filter-pill.active { background: var(--surface); color: var(--text); }
+
+  .tbl { width: 100%; border-collapse: collapse; }
+  .tbl th { text-align: left; padding: 10px 20px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); font-weight: 600; border-bottom: 1px solid var(--line); }
+  .tbl td { padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: 13.5px; vertical-align: middle; }
+  .tbl tr { cursor: pointer; transition: background .15s ease; }
+  .tbl tr:hover td { background: var(--surface-2); }
+  .tbl tr:last-child td { border-bottom: 0; }
+  .tbl .cust { display: flex; align-items: center; gap: 10px; }
+  .tbl .cust .cav { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 11.5px; color: #FFFFFF; }
+  .tbl .cust .nm { font-weight: 600; }
+  .tbl .cust .em { display: block; font-size: 11.5px; color: var(--mute); font-weight: 400; }
+  .tbl .amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .status-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 5px; font-size: 11.5px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+  .status-chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-chip.active { background: var(--green-s); color: var(--green); }
+  .status-chip.active .dot { background: var(--green); }
+  .status-chip.past_due { background: var(--rose-s); color: var(--rose); }
+  .status-chip.past_due .dot { background: var(--rose); }
+  .status-chip.trial { background: var(--amber-s); color: var(--amber); }
+  .status-chip.trial .dot { background: var(--amber); }
+  .status-chip.churned { background: rgba(123,126,154,0.16); color: var(--mute); }
+  .status-chip.churned .dot { background: var(--mute); }
+
+  /* Avatar gradients */
+  .ag0 { background: linear-gradient(135deg, #F472B6, #DB2777); }
+  .ag1 { background: linear-gradient(135deg, #60A5FA, #2563EB); }
+  .ag2 { background: linear-gradient(135deg, #34D399, #047857); }
+  .ag3 { background: linear-gradient(135deg, #FBBF24, #D97706); }
+  .ag4 { background: linear-gradient(135deg, #A78BFA, #6D28D9); }
+  .ag5 { background: linear-gradient(135deg, #FB7185, #BE123C); }
+  .ag6 { background: linear-gradient(135deg, #5EEAD4, #0D9488); }
+
+  /* === Dunning queue =========================================== */
+  .dunning-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .dunning-card .head { padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .dunning-card .head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 15px; }
+  .dunning-card .head .sub { font-size: 12px; color: var(--mute); margin-top: 2px; }
+  .dunning-row { padding: 14px 20px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+  .dunning-row:last-child { border-bottom: 0; }
+  .dunning-row .nm { font-weight: 600; font-size: 13.5px; }
+  .dunning-row .meta { font-size: 11.5px; color: var(--mute); margin-top: 3px; }
+  .dunning-row .meta strong { color: var(--rose); font-weight: 600; }
+  .dunning-row .retry { padding: 6px 12px; background: var(--indigo); color: #FFFFFF; border-radius: 6px; font-size: 11.5px; font-weight: 600; border: 0; cursor: pointer; }
+  .dunning-row .retry:hover { background: var(--indigo-d); }
+  .dunning-row .retry.done { background: var(--green); pointer-events: none; }
+
+  /* === Webhook log ============================================== */
+  .webhook-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  .webhook-card .head { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+  .webhook-card .head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 15px; }
+  .webhook-card .live { font-size: 11px; color: var(--green); display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+  .webhook-card .live .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 0 4px rgba(74,222,128,0.18); }
+  .webhook-list { max-height: 280px; overflow-y: auto; }
+  .webhook-row { padding: 10px 20px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 18px 1fr auto; gap: 12px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .webhook-row:last-child { border-bottom: 0; }
+  .webhook-row .ev-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .webhook-row .ev-dot.ok { background: var(--green); }
+  .webhook-row .ev-dot.warn { background: var(--amber); }
+  .webhook-row .ev-dot.err { background: var(--rose); }
+  .webhook-row .ev { color: var(--text-d); }
+  .webhook-row .ev .et { color: var(--text); font-weight: 600; }
+  .webhook-row .t { color: var(--mute); font-size: 11px; }
+
+  /* === Drawer ================================================== */
+  .drawer-bg { position: fixed; inset: 0; background: rgba(10,11,20,0.65); opacity: 0; pointer-events: none; transition: opacity .25s ease; z-index: 60; }
+  .drawer-bg.open { opacity: 1; pointer-events: auto; }
+  .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 520px; max-width: 92vw; background: var(--surface); transform: translateX(100%); transition: transform .35s cubic-bezier(0.16,1,0.3,1); z-index: 61; overflow-y: auto; border-left: 1px solid var(--line); }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head { padding: 22px 28px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .drawer-head .who { display: flex; gap: 12px; align-items: center; }
+  .drawer-head .cav { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 15px; color: #FFFFFF; }
+  .drawer-head .nm { font-family: 'Inter Tight'; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+  .drawer-head .em { font-size: 12.5px; color: var(--mute); margin-top: 2px; }
+  .drawer-close { width: 32px; height: 32px; border-radius: 7px; background: var(--surface-2); border: 0; cursor: pointer; font-size: 14px; color: var(--text-d); display: grid; place-items: center; }
+  .drawer-close:hover { background: var(--raised); color: var(--text); }
+
+  .drawer-body { padding: 22px 28px; display: flex; flex-direction: column; gap: 22px; }
+  .d-section .d-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-bottom: 10px; font-weight: 600; }
+
+  .sub-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .sub-card .plan-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .sub-card .plan { font-family: 'Inter Tight'; font-weight: 700; font-size: 17px; }
+  .sub-card .price { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .plan-switch { display: flex; gap: 4px; margin-top: 14px; padding: 3px; background: var(--bg); border-radius: 7px; }
+  .plan-switch .t { padding: 6px 10px; border-radius: 5px; font-size: 11.5px; font-weight: 600; color: var(--mute); cursor: pointer; flex: 1; text-align: center; }
+  .plan-switch .t.active { background: var(--indigo); color: #FFFFFF; }
+  .proration { margin-top: 14px; padding: 12px 14px; background: var(--indigo-s); border-radius: 8px; font-size: 12.5px; color: var(--text-d); display: none; }
+  .proration.visible { display: block; }
+  .proration strong { color: var(--text); font-weight: 700; }
+
+  .invoice-list { display: flex; flex-direction: column; gap: 8px; }
+  .invoice-row { display: grid; grid-template-columns: auto 1fr auto auto; gap: 12px; align-items: center; padding: 10px 14px; background: var(--surface-2); border-radius: 8px; font-size: 13px; }
+  .invoice-row .num { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--mute); }
+  .invoice-row .dt { font-size: 12px; color: var(--text-d); }
+  .invoice-row .amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .invoice-row .st { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; }
+  .invoice-row .st.paid { color: var(--green); background: var(--green-s); }
+  .invoice-row .st.failed { color: var(--rose); background: var(--rose-s); }
+  .invoice-row .st.refund { color: var(--mute); background: rgba(123,126,154,0.16); }
+
+  /* === Toast =================================================== */
+  .toast-wrap { position: fixed; bottom: 22px; right: 22px; z-index: 80; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+  .toast { background: var(--surface); border: 1px solid var(--line-2); color: var(--text); padding: 14px 18px; border-radius: 11px; min-width: 320px; max-width: 380px; display: flex; gap: 12px; align-items: flex-start; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5); transform: translateX(120%); opacity: 0; transition: transform .35s cubic-bezier(0.16,1,0.3,1), opacity .35s ease; pointer-events: auto; }
+  .toast.show { transform: translateX(0); opacity: 1; }
+  .toast .ic { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; font-weight: 700; font-size: 14px; }
+  .toast.success .ic { background: var(--green-s); color: var(--green); }
+  .toast.info .ic { background: var(--indigo-s); color: var(--indigo); }
+  .toast .b { flex: 1; }
+  .toast .ti { font-weight: 600; font-size: 13.5px; }
+  .toast .su { font-size: 11.5px; color: var(--mute); margin-top: 2px; }
+  .toast .close { background: transparent; border: 0; color: var(--mute); cursor: pointer; font-size: 14px; padding: 0; }
 </style>
 </head>
 <body>
 
-<div class="grain"></div>
-
-<!-- Top ticker -->
-<div class="ink-bg" style="overflow: hidden; padding: 0.8rem 0;">
-  <div class="ticker mono" style="display: flex; gap: 3rem; white-space: nowrap; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;">
-    <span>Free shipping on six bottles or more</span><span class="burnt">·</span>
-    <span>Wines under $35 · always</span><span class="burnt">·</span>
-    <span>This week's allocation: Lichtenberger 2024</span><span class="burnt">·</span>
-    <span>Free shipping on six bottles or more</span><span class="burnt">·</span>
-    <span>Wines under $35 · always</span><span class="burnt">·</span>
-    <span>This week's allocation: Lichtenberger 2024</span><span class="burnt">·</span>
-  </div>
+<!-- Concept disclosure -->
+<div class="concept-banner">
+  <a href="/">← Back to studio</a>
+  &nbsp;·&nbsp; Product demo · production Stripe billing architecture
 </div>
 
-<!-- Nav -->
-<nav style="border-bottom: 1px solid var(--line);">
-  <div class="container" style="padding: 1.4rem 2rem; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem;">
-    <div class="micro" style="display: flex; gap: 1.6rem;">
-      <a href="#" style="color: inherit; text-decoration: none;">Shop</a>
-      <a href="#" style="color: inherit; text-decoration: none;">Subscriptions</a>
-      <a href="#" style="color: inherit; text-decoration: none;">Producers</a>
-      <a href="#" style="color: inherit; text-decoration: none;">Cellar door</a>
-    </div>
-    <a href="#" style="text-align: center; text-decoration: none; color: inherit;">
-      <div class="display" style="font-size: 1.55rem; letter-spacing: 0.04em;">TANNIN <span class="editorial" style="font-weight: 400; letter-spacing: 0;">&amp;</span> LOAM</div>
-      <div class="micro muted" style="margin-top: 0.2rem; font-size: 8px;">— Brooklyn · Est. 2019 —</div>
-    </a>
-    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 1.2rem;">
-      <a href="#" class="micro" style="color: inherit; text-decoration: none;">Search</a>
-      <a href="#" class="micro" style="color: inherit; text-decoration: none;">Account</a>
-      <a href="#" class="micro" style="color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">Cart
-        <span style="background: var(--ink); color: var(--bone); width: 22px; height: 22px; border-radius: 999px; display:inline-flex; align-items:center; justify-content:center; font-size: 10px; letter-spacing: 0;">3</span>
-      </a>
-    </div>
-  </div>
-</nav>
+<div class="app">
 
-<!-- HERO -->
-<section style="padding: 5rem 0 7rem;">
-  <div class="container" style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: end;">
-    <div>
-      <div class="micro burnt reveal d1" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-        <span style="background: var(--burnt); width: 8px; height: 8px;"></span>
-        Issue 19 · Spring allocation
-      </div>
-      <h1 class="display reveal d2" style="font-size: clamp(3.4rem, 9.5vw, 10rem);">
-        Wines made<br>
-        by people<br>
-        we've <span class="editorial">stood next to</span><br>
-        in the cellar.
-      </h1>
-      <p class="reveal d3" style="max-width: 32rem; margin-top: 2rem; font-size: 1.05rem; line-height: 1.55; color: var(--mute);">
-        We're a small natural-wine importer in Brooklyn working with twenty-three growers across France, Slovenia, and Galicia. No additives. No spoofulated mass-market plonk. Just bottles we'd happily drink ourselves at dinner — most under thirty-five dollars.
-      </p>
-      <div class="reveal d4" style="margin-top: 2.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-        <a href="#" class="btn btn-ink">Shop the cellar →</a>
-        <a href="#" class="micro" style="color: inherit; text-decoration: underline; text-underline-offset: 6px;">Try the subscription</a>
-      </div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand-block">
+      <div class="brand-mark">⌥</div>
+      <div class="brand-name">OnCall<span>·</span>Bill</div>
+    </div>
+    <div class="org-pick"><span>Acme Inc. (Live)</span><span class="arrow">▾</span></div>
+
+    <div class="nav-section">
+      <p class="nav-label">Billing</p>
+      <div class="nav-item active"><span class="l"><span class="ico">◎</span>Customers</span><span class="badge">847</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">⊠</span>Subscriptions</span><span class="badge">812</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">$</span>Invoices</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">▸</span>Payments</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">↻</span>Dunning</span><span class="badge" style="color: var(--rose); background: var(--rose-s);">12</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">⊕</span>Coupons</span></div>
     </div>
 
-    <!-- Asymmetric bottle stack -->
-    <div class="reveal d3" style="position: relative; height: 620px;">
-      <div class="scene-vine" style="position: absolute; inset: 0 0 30% 18%;"></div>
-      <div class="stage" style="position: absolute; left: 0; bottom: 0; width: 65%; height: 70%; padding: 2rem 0 0;
-        display: flex; align-items: end; justify-content: space-around; gap: 0.5rem;">
-        <div class="bottle-wine" style="width: 18%; height: 80%;"></div>
-        <div class="bottle-wine amber" style="width: 18%; height: 88%;"></div>
-        <div class="bottle-wine green" style="width: 18%; height: 76%;"></div>
-        <div class="bottle-wine rose" style="width: 18%; height: 84%;"></div>
-      </div>
-      <div class="paper-bg" style="position: absolute; top: 6%; right: 0; width: 38%; padding: 1.4rem;">
-        <div class="micro burnt" style="font-size: 9px;">Featured · this week</div>
-        <div class="display" style="font-size: 1.2rem; margin-top: 0.4rem; line-height: 1;">Lichtenberger Roter Veltliner</div>
-        <div class="muted" style="font-size: 0.85rem; margin-top: 0.5rem;">Burgenland, Austria · 2024</div>
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--line);">
-          <div class="display" style="font-size: 1.05rem;">$32</div>
-          <div class="micro burnt" style="font-size: 9px;">Add →</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY US — moss strip -->
-<section class="moss-bg" style="padding: 6rem 0;">
-  <div class="container" style="display: grid; grid-template-columns: 0.9fr 2.6fr; gap: 3rem;">
-    <div class="micro" style="opacity: 0.7;">— What we don't import</div>
-    <div>
-      <p class="display" style="font-size: clamp(1.95rem, 4.5vw, 4rem); font-weight: 500;">
-        Wines with added <span class="editorial" style="color: var(--burnt);">color</span>, added <span class="editorial" style="color: var(--burnt);">acid</span>, mega purple, gum arabic, oak chips, or any of the <span class="editorial" style="color: var(--burnt);">forty-seven</span> other things the EU lets producers slip in without telling you. If we wouldn't drink it ourselves, we won't pour it for you.
-      </p>
-      <div class="mono" style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.7; letter-spacing: 0.2em; text-transform: uppercase;">— Eli Maranowicz &amp; Sasha Brenner-Falk · founders</div>
-    </div>
-  </div>
-</section>
-
-<!-- COLLECTION — bento -->
-<section style="padding: 6rem 0;">
-  <div class="container">
-    <div style="display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem;">
-      <div>
-        <div class="micro burnt" style="margin-bottom: 1rem;">— This week's pours · 24 bottles</div>
-        <h2 class="display" style="font-size: clamp(2.4rem, 5.6vw, 5rem);">The <span class="editorial">cellar</span>.</h2>
-      </div>
-      <div class="micro" style="display: flex; gap: 1.4rem;">
-        <button style="background: none; border: 0; padding: 0.5rem 0; border-bottom: 1px solid var(--ink); cursor: pointer; font: inherit;" class="micro">All 24</button>
-        <button style="background: none; border: 0; cursor: pointer; font: inherit; color: var(--mute);" class="micro">Red</button>
-        <button style="background: none; border: 0; cursor: pointer; font: inherit; color: var(--mute);" class="micro">White</button>
-        <button style="background: none; border: 0; cursor: pointer; font: inherit; color: var(--mute);" class="micro">Skin contact</button>
-        <button style="background: none; border: 0; cursor: pointer; font: inherit; color: var(--mute);" class="micro">Bubbles</button>
-        <button style="background: none; border: 0; cursor: pointer; font: inherit; color: var(--mute);" class="micro">Under $25</button>
-      </div>
+    <div class="nav-section">
+      <p class="nav-label">Revenue</p>
+      <div class="nav-item"><span class="l"><span class="ico">⊿</span>Analytics</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">⌬</span>Forecasting</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">◇</span>Cohorts</span></div>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: minmax(200px, auto); gap: 1.2rem;">
-      <!-- Big card -->
-      <a href="#" class="prod-card" style="grid-column: span 6; grid-row: span 2; text-decoration: none; color: inherit;">
-        <div class="stage" style="aspect-ratio: 5/4; position: relative; padding: 2rem;">
-          <div class="burnt-bg micro" style="position: absolute; top: 1.2rem; left: 1.2rem; padding: 0.4rem 0.7rem; font-size: 9px;">Allocation</div>
-          <div class="hand editorial" style="position: absolute; top: 1.2rem; right: 1.4rem; font-size: 1.25rem; max-width: 180px; text-align: right; color: var(--moss);">"like a meadow on fire"</div>
-          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-            <div class="bottle-wine amber" style="width: 14%;"></div>
+    <div class="nav-section">
+      <p class="nav-label">Developer</p>
+      <div class="nav-item"><span class="l"><span class="ico">⚡</span>Webhooks</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">⊡</span>API logs</span></div>
+      <div class="nav-item"><span class="l"><span class="ico">⊕</span>Stripe Connect</span></div>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="av">LK</div>
+      <div class="who">Lawrence Kocaj<span>Admin</span></div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="main-head">
+      <h1>Customers</h1>
+      <div class="right">
+        <button class="btn ghost">Export CSV</button>
+        <button class="btn primary">+ New customer</button>
+      </div>
+    </div>
+    <div class="main-body">
+
+      <!-- Stat strip -->
+      <div class="stat-strip">
+        <div class="stat-card"><p class="label">MRR</p><p class="v" id="stat-mrr">$184,820</p><p class="delta up">▲ 8.2% MoM</p></div>
+        <div class="stat-card"><p class="label">Active subs</p><p class="v" id="stat-subs">812</p><p class="delta up">▲ 24 this week</p></div>
+        <div class="stat-card"><p class="label">Past due</p><p class="v" id="stat-pd" style="color: var(--rose);">12</p><p class="delta down">▼ 3 since dunning</p></div>
+        <div class="stat-card"><p class="label">Churn (30d)</p><p class="v">2.1%</p><p class="delta up">▼ 0.4% MoM</p></div>
+      </div>
+
+      <!-- MRR chart -->
+      <div class="chart-card">
+        <div class="chart-head">
+          <h3>Revenue · last 12 months</h3>
+          <div class="legend">
+            <span><span class="dot indigo"></span>MRR</span>
+            <span><span class="dot cyan"></span>New ARR</span>
           </div>
         </div>
-        <div style="padding-top: 1.2rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;">
-          <div>
-            <div class="micro burnt" style="font-size: 9px;">Skin contact · 750ml · 2024</div>
-            <h3 class="display" style="font-size: 1.6rem; margin-top: 0.3rem;">Lichtenberger<br>"Roter Veltliner"</h3>
-            <p class="muted" style="font-size: 0.92rem; margin-top: 0.5rem;">Burgenland, Austria. Ten days on skins. Apricot, dried sage, bitter orange. Drink chilled.</p>
-            <div style="display: flex; gap: 0.5rem; margin-top: 0.8rem;">
-              <span class="micro" style="background: var(--paper); padding: 0.3rem 0.6rem; font-size: 9px;">Funky</span>
-              <span class="micro" style="background: var(--paper); padding: 0.3rem 0.6rem; font-size: 9px;">Textural</span>
-              <span class="micro" style="background: var(--paper); padding: 0.3rem 0.6rem; font-size: 9px;">Low SO₂</span>
+        <svg class="chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="mrrGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#635BFF" stop-opacity="0.4"/>
+              <stop offset="1" stop-color="#635BFF" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- horizontal grid -->
+          <line x1="0" y1="50" x2="600" y2="50" stroke="rgba(255,255,255,0.05)"/>
+          <line x1="0" y1="100" x2="600" y2="100" stroke="rgba(255,255,255,0.05)"/>
+          <line x1="0" y1="150" x2="600" y2="150" stroke="rgba(255,255,255,0.05)"/>
+          <!-- MRR area -->
+          <path d="M0,170 L50,165 L100,158 L150,152 L200,140 L250,128 L300,115 L350,98 L400,82 L450,68 L500,52 L550,42 L600,30 L600,200 L0,200 Z" fill="url(#mrrGrad)"/>
+          <!-- MRR line -->
+          <path d="M0,170 L50,165 L100,158 L150,152 L200,140 L250,128 L300,115 L350,98 L400,82 L450,68 L500,52 L550,42 L600,30" fill="none" stroke="#635BFF" stroke-width="2"/>
+          <!-- New ARR line (cyan, lower) -->
+          <path d="M0,185 L50,182 L100,176 L150,170 L200,160 L250,154 L300,145 L350,130 L400,118 L450,108 L500,95 L550,85 L600,72" fill="none" stroke="#22D3EE" stroke-width="2" stroke-dasharray="4,4"/>
+          <!-- Dots -->
+          <circle cx="600" cy="30" r="4" fill="#635BFF"/>
+          <circle cx="600" cy="72" r="3" fill="#22D3EE"/>
+          <!-- Latest label -->
+          <text x="588" y="22" font-family="JetBrains Mono" font-size="10" fill="#635BFF" text-anchor="end" font-weight="600">$184.8K</text>
+        </svg>
+      </div>
+
+      <!-- Two-col -->
+      <div class="split">
+        <!-- Customers table -->
+        <div class="table-card">
+          <div class="table-head">
+            <h3>Customers</h3>
+            <div class="filter-pills" id="filter-pills">
+              <span class="filter-pill active" data-st="all">All</span>
+              <span class="filter-pill" data-st="active">Active</span>
+              <span class="filter-pill" data-st="past_due">Past due</span>
+              <span class="filter-pill" data-st="trial">Trial</span>
+              <span class="filter-pill" data-st="churned">Churned</span>
             </div>
           </div>
-          <div style="text-align: right;">
-            <div style="font-size: 1.1rem;">$32</div>
-            <div class="micro burnt add" style="font-size: 9px; margin-top: 0.3rem;">Add →</div>
-          </div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Plan</th>
+                <th>MRR</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="cust-rows"></tbody>
+          </table>
         </div>
-      </a>
 
-      <!-- Card 2 -->
-      <a href="#" class="prod-card" style="grid-column: span 3; text-decoration: none; color: inherit;">
-        <div class="stage" style="aspect-ratio: 1; position: relative;">
-          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-            <div class="bottle-wine" style="width: 24%;"></div>
+        <!-- Dunning queue -->
+        <div class="dunning-card">
+          <div class="head">
+            <h3>Dunning queue</h3>
+            <p class="sub">12 customers · $4,820 at risk this week</p>
           </div>
+          <div id="dunning-list"></div>
         </div>
-        <div style="padding-top: 1rem;">
-          <div class="micro burnt" style="font-size: 9px;">Red · 2023</div>
-          <h3 class="display" style="font-size: 1.15rem; margin-top: 0.25rem; line-height: 1.05;">Mendoza Pais "Salvaje"</h3>
-          <p class="muted" style="font-size: 0.78rem; margin-top: 0.4rem;">Itata Valley, Chile</p>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.7rem;">
-            <span style="font-size: 0.95rem;">$26</span>
-            <span class="micro burnt add" style="font-size: 9px;">Add →</span>
-          </div>
-        </div>
-      </a>
+      </div>
 
-      <!-- Card 3 -->
-      <a href="#" class="prod-card" style="grid-column: span 3; text-decoration: none; color: inherit;">
-        <div class="stage" style="aspect-ratio: 1; position: relative;">
-          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-            <div class="bottle-wine green" style="width: 24%;"></div>
-          </div>
+      <!-- Webhook log -->
+      <div class="webhook-card">
+        <div class="head">
+          <h3>Webhook events · live</h3>
+          <span class="live"><span class="dot"></span>Streaming</span>
         </div>
-        <div style="padding-top: 1rem;">
-          <div class="micro burnt" style="font-size: 9px;">White · Pet-Nat · 2024</div>
-          <h3 class="display" style="font-size: 1.15rem; margin-top: 0.25rem; line-height: 1.05;">Bencze "Furmint"</h3>
-          <p class="muted" style="font-size: 0.78rem; margin-top: 0.4rem;">Tokaj, Hungary</p>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.7rem;">
-            <span style="font-size: 0.95rem;">$34</span>
-            <span class="micro burnt add" style="font-size: 9px;">Add →</span>
-          </div>
-        </div>
-      </a>
+        <div class="webhook-list" id="webhook-list"></div>
+      </div>
 
-      <!-- Card 4 -->
-      <a href="#" class="prod-card" style="grid-column: span 3; text-decoration: none; color: inherit;">
-        <div class="stage" style="aspect-ratio: 1; position: relative;">
-          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-            <div class="bottle-wine rose" style="width: 24%;"></div>
-          </div>
-        </div>
-        <div style="padding-top: 1rem;">
-          <div class="micro burnt" style="font-size: 9px;">Rosé · 2024</div>
-          <h3 class="display" style="font-size: 1.15rem; margin-top: 0.25rem; line-height: 1.05;">Domaine Mosse "Magic of Ju Ju"</h3>
-          <p class="muted" style="font-size: 0.78rem; margin-top: 0.4rem;">Anjou, Loire</p>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.7rem;">
-            <span style="font-size: 0.95rem;">$28</span>
-            <span class="micro burnt add" style="font-size: 9px;">Add →</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 5 -->
-      <a href="#" class="prod-card" style="grid-column: span 3; text-decoration: none; color: inherit;">
-        <div class="stage" style="aspect-ratio: 1; position: relative;">
-          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-            <div class="bottle-wine" style="width: 24%;"></div>
-          </div>
-        </div>
-        <div style="padding-top: 1rem;">
-          <div class="micro burnt" style="font-size: 9px;">Red · 2022</div>
-          <h3 class="display" style="font-size: 1.15rem; margin-top: 0.25rem; line-height: 1.05;">Cantillon "Bru Zero"</h3>
-          <p class="muted" style="font-size: 0.78rem; margin-top: 0.4rem;">Saint-Saturnin, Languedoc</p>
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 0.7rem;">
-            <span style="font-size: 0.95rem;">$22</span>
-            <span class="micro burnt add" style="font-size: 9px;">Add →</span>
-          </div>
-        </div>
-      </a>
     </div>
   </div>
-</section>
 
-<!-- SUBSCRIPTION -->
-<section class="plum-bg" style="padding: 6.5rem 0;">
-  <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;">
-    <div>
-      <div class="micro" style="margin-bottom: 1rem; opacity: 0.75; color: var(--paper);">— The cellar club</div>
-      <h2 class="display" style="font-size: clamp(2.4rem, 5.6vw, 5rem); color: var(--paper);">Six bottles. <span class="editorial">Once a month.</span> Hand-picked.</h2>
-      <p style="margin-top: 1.5rem; max-width: 30rem; opacity: 0.85;">Two whites, two reds, one bubble, one wildcard — chosen by Eli &amp; Sasha based on what they're drinking that week. Skip a month, swap a bottle, cancel anytime. No commitment, no compatibility quiz.</p>
-      <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-        <a href="#" class="btn" style="background: var(--burnt); color: var(--paper);">Start at $148/mo →</a>
-        <a href="#" class="btn" style="border: 1px solid rgba(240,233,214,0.4); color: var(--paper); background: transparent;">How it works</a>
+</div>
+
+<!-- Drawer -->
+<div class="drawer-bg" id="drawer-bg"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div class="who">
+      <div class="cav" id="d-av">AC</div>
+      <div>
+        <p class="nm" id="d-nm">Acme Corp</p>
+        <p class="em" id="d-em">billing@acmecorp.com</p>
       </div>
     </div>
-    <div style="position: relative; height: 460px;">
-      <div class="paper-bg" style="position: absolute; inset: 0; padding: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
-        <div class="stage" style="aspect-ratio: 1/2; display: flex; align-items: center; justify-content: center;"><div class="bottle-wine amber" style="width: 50%;"></div></div>
-        <div class="stage" style="aspect-ratio: 1/2; display: flex; align-items: center; justify-content: center;"><div class="bottle-wine" style="width: 50%;"></div></div>
-        <div class="stage" style="aspect-ratio: 1/2; display: flex; align-items: center; justify-content: center;"><div class="bottle-wine green" style="width: 50%;"></div></div>
-        <div class="stage" style="aspect-ratio: 1/2; display: flex; align-items: center; justify-content: center;"><div class="bottle-wine rose" style="width: 50%;"></div></div>
-        <div class="stage" style="aspect-ratio: 1/2; display: flex; align-items: center; justify-content: center;"><div class="bottle-wine" style="width: 50%;"></div></div>
-        <div class="stage" style="aspect-ratio: 1/2; display: flex; align-items: center; justify-content: center;"><div class="bottle-wine green" style="width: 50%;"></div></div>
-      </div>
-    </div>
+    <button class="drawer-close" id="d-close">✕</button>
   </div>
-</section>
+  <div class="drawer-body">
 
-<!-- TASTING NOTES -->
-<section style="padding: 6rem 0;">
-  <div class="container">
-    <div style="display: grid; grid-template-columns: 1fr 2.6fr; gap: 3rem; margin-bottom: 4rem;">
-      <div class="micro burnt">— Why people stay</div>
-      <h2 class="display" style="font-size: clamp(2rem, 5vw, 4.4rem);">We pour <span class="editorial">small things</span>, well.</h2>
+    <div class="d-section">
+      <p class="d-label">Current subscription</p>
+      <div class="sub-card">
+        <div class="plan-row">
+          <p class="plan" id="d-plan">Growth · $497/mo</p>
+          <p class="price" id="d-price">$497.00</p>
+        </div>
+        <p style="font-size: 12.5px; color: var(--mute);">Next invoice <strong style="color: var(--text); font-weight: 600;" id="d-next">May 21, 2026</strong> · payment method <strong style="color: var(--text); font-weight: 600;">•••• 4242</strong></p>
+        <div class="plan-switch" id="plan-switch">
+          <span class="t" data-plan="Starter" data-amt="97">Starter · $97</span>
+          <span class="t active" data-plan="Growth" data-amt="497">Growth · $497</span>
+          <span class="t" data-plan="Scale" data-amt="1497">Scale · $1,497</span>
+        </div>
+        <div class="proration" id="d-proration"></div>
+      </div>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line);">
-      <div style="padding: 2.5rem 1.6rem 0 0; border-right: 1px solid var(--line);">
-        <div class="display" style="font-size: 4rem; line-height: 1; color: var(--burnt);">23</div>
-        <div class="display" style="font-size: 1.25rem; margin-top: 0.7rem;">Producers, total.</div>
-        <p class="muted" style="margin-top: 0.6rem; font-size: 0.9rem;">All visited in person. We won't import a wine from a producer we haven't stood next to.</p>
-      </div>
-      <div style="padding: 2.5rem 1.6rem 0; border-right: 1px solid var(--line);">
-        <div class="display" style="font-size: 4rem; line-height: 1; color: var(--burnt);">$32</div>
-        <div class="display" style="font-size: 1.25rem; margin-top: 0.7rem;">Average bottle.</div>
-        <p class="muted" style="margin-top: 0.6rem; font-size: 0.9rem;">Not because we couldn't sell expensive ones. Because that's where the joy lives.</p>
-      </div>
-      <div style="padding: 2.5rem 1.6rem 0; border-right: 1px solid var(--line);">
-        <div class="display" style="font-size: 4rem; line-height: 1; color: var(--burnt);">2,140</div>
-        <div class="display" style="font-size: 1.25rem; margin-top: 0.7rem;">Subscribers · monthly.</div>
-        <p class="muted" style="margin-top: 0.6rem; font-size: 0.9rem;">90% retention after twelve months. The other 10% told us they moved.</p>
-      </div>
-      <div style="padding: 2.5rem 0 0 1.6rem;">
-        <div class="display" style="font-size: 4rem; line-height: 1; color: var(--burnt);">0</div>
-        <div class="display" style="font-size: 1.25rem; margin-top: 0.7rem;">Industrial juice.</div>
-        <p class="muted" style="margin-top: 0.6rem; font-size: 0.9rem;">Nothing on this site has been chaptalized, mega-purpled, or color-corrected. We checked.</p>
-      </div>
+    <div class="d-section">
+      <p class="d-label">Recent invoices</p>
+      <div class="invoice-list" id="d-invoices"></div>
     </div>
+
   </div>
-</section>
+</aside>
 
-<!-- REVIEWS -->
-<section class="ink-bg" style="padding: 6rem 0;">
-  <div class="container">
-    <div style="display: grid; grid-template-columns: 1fr 2.6fr; gap: 3rem; margin-bottom: 4rem; align-items: end;">
-      <div>
-        <div class="micro burnt" style="margin-bottom: 0.8rem;">— Verified buyers</div>
-        <div style="color: var(--burnt); font-size: 1.1rem; letter-spacing: 0.1em;">★ ★ ★ ★ ★</div>
-        <div style="opacity: 0.7; margin-top: 0.5rem; font-size: 0.9rem;">4.94 · 1,847 reviews</div>
-      </div>
-      <h2 class="display" style="font-size: clamp(2rem, 4.6vw, 4rem);">"It's the only subscription <span class="editorial burnt">we don't think about</span> cancelling."</h2>
-    </div>
+<!-- Toast -->
+<div class="toast-wrap" id="toast-wrap"></div>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
-      <div style="border-left: 1px solid rgba(233,226,207,0.2); padding-left: 1.6rem;">
-        <p class="editorial" style="font-size: 1.3rem; line-height: 1.4; margin-bottom: 1.2rem;">"Replaced our local wine shop entirely. The notes that come with each box are short, funny, and actually useful."</p>
-        <div class="micro" style="opacity: 0.55; font-size: 10px;">Tomás Reichenbach-Long · Astoria, NY</div>
-      </div>
-      <div style="border-left: 1px solid rgba(233,226,207,0.2); padding-left: 1.6rem;">
-        <p class="editorial" style="font-size: 1.3rem; line-height: 1.4; margin-bottom: 1.2rem;">"Eli emailed me back at 11pm to talk through a substitution. Not a chatbot, an actual person. I'm a customer for life."</p>
-        <div class="micro" style="opacity: 0.55; font-size: 10px;">Imogen Kallikles · Park Slope</div>
-      </div>
-      <div style="border-left: 1px solid rgba(233,226,207,0.2); padding-left: 1.6rem;">
-        <p class="editorial" style="font-size: 1.3rem; line-height: 1.4; margin-bottom: 1.2rem;">"Six wines a month, never a dud. The Burgenland skin contact alone made the whole year of subscribing worth it."</p>
-        <div class="micro" style="opacity: 0.55; font-size: 10px;">Davian Holst-Marquez · Crown Heights</div>
-      </div>
-    </div>
-  </div>
-</section>
+<script>
+(() => {
+  // ── Customer data ────────────────────────────────────────────
+  const customers = [
+    { id:'acme',  name:'Acme Corp',            email:'billing@acmecorp.com',    initials:'AC', av:'ag1', plan:'Growth',    amt:497,  status:'active',   next:'May 21, 2026', invoices:[['inv_4821','Apr 21',497,'paid'],['inv_4720','Mar 21',497,'paid'],['inv_4619','Feb 21',497,'paid']] },
+    { id:'kappa', name:'Kappa Operations',     email:'priya@kappaops.com',      initials:'KO', av:'ag2', plan:'Scale',     amt:1497, status:'active',   next:'May 18, 2026', invoices:[['inv_4801','Apr 18',1497,'paid'],['inv_4699','Mar 18',1497,'paid']] },
+    { id:'forge', name:'Forge Method',         email:'tomas@forgemethod.com',   initials:'FM', av:'ag3', plan:'Growth',    amt:497,  status:'active',   next:'May 24, 2026', invoices:[['inv_4855','Apr 24',497,'paid'],['inv_4754','Mar 24',497,'paid']] },
+    { id:'selen', name:'Selendy Gay',          email:'dana@selendygay.com',     initials:'SG', av:'ag4', plan:'Scale',     amt:1497, status:'active',   next:'May 19, 2026', invoices:[['inv_4811','Apr 19',1497,'paid'],['inv_4710','Mar 19',1497,'paid']] },
+    { id:'cohen', name:'Cohen Aesthetic',      email:'eli@cohenaesthetic.com',  initials:'CA', av:'ag5', plan:'Growth',    amt:497,  status:'active',   next:'May 22, 2026', invoices:[['inv_4831','Apr 22',497,'paid']] },
+    { id:'petrov',name:'Petrov Legal',         email:'ana@petrovlegal.com',     initials:'PL', av:'ag6', plan:'Starter',   amt:97,   status:'trial',    next:'Jun 02, 2026', invoices:[] },
+    { id:'bskyt', name:'BrightSky Therapy',    email:'brandon@brightskytherapy.com', initials:'BT', av:'ag0', plan:'Growth', amt:497,  status:'active',   next:'May 20, 2026', invoices:[['inv_4820','Apr 20',497,'paid']] },
+    { id:'wdental', name:'Walsh Dental',       email:'james@walshdental.com',   initials:'WD', av:'ag1', plan:'Starter',   amt:97,   status:'past_due', next:'Apr 30, 2026 (overdue)', invoices:[['inv_4791','Apr 30',97,'failed'],['inv_4690','Mar 30',97,'paid']] },
+    { id:'stellar', name:'Stellar HR',         email:'maya@stellarhr.com',      initials:'SH', av:'ag2', plan:'Starter',   amt:97,   status:'trial',    next:'May 28, 2026', invoices:[] },
+    { id:'pbot',  name:'Procurebot',           email:'sasha@procurebot.io',     initials:'PB', av:'ag4', plan:'Growth',    amt:497,  status:'past_due', next:'May 02, 2026 (overdue)', invoices:[['inv_4799','May 02',497,'failed']] },
+    { id:'halo',  name:'Halo Holdings',        email:'finance@halo.co',         initials:'HH', av:'ag5', plan:'Scale',     amt:1497, status:'churned',  next:'—', invoices:[['inv_4501','Feb 15',1497,'refund']] },
+    { id:'vrt',   name:'Vertex Robotics',      email:'ap@vertex.io',            initials:'VR', av:'ag6', plan:'Growth',    amt:497,  status:'past_due', next:'Apr 28, 2026 (overdue)', invoices:[['inv_4780','Apr 28',497,'failed']] }
+  ];
 
-<!-- FOOTER -->
-<footer style="padding: 5rem 0 3rem; border-top: 1px solid var(--line);">
-  <div class="container">
-    <div class="display" style="font-size: clamp(4rem, 17vw, 17rem); line-height: 0.82; user-select: none; margin-bottom: 4rem;">
-      TANNIN<br><span class="editorial" style="font-weight: 400; color: var(--burnt);">&amp; LOAM</span>
-    </div>
-    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; padding-top: 2.5rem; border-top: 1px solid var(--line); font-size: 0.92rem;">
-      <div>
-        <div class="micro burnt" style="margin-bottom: 1rem;">— The cellar door</div>
-        <p class="muted" style="max-width: 24rem;">441 Atlantic Avenue · Brooklyn, NY 11217<br>Wed-Sat · 12-9p · Sun · 12-5p<br>Free corkage if you eat next door</p>
-      </div>
-      <div>
-        <div class="micro burnt" style="margin-bottom: 1rem;">Shop</div>
-        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
-          <li>This week's pours</li><li>Subscriptions</li><li>Mixed cases</li><li>Gift cards</li>
-        </ul>
-      </div>
-      <div>
-        <div class="micro burnt" style="margin-bottom: 1rem;">Learn</div>
-        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
-          <li>Producers</li><li>Glossary</li><li>Tastings</li><li>Journal</li>
-        </ul>
-      </div>
-      <div>
-        <div class="micro burnt" style="margin-bottom: 1rem;">Contact</div>
-        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
-          <li>hello@tanninloam.co</li><li>(347) 555-0193</li><li>@tannin.loam</li>
-        </ul>
-      </div>
-    </div>
-    <div class="micro" style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 9px; opacity: 0.55;">
-      © Tannin &amp; Loam Imports LLC · 2026 · Drink with intent
-    </div>
-  </div>
-</footer>
+  // ── State ────────────────────────────────────────────────────
+  let activeStatus = 'all';
+  let selectedId = null;
+
+  // ── Helpers ──────────────────────────────────────────────────
+  const $ = (sel) => document.querySelector(sel);
+  const statusLabel = (s) => ({ active:'Active', past_due:'Past due', trial:'Trial', churned:'Churned' }[s] || s);
+
+  // ── Render customer table ───────────────────────────────────
+  function renderTable() {
+    const tbody = $('#cust-rows');
+    tbody.innerHTML = '';
+    const filtered = customers.filter(c => activeStatus === 'all' || c.status === activeStatus).slice(0, 8);
+    filtered.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="cust">
+            <div class="cav ${c.av}">${c.initials}</div>
+            <div>
+              <span class="nm">${c.name}</span>
+              <span class="em">${c.email}</span>
+            </div>
+          </div>
+        </td>
+        <td>${c.plan}</td>
+        <td class="amt">$${c.amt.toLocaleString()}.00</td>
+        <td><span class="status-chip ${c.status}"><span class="dot"></span>${statusLabel(c.status)}</span></td>
+      `;
+      tr.addEventListener('click', () => openDrawer(c.id));
+      tbody.appendChild(tr);
+    });
+  }
+
+  // ── Render dunning queue ────────────────────────────────────
+  function renderDunning() {
+    const list = $('#dunning-list');
+    list.innerHTML = '';
+    const overdue = customers.filter(c => c.status === 'past_due');
+    overdue.forEach(c => {
+      const row = document.createElement('div');
+      row.className = 'dunning-row';
+      const days = c.id === 'wdental' ? 8 : c.id === 'pbot' ? 5 : 11;
+      row.innerHTML = `
+        <div>
+          <p class="nm">${c.name}</p>
+          <p class="meta"><strong>$${c.amt}</strong> failed · ${days} days overdue · card declined</p>
+        </div>
+        <button class="retry" data-id="${c.id}">Retry charge</button>
+      `;
+      row.querySelector('.retry').addEventListener('click', e => {
+        e.stopPropagation();
+        const btn = e.target;
+        btn.disabled = true;
+        btn.textContent = 'Retrying…';
+        setTimeout(() => {
+          btn.textContent = '✓ Recovered';
+          btn.classList.add('done');
+          c.status = 'active';
+          toast({ kind:'success', icon:'✓', title:`Recovered $${c.amt} from ${c.name}`, sub:'Card charged successfully · subscription reactivated' });
+          setTimeout(() => { renderTable(); renderDunning(); }, 600);
+        }, 1100);
+      });
+      list.appendChild(row);
+    });
+    if (overdue.length === 0) {
+      list.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--mute); font-size: 13px;">No past-due charges. ✓</div>`;
+    }
+  }
+
+  // ── Webhook log (live) ───────────────────────────────────────
+  const webhookEvents = [
+    ['ok', 'invoice.payment_succeeded', 'cus_AcmeCorp', '$497.00'],
+    ['ok', 'customer.subscription.updated', 'cus_KappaOps', 'plan → Scale'],
+    ['ok', 'invoice.payment_succeeded', 'cus_Forge', '$497.00'],
+    ['warn','invoice.payment_action_required', 'cus_WalshDental', '3DS challenge'],
+    ['err', 'invoice.payment_failed', 'cus_Procurebot', '$497.00'],
+    ['ok', 'checkout.session.completed', 'cus_StellarHR', 'trial started'],
+    ['ok', 'customer.subscription.created', 'cus_BrightSky', 'Growth'],
+    ['ok', 'invoice.finalized', 'cus_Selendy', '$1,497.00'],
+    ['err', 'invoice.payment_failed', 'cus_Vertex', 'card declined'],
+    ['ok', 'charge.refunded', 'cus_Halo', '$1,497.00'],
+    ['ok', 'customer.subscription.deleted', 'cus_Halo', 'churned'],
+    ['warn','customer.source.expiring', 'cus_Cohen', 'card expires 06/26'],
+    ['ok', 'invoice.payment_succeeded', 'cus_Petrov', '$97.00 trial']
+  ];
+
+  function renderWebhooks() {
+    const list = $('#webhook-list');
+    list.innerHTML = '';
+    webhookEvents.forEach((e, i) => {
+      const row = document.createElement('div');
+      row.className = 'webhook-row';
+      const t = i === 0 ? 'just now' : `${i*22}s ago`;
+      row.innerHTML = `
+        <span class="ev-dot ${e[0]}"></span>
+        <span class="ev"><span class="et">${e[1]}</span> · ${e[2]} · ${e[3]}</span>
+        <span class="t">${t}</span>
+      `;
+      list.appendChild(row);
+    });
+  }
+
+  function pushWebhook(ev) {
+    webhookEvents.unshift(ev);
+    if (webhookEvents.length > 13) webhookEvents.pop();
+    renderWebhooks();
+  }
+
+  // ── Filter pills ─────────────────────────────────────────────
+  document.querySelectorAll('.filter-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(x => x.classList.remove('active'));
+      p.classList.add('active');
+      activeStatus = p.dataset.st;
+      renderTable();
+    });
+  });
+
+  // ── Drawer ───────────────────────────────────────────────────
+  function openDrawer(id) {
+    const c = customers.find(x => x.id === id);
+    if (!c) return;
+    selectedId = id;
+    const av = $('#d-av');
+    av.className = 'cav ' + c.av;
+    av.textContent = c.initials;
+    $('#d-nm').textContent = c.name;
+    $('#d-em').textContent = c.email;
+    $('#d-plan').textContent = `${c.plan} · $${c.amt}/mo`;
+    $('#d-price').textContent = `$${c.amt.toLocaleString()}.00`;
+    $('#d-next').textContent = c.next;
+
+    // Plan switch — set active to current plan
+    document.querySelectorAll('#plan-switch .t').forEach(t => {
+      t.classList.toggle('active', t.dataset.plan === c.plan);
+    });
+    $('#d-proration').classList.remove('visible');
+
+    // Invoices
+    const inv = $('#d-invoices');
+    inv.innerHTML = '';
+    if (c.invoices.length === 0) {
+      inv.innerHTML = `<div style="padding: 16px; text-align: center; color: var(--mute); font-size: 12.5px;">No invoices yet (trial period)</div>`;
+    } else {
+      c.invoices.forEach(([num, dt, amt, st]) => {
+        const row = document.createElement('div');
+        row.className = 'invoice-row';
+        row.innerHTML = `<span class="num">${num}</span><span class="dt">${dt}</span><span class="amt">$${amt.toLocaleString()}.00</span><span class="st ${st}">${st}</span>`;
+        inv.appendChild(row);
+      });
+    }
+    $('#drawer').classList.add('open');
+    $('#drawer-bg').classList.add('open');
+  }
+  function closeDrawer() {
+    $('#drawer').classList.remove('open');
+    $('#drawer-bg').classList.remove('open');
+    selectedId = null;
+  }
+  $('#d-close').addEventListener('click', closeDrawer);
+  $('#drawer-bg').addEventListener('click', closeDrawer);
+
+  // ── Plan switch with proration preview ──────────────────────
+  document.querySelectorAll('#plan-switch .t').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('#plan-switch .t').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const c = customers.find(x => x.id === selectedId);
+      if (!c) return;
+      const newAmt = parseInt(t.dataset.amt, 10);
+      const newPlan = t.dataset.plan;
+      const diff = newAmt - c.amt;
+      const pror = $('#d-proration');
+      if (newAmt === c.amt) {
+        pror.classList.remove('visible');
+        return;
+      }
+      const sign = diff > 0 ? '+' : '−';
+      const verb = diff > 0 ? 'upgrade' : 'downgrade';
+      const prorated = Math.round(Math.abs(diff) * 0.62); // ~62% of cycle remaining
+      pror.classList.add('visible');
+      pror.innerHTML = `Switching to <strong>${newPlan}</strong> · ${verb} prorated · <strong>${sign}$${prorated}</strong> charged immediately · next full invoice <strong>$${newAmt}</strong> on next cycle.`;
+      // Update local state on user "confirm" (we'll auto-confirm after a small delay)
+      c.plan = newPlan;
+      c.amt = newAmt;
+      pushWebhook(['ok','customer.subscription.updated','cus_'+c.name.replace(/\s/g,''), 'plan → '+newPlan]);
+      toast({ kind:'info', icon:'↻', title:`${c.name} switched to ${newPlan}`, sub:`Stripe prorated ${sign}$${prorated} immediately` });
+      setTimeout(() => { renderTable(); renderDunning(); }, 600);
+    });
+  });
+
+  // ── Toast ────────────────────────────────────────────────────
+  function toast({ kind='info', icon='ℹ', title, sub }) {
+    const wrap = $('#toast-wrap');
+    const t = document.createElement('div');
+    t.className = 'toast ' + kind;
+    t.innerHTML = `<div class="ic">${icon}</div><div class="b"><p class="ti">${title}</p>${sub ? `<p class="su">${sub}</p>` : ''}</div><button class="close">✕</button>`;
+    t.querySelector('.close').addEventListener('click', () => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); });
+    wrap.appendChild(t);
+    requestAnimationFrame(() => t.classList.add('show'));
+    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 6000);
+  }
+
+  // ── Live webhook ticker ──────────────────────────────────────
+  const tickerEvents = [
+    ['ok', 'invoice.payment_succeeded', 'cus_BrightSky', '$497.00'],
+    ['ok', 'customer.subscription.created', 'cus_NewSignup', 'Starter trial'],
+    ['warn','invoice.upcoming', 'cus_Cohen', 'in 3 days'],
+    ['ok', 'invoice.payment_succeeded', 'cus_Petrov', '$97.00']
+  ];
+  let tickerIdx = 0;
+  setInterval(() => {
+    if (tickerIdx >= tickerEvents.length) tickerIdx = 0;
+    pushWebhook(tickerEvents[tickerIdx++]);
+  }, 14000);
+
+  // Initial render
+  renderTable();
+  renderDunning();
+  renderWebhooks();
+})();
+</script>
 
 </body>
 </html>
