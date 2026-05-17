@@ -304,100 +304,32 @@
       </div>
     </div>
     <div class="search"><input placeholder="Search conversations, contacts, intent…" /></div>
-    <div class="convo-scroll">
-      <div class="convo active">
-        <div class="av">SM</div>
-        <div class="body">
-          <div class="top"><span class="name">Sara Marino</span><span class="ch web">WEB</span></div>
-          <span class="snippet">Yes — Thursday at 4pm works for me. Should I bring…</span>
-        </div>
-        <div class="time"><span class="ts">just now</span><span class="badge">3</span></div>
-      </div>
-      <div class="convo">
-        <div class="av">DW</div>
-        <div class="body">
-          <div class="top"><span class="name">Devin Walsh</span><span class="ch sms">SMS</span></div>
-          <span class="snippet">Hi! Is there a slot tomorrow morning for a cleaning?</span>
-        </div>
-        <div class="time"><span class="ts">2m</span><span class="badge">1</span></div>
-      </div>
-      <div class="convo">
-        <div class="av">RP</div>
-        <div class="body">
-          <div class="top"><span class="name">Raul Pena</span><span class="ch wa">WA</span></div>
-          <span class="snippet">Agent · Booked · 04:00pm Thursday confirmed with Dr. Rooks</span>
-        </div>
-        <div class="time"><span class="ts">6m</span></div>
-      </div>
-      <div class="convo">
-        <div class="av">KC</div>
-        <div class="body">
-          <div class="top"><span class="name">Karen Chen</span><span class="ch voice">CALL</span></div>
-          <span class="snippet">Voice transcript · "wondering about a second opinion…"</span>
-        </div>
-        <div class="time"><span class="ts">14m</span></div>
-      </div>
-      <div class="convo">
-        <div class="av">AB</div>
-        <div class="body">
-          <div class="top"><span class="name">Amelia Brooks</span><span class="ch im">iMSG</span></div>
-          <span class="snippet">Perfect, thanks! See you Thursday.</span>
-        </div>
-        <div class="time"><span class="ts">22m</span></div>
-      </div>
-      <div class="convo">
-        <div class="av">TM</div>
-        <div class="body">
-          <div class="top"><span class="name">Tomas Mendez</span><span class="ch web">WEB</span></div>
-          <span class="snippet">Agent escalated · waiting for human review</span>
-        </div>
-        <div class="time"><span class="ts">31m</span></div>
-      </div>
-    </div>
+    <div class="convo-scroll" id="convo-list"></div>
   </section>
 
-  <!-- Thread -->
+  <!-- Thread (dynamic) -->
   <section class="thread">
     <div class="thread-head">
       <div class="who">
-        <div class="av">SM</div>
+        <div class="av" id="thread-av">SM</div>
         <div>
-          <h3>Sara Marino <span class="mono mute" style="font-size: 12px; font-weight: 400;">· new patient · web widget</span></h3>
-          <p class="meta">Started 6 min ago · <span>Hot lead</span> · Agent has full context</p>
+          <h3 id="thread-name">Sara Marino <span class="mono mute" style="font-size: 12px; font-weight: 400;" id="thread-sub">· new patient · web widget</span></h3>
+          <p class="meta" id="thread-meta">Started 6 min ago · <span>Hot lead</span> · Agent has full context</p>
         </div>
       </div>
       <div class="actions">
         <button class="icon-btn">Notes</button>
         <button class="icon-btn">Transfer</button>
-        <button class="icon-btn primary">Book Sara →</button>
+        <button class="icon-btn primary" id="book-btn">Book Sara →</button>
       </div>
     </div>
 
-    <div class="messages">
-      <div class="msg user">
-        Hi — does your office take Cigna PPO? Looking for a cleaning + a couple of fillings, hopefully next week.
-        <div class="meta">10:42 AM · via web widget</div>
-      </div>
-
-      <div class="agent-action"><span class="dot"></span>Agent checked: Cigna PPO accepted · Available Thursday after 3pm</div>
-
-      <div class="msg agent">
-        Yes — we accept Cigna PPO. For a cleaning + two fillings I'd block 90 minutes with Dr. Rooks. Thursday at 4:00pm or 4:30pm both open this week. Which works better?
-        <div class="meta">10:42 AM · agent · resp 11s</div>
-      </div>
-
-      <div class="msg user">
-        Yes — Thursday at 4pm works for me. Should I bring anything?
-        <div class="meta">10:43 AM</div>
-      </div>
-
-      <div class="agent-action"><span class="dot"></span>Drafting response · awaiting send</div>
-    </div>
+    <div class="messages" id="messages"></div>
 
     <div class="composer">
       <div class="composer-box">
-        <p class="suggested">Suggested by agent · confidence 94%</p>
-        <p class="draft">Perfect — Thursday at 4:00pm with Dr. Rooks is locked in. If this is your first visit, please bring your insurance card and a list of any medications you're on. We'll text you a 15-minute heads-up. Looking forward to it, Sara.</p>
+        <p class="suggested" id="composer-suggested">Suggested by agent · confidence 94%</p>
+        <p class="draft" id="composer-draft" contenteditable="true" style="outline: none; cursor: text;">Perfect — Thursday at 4:00pm with Dr. Rooks is locked in. If this is your first visit, please bring your insurance card and a list of any medications you're on. We'll text you a 15-minute heads-up. Looking forward to it, Sara.</p>
         <div class="composer-bar">
           <div class="left-actions">
             <span class="chip">+ Attach</span>
@@ -405,28 +337,22 @@
             <span class="chip">+ Pay link</span>
           </div>
           <div class="send-row">
-            <button class="icon-btn">Edit draft</button>
-            <button class="send">Send →</button>
+            <button class="icon-btn" id="edit-draft-btn">Edit draft</button>
+            <button class="send" id="send-btn">Send →</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Right rail -->
+  <!-- Right rail (dynamic) -->
   <aside class="rail">
     <div class="card contact">
       <h4>Contact</h4>
-      <div class="av">SM</div>
-      <p class="nm">Sara Marino</p>
-      <p class="sub">First contact · today, 10:42am</p>
-      <div class="meta-list">
-        <div class="row"><span class="k">PHONE</span><span class="v">+1 914 555 0192</span></div>
-        <div class="row"><span class="k">EMAIL</span><span class="v">sara.m@gmail.com</span></div>
-        <div class="row"><span class="k">CHANNEL</span><span class="v">Web widget · /book</span></div>
-        <div class="row"><span class="k">INSURANCE</span><span class="v green">Cigna PPO ✓</span></div>
-        <div class="row"><span class="k">REFERRAL</span><span class="v">Google · "Scarsdale dentist"</span></div>
-      </div>
+      <div class="av" id="rail-av">SM</div>
+      <p class="nm" id="rail-name">Sara Marino</p>
+      <p class="sub" id="rail-sub">First contact · today, 10:42am</p>
+      <div class="meta-list" id="rail-meta"></div>
     </div>
 
     <div class="card score">
@@ -434,7 +360,7 @@
       <div class="ring">
         <svg class="ring-svg" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.08)" stroke-width="8" fill="none"/>
-          <circle cx="50" cy="50" r="40" stroke="url(#g)" stroke-width="8" stroke-linecap="round" fill="none" stroke-dasharray="251" stroke-dashoffset="38" transform="rotate(-90 50 50)"/>
+          <circle id="ring-arc" cx="50" cy="50" r="40" stroke="url(#g)" stroke-width="8" stroke-linecap="round" fill="none" stroke-dasharray="251" stroke-dashoffset="38" transform="rotate(-90 50 50)" style="transition: stroke-dashoffset 0.6s cubic-bezier(0.16,1,0.3,1)"/>
           <defs>
             <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#8B7CFF"/>
@@ -443,11 +369,11 @@
           </defs>
         </svg>
         <div>
-          <p class="num">85</p>
-          <p class="label-r">Hot · book today</p>
+          <p class="num" id="score-num">85</p>
+          <p class="label-r" id="score-label">Hot · book today</p>
         </div>
       </div>
-      <p class="reason">Cigna PPO accepted, named procedures, asked for a specific week. Best signal: <em>"hopefully next week."</em> Strong intent.</p>
+      <p class="reason" id="score-reason">Cigna PPO accepted, named procedures, asked for a specific week. Best signal: <em>"hopefully next week."</em> Strong intent.</p>
     </div>
 
     <div class="card actions-card">
@@ -460,14 +386,458 @@
 
     <div class="card timeline-card">
       <h4>Timeline</h4>
-      <div class="item"><span class="dot"></span><div><p class="text">Agent drafted response</p><p class="t">10:43 AM</p></div></div>
-      <div class="item"><span class="dot"></span><div><p class="text">Patient confirmed 4pm Thursday</p><p class="t">10:43 AM</p></div></div>
-      <div class="item"><span class="dot"></span><div><p class="text">Agent verified Cigna PPO in real time</p><p class="t">10:42 AM</p></div></div>
-      <div class="item"><span class="dot"></span><div><p class="text">Sara opened web widget · /book</p><p class="t">10:42 AM</p></div></div>
+      <div id="rail-timeline"></div>
     </div>
   </aside>
 
 </div>
+
+<script>
+(() => {
+  // ── Conversation data ───────────────────────────────────────
+  const conversations = [
+    {
+      id: 'sara',
+      name: 'Sara Marino',
+      initials: 'SM',
+      channel: 'web',
+      channelLabel: 'web widget',
+      filter: 'hot',
+      status: 'Hot lead',
+      timestamp: 'just now',
+      unread: 3,
+      snippet: 'Yes — Thursday at 4pm works for me. Should I bring…',
+      bookLabel: 'Book Sara →',
+      messages: [
+        { from: 'user', text: 'Hi — does your office take Cigna PPO? Looking for a cleaning + a couple of fillings, hopefully next week.', meta: '10:42 AM · via web widget' },
+        { from: 'system', text: 'Agent checked: Cigna PPO accepted · Available Thursday after 3pm' },
+        { from: 'agent', text: 'Yes — we accept Cigna PPO. For a cleaning + two fillings I\'d block 90 minutes with Dr. Rooks. Thursday at 4:00pm or 4:30pm both open this week. Which works better?', meta: '10:42 AM · agent · resp 11s' },
+        { from: 'user', text: 'Yes — Thursday at 4pm works for me. Should I bring anything?', meta: '10:43 AM' },
+        { from: 'system', text: 'Drafting response · awaiting send' }
+      ],
+      contact: [
+        ['PHONE', '+1 914 555 0192'],
+        ['EMAIL', 'sara.m@gmail.com'],
+        ['CHANNEL', 'Web widget · /book'],
+        ['INSURANCE', 'Cigna PPO ✓', 'green'],
+        ['REFERRAL', 'Google · "Scarsdale dentist"']
+      ],
+      contactSub: 'First contact · today, 10:42am',
+      score: 85,
+      scoreLabel: 'Hot · book today',
+      scoreReason: 'Cigna PPO accepted, named procedures, asked for a specific week. Best signal: <em>"hopefully next week."</em> Strong intent.',
+      timeline: [
+        ['Agent drafted response', '10:43 AM'],
+        ['Patient confirmed 4pm Thursday', '10:43 AM'],
+        ['Agent verified Cigna PPO in real time', '10:42 AM'],
+        ['Sara opened web widget · /book', '10:42 AM']
+      ],
+      draft: 'Perfect — Thursday at 4:00pm with Dr. Rooks is locked in. If this is your first visit, please bring your insurance card and a list of any medications you\'re on. We\'ll text you a 15-minute heads-up. Looking forward to it, Sara.',
+      draftConfidence: 94
+    },
+    {
+      id: 'devin',
+      name: 'Devin Walsh',
+      initials: 'DW',
+      channel: 'sms',
+      channelLabel: 'SMS · Twilio',
+      filter: 'warm',
+      status: 'Returning patient',
+      timestamp: '2m',
+      unread: 1,
+      snippet: 'Hi! Is there a slot tomorrow morning for a cleaning?',
+      bookLabel: 'Book Devin →',
+      messages: [
+        { from: 'user', text: 'Hi! Is there a slot tomorrow morning for a cleaning?', meta: '11:14 AM · via SMS' },
+        { from: 'system', text: 'Agent looked up Devin\'s record · existing patient · last visit 6 months ago' },
+        { from: 'agent', text: 'Hey Devin — yes, we have 8:30am, 9:15am, and 10:00am tomorrow morning with Dr. Rooks. Which works?', meta: '11:14 AM · agent · resp 8s' }
+      ],
+      contact: [
+        ['PHONE', '+1 718 555 0341'],
+        ['EMAIL', 'devin.w@me.com'],
+        ['CHANNEL', 'SMS · Twilio'],
+        ['INSURANCE', 'Delta Dental ✓', 'green'],
+        ['REFERRAL', 'Patient since 2021']
+      ],
+      contactSub: 'Returning patient · 7 visits',
+      score: 70,
+      scoreLabel: 'Warm · existing patient',
+      scoreReason: 'Existing patient, routine ask, responsive on SMS. Has booked 7 times before. <em>High confidence convert.</em>',
+      timeline: [
+        ['Agent offered 3 morning slots', '11:14 AM'],
+        ['Devin texted in', '11:14 AM'],
+        ['Last visit · routine cleaning', 'Nov 12, 2025']
+      ],
+      draft: '8:30am locked in for tomorrow. We\'ll text a reminder tonight at 7pm. See you in the morning, Devin.',
+      draftConfidence: 91
+    },
+    {
+      id: 'raul',
+      name: 'Raul Pena',
+      initials: 'RP',
+      channel: 'wa',
+      channelLabel: 'WhatsApp',
+      filter: 'booked',
+      status: 'Booked · confirmed',
+      timestamp: '6m',
+      unread: 0,
+      snippet: 'Agent · Booked · 04:00pm Thursday confirmed with Dr. Rooks',
+      bookLabel: 'View booking →',
+      messages: [
+        { from: 'user', text: 'Can I confirm my appointment Thursday?', meta: '11:10 AM · via WhatsApp' },
+        { from: 'agent', text: 'Confirmed: Thursday Nov 20 at 4:00pm with Dr. Rooks. We\'ve blocked 90 minutes. Address is 1009 Madison Ave, Fl 4. You\'re all set.', meta: '11:10 AM · agent · resp 4s' },
+        { from: 'user', text: 'Perfect, thanks!', meta: '11:11 AM' },
+        { from: 'system', text: 'Booking confirmed · added to Salesforce' }
+      ],
+      contact: [
+        ['PHONE', '+1 305 555 0888'],
+        ['EMAIL', 'rpena@gmail.com'],
+        ['CHANNEL', 'WhatsApp'],
+        ['INSURANCE', 'BCBS ✓', 'green'],
+        ['REFERRAL', 'Instagram ad']
+      ],
+      contactSub: 'New patient · booked today',
+      score: 90,
+      scoreLabel: 'Converted · booked',
+      scoreReason: 'Booked appointment with verified insurance. <em>Conversion complete.</em> Next touch: 24-hour reminder.',
+      timeline: [
+        ['Booking confirmed Thursday 4pm', '11:11 AM'],
+        ['Insurance verified · BCBS', '11:10 AM'],
+        ['Raul opened WhatsApp', '11:09 AM']
+      ],
+      draft: 'You\'re all set, Raul. We\'ll send a reminder 24 hours before. If you need to reschedule, just reply here.',
+      draftConfidence: 98
+    },
+    {
+      id: 'karen',
+      name: 'Karen Chen',
+      initials: 'KC',
+      channel: 'voice',
+      channelLabel: 'Voice · Vapi',
+      filter: 'cold',
+      status: 'Voice call · transcribed',
+      timestamp: '14m',
+      unread: 0,
+      snippet: 'Voice transcript · "wondering about a second opinion…"',
+      bookLabel: 'Call Karen back →',
+      messages: [
+        { from: 'system', text: 'Voice call received · 3 min 42 sec · transcript below' },
+        { from: 'user', text: '"Hi, I\'m wondering about a second opinion on a crown my current dentist is recommending. Can someone here look at my x-rays?"', meta: '11:02 AM · voice transcript' },
+        { from: 'agent', text: '"Absolutely, Karen. Dr. Rooks does second opinions for cosmetic and restorative work. She\'ll need your existing x-rays and treatment plan. Want me to send a secure upload link to your email?"', meta: '11:02 AM · voice · agent' },
+        { from: 'user', text: '"Yes, that would be great."', meta: '11:03 AM · voice' },
+        { from: 'system', text: 'Secure upload link sent · sk@karenchen.email' }
+      ],
+      contact: [
+        ['PHONE', '+1 415 555 0429'],
+        ['EMAIL', 'sk@karenchen.email'],
+        ['CHANNEL', 'Voice · Vapi'],
+        ['INSURANCE', 'Aetna ✓', 'green'],
+        ['REFERRAL', 'Yelp search']
+      ],
+      contactSub: 'First contact · today, 11:02am',
+      score: 55,
+      scoreLabel: 'Warm · second opinion',
+      scoreReason: 'Comparison shopper · researching. <em>Needs the upload to come in</em> before scoring upgrades. Schedule a follow-up text in 48hr if no reply.',
+      timeline: [
+        ['Upload link sent', '11:03 AM'],
+        ['Voice call · 3:42', '11:02 AM'],
+        ['Karen called the practice', '11:02 AM']
+      ],
+      draft: 'Karen, just sent the upload link — let me know once your x-rays are in and Dr. Rooks will review within 1 business day.',
+      draftConfidence: 88
+    },
+    {
+      id: 'amelia',
+      name: 'Amelia Brooks',
+      initials: 'AB',
+      channel: 'im',
+      channelLabel: 'iMessage',
+      filter: 'closed',
+      status: 'Closed · booked',
+      timestamp: '22m',
+      unread: 0,
+      snippet: 'Perfect, thanks! See you Thursday.',
+      bookLabel: 'View booking →',
+      messages: [
+        { from: 'user', text: 'Just wanted to confirm my Invisalign consult Thursday', meta: '10:54 AM · via iMessage' },
+        { from: 'agent', text: 'Confirmed: Thursday at 2:00pm. Dr. Rooks will do a scan with the iTero, takes about 45 minutes. Treatment plan emailed before you leave.', meta: '10:54 AM · agent' },
+        { from: 'user', text: 'Perfect, thanks! See you Thursday.', meta: '10:55 AM' }
+      ],
+      contact: [
+        ['PHONE', '+1 212 555 0210'],
+        ['EMAIL', 'amelia.brooks@gmail.com'],
+        ['CHANNEL', 'iMessage'],
+        ['INSURANCE', 'MetLife ✓', 'green'],
+        ['REFERRAL', 'Friend referral']
+      ],
+      contactSub: 'New patient · booked today',
+      score: 95,
+      scoreLabel: 'Converted · Invisalign',
+      scoreReason: 'Booked Invisalign consult · high-LTV procedure. <em>Friend referral</em> · warm intro. Next touch: thank-you note to referrer.',
+      timeline: [
+        ['Conversation closed', '10:55 AM'],
+        ['Invisalign consult booked · Thursday 2pm', '10:54 AM'],
+        ['Amelia messaged via iMessage', '10:54 AM']
+      ],
+      draft: 'See you then, Amelia. We\'ll text a reminder 24 hours out. Bring any concerns or questions — Dr. Rooks loves talking through the plan.',
+      draftConfidence: 92
+    },
+    {
+      id: 'tomas',
+      name: 'Tomas Mendez',
+      initials: 'TM',
+      channel: 'web',
+      channelLabel: 'web widget · escalated',
+      filter: 'escalated',
+      status: 'Escalated · awaiting human',
+      timestamp: '31m',
+      unread: 0,
+      snippet: 'Agent escalated · waiting for human review',
+      bookLabel: 'Reply to Tomas →',
+      messages: [
+        { from: 'user', text: 'I need to discuss an insurance billing dispute from my last visit. I was charged $340 for a service I thought was covered.', meta: '10:45 AM · via web widget' },
+        { from: 'agent', text: 'This needs a human review — I don\'t have access to billing reconciliation. I\'ve flagged it to the front desk and someone will reply within 4 business hours.', meta: '10:45 AM · agent · resp 7s' },
+        { from: 'system', text: 'Escalation · routed to Marina at front desk · Slack ping sent' }
+      ],
+      contact: [
+        ['PHONE', '+1 646 555 0712'],
+        ['EMAIL', 'tomas.m@gmail.com'],
+        ['CHANNEL', 'Web widget · /contact'],
+        ['INSURANCE', 'Cigna PPO ✓', 'green'],
+        ['REFERRAL', 'Patient since 2023']
+      ],
+      contactSub: 'Returning patient · billing dispute',
+      score: 30,
+      scoreLabel: 'Needs human · retention',
+      scoreReason: 'Billing dispute · retention risk if mishandled. <em>Time-sensitive.</em> Existing patient with 4-year history — protect the relationship.',
+      timeline: [
+        ['Escalated to Marina', '10:45 AM'],
+        ['Agent acknowledged dispute', '10:45 AM'],
+        ['Tomas opened web widget', '10:45 AM']
+      ],
+      draft: '',
+      draftConfidence: 0
+    }
+  ];
+
+  // ── State ────────────────────────────────────────────────────
+  let selectedId = 'sara';
+  let activeChannel = 'all'; // all / web / sms / wa / voice / im / messenger
+  let activeFilter  = 'all'; // all / unread / hot
+
+  // ── Helpers ──────────────────────────────────────────────────
+  const $ = (sel) => document.querySelector(sel);
+  const channelClass = (ch) => ch;
+  const channelShort = (ch) => ({ web:'WEB', sms:'SMS', wa:'WA', voice:'CALL', im:'iMSG', messenger:'MSG' }[ch] || ch.toUpperCase());
+
+  // ── Render inbox list ────────────────────────────────────────
+  function renderInbox() {
+    const list = $('#convo-list');
+    list.innerHTML = '';
+    const filtered = conversations.filter(c => {
+      const passChannel = activeChannel === 'all' || c.channel === activeChannel;
+      let passFilter = true;
+      if (activeFilter === 'unread') passFilter = c.unread > 0;
+      if (activeFilter === 'hot')    passFilter = c.filter === 'hot';
+      return passChannel && passFilter;
+    });
+    filtered.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'convo' + (c.id === selectedId ? ' active' : '');
+      el.dataset.id = c.id;
+      el.innerHTML = `
+        <div class="av">${c.initials}</div>
+        <div class="body">
+          <div class="top"><span class="name">${c.name}</span><span class="ch ${channelClass(c.channel)}">${channelShort(c.channel)}</span></div>
+          <span class="snippet">${c.snippet}</span>
+        </div>
+        <div class="time">
+          <span class="ts">${c.timestamp}</span>
+          ${c.unread > 0 ? `<span class="badge">${c.unread}</span>` : ''}
+        </div>
+      `;
+      el.addEventListener('click', () => {
+        selectedId = c.id;
+        c.unread = 0; // mark read on open
+        render();
+      });
+      list.appendChild(el);
+    });
+    if (filtered.length === 0) {
+      list.innerHTML = `<div style="padding: 32px 24px; text-align: center; color: var(--mute); font-size: 13px;">No conversations match this filter.</div>`;
+    }
+  }
+
+  // ── Render thread ────────────────────────────────────────────
+  function renderThread() {
+    const c = conversations.find(x => x.id === selectedId);
+    if (!c) return;
+    $('#thread-av').textContent = c.initials;
+    $('#thread-name').innerHTML = `${c.name} <span class="mono mute" style="font-size: 12px; font-weight: 400;">· ${c.channelLabel}</span>`;
+    $('#thread-meta').innerHTML = `${c.timestamp === 'just now' ? 'Started just now' : 'Started ' + c.timestamp + ' ago'} · <span>${c.status}</span> · Agent has full context`;
+    $('#book-btn').textContent = c.bookLabel;
+
+    const m = $('#messages');
+    m.innerHTML = '';
+    c.messages.forEach(msg => {
+      if (msg.from === 'system') {
+        const el = document.createElement('div');
+        el.className = 'agent-action';
+        el.innerHTML = `<span class="dot"></span>${msg.text}`;
+        m.appendChild(el);
+      } else {
+        const el = document.createElement('div');
+        el.className = 'msg ' + msg.from;
+        el.innerHTML = `${msg.text}${msg.meta ? `<div class="meta">${msg.meta}</div>` : ''}`;
+        m.appendChild(el);
+      }
+    });
+    m.scrollTop = m.scrollHeight;
+
+    // Composer
+    if (c.draft) {
+      $('#composer-suggested').textContent = `Suggested by agent · confidence ${c.draftConfidence}%`;
+      $('#composer-draft').textContent = c.draft;
+      $('#send-btn').style.display = '';
+      $('#edit-draft-btn').style.display = '';
+    } else {
+      $('#composer-suggested').textContent = `Agent has escalated · awaiting human reply`;
+      $('#composer-draft').textContent = 'Type a reply…';
+      $('#composer-draft').style.color = 'var(--mute)';
+    }
+  }
+
+  // ── Render right rail ────────────────────────────────────────
+  function renderRail() {
+    const c = conversations.find(x => x.id === selectedId);
+    if (!c) return;
+    $('#rail-av').textContent = c.initials;
+    $('#rail-name').textContent = c.name;
+    $('#rail-sub').textContent = c.contactSub;
+
+    const meta = $('#rail-meta');
+    meta.innerHTML = '';
+    c.contact.forEach(([k, v, cls]) => {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `<span class="k">${k}</span><span class="v ${cls || ''}">${v}</span>`;
+      meta.appendChild(row);
+    });
+
+    $('#score-num').textContent = c.score;
+    $('#score-label').textContent = c.scoreLabel;
+    $('#score-reason').innerHTML = c.scoreReason;
+    const arc = $('#ring-arc');
+    const offset = 251 - (251 * c.score / 100);
+    arc.setAttribute('stroke-dashoffset', offset);
+
+    const tl = $('#rail-timeline');
+    tl.innerHTML = '';
+    c.timeline.forEach(([text, t]) => {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.innerHTML = `<span class="dot"></span><div><p class="text">${text}</p><p class="t">${t}</p></div>`;
+      tl.appendChild(item);
+    });
+  }
+
+  function render() { renderInbox(); renderThread(); renderRail(); }
+
+  // ── Channel rail clicks ──────────────────────────────────────
+  const channelMap = {
+    'Inbox': 'all',
+    'Web widget': 'web',
+    'SMS · Twilio': 'sms',
+    'WhatsApp': 'wa',
+    'Voice · Vapi': 'voice',
+    'iMessage': 'im',
+    'Messenger': 'messenger'
+  };
+  document.querySelectorAll('.sidebar .nav-item').forEach(el => {
+    const label = el.querySelector('.left').textContent.trim().replace(/^\W+\s*/, '');
+    Object.keys(channelMap).forEach(key => {
+      if (label.includes(key)) {
+        el.addEventListener('click', () => {
+          activeChannel = channelMap[key];
+          document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
+          el.classList.add('active');
+          render();
+        });
+      }
+    });
+  });
+
+  // ── Filter pill clicks ───────────────────────────────────────
+  document.querySelectorAll('.filter-pill').forEach(el => {
+    el.addEventListener('click', () => {
+      const t = el.textContent.trim().toLowerCase();
+      activeFilter = (t === 'all') ? 'all' : t;
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      render();
+    });
+  });
+
+  // ── Send message ─────────────────────────────────────────────
+  $('#send-btn').addEventListener('click', () => {
+    const c = conversations.find(x => x.id === selectedId);
+    if (!c || !c.draft) return;
+    const draftText = $('#composer-draft').textContent;
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+    // Add agent message
+    c.messages.push({ from: 'agent', text: draftText, meta: `${time} · agent · sent` });
+    // Add timeline entry
+    c.timeline.unshift(['Agent reply sent', time]);
+    c.draft = '';
+    c.bookLabel = '✓ Replied';
+    render();
+
+    // Simulate patient response 2s later
+    setTimeout(() => {
+      c.messages.push({ from: 'system', text: 'Patient typing…' });
+      renderThread();
+      setTimeout(() => {
+        c.messages.pop(); // remove typing
+        const reply = c.id === 'sara'
+          ? 'Got it, thanks! See you Thursday.'
+          : c.id === 'devin'
+          ? 'Perfect — 8:30am works. Thanks!'
+          : 'Sounds good.';
+        c.messages.push({ from: 'user', text: reply, meta: `${time}` });
+        c.timeline.unshift([`Patient replied: "${reply.substring(0,30)}..."`, time]);
+        renderThread();
+        renderRail();
+      }, 1400);
+    }, 800);
+  });
+
+  // Edit draft button — focus the contenteditable draft
+  $('#edit-draft-btn').addEventListener('click', () => {
+    const draft = $('#composer-draft');
+    draft.focus();
+    // Move cursor to end
+    const range = document.createRange();
+    range.selectNodeContents(draft);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+
+  // Top-strip "Quick action" chip → just bounces
+  document.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => {
+      c.style.transform = 'scale(0.94)';
+      setTimeout(() => c.style.transform = '', 120);
+    });
+  });
+
+  // Initial render
+  render();
+})();
+</script>
 
 </body>
 </html>
