@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnCall Voice — Live call analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg:        #07090C;
+    --panel:     #0C1014;
+    --panel-2:   #12171C;
+    --raised:    #181E25;
+    --line:      rgba(255,255,255,0.06);
+    --line-2:    rgba(255,255,255,0.12);
+    --text:      #EAF2F5;
+    --text-d:    #A6B0BB;
+    --mute:      #6A727D;
+    --teal:      #2DD4BF;
+    --teal-d:    #14B8A6;
+    --cyan:      #67E8F9;
+    --violet:    #A78BFA;
+    --amber:     #FBBF24;
+    --rose:      #FB7185;
+    --green:     #4ADE80;
+    --red:       #F87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); min-height: 100vh; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mute { color: var(--mute); }
+  button { font-family: inherit; cursor: pointer; }
+  textarea, input { font-family: inherit; }
+
+  /* === Shell ============================================== */
+  .app { display: grid; grid-template-columns: 230px 1fr 380px; min-height: 100vh; }
+  @media (max-width: 1280px) { .app { grid-template-columns: 200px 1fr 340px; } }
+  @media (max-width: 1024px) { .app { grid-template-columns: 1fr; } }
+
+  /* === Sidebar ============================================ */
+  .sidebar { background: var(--panel); border-right: 1px solid var(--line); padding: 20px 16px; display: flex; flex-direction: column; gap: 24px; position: sticky; top: 0; height: 100vh; }
+  .brand-block { display: flex; align-items: center; gap: 10px; padding: 4px 6px 14px; border-bottom: 1px solid var(--line); }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--cyan) 100%);
+    display: grid; place-items: center;
+    box-shadow: 0 8px 24px -8px rgba(45,212,191,0.45);
+    position: relative;
+  }
+  .brand-mark::after {
+    content: ''; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--bg);
+    box-shadow: inset 0 0 0 2px var(--teal);
+  }
+  .brand-name { font-weight: 700; font-size: 14px; letter-spacing: -0.01em; }
+  .brand-name span { color: var(--teal); }
+
+  .agent-pick {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px; border-radius: 9px; background: var(--panel-2);
+    font-size: 12.5px; color: var(--text-d); border: 1px solid var(--line);
+  }
+  .agent-pick .left { display: flex; align-items: center; gap: 9px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px rgba(74,222,128,0.18); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.85); } }
+
+  .nav-section { display: flex; flex-direction: column; gap: 2px; }
+  .nav-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); padding: 0 12px 8px; }
+  .nav-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 12px; border-radius: 8px;
+    color: var(--text-d); font-size: 13.5px;
+    cursor: pointer; transition: background .15s ease, color .15s ease;
+    position: relative;
+  }
+  .nav-item:hover { background: var(--panel-2); color: var(--text); }
+  .nav-item.active { background: var(--panel-2); color: var(--text); }
+  .nav-item.active::before { content: ''; position: absolute; left: -16px; width: 3px; height: 18px; background: var(--teal); border-radius: 3px; }
+  .nav-item .left { display: flex; align-items: center; gap: 10px; }
+  .nav-item .ico { font-size: 14px; width: 16px; text-align: center; }
+  .nav-item .count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mute); padding: 1px 7px; background: rgba(255,255,255,0.05); border-radius: 999px; }
+  .nav-item.active .count { background: var(--teal); color: var(--bg); }
+
+  .sidebar-foot { margin-top: auto; padding: 12px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), var(--teal)); display: grid; place-items: center; font-weight: 700; font-size: 12px; color: var(--bg); }
+  .who { font-size: 13px; font-weight: 500; }
+  .who span { display: block; font-size: 11px; color: var(--mute); }
+
+  /* === Main =============================================== */
+  .main { padding: 28px 32px 60px; overflow-y: auto; }
+  @media (max-width: 760px) { .main { padding: 20px; } }
+
+  .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; gap: 18px; flex-wrap: wrap; }
+  .topbar h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; }
+  .topbar h1 small { display: block; font-weight: 400; font-size: 13px; color: var(--text-d); margin-top: 4px; }
+
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+  .mode-toggle { display: flex; background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
+  .mode-toggle button { padding: 7px 12px; font-size: 12px; color: var(--text-d); background: transparent; border: 0; border-radius: 6px; font-weight: 500; }
+  .mode-toggle button.active { background: var(--raised); color: var(--text); }
+
+  .talk-btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 10px 16px; border-radius: 9px; border: 0;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
+    color: var(--bg); font-weight: 600; font-size: 13px;
+    box-shadow: 0 8px 24px -8px rgba(45,212,191,0.55);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .talk-btn:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -10px rgba(45,212,191,0.65); }
+  .talk-btn.live { background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); box-shadow: 0 8px 24px -8px rgba(239,68,68,0.55); }
+  .talk-btn .mic { width: 16px; height: 16px; }
+
+  /* Stat cards */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px; }
+  @media (max-width: 980px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; position: relative; overflow: hidden;
+  }
+  .stat .label { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-bottom: 8px; }
+  .stat .value { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+  .stat .delta { font-size: 12px; color: var(--green); margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+  .stat .delta.down { color: var(--rose); }
+  .stat::after { content: ''; position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(45,212,191,0.10) 0%, transparent 70%); border-radius: 50%; }
+
+  /* Section heads */
+  .section-head { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 14px; }
+  .section-head h3 { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+  .section-head .lbl { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mute); }
+
+  /* Waveform hero */
+  .wave-panel {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px 24px; margin-bottom: 26px; position: relative; overflow: hidden;
+  }
+  .wave-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .wave-head .meta { display: flex; align-items: center; gap: 14px; font-size: 12.5px; color: var(--text-d); }
+  .wave-head .meta b { color: var(--text); font-weight: 500; }
+  .wave-status { display: inline-flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(74,222,128,0.10); color: var(--green); }
+  .wave-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.6s ease-in-out infinite; }
+
+  .waveform { height: 88px; display: flex; align-items: center; gap: 2px; padding: 0 2px; }
+  .wave-bar { flex: 1; background: linear-gradient(180deg, var(--teal) 0%, var(--teal-d) 100%); border-radius: 2px; min-height: 3px; transition: height .25s ease; }
+  .wave-bar.played { background: linear-gradient(180deg, var(--teal) 0%, var(--cyan) 100%); }
+  .wave-bar.upcoming { background: rgba(255,255,255,0.08); }
+
+  .wave-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--mute); }
+  .wave-controls .left { display: flex; gap: 12px; align-items: center; }
+  .wave-controls button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--panel-2); color: var(--text); }
+  .wave-controls button:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* Two-col: funnel + greeting */
+  .two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-bottom: 26px; }
+  @media (max-width: 980px) { .two-col { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .panel h4 { font-size: 13px; font-weight: 600; margin-bottom: 18px; letter-spacing: -0.01em; }
+
+  /* Funnel */
+  .funnel { display: flex; flex-direction: column; gap: 8px; }
+  .funnel-row { display: grid; grid-template-columns: 110px 1fr 70px; gap: 14px; align-items: center; }
+  .funnel-row .label { font-size: 12.5px; color: var(--text-d); }
+  .funnel-bar-wrap { background: var(--panel-2); border-radius: 7px; height: 30px; overflow: hidden; position: relative; }
+  .funnel-bar { height: 100%; border-radius: 7px; transition: width .6s cubic-bezier(0.16,1,0.3,1); display: flex; align-items: center; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--bg); font-weight: 600; }
+  .funnel-bar.b1 { background: linear-gradient(90deg, var(--teal) 0%, var(--cyan) 100%); }
+  .funnel-bar.b2 { background: linear-gradient(90deg, var(--teal-d) 0%, var(--teal) 100%); }
+  .funnel-bar.b3 { background: linear-gradient(90deg, #0E9488 0%, var(--teal-d) 100%); }
+  .funnel-bar.b4 { background: linear-gradient(90deg, var(--violet) 0%, #C4B5FD 100%); color: var(--bg); }
+  .funnel-row .pct { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--mute); text-align: right; }
+
+  /* Greeting editor */
+  .greeting-tabs { display: flex; gap: 4px; margin-bottom: 14px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 3px; }
+  .greeting-tabs button { flex: 1; padding: 7px 10px; font-size: 11.5px; color: var(--text-d); border: 0; background: transparent; border-radius: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+  .greeting-tabs button.active { background: var(--raised); color: var(--text); }
+
+  .greeting-area {
+    width: 100%; min-height: 130px; background: var(--bg); border: 1px solid var(--line); border-radius: 9px;
+    color: var(--text); padding: 12px 14px; font-size: 13px; line-height: 1.55; resize: vertical;
+  }
+  .greeting-area:focus { outline: none; border-color: var(--teal); }
+  .greeting-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .greeting-foot .hint { font-size: 11.5px; color: var(--mute); }
+  .save-btn { padding: 8px 14px; background: var(--teal); color: var(--bg); border: 0; border-radius: 7px; font-size: 12.5px; font-weight: 600; }
+  .save-btn.saved { background: var(--green); }
+
+  /* Call queue table */
+  .calls-table { width: 100%; border-collapse: collapse; }
+  .calls-table th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); padding: 12px 14px; border-bottom: 1px solid var(--line); font-weight: 500; }
+  .calls-table td { padding: 14px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--text-d); }
+  .calls-table tr { cursor: pointer; transition: background .12s ease; }
+  .calls-table tr:hover td { background: var(--panel-2); }
+  .calls-table tr.active td { background: var(--panel-2); color: var(--text); }
+  .calls-table td.caller { color: var(--text); font-weight: 500; }
+  .calls-table td.caller small { display: block; color: var(--mute); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400; margin-top: 2px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.05em; }
+  .badge .b-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .badge.live { background: rgba(74,222,128,0.10); color: var(--green); }
+  .badge.live .b-dot { background: var(--green); animation: pulse 1.4s ease-in-out infinite; }
+  .badge.done { background: rgba(167,139,250,0.10); color: var(--violet); }
+  .badge.missed { background: rgba(251,113,133,0.10); color: var(--rose); }
+  .badge.voicemail { background: rgba(251,191,36,0.10); color: var(--amber); }
+
+  .intent { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 2px 8px; border-radius: 5px; background: var(--raised); color: var(--text-d); }
+  .intent.booking { color: var(--teal); background: rgba(45,212,191,0.10); }
+  .intent.pricing { color: var(--violet); background: rgba(167,139,250,0.10); }
+  .intent.hours { color: var(--amber); background: rgba(251,191,36,0.10); }
+
+  .duration { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); }
+
+  /* === Right rail (transcript) =========================== */
+  .rail {
+    background: var(--panel); border-left: 1px solid var(--line);
+    display: flex; flex-direction: column; height: 100vh; position: sticky; top: 0;
+    overflow: hidden;
+  }
+  .rail-head { padding: 20px 22px; border-bottom: 1px solid var(--line); }
+  .rail-head .caller-name { font-size: 15px; font-weight: 600; }
+  .rail-head .caller-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--mute); margin-top: 3px; }
+  .rail-meta { display: flex; gap: 14px; margin-top: 14px; font-size: 11.5px; color: var(--text-d); }
+  .rail-meta div { display: flex; flex-direction: column; gap: 2px; }
+  .rail-meta b { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text); font-weight: 500; }
+
+  .transcript { flex: 1; overflow-y: auto; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .turn { display: flex; flex-direction: column; gap: 4px; }
+  .turn .who { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); }
+  .turn .who.agent { color: var(--teal); }
+  .turn .who.caller { color: var(--violet); }
+  .turn .text { font-size: 13.5px; line-height: 1.55; color: var(--text); }
+  .turn .tags { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; }
+  .turn .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 7px; border-radius: 5px; background: var(--raised); color: var(--text-d); }
+  .turn .tag.sent-pos { color: var(--green); background: rgba(74,222,128,0.10); }
+  .turn .tag.sent-neg { color: var(--rose); background: rgba(251,113,133,0.10); }
+  .turn .tag.intent { color: var(--teal); background: rgba(45,212,191,0.10); }
+
+  .rail-foot { padding: 16px 22px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rail-foot button { padding: 9px 12px; border-radius: 7px; font-size: 12px; font-weight: 500; border: 1px solid var(--line-2); background: var(--panel-2); color: var(--text); }
+  .rail-foot button.primary { background: var(--teal); color: var(--bg); border-color: var(--teal); font-weight: 600; }
+
+  /* Toast */
+  .toast-stack { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+  .toast {
+    background: var(--panel); border: 1px solid var(--teal); border-radius: 10px;
+    padding: 14px 18px; min-width: 280px; max-width: 360px;
+    box-shadow: 0 18px 36px -12px rgba(0,0,0,0.5);
+    transform: translateX(440px); transition: transform .35s cubic-bezier(0.16,1,0.3,1);
+  }
+  .toast.show { transform: translateX(0); }
+  .toast .t-head { display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
+  .toast .t-head .t-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: pulse 1.4s ease-in-out infinite; }
+  .toast .t-body { font-size: 13px; color: var(--text); }
+  .toast .t-body b { font-weight: 600; }
+  .toast.hot { border-color: var(--rose); }
+  .toast.hot .t-head { color: var(--rose); }
+  .toast.hot .t-head .t-dot { background: var(--rose); }
+
+  /* Vapi call status overlay */
+  .call-overlay {
+    position: fixed; bottom: 24px; left: 24px; z-index: 100;
+    background: var(--panel); border: 1px solid var(--teal); border-radius: 12px;
+    padding: 16px 20px; min-width: 280px; display: none; align-items: center; gap: 14px;
+    box-shadow: 0 22px 48px -12px rgba(0,0,0,0.6);
+  }
+  .call-overlay.show { display: flex; }
+  .call-overlay .pulse-ring {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--cyan));
+    display: grid; place-items: center; color: var(--bg);
+    animation: ring 1.4s ease-in-out infinite;
+  }
+  @keyframes ring { 0%,100% { box-shadow: 0 0 0 0 rgba(45,212,191,0.55); } 50% { box-shadow: 0 0 0 10px rgba(45,212,191,0); } }
+  .call-overlay .info { font-size: 13px; }
+  .call-overlay .info b { display: block; margin-bottom: 2px; }
+  .call-overlay .info small { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mute); }
+  .call-overlay .hangup { margin-left: auto; padding: 7px 12px; background: var(--red); color: var(--text); border: 0; border-radius: 6px; font-size: 12px; font-weight: 600; }
+
+  @media (max-width: 1024px) {
+    .sidebar, .rail { position: static; height: auto; }
+    .sidebar { border-right: 0; border-bottom: 1px solid var(--line); }
+    .rail { border-left: 0; border-top: 1px solid var(--line); }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ========= SIDEBAR ========= -->
+  <aside class="sidebar">
+    <div class="brand-block">
+      <div class="brand-mark"></div>
+      <div>
+        <div class="brand-name">OnCall <span>Voice</span></div>
+        <div class="mute mono" style="font-size:10px;letter-spacing:.14em;margin-top:2px;">v2.4</div>
+      </div>
+    </div>
+
+    <div class="agent-pick">
+      <div class="left">
+        <span class="live-dot"></span>
+        <span>Aria · Receptionist</span>
+      </div>
+      <span class="mute mono" style="font-size:11px;">⌄</span>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Voice</div>
+      <div class="nav-item active"><div class="left"><span class="ico">📡</span>Live calls</div><span class="count">3</span></div>
+      <div class="nav-item"><div class="left"><span class="ico">📜</span>Transcripts</div><span class="count">2.4k</span></div>
+      <div class="nav-item"><div class="left"><span class="ico">🔥</span>Hot leads</div><span class="count">12</span></div>
+      <div class="nav-item"><div class="left"><span class="ico">📞</span>Missed</div><span class="count">7</span></div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Agent</div>
+      <div class="nav-item"><div class="left"><span class="ico">🎙️</span>Voice &amp; persona</div></div>
+      <div class="nav-item"><div class="left"><span class="ico">📚</span>Knowledge</div></div>
+      <div class="nav-item"><div class="left"><span class="ico">📅</span>Calendar</div></div>
+      <div class="nav-item"><div class="left"><span class="ico">🛠️</span>Webhooks</div></div>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="avatar">LK</div>
+      <div class="who">Lawrence<span>Owner · OnCall</span></div>
+    </div>
+  </aside>
+
+  <!-- ========= MAIN ========= -->
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1>Aria · Live call analytics</h1>
+        <small>Real-time view of calls, transcripts, and conversions. Last 24 hours.</small>
+      </div>
+      <div class="topbar-actions">
+        <div class="mode-toggle" id="modeToggle">
+          <button class="active" data-mode="day">☀ Day</button>
+          <button data-mode="night">☾ Night</button>
+        </div>
+        <button class="talk-btn" id="talkBtn">
+          <svg class="mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          Talk to Aria
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="label">Calls today</div>
+        <div class="value">147</div>
+        <div class="delta">↑ 23% vs yesterday</div>
+      </div>
+      <div class="stat">
+        <div class="label">Booked</div>
+        <div class="value">38</div>
+        <div class="delta">↑ 12 vs avg</div>
+      </div>
+      <div class="stat">
+        <div class="label">Avg duration</div>
+        <div class="value">2:14</div>
+        <div class="delta down">↓ 0:08</div>
+      </div>
+      <div class="stat">
+        <div class="label">After-hours rate</div>
+        <div class="value">41%</div>
+        <div class="delta">↑ steady</div>
+      </div>
+    </div>
+
+    <!-- Waveform hero -->
+    <div class="wave-panel">
+      <div class="wave-head">
+        <div class="meta">
+          <span class="wave-status"><span class="dot"></span>LIVE · #C-2147</span>
+          <span><b>Marisol Vega</b> · +1 (914) 555-0142</span>
+          <span class="mute mono" id="callTimer">00:01:42</span>
+        </div>
+        <div class="wave-controls">
+          <button>⏸</button>
+        </div>
+      </div>
+      <div class="waveform" id="waveform"></div>
+      <div class="wave-controls">
+        <div class="left">
+          <span class="mono">00:01:42</span>
+          <span>· Sentiment: <span style="color:var(--green)">positive</span></span>
+          <span>· Intent: <span style="color:var(--teal)">booking_request</span></span>
+        </div>
+        <div class="left">
+          <button>⏮</button>
+          <button>⏯</button>
+          <button>⏭</button>
+          <span class="mono">02:34</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Funnel + Greeting -->
+    <div class="two-col">
+      <div class="panel">
+        <h4>Booking conversion · last 7 days</h4>
+        <div class="funnel">
+          <div class="funnel-row">
+            <span class="label">Calls answered</span>
+            <div class="funnel-bar-wrap"><div class="funnel-bar b1" style="width:100%">1,028</div></div>
+            <span class="pct">100%</span>
+          </div>
+          <div class="funnel-row">
+            <span class="label">Qualified</span>
+            <div class="funnel-bar-wrap"><div class="funnel-bar b2" style="width:72%">741</div></div>
+            <span class="pct">72%</span>
+          </div>
+          <div class="funnel-row">
+            <span class="label">Booked</span>
+            <div class="funnel-bar-wrap"><div class="funnel-bar b3" style="width:41%">421</div></div>
+            <span class="pct">41%</span>
+          </div>
+          <div class="funnel-row">
+            <span class="label">Showed up</span>
+            <div class="funnel-bar-wrap"><div class="funnel-bar b4" style="width:34%">352</div></div>
+            <span class="pct">34%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>Custom greeting</h4>
+        <div class="greeting-tabs" id="greetingTabs">
+          <button class="active" data-time="day">Day</button>
+          <button data-time="after">After-hours</button>
+          <button data-time="weekend">Weekend</button>
+        </div>
+        <textarea class="greeting-area" id="greetingArea">Hi, you've reached Halstead Law. This is Aria. How can I help you today — are you calling about a new matter, or following up on an existing one?</textarea>
+        <div class="greeting-foot">
+          <span class="hint mono">Voice: ElevenLabs · Sage · F</span>
+          <button class="save-btn" id="saveBtn">Save greeting</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call queue -->
+    <div class="section-head">
+      <h3>Recent calls</h3>
+      <span class="lbl">Auto-refresh · 4s</span>
+    </div>
+    <div class="panel" style="padding:0;overflow:hidden;">
+      <table class="calls-table" id="callsTable">
+        <thead>
+          <tr>
+            <th>Caller</th>
+            <th>Status</th>
+            <th>Intent</th>
+            <th>Duration</th>
+            <th>Outcome</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody id="callsBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ========= TRANSCRIPT RAIL ========= -->
+  <aside class="rail">
+    <div class="rail-head">
+      <div class="caller-name" id="railName">Marisol Vega</div>
+      <div class="caller-num" id="railNum">+1 (914) 555-0142 · Scarsdale, NY</div>
+      <div class="rail-meta">
+        <div><span class="mute mono" style="font-size:10px;letter-spacing:.14em;">DURATION</span><b id="railDur">02:34</b></div>
+        <div><span class="mute mono" style="font-size:10px;letter-spacing:.14em;">SENTIMENT</span><b style="color:var(--green)">Positive</b></div>
+        <div><span class="mute mono" style="font-size:10px;letter-spacing:.14em;">SCORE</span><b style="color:var(--teal)">92</b></div>
+      </div>
+    </div>
+    <div class="transcript" id="transcript"></div>
+    <div class="rail-foot">
+      <button>📅 View booking</button>
+      <button class="primary">🔥 Mark hot lead</button>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Toast stack -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- Vapi call status -->
+<div class="call-overlay" id="callOverlay">
+  <div class="pulse-ring">🎙</div>
+  <div class="info">
+    <b>Connected to Aria</b>
+    <small id="overlayTimer">00:00</small>
+  </div>
+  <button class="hangup" id="hangupBtn">End call</button>
+</div>
+
+<!-- Vapi web SDK -->
+<script type="module">
+  // Vapi web SDK (CDN). Real key + assistantId required for live audio.
+  // Demo mode: clicking "Talk to Aria" without a key triggers a scripted simulation
+  // so the dashboard is interactive end-to-end without external dependencies.
+  //
+  // To wire to a real Vapi assistant:
+  //   1. Drop your public key into VAPI_PUBLIC_KEY below.
+  //   2. Drop your assistant ID into VAPI_ASSISTANT_ID below.
+  //   3. Reload — the Talk button will start a real WebRTC call.
+
+  const VAPI_PUBLIC_KEY  = window.VAPI_PUBLIC_KEY  || null;
+  const VAPI_ASSISTANT_ID = window.VAPI_ASSISTANT_ID || null;
+
+  let vapi = null;
+  if (VAPI_PUBLIC_KEY) {
+    try {
+      const mod = await import('https://cdn.jsdelivr.net/npm/@vapi-ai/web@2.0.0/+esm');
+      vapi = new mod.default(VAPI_PUBLIC_KEY);
+      vapi.on('call-start', () => showCall());
+      vapi.on('call-end', () => hideCall());
+      vapi.on('message', (m) => {
+        if (m.type === 'transcript' && m.transcriptType === 'final') {
+          appendTurn(m.role === 'assistant' ? 'agent' : 'caller', m.transcript);
+        }
+      });
+      window.__vapi = vapi;
+    } catch (e) {
+      console.warn('Vapi SDK failed to load — falling back to demo mode.', e);
+    }
+  }
+
+  window.__startCall = async () => {
+    if (vapi && VAPI_ASSISTANT_ID) {
+      await vapi.start(VAPI_ASSISTANT_ID);
+    } else {
+      runSimulatedCall();
+    }
+  };
+  window.__endCall = () => {
+    if (vapi) vapi.stop();
+    else stopSimulatedCall();
+  };
+</script>
+
+<script>
+/* ============== STATE ============== */
+const calls = [
+  { id: 'C-2147', name: 'Marisol Vega',   phone: '+1 (914) 555-0142', city: 'Scarsdale, NY',  status: 'live',      intent: 'booking',  dur: '01:42', dur_full: '02:34', outcome: 'In progress',     time: 'now',      score: 92 },
+  { id: 'C-2146', name: 'Devin Park',     phone: '+1 (212) 555-0118', city: 'New York, NY',   status: 'live',      intent: 'pricing',  dur: '00:54', dur_full: '01:12', outcome: 'In progress',     time: 'now',      score: 71 },
+  { id: 'C-2145', name: 'Raul Mendez',    phone: '+1 (917) 555-0177', city: 'Bronx, NY',      status: 'done',      intent: 'booking',  dur: '03:08', dur_full: '03:08', outcome: 'Booked',          time: '4m ago',   score: 88 },
+  { id: 'C-2144', name: 'Karen Whitlock', phone: '+1 (203) 555-0193', city: 'Stamford, CT',   status: 'voicemail', intent: 'hours',    dur: '00:22', dur_full: '00:22', outcome: 'Voicemail left',  time: '11m ago',  score: 34 },
+  { id: 'C-2143', name: 'Amelia Cho',     phone: '+1 (646) 555-0148', city: 'Manhattan, NY',  status: 'done',      intent: 'booking',  dur: '02:47', dur_full: '02:47', outcome: 'Booked',          time: '18m ago',  score: 94 },
+  { id: 'C-2142', name: 'Tomas Hartley',  phone: '+1 (914) 555-0167', city: 'White Plains',   status: 'missed',    intent: 'booking',  dur: '00:00', dur_full: '00:00', outcome: 'No answer',       time: '27m ago',  score: 0 },
+  { id: 'C-2141', name: 'Priya Shah',     phone: '+1 (718) 555-0189', city: 'Brooklyn, NY',   status: 'done',      intent: 'pricing',  dur: '01:54', dur_full: '01:54', outcome: 'Quote sent',      time: '42m ago',  score: 67 },
+  { id: 'C-2140', name: 'James Okafor',   phone: '+1 (516) 555-0124', city: 'Mineola, NY',    status: 'done',      intent: 'booking',  dur: '02:21', dur_full: '02:21', outcome: 'Booked',          time: '1h ago',   score: 81 },
+];
+
+const transcripts = {
+  'C-2147': [
+    { who: 'agent',  text: "Hi, you've reached Halstead Law. This is Aria. How can I help you today — are you calling about a new matter, or following up on an existing one?", tags: ['intent:greeting'] },
+    { who: 'caller', text: "Hi, I'm trying to schedule a consultation. My business partner and I are looking at acquiring a smaller firm and we need someone for the M&A side.", tags: ['sent-pos', 'intent:booking_request'] },
+    { who: 'agent',  text: "Got it — M&A consultation. We can definitely help with that. Can I grab your full name and the best email to send the calendar invite to?", tags: ['intent:lead_qualify'] },
+    { who: 'caller', text: "Marisol Vega. M-A-R-I-S-O-L. Vega, V-E-G-A. marisol at vegacapital dot com.", tags: ['sent-pos'] },
+    { who: 'agent',  text: "Perfect, thanks Marisol. Would Tuesday at 2pm or Thursday at 11am work better? Both are 45 minutes with one of our M&A partners.", tags: ['intent:scheduling'] },
+    { who: 'caller', text: "Thursday at 11 is great.", tags: ['sent-pos', 'intent:booking_confirm'] },
+    { who: 'agent',  text: "Booking Thursday at 11am with David. You'll get a calendar invite in about a minute. Anything else I can help with?", tags: ['intent:booking_confirm'] },
+  ],
+  'C-2146': [
+    { who: 'agent',  text: "Halstead Law, this is Aria. How can I help?", tags: [] },
+    { who: 'caller', text: "Hey — quick question. What do you guys charge for a standard contract review?", tags: ['intent:pricing'] },
+    { who: 'agent',  text: "It depends on length and complexity — most fall between $1,500 and $4,000. I can have an attorney call you back with a firm quote if you can share the contract length and type. Would that work?", tags: ['intent:pricing_response'] },
+  ],
+  'C-2145': [
+    { who: 'agent',  text: "Hi, this is Aria with Halstead Law. How can I help?", tags: [] },
+    { who: 'caller', text: "I need to schedule a will signing. My wife and I are flying out next Friday so it has to happen this week.", tags: ['sent-pos', 'intent:booking_urgent'] },
+    { who: 'agent',  text: "Let me check — Wednesday at 4pm works with our estate attorney. Should I confirm that?", tags: ['intent:scheduling'] },
+    { who: 'caller', text: "Yes, please.", tags: ['sent-pos', 'intent:booking_confirm'] },
+    { who: 'agent',  text: "Confirmed Wednesday 4pm with Sarah. Calendar invite incoming.", tags: ['intent:booking_confirm'] },
+  ],
+  'C-2143': [
+    { who: 'agent',  text: "Halstead Law, Aria speaking.", tags: [] },
+    { who: 'caller', text: "Hi, I was referred by Mark Chen. I'm looking for help structuring a Series A.", tags: ['sent-pos', 'intent:referral'] },
+    { who: 'agent',  text: "Mark's a great referral — we love working with his portfolio. What's the timeline on the round?", tags: ['intent:qualify'] },
+    { who: 'caller', text: "We want to close by end of Q3.", tags: [] },
+    { who: 'agent',  text: "Got it. Let me get you on David's calendar for an intro call. Tuesday at 10am?", tags: ['intent:scheduling'] },
+    { who: 'caller', text: "That works.", tags: ['sent-pos', 'intent:booking_confirm'] },
+  ],
+};
+
+let activeCallId = 'C-2147';
+
+/* ============== RENDER ============== */
+function renderCalls() {
+  const tbody = document.getElementById('callsBody');
+  tbody.innerHTML = calls.map(c => {
+    const badge = c.status === 'live'      ? '<span class="badge live"><span class="b-dot"></span>LIVE</span>'
+               : c.status === 'done'       ? '<span class="badge done">COMPLETE</span>'
+               : c.status === 'voicemail'  ? '<span class="badge voicemail">VOICEMAIL</span>'
+                                           : '<span class="badge missed">MISSED</span>';
+    const intent = `<span class="intent ${c.intent}">${c.intent}</span>`;
+    return `
+      <tr data-id="${c.id}" class="${c.id === activeCallId ? 'active' : ''}">
+        <td class="caller">${c.name}<small>${c.phone} · ${c.city}</small></td>
+        <td>${badge}</td>
+        <td>${intent}</td>
+        <td class="duration">${c.dur_full}</td>
+        <td>${c.outcome}</td>
+        <td class="mute mono" style="font-size:11.5px">${c.time}</td>
+      </tr>`;
+  }).join('');
+  tbody.querySelectorAll('tr').forEach(tr => {
+    tr.addEventListener('click', () => {
+      activeCallId = tr.dataset.id;
+      renderCalls();
+      renderTranscript();
+    });
+  });
+}
+
+function renderTranscript() {
+  const c = calls.find(x => x.id === activeCallId);
+  if (!c) return;
+  document.getElementById('railName').textContent = c.name;
+  document.getElementById('railNum').textContent = `${c.phone} · ${c.city}`;
+  document.getElementById('railDur').textContent = c.dur_full;
+
+  const turns = transcripts[c.id] || [{ who: 'agent', text: 'No transcript captured.', tags: [] }];
+  const wrap = document.getElementById('transcript');
+  wrap.innerHTML = turns.map(t => `
+    <div class="turn">
+      <span class="who ${t.who}">${t.who === 'agent' ? 'Aria · Agent' : c.name}</span>
+      <div class="text">${t.text}</div>
+      ${t.tags && t.tags.length ? `<div class="tags">${t.tags.map(tag => renderTag(tag)).join('')}</div>` : ''}
+    </div>
+  `).join('');
+  wrap.scrollTop = wrap.scrollHeight;
+}
+
+function renderTag(tag) {
+  if (tag === 'sent-pos') return '<span class="tag sent-pos">+ positive</span>';
+  if (tag === 'sent-neg') return '<span class="tag sent-neg">– negative</span>';
+  if (tag.startsWith('intent:')) return `<span class="tag intent">${tag}</span>`;
+  return `<span class="tag">${tag}</span>`;
+}
+
+/* ============== WAVEFORM ============== */
+function renderWaveform() {
+  const wrap = document.getElementById('waveform');
+  wrap.innerHTML = '';
+  const N = 120;
+  for (let i = 0; i < N; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'wave-bar' + (i < 65 ? ' played' : i > 70 ? ' upcoming' : '');
+    bar.style.height = (8 + Math.sin(i * 0.4) * 18 + Math.random() * 50) + 'px';
+    wrap.appendChild(bar);
+  }
+}
+function animateWaveform() {
+  const bars = document.querySelectorAll('.wave-bar');
+  bars.forEach((b, i) => {
+    if (b.classList.contains('played') || b.classList.contains('upcoming')) return;
+    b.style.height = (8 + Math.sin((i + Date.now() / 80) * 0.4) * 18 + Math.random() * 50) + 'px';
+  });
+}
+
+/* ============== TIMER ============== */
+let t = 102; // seconds
+setInterval(() => {
+  const c = calls.find(x => x.id === activeCallId);
+  if (!c || c.status !== 'live') return;
+  t++;
+  const mm = String(Math.floor(t / 60)).padStart(2, '0');
+  const ss = String(t % 60).padStart(2, '0');
+  document.getElementById('callTimer').textContent = `00:${mm}:${ss}`;
+}, 1000);
+setInterval(animateWaveform, 200);
+
+/* ============== MODE TOGGLE ============== */
+document.getElementById('modeToggle').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#modeToggle button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  if (e.target.dataset.mode === 'night') {
+    document.documentElement.style.setProperty('--bg', '#020308');
+    document.documentElement.style.setProperty('--panel', '#06080C');
+  } else {
+    document.documentElement.style.setProperty('--bg', '#07090C');
+    document.documentElement.style.setProperty('--panel', '#0C1014');
+  }
+});
+
+/* ============== GREETING TABS ============== */
+const greetings = {
+  day: "Hi, you've reached Halstead Law. This is Aria. How can I help you today — are you calling about a new matter, or following up on an existing one?",
+  after: "Hi, you've reached Halstead Law after hours. This is Aria — I can take a message or schedule something for tomorrow. Which would you prefer?",
+  weekend: "Hi, this is Aria with Halstead Law. The office is closed for the weekend, but I can book you a callback for Monday or schedule an intake call right now. What works?"
+};
+document.getElementById('greetingTabs').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#greetingTabs button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('greetingArea').value = greetings[e.target.dataset.time];
+});
+
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = '✓ Saved';
+  btn.classList.add('saved');
+  setTimeout(() => { btn.textContent = 'Save greeting'; btn.classList.remove('saved'); }, 1800);
+});
+
+/* ============== TOASTS ============== */
+function showToast(headline, body, hot = false) {
+  const stack = document.getElementById('toastStack');
+  const div = document.createElement('div');
+  div.className = 'toast' + (hot ? ' hot' : '');
+  div.innerHTML = `
+    <div class="t-head"><span class="t-dot"></span>${headline}</div>
+    <div class="t-body">${body}</div>`;
+  stack.appendChild(div);
+  requestAnimationFrame(() => div.classList.add('show'));
+  setTimeout(() => { div.classList.remove('show'); setTimeout(() => div.remove(), 400); }, 6500);
+}
+
+setTimeout(() => showToast('NEW CALL', '<b>Marisol Vega</b> · booking_request · score 92', false), 1500);
+setTimeout(() => showToast('🔥 HOT LEAD', '<b>Amelia Cho</b> · referred by partner · score 94', true), 7000);
+setTimeout(() => {
+  showToast('BOOKING CONFIRMED', '<b>Marisol Vega</b> · Thursday 11am · David', false);
+  const c = calls.find(x => x.id === 'C-2147');
+  if (c) { c.status = 'done'; c.outcome = 'Booked'; renderCalls(); }
+}, 14000);
+
+/* ============== TALK TO ARIA (Vapi or simulated) ============== */
+const talkBtn = document.getElementById('talkBtn');
+const overlay = document.getElementById('callOverlay');
+const overlayTimer = document.getElementById('overlayTimer');
+const hangupBtn = document.getElementById('hangupBtn');
+let simInterval = null;
+let simSeconds = 0;
+
+talkBtn.addEventListener('click', () => {
+  if (talkBtn.classList.contains('live')) {
+    window.__endCall();
+  } else {
+    window.__startCall();
+  }
+});
+hangupBtn.addEventListener('click', () => window.__endCall());
+
+window.showCall = () => {
+  talkBtn.classList.add('live');
+  talkBtn.innerHTML = '<svg class="mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="6" y="6" width="12" height="12"/></svg> End call';
+  overlay.classList.add('show');
+  simSeconds = 0;
+  simInterval = setInterval(() => {
+    simSeconds++;
+    const mm = String(Math.floor(simSeconds / 60)).padStart(2, '0');
+    const ss = String(simSeconds % 60).padStart(2, '0');
+    overlayTimer.textContent = `${mm}:${ss}`;
+  }, 1000);
+};
+
+window.hideCall = () => {
+  talkBtn.classList.remove('live');
+  talkBtn.innerHTML = '<svg class="mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Talk to Aria';
+  overlay.classList.remove('show');
+  if (simInterval) { clearInterval(simInterval); simInterval = null; }
+};
+
+window.appendTurn = (who, text) => {
+  if (!transcripts[activeCallId]) transcripts[activeCallId] = [];
+  transcripts[activeCallId].push({ who, text, tags: [] });
+  renderTranscript();
+};
+
+/* ============== SIMULATED CALL (no Vapi key) ============== */
+const SIM_SCRIPT = [
+  { who: 'agent',  text: "Hi, you've reached Halstead Law. This is Aria. How can I help today?", delay: 1500 },
+  { who: 'caller', text: "Hey, I'm trying to schedule a consultation — M&A related.",            delay: 4000 },
+  { who: 'agent',  text: "Got it — M&A consultation. Can I grab your name and email?",          delay: 3500 },
+  { who: 'caller', text: "Yeah, it's John Pearson, john@pearsoncap.com.",                       delay: 4500 },
+  { who: 'agent',  text: "Thanks John. Tuesday at 2pm or Thursday at 11am — which works?",     delay: 3500 },
+  { who: 'caller', text: "Thursday at 11.",                                                     delay: 3000 },
+  { who: 'agent',  text: "Booked. You'll get a calendar invite in about a minute.",            delay: 3000 },
+];
+let simStep = 0;
+let simTimer = null;
+function runSimulatedCall() {
+  showCall();
+  // Create a fresh "live" conversation entry pinned to top
+  const id = 'C-SIM';
+  if (!calls.find(c => c.id === id)) {
+    calls.unshift({ id, name: 'You · live demo', phone: '+1 (914) 555-DEMO', city: 'Live test', status: 'live', intent: 'booking', dur: '00:00', dur_full: '00:00', outcome: 'In progress', time: 'now', score: 0 });
+  }
+  transcripts[id] = [];
+  activeCallId = id;
+  renderCalls();
+  renderTranscript();
+
+  simStep = 0;
+  const next = () => {
+    if (simStep >= SIM_SCRIPT.length) return;
+    const turn = SIM_SCRIPT[simStep++];
+    transcripts[id].push({ who: turn.who, text: turn.text, tags: turn.who === 'caller' ? ['sent-pos'] : ['intent:lead_qualify'] });
+    renderTranscript();
+    simTimer = setTimeout(next, turn.delay);
+  };
+  simTimer = setTimeout(next, 1200);
+}
+function stopSimulatedCall() {
+  hideCall();
+  if (simTimer) { clearTimeout(simTimer); simTimer = null; }
+}
+
+/* ============== INIT ============== */
+renderCalls();
+renderTranscript();
+renderWaveform();
+</script>
+
+</body>
+</html>
