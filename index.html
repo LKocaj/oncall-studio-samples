@@ -3,9 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OnCall Automation Studio — Concept showcase</title>
-<meta name="description" content="Design studies and product demos from OnCall Automation — independent engineering studio. Custom websites, AI agents, Stripe billing, lead intake, voice agents.">
+
+<!-- Primary SEO -->
+<title>Engineering Studio Portfolio — Web, AI Agents, SaaS · OnCall Automation</title>
+<meta name="description" content="Independent engineering studio portfolio: editorial websites, AI agents (chat / SMS / voice), Stripe billing, lead intake automation, e-commerce. Built end-to-end by one developer.">
+<meta name="author" content="Lawrence Kocaj">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#0E1B2F">
+<link rel="canonical" href="https://samples.oncallautomation.ai/">
+
+<!-- Favicon (inline SVG, no extra request) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237DD3FC'/%3E%3Ctext x='16' y='22' font-family='Inter Tight,Inter,sans-serif' font-weight='800' font-size='18' fill='%230E1B2F' text-anchor='middle'%3EO%3C/text%3E%3C/svg%3E">
+
+<!-- Open Graph (LinkedIn, Slack, iMessage, Facebook previews) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OnCall Automation">
+<meta property="og:url" content="https://samples.oncallautomation.ai/">
+<meta property="og:title" content="Engineering Studio Portfolio — OnCall Automation">
+<meta property="og:description" content="Editorial websites, AI agents (chat / SMS / voice), Stripe billing, lead intake, e-commerce. Concept work and a live client deliverable. Built by one developer.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1496588152823-86ff7695e68f?w=1200&h=630&fit=crop&q=85">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="OnCall Automation — engineering studio portfolio">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Engineering Studio Portfolio — OnCall Automation">
+<meta name="twitter:description" content="Editorial websites, AI agents, Stripe billing, lead intake, e-commerce. Concept work and a live client deliverable.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1496588152823-86ff7695e68f?w=1200&h=630&fit=crop&q=85">
+
+<!-- Structured data: who runs the studio + what's on the page -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://oncallautomation.ai/#studio",
+      "name": "OnCall Automation",
+      "url": "https://oncallautomation.ai/",
+      "sameAs": ["https://oncallchat.ai/", "https://samples.oncallautomation.ai/"],
+      "description": "Independent engineering studio building websites, AI agents, Stripe billing, lead intake automation, and e-commerce for service businesses and SaaS founders.",
+      "founder": {
+        "@type": "Person",
+        "name": "Lawrence Kocaj"
+      },
+      "areaServed": "Worldwide",
+      "knowsAbout": [
+        "Web Development",
+        "AI Agent Development",
+        "Stripe Billing",
+        "Voice AI",
+        "E-commerce",
+        "SEO",
+        "FastAPI",
+        "React",
+        "Shopify"
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://samples.oncallautomation.ai/#showcase",
+      "name": "Engineering Studio Portfolio",
+      "url": "https://samples.oncallautomation.ai/",
+      "isPartOf": { "@id": "https://oncallautomation.ai/#studio" },
+      "about": [
+        "Web design portfolio",
+        "AI agent development",
+        "Stripe billing implementation",
+        "Lead intake automation",
+        "E-commerce development",
+        "Voice agent dashboards"
+      ]
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -170,7 +245,7 @@
     <h1 class="display xl">Design studies and product demos from an <span class="grad">independent engineering studio</span>.</h1>
     <p class="sub">Self-directed concept work exploring how different industries and software products should feel. The visual language and architecture I bring to actual client engagements at oncallautomation.ai — not current client projects, with one explicit exception below.</p>
     <div class="hero-stats">
-      <div class="stat-cell"><p class="n">3</p><p class="c">Design studies</p></div>
+      <div class="stat-cell"><p class="n">4</p><p class="c">Design studies</p></div>
       <div class="stat-cell"><p class="n">4</p><p class="c">Product demos</p></div>
       <div class="stat-cell"><p class="n">1</p><p class="c">Live client site</p></div>
       <div class="stat-cell"><p class="n">2026</p><p class="c">Built this spring</p></div>
@@ -258,10 +333,10 @@
       <a class="card stripe" href="/04-ecommerce.html">
         <div class="thumb"><span class="badge demo">Product demo</span></div>
         <div class="body">
-          <p class="cat">SaaS Billing · Stripe</p>
-          <h3>Stripe billing admin — <em>tiers, portal, dunning</em></h3>
-          <p>Multi-tier subscription management. Customer portal, webhook-driven dunning, MRR analytics, Stripe Connect.</p>
-          <div class="foot"><span class="stack">React · FastAPI · Stripe</span><span class="arrow">View →</span></div>
+          <p class="cat">E-commerce · Multi-category retail</p>
+          <h3>NORTHFOLD &amp; CO. — <em>heritage outdoor goods storefront</em></h3>
+          <p>Working cart, live category/color/size/price filters, free-shipping threshold, slide-in drawer. 12 products across six categories.</p>
+          <div class="foot"><span class="stack">React · Shopify Hydrogen · Stripe</span><span class="arrow">View →</span></div>
         </div>
       </a>
 

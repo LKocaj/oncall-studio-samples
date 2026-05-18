@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samples.oncallautomation.ai/sitemap.xml
