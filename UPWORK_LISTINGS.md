@@ -99,22 +99,22 @@ Includes: Mobile-responsive · Restaurant + Menu schema · GA4 · Resy embed · 
 
 ---
 
-## 04 · Stripe Billing Admin *(product demo — in progress)*
+## 04 · NORTHFOLD & CO. — Heritage outdoor goods storefront
 
-**Live:** [samples.oncallautomation.ai/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) *(placeholder — pending rebuild)*
+**Live:** [samples.oncallautomation.ai/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html)
 
 **Title:**
 ```
-Stripe subscription admin — tiers, customer portal, dunning, MRR analytics
+Heritage outdoor goods storefront — NORTHFOLD & CO., multi-category retail
 ```
 
 **Description:**
 ```
-What I built: Production billing admin for a multi-tier SaaS. Customer roster with subscription status, plan upgrade/downgrade with proration, dunning queue with failed-payment workflows, MRR/churn analytics dashboards, and Stripe Connect for marketplace use cases. Wired to real Stripe webhooks with retry + idempotency.
+What I built: Heritage outdoor + home goods e-commerce site, multi-category. 12 products across jackets, packs, footwear, cookware, home & bedding, hand tools. Working cart with quantity controls, free-shipping threshold, tax + total math, and a slide-in cart drawer. Filter sidebar (category checks, color swatches, size, price range, rating filters) live-filters the product grid. Hero, trust strip (free shipping / 30-day returns / lifetime repairs / made in Maine), editorial 'field journal' story section, full footer with newsletter capture. Source Serif 4 (display) + Inter (UI) on a moss + cream palette.
 
-Stack: React + FastAPI + Stripe + PostgreSQL · webhook-driven state
-Timeline: 7–14 days
-Includes: Multi-tier checkout · Customer portal · Webhook handlers · Entitlement enforcement · Dunning emails · Annual + monthly + usage-based pricing · CareCredit-style financing hook
+Stack: React + Tailwind + Shopify Hydrogen OR Next.js Commerce + Stripe OR Shop Pay
+Timeline: 10–18 days end-to-end
+Includes: Cart + checkout · Product filtering · Search · Wishlist · Customer accounts · Order history · Reviews · Inventory sync · Email capture · SEO + product schema · Apple Pay + Shop Pay
 ```
 
 ---
@@ -159,22 +159,30 @@ Includes: Booking integration · Trial-week funnel · Coach pages · Schedule gr
 
 ---
 
-## 08 · Voice Agent Analytics *(product demo)*
+## 08 · Voice Agent Analytics + Easy Mode *(product demo)*
 
 **Live:** [samples.oncallautomation.ai/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html)
 
 **Title:**
 ```
-Voice agent dashboard — call transcripts, booking conversion, Vapi integration
+Voice AI dashboard with tap-to-talk demo — Vapi integration, onboarding wizard
 ```
 
 **Description:**
 ```
-What I built: Dashboard for a Vapi-powered voice agent. Live call queue, transcript view with intent extraction and sentiment tags, booking conversion funnel, after-hours handoff rules, and a searchable recordings archive. Built for service businesses where the phone is the front door — dentists, law firms, real estate, contractors.
+What I built: Two-layer voice agent product designed on a low-floor / high-ceiling principle.
 
-Stack: React + FastAPI + Vapi + Twilio + PostgreSQL
-Timeline: 7–14 days
-Includes: Inbound number provisioning · Custom voice + greeting · Calendar booking integration · After-hours mode · CRM push · Recording archive · Hot-lead Slack alerts
+Easy view (default for first-time visitors): full-screen tap-to-talk circle button wired to a live Vapi WebRTC connection — buyers can actually speak to the agent in their browser. Three KPI tiles, status indicator, no clutter.
+
+Pro view (one click away): full operator console with live call queue, transcript viewer with intent + sentiment tags, animated waveform, booking conversion funnel, custom greeting editor (Day / After-hours / Weekend tabs), and live hot-lead toasts.
+
+Apple-style onboarding wizard (5 steps, one decision per screen): business name → agent name → voice picker with samples → phone number → summary card → 'Try a call now' that drops you into Easy view with a live demo running.
+
+Day + Night theme swap.
+
+Stack: React + FastAPI + Vapi web SDK + Twilio + PostgreSQL
+Timeline: 10–14 days
+Includes: Inbound number provisioning · Custom voice + greeting · Calendar booking · After-hours mode · CRM push · Recording archive · Hot-lead Slack alerts · 'Easy view' for non-technical staff
 ```
 
 ---
@@ -484,7 +492,7 @@ You will get a cold email system that doesn't burn your domain
 | 02 | Design | Rook & Well dental practice | [/02-dental-practice.html](https://samples.oncallautomation.ai/02-dental-practice.html) |
 | 02b | Product | OnCall Agents dashboard | [/02-ai-agent-dashboard.html](https://samples.oncallautomation.ai/02-ai-agent-dashboard.html) |
 | 03 | Design | Via dell'Orto restaurant | [/03-restaurant.html](https://samples.oncallautomation.ai/03-restaurant.html) |
-| 04 | Product | Stripe billing admin | [/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) |
+| 04 | Design | NORTHFOLD & Co. storefront | [/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) |
 | 05 | Product | Lead intake CRM | [/05-saas-landing.html](https://samples.oncallautomation.ai/05-saas-landing.html) |
 | 06 | Design | Forge Method fitness studio | [/06-fitness-studio.html](https://samples.oncallautomation.ai/06-fitness-studio.html) |
 | 07 | Design | LATERAL CO. music label | [/07-shopify-skincare.html](https://samples.oncallautomation.ai/07-shopify-skincare.html) |
