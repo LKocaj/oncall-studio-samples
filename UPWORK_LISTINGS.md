@@ -99,7 +99,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-Get fans buying the vinyl direct instead of from a reseller. This independent music label uses an editorial Shopify storefront with vinyl pre-orders, member-only releases, tour merch bundles, full Klaviyo lifecycle, and product schema markup. Same stack works for any brand selling small-batch physical goods — apparel drops, specialty food, beverages, home goods, anyone with a catalog they want to merchandise like a magazine.
+Get fans buying the vinyl direct instead of from a reseller. This independent music label uses an editorial Shopify storefront with vinyl pre-orders, member-only releases, tour merch bundles, full Klaviyo email follow-up, and the right Google tagging so the label's releases show up above the resellers. Same stack works for any brand selling small-batch physical goods — apparel drops, specialty food, beverages, home goods.
 
 Stack: Shopify Hydrogen + React + Klaviyo
 Timeline: 10–14 days
@@ -125,7 +125,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-Get the table booked before the diner closes the tab on your site. This West Village trattoria uses Resy reservations embedded natively, an owner-editable menu CMS the dinner team updates at 4pm, Restaurant + Menu schema markup for Google's featured snippet, and a press band for NYT/Eater coverage. Same stack works for any hospitality business — cafés, hotels, wine bars, bakeries, neighborhood spots.
+Get the table booked before the diner closes the tab on your site. This West Village trattoria uses Resy reservations built right into the page, a menu the dinner team updates themselves at 4pm without calling me, Google tagging so the restaurant shows up in the "best Italian in West Village" card, and a press band for NYT/Eater coverage. Same stack works for any hospitality business — cafés, hotels, wine bars, bakeries, neighborhood spots.
 
 Stack: React + Vite + Tailwind + Resy/OpenTable
 Timeline: 5–7 days
@@ -203,7 +203,7 @@ Full-stack engineer — workflow design, integrations, deployment
 
 **Description**:
 ```
-Stop paying Zapier $599/mo to glue your stack together. This automation console runs Stripe → QuickBooks → Slack, lead enrichment + routing, Calendly → CRM, Shopify → ShipStation — any flow that touches more than one tool. Visual canvas with replay-on-failure, live runs feed, per-step latency metrics. Self-hosted on Railway for $48/mo, unlimited runs, no per-task fees. Same stack works for any business with a tech stack — agencies, e-commerce, RevOps, SaaS, anyone hitting Zapier task limits.
+Stop paying Zapier $599/mo to glue your tools together. This automation console runs Stripe → QuickBooks → Slack, lead routing, Calendly → CRM, Shopify → ShipStation — anything that touches more than one tool. Visual canvas, one-click replay when a step fails, live activity feed, timing for each step. Self-hosted for $48/mo, unlimited runs, no per-task fees. Same stack works for any business connecting tools — agencies, e-commerce, sales teams, SaaS, anyone fed up with Zapier task fees.
 ```
 
 **Skills**: Workflow Automation, n8n, API Integration, FastAPI, Zapier
@@ -226,7 +226,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-Get the referral GC to call you, not the firm down the street. This Wall Street M&A boutique uses deal-tombstone treatment for the transaction record, Chambers/Best Lawyers/Super Lawyers recognition rows, partner bio depth, engagement-letter intake forms, and schema markup so referral GCs find the firm on Google. Same stack works for any premium professional service — accounting, consulting, architecture, financial advisory.
+Be the firm a CEO picks first, not the one down the street. This Wall Street law firm shows off every deal it closed, the industry awards it won, and which partners handle which cases. Built-in new-client intake form. Tagged for search so the firm shows up when someone Googles a deal lawyer. Same stack works for any premium professional service — accounting, consulting, architecture, financial advisory, anyone whose reputation does the selling.
 
 Stack: React + Vite + Tailwind
 Timeline: 7–10 days
@@ -252,7 +252,7 @@ Full-stack engineer — Vapi integration, dashboard, onboarding wizard
 
 **Description**:
 ```
-Never miss a 2am call again. This voice agent picks up every call 24/7, qualifies the caller, books appointments on the calendar, and texts the front desk a summary. After-hours routing, Slack alerts on hot leads, transcripts with intent tags, custom voice and greeting in the business's name. Runs on Vapi. Same stack works for any business where the phone is the front door — dental, law, real estate, salons, contractors.
+Never miss a 2am call again. This voice agent picks up every call 24/7, asks the caller what they need, books appointments on the calendar, and texts the front desk a summary of every call. After-hours routing, Slack alerts when a serious lead calls, written transcripts of every conversation, custom voice and greeting in the business's name. Runs on Vapi. Same stack works for any business where the phone is the front door — dental, law, real estate, salons, contractors.
 
 Stack: React + FastAPI + Vapi + Twilio
 Timeline: 10–14 days
@@ -330,7 +330,7 @@ Solo founder + engineer — built end-to-end, in production
 
 **Description**:
 ```
-Ship the SaaS without spending 6 months building the boring parts. This is my production SaaS — a multi-channel AI agent platform with real Stripe billing across 4 tiers and live customers. Proof I've already shipped what most engineers stall on: auth, multi-tenant data isolation, webhook handlers with retry + idempotency, deliverability, dunning, customer portal, embed widget. Same stack works for any SaaS founder shipping their first paying product.
+Ship the SaaS without spending 6 months building the boring parts. This is my production SaaS — a multi-channel AI agent platform with real Stripe billing across 4 tiers and live customers. Proof I've already shipped what most engineers stall on: auth, multi-tenant data isolation, webhook handlers that retry without double-charging, deliverability, dunning, customer portal, embed widget. Same stack works for any SaaS founder shipping their first paying product.
 
 Stack: React + FastAPI + Stripe + Twilio + Vapi + OpenAI
 Includes: Auth · Multi-tenant · Live Stripe
@@ -356,7 +356,7 @@ Full-stack engineer — design, build, CMS, SEO, ongoing maintenance
 
 **Description**:
 ```
-Get found by the neighbors who already live nearby. This was made for Parkway Café — a Scarsdale family diner since 1961, live in production. The only entry on this list with a real paying client. Custom owner-editable menu CMS (151 items, 17 categories), full Restaurant + Menu + FAQ schema, food photography, Google Business Profile integration, ongoing SEO. Same stack works for any local business that needs to show up on Google and stay there.
+Get found by the neighbors who already live nearby. This was made for Parkway Café — a Scarsdale family diner since 1961, live in production. The only entry on this list with a real paying client. Menu the owner updates themselves (151 items across 17 categories), Google tagging so the menu shows up in search results, food photography, Google Maps + business listing set up, ongoing SEO. Same stack works for any local business that needs to show up on Google and stay there.
 
 Stack: React + Vite + Supabase + Tailwind
 Timeline: Shipped in 9 days
