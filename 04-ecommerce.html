@@ -3,671 +3,826 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OnCall Bill — Stripe billing admin</title>
+<title>Halstead Billing — Stripe operator console</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
   :root {
-    --bg:        #0A0B14;
-    --surface:   #11121F;
-    --surface-2: #1A1B2E;
-    --raised:    #232540;
-    --line:      rgba(255,255,255,0.06);
-    --line-2:    rgba(255,255,255,0.12);
-    --text:      #F4F4F8;
-    --text-d:    #C8CADB;
-    --mute:      #7B7E9A;
-
-    --indigo:    #635BFF;          /* Stripe brand */
+    --bg:        #F6F8FA;
+    --paper:     #FFFFFF;
+    --ink:       #1A1F36;
+    --ink-2:     #3C4257;
+    --mute:      #6B7080;
+    --mute-2:    #98A2B3;
+    --line:      #E3E8EE;
+    --line-2:    #D7DCE3;
+    --tint:      #F0F4F9;
+    --indigo:    #635BFF;
     --indigo-d:  #5046E5;
-    --indigo-s:  rgba(99,91,255,0.14);
-    --green:     #4ADE80;
-    --green-s:   rgba(74,222,128,0.14);
-    --amber:     #F59E0B;
-    --amber-s:   rgba(245,158,11,0.14);
-    --rose:      #F43F5E;
-    --rose-s:    rgba(244,63,94,0.14);
-    --cyan:      #22D3EE;
+    --indigo-s:  #EFEEFF;
+    --green:     #1A7F37;
+    --green-s:   #E6F4EA;
+    --amber:     #B86E00;
+    --amber-s:   #FFF4E5;
+    --rose:      #CD3D64;
+    --rose-s:    #FCE8EE;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); color: var(--text); height: 100%; }
+  html, body { background: var(--bg); color: var(--ink); min-height: 100vh; }
   body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
+    font-family: 'Inter Tight', -apple-system, sans-serif;
+    font-size: 14px; line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;
+    overflow-x: hidden;
   }
-  .mono { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: "tnum"; }
+  button { font-family: inherit; cursor: pointer; }
+  input, textarea, select { font-family: inherit; }
 
-  /* === Concept disclosure ====================================== */
-  .concept-banner { background: #000000; color: rgba(255,255,255,0.6); padding: 9px 0; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; text-align: center; }
-  .concept-banner a { color: rgba(255,255,255,0.85); text-decoration: none; }
+  /* === Topbar (Stripe-style) ============================== */
+  .topbar {
+    height: 56px; background: var(--paper); border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; padding: 0 24px; gap: 18px;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 15px;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .brand .dot {
+    width: 24px; height: 24px; border-radius: 6px;
+    background: var(--indigo);
+    display: grid; place-items: center;
+    color: #fff; font-size: 13px; font-weight: 800;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+  }
+  .env-toggle {
+    display: flex; background: var(--tint); border-radius: 6px; padding: 3px;
+    font-size: 12.5px; font-weight: 500;
+  }
+  .env-toggle button { padding: 5px 12px; border: 0; background: transparent; color: var(--mute); border-radius: 4px; }
+  .env-toggle button.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .env-toggle button.test.active { color: var(--amber); }
+  .search {
+    flex: 1; max-width: 420px;
+    position: relative;
+  }
+  .search input {
+    width: 100%; padding: 7px 12px 7px 32px;
+    background: var(--tint); border: 1px solid transparent;
+    border-radius: 6px; font-size: 13px; color: var(--ink);
+  }
+  .search input:focus { outline: none; background: var(--paper); border-color: var(--indigo); }
+  .search::before {
+    content: ''; position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    width: 13px; height: 13px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236B7080'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/></svg>");
+    background-repeat: no-repeat;
+  }
+  .topbar-right { display: flex; align-items: center; gap: 14px; }
+  .topbar-right .ico { width: 32px; height: 32px; border-radius: 6px; display: grid; place-items: center; color: var(--mute); cursor: pointer; }
+  .topbar-right .ico:hover { background: var(--tint); color: var(--ink); }
+  .acct {
+    display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px;
+    border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+  }
+  .acct .av { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #FFB347 0%, #FF6B6B 100%); color: #fff; font-weight: 700; font-size: 11px; display: grid; place-items: center; }
+  .acct b { font-size: 12.5px; font-weight: 600; color: var(--ink); }
 
-  /* === Shell =================================================== */
-  .app { display: grid; grid-template-columns: 224px 1fr; height: calc(100vh - 38px); }
+  /* === Layout shell — sidebar + main, NO right rail ====== */
+  .shell { display: grid; grid-template-columns: 232px 1fr; }
+  @media (max-width: 980px) { .shell { grid-template-columns: 1fr; } }
 
-  /* === Sidebar ================================================= */
-  .sidebar { background: var(--surface); border-right: 1px solid var(--line); padding: 18px 12px; display: flex; flex-direction: column; gap: 24px; }
-  .brand-block { display: flex; align-items: center; gap: 10px; padding: 6px 8px 14px; border-bottom: 1px solid var(--line); }
-  .brand-mark { width: 30px; height: 30px; background: var(--indigo); border-radius: 7px; display: grid; place-items: center; font-weight: 800; font-size: 13px; color: var(--text); font-family: 'Inter Tight'; box-shadow: 0 6px 20px -8px rgba(99,91,255,0.55); }
-  .brand-name { font-family: 'Inter Tight'; font-weight: 700; font-size: 14.5px; letter-spacing: -0.005em; }
-  .brand-name span { color: var(--indigo); }
+  .sidebar {
+    background: var(--paper); border-right: 1px solid var(--line);
+    padding: 20px 12px 24px; height: calc(100vh - 56px); position: sticky; top: 56px;
+    display: flex; flex-direction: column; gap: 20px; overflow-y: auto;
+  }
+  @media (max-width: 980px) { .sidebar { display: none; } }
+  .nav-section { display: flex; flex-direction: column; gap: 1px; }
+  .nav-section .label { font-size: 11px; font-weight: 600; color: var(--mute); padding: 8px 10px 6px; letter-spacing: 0.01em; text-transform: none; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 6px;
+    color: var(--ink-2); font-size: 13.5px; font-weight: 500; cursor: pointer; position: relative;
+  }
+  .nav-item:hover { background: var(--tint); }
+  .nav-item.active { background: var(--indigo-s); color: var(--indigo); font-weight: 600; }
+  .nav-item .ico { width: 16px; height: 16px; display: grid; place-items: center; color: currentColor; flex-shrink: 0; }
+  .nav-item .ico svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-item .count { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; padding: 1px 6px; background: var(--tint); color: var(--mute); border-radius: 999px; }
+  .nav-item.active .count { background: rgba(99,91,255,0.18); color: var(--indigo); }
 
-  .org-pick { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; border-radius: 8px; background: var(--surface-2); font-size: 12.5px; color: var(--text-d); cursor: pointer; border: 1px solid var(--line); }
-  .org-pick:hover { background: var(--raised); }
-  .org-pick .arrow { color: var(--mute); font-size: 10px; }
+  /* === Main column ====================================== */
+  main { padding: 30px 32px 60px; max-width: 1280px; }
+  @media (max-width: 760px) { main { padding: 22px 18px 60px; } }
 
-  .nav-section { display: flex; flex-direction: column; gap: 2px; }
-  .nav-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); padding: 0 12px 8px; }
-  .nav-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 7px; color: var(--text-d); font-size: 13.5px; cursor: pointer; transition: background .15s ease; }
-  .nav-item:hover { background: var(--surface-2); color: var(--text); }
-  .nav-item.active { background: var(--surface-2); color: var(--text); }
-  .nav-item.active::before { content: ''; position: absolute; left: 0; width: 3px; height: 16px; background: var(--indigo); border-radius: 0 3px 3px 0; transform: translateX(-12px); }
-  .nav-item .l { display: flex; align-items: center; gap: 10px; }
-  .nav-item .ico { width: 16px; text-align: center; font-size: 13px; }
-  .nav-item .badge { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--mute); padding: 1px 7px; background: rgba(255,255,255,0.06); border-radius: 999px; }
-  .nav-item.active .badge { background: var(--indigo); color: #FFFFFF; }
-  .nav-item .pos { position: relative; }
+  .h1-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; gap: 16px; flex-wrap: wrap; }
+  .h1-row h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.018em; }
+  .h1-row .sub { font-size: 13.5px; color: var(--mute); margin-top: 4px; }
+  .h1-row .actions { display: flex; gap: 8px; align-items: center; }
+  .btn {
+    height: 32px; padding: 0 14px; border-radius: 6px; font-size: 13px; font-weight: 600;
+    border: 1px solid var(--line-2); background: var(--paper); color: var(--ink);
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: background .12s ease, border-color .12s ease, transform .12s ease;
+  }
+  .btn:hover { background: var(--tint); }
+  .btn.primary {
+    background: var(--indigo); color: #fff; border-color: var(--indigo);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0) inset;
+  }
+  .btn.primary:hover { background: var(--indigo-d); border-color: var(--indigo-d); }
 
-  .sidebar-foot { margin-top: auto; padding: 10px 12px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
-  .av { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--indigo), var(--cyan)); display: grid; place-items: center; font-weight: 700; font-size: 11px; color: var(--bg); }
-  .who { font-size: 12.5px; font-weight: 600; }
-  .who span { display: block; font-size: 10.5px; color: var(--mute); font-weight: 400; }
+  /* === KPI cards ======================================== */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 26px; }
+  @media (max-width: 980px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+  .kpi { background: var(--paper); padding: 18px 20px; }
+  .kpi .label { font-size: 12px; font-weight: 500; color: var(--mute); margin-bottom: 8px; }
+  .kpi .value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-feature-settings: "tnum"; }
+  .kpi .delta { margin-top: 4px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--green); }
+  .kpi .delta.down { color: var(--rose); }
+  .kpi .delta .arrow { display: inline-block; transform: translateY(-1px); }
 
-  /* === Main ==================================================== */
-  .main { display: flex; flex-direction: column; overflow: hidden; }
-  .main-head { padding: 18px 28px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-  .main-head h1 { font-family: 'Inter Tight'; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
-  .main-head .right { display: flex; gap: 10px; align-items: center; }
-  .btn { padding: 8px 14px; border-radius: 7px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 0; display: inline-flex; gap: 6px; align-items: center; }
-  .btn.primary { background: var(--indigo); color: #FFFFFF; }
-  .btn.primary:hover { background: var(--indigo-d); }
-  .btn.ghost { background: transparent; color: var(--text-d); border: 1px solid var(--line-2); }
-  .btn.ghost:hover { background: var(--surface); color: var(--text); }
+  /* === Chart card ====================================== */
+  .chart-card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    margin-bottom: 26px; overflow: hidden;
+  }
+  .card-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+  .card-head h2 { font-size: 15px; font-weight: 600; letter-spacing: -0.005em; }
+  .card-head .sub { font-size: 12px; color: var(--mute); margin-top: 2px; }
+  .range-tabs { display: flex; gap: 2px; background: var(--tint); border-radius: 6px; padding: 2px; font-size: 12px; font-weight: 500; }
+  .range-tabs button { padding: 5px 10px; background: transparent; color: var(--mute); border: 0; border-radius: 4px; }
+  .range-tabs button.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .chart-body { padding: 20px; }
+  .chart-svg { width: 100%; height: 200px; display: block; }
+  .chart-legend { display: flex; gap: 18px; margin-top: 8px; font-size: 12px; color: var(--mute); }
+  .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .chart-legend .swatch { width: 10px; height: 10px; border-radius: 2px; }
 
-  .main-body { flex: 1; overflow-y: auto; padding: 24px 28px; display: flex; flex-direction: column; gap: 24px; }
+  /* === Two-col block: dunning + balance ================= */
+  .two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 26px; }
+  @media (max-width: 980px) { .two-col { grid-template-columns: 1fr; } }
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .panel-body { padding: 18px 20px; }
 
-  /* === Stat strip ============================================== */
-  .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .stat-card { background: var(--surface); border: 1px solid var(--line); padding: 18px 20px; border-radius: 12px; }
-  .stat-card .label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); font-weight: 600; }
-  .stat-card .v { font-family: 'Inter Tight'; font-weight: 700; font-size: 28px; letter-spacing: -0.02em; margin-top: 6px; }
-  .stat-card .delta { font-size: 12px; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
-  .delta.up { color: var(--green); }
-  .delta.down { color: var(--rose); }
+  .dunning-row {
+    display: grid; grid-template-columns: 1fr auto auto auto; gap: 12px; align-items: center;
+    padding: 12px 20px; border-top: 1px solid var(--line); font-size: 13px;
+  }
+  .dunning-row:first-of-type { border-top: 1px solid var(--line); }
+  .dunning-row .who { font-weight: 600; }
+  .dunning-row .who small { display: block; color: var(--mute); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 400; margin-top: 2px; }
+  .dunning-row .amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--rose); }
+  .dunning-row .attempt { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--mute); }
+  .retry-btn { height: 28px; padding: 0 10px; border-radius: 5px; font-size: 12px; font-weight: 600; border: 1px solid var(--line-2); background: var(--paper); color: var(--ink); }
+  .retry-btn:hover { background: var(--tint); }
+  .retry-btn.success { background: var(--green-s); color: var(--green); border-color: var(--green-s); }
 
-  /* === Chart ================================================== */
-  .chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
-  .chart-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; }
-  .chart-head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 16px; }
-  .chart-head .legend { display: flex; gap: 16px; }
-  .chart-head .legend span { font-size: 11.5px; color: var(--mute); display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
-  .chart-head .legend .dot { width: 8px; height: 8px; border-radius: 50%; }
-  .chart-head .legend .dot.indigo { background: var(--indigo); }
-  .chart-head .legend .dot.cyan { background: var(--cyan); }
-  .chart-svg { width: 100%; height: 200px; }
+  /* Balance card */
+  .balance .big { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; font-feature-settings: "tnum"; }
+  .balance .sub { font-size: 13px; color: var(--mute); margin-top: 6px; }
+  .balance-rows { display: grid; gap: 0; margin-top: 14px; border-top: 1px solid var(--line); }
+  .balance-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+  .balance-row b { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .balance-row .lbl { color: var(--mute); }
 
-  /* === Two-col split =========================================== */
-  .split { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
-  @media (max-width: 1100px) { .split { grid-template-columns: 1fr; } }
+  /* === Customers table ================================= */
+  .filter-bar { display: flex; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--line); align-items: center; flex-wrap: wrap; }
+  .pill {
+    height: 28px; padding: 0 12px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+    background: var(--paper); border: 1px solid var(--line-2); color: var(--ink-2);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .pill:hover { background: var(--tint); }
+  .pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .pill .count { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
 
-  /* === Customer table ========================================== */
-  .table-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-  .table-head { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-  .table-head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 16px; }
-  .filter-pills { display: flex; gap: 4px; background: var(--surface-2); padding: 3px; border-radius: 7px; }
-  .filter-pill { padding: 5px 11px; border-radius: 5px; font-size: 11.5px; font-weight: 600; color: var(--mute); cursor: pointer; transition: all .15s ease; user-select: none; }
-  .filter-pill.active { background: var(--surface); color: var(--text); }
+  table.customers {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+  }
+  table.customers th {
+    text-align: left; font-weight: 500; font-size: 11.5px; color: var(--mute);
+    letter-spacing: 0.01em; text-transform: uppercase; padding: 11px 20px;
+    border-bottom: 1px solid var(--line); background: var(--bg);
+  }
+  table.customers td {
+    padding: 13px 20px; border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  table.customers tr { cursor: pointer; }
+  table.customers tr:hover td { background: var(--tint); }
+  table.customers tr.active td { background: var(--indigo-s); }
+  .cust-name { font-weight: 600; color: var(--ink); }
+  .cust-email { font-size: 11.5px; color: var(--mute); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.01em;
+  }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.85; }
+  .badge.active   { background: var(--green-s);  color: var(--green); }
+  .badge.past_due { background: var(--rose-s);   color: var(--rose); }
+  .badge.trial    { background: var(--indigo-s); color: var(--indigo); }
+  .badge.churned  { background: #F1F2F4;         color: var(--mute); }
+  .amount { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+  .plan { color: var(--ink-2); font-weight: 500; }
 
-  .tbl { width: 100%; border-collapse: collapse; }
-  .tbl th { text-align: left; padding: 10px 20px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); font-weight: 600; border-bottom: 1px solid var(--line); }
-  .tbl td { padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: 13.5px; vertical-align: middle; }
-  .tbl tr { cursor: pointer; transition: background .15s ease; }
-  .tbl tr:hover td { background: var(--surface-2); }
-  .tbl tr:last-child td { border-bottom: 0; }
-  .tbl .cust { display: flex; align-items: center; gap: 10px; }
-  .tbl .cust .cav { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 11.5px; color: #FFFFFF; }
-  .tbl .cust .nm { font-weight: 600; }
-  .tbl .cust .em { display: block; font-size: 11.5px; color: var(--mute); font-weight: 400; }
-  .tbl .amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-  .status-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 5px; font-size: 11.5px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
-  .status-chip .dot { width: 6px; height: 6px; border-radius: 50%; }
-  .status-chip.active { background: var(--green-s); color: var(--green); }
-  .status-chip.active .dot { background: var(--green); }
-  .status-chip.past_due { background: var(--rose-s); color: var(--rose); }
-  .status-chip.past_due .dot { background: var(--rose); }
-  .status-chip.trial { background: var(--amber-s); color: var(--amber); }
-  .status-chip.trial .dot { background: var(--amber); }
-  .status-chip.churned { background: rgba(123,126,154,0.16); color: var(--mute); }
-  .status-chip.churned .dot { background: var(--mute); }
-
-  /* Avatar gradients */
-  .ag0 { background: linear-gradient(135deg, #F472B6, #DB2777); }
-  .ag1 { background: linear-gradient(135deg, #60A5FA, #2563EB); }
-  .ag2 { background: linear-gradient(135deg, #34D399, #047857); }
-  .ag3 { background: linear-gradient(135deg, #FBBF24, #D97706); }
-  .ag4 { background: linear-gradient(135deg, #A78BFA, #6D28D9); }
-  .ag5 { background: linear-gradient(135deg, #FB7185, #BE123C); }
-  .ag6 { background: linear-gradient(135deg, #5EEAD4, #0D9488); }
-
-  /* === Dunning queue =========================================== */
-  .dunning-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-  .dunning-card .head { padding: 16px 20px; border-bottom: 1px solid var(--line); }
-  .dunning-card .head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 15px; }
-  .dunning-card .head .sub { font-size: 12px; color: var(--mute); margin-top: 2px; }
-  .dunning-row { padding: 14px 20px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
-  .dunning-row:last-child { border-bottom: 0; }
-  .dunning-row .nm { font-weight: 600; font-size: 13.5px; }
-  .dunning-row .meta { font-size: 11.5px; color: var(--mute); margin-top: 3px; }
-  .dunning-row .meta strong { color: var(--rose); font-weight: 600; }
-  .dunning-row .retry { padding: 6px 12px; background: var(--indigo); color: #FFFFFF; border-radius: 6px; font-size: 11.5px; font-weight: 600; border: 0; cursor: pointer; }
-  .dunning-row .retry:hover { background: var(--indigo-d); }
-  .dunning-row .retry.done { background: var(--green); pointer-events: none; }
-
-  /* === Webhook log ============================================== */
-  .webhook-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
-  .webhook-card .head { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
-  .webhook-card .head h3 { font-family: 'Inter Tight'; font-weight: 700; font-size: 15px; }
-  .webhook-card .live { font-size: 11px; color: var(--green); display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
-  .webhook-card .live .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 0 4px rgba(74,222,128,0.18); }
-  .webhook-list { max-height: 280px; overflow-y: auto; }
-  .webhook-row { padding: 10px 20px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 18px 1fr auto; gap: 12px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
-  .webhook-row:last-child { border-bottom: 0; }
-  .webhook-row .ev-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .webhook-row .ev-dot.ok { background: var(--green); }
-  .webhook-row .ev-dot.warn { background: var(--amber); }
-  .webhook-row .ev-dot.err { background: var(--rose); }
-  .webhook-row .ev { color: var(--text-d); }
-  .webhook-row .ev .et { color: var(--text); font-weight: 600; }
-  .webhook-row .t { color: var(--mute); font-size: 11px; }
-
-  /* === Drawer ================================================== */
-  .drawer-bg { position: fixed; inset: 0; background: rgba(10,11,20,0.65); opacity: 0; pointer-events: none; transition: opacity .25s ease; z-index: 60; }
-  .drawer-bg.open { opacity: 1; pointer-events: auto; }
-  .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 520px; max-width: 92vw; background: var(--surface); transform: translateX(100%); transition: transform .35s cubic-bezier(0.16,1,0.3,1); z-index: 61; overflow-y: auto; border-left: 1px solid var(--line); }
+  /* === Slide-over drawer (REPLACES right rail) ========== */
+  .drawer-backdrop {
+    position: fixed; inset: 0; background: rgba(26,31,54,0.34); z-index: 60;
+    opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  }
+  .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; height: 100vh; width: 480px; max-width: 100vw;
+    background: var(--paper); border-left: 1px solid var(--line); z-index: 61;
+    transform: translateX(100%); transition: transform .25s cubic-bezier(0.16,1,0.3,1);
+    display: flex; flex-direction: column;
+    box-shadow: -16px 0 48px -16px rgba(26,31,54,0.18);
+  }
   .drawer.open { transform: translateX(0); }
-  .drawer-head { padding: 22px 28px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-  .drawer-head .who { display: flex; gap: 12px; align-items: center; }
-  .drawer-head .cav { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 15px; color: #FFFFFF; }
-  .drawer-head .nm { font-family: 'Inter Tight'; font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
-  .drawer-head .em { font-size: 12.5px; color: var(--mute); margin-top: 2px; }
-  .drawer-close { width: 32px; height: 32px; border-radius: 7px; background: var(--surface-2); border: 0; cursor: pointer; font-size: 14px; color: var(--text-d); display: grid; place-items: center; }
-  .drawer-close:hover { background: var(--raised); color: var(--text); }
+  .drawer-head { padding: 22px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; }
+  .drawer-head h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.005em; }
+  .drawer-head .meta { font-size: 12.5px; color: var(--mute); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+  .drawer-head .x { width: 28px; height: 28px; border-radius: 6px; border: 0; background: transparent; color: var(--mute); font-size: 18px; }
+  .drawer-head .x:hover { background: var(--tint); color: var(--ink); }
 
-  .drawer-body { padding: 22px 28px; display: flex; flex-direction: column; gap: 22px; }
-  .d-section .d-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute); margin-bottom: 10px; font-weight: 600; }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 22px; }
+  .sect { border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+  .sect:last-child { border-bottom: 0; padding-bottom: 0; }
+  .sect h4 { font-size: 11.5px; font-weight: 600; color: var(--mute); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+  .kvs { display: grid; gap: 10px; }
+  .kv { display: flex; justify-content: space-between; font-size: 13.5px; }
+  .kv .k { color: var(--mute); }
+  .kv .v { color: var(--ink); font-weight: 500; font-family: 'JetBrains Mono', monospace; }
 
-  .sub-card { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
-  .sub-card .plan-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .sub-card .plan { font-family: 'Inter Tight'; font-weight: 700; font-size: 17px; }
-  .sub-card .price { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-  .plan-switch { display: flex; gap: 4px; margin-top: 14px; padding: 3px; background: var(--bg); border-radius: 7px; }
-  .plan-switch .t { padding: 6px 10px; border-radius: 5px; font-size: 11.5px; font-weight: 600; color: var(--mute); cursor: pointer; flex: 1; text-align: center; }
-  .plan-switch .t.active { background: var(--indigo); color: #FFFFFF; }
-  .proration { margin-top: 14px; padding: 12px 14px; background: var(--indigo-s); border-radius: 8px; font-size: 12.5px; color: var(--text-d); display: none; }
-  .proration.visible { display: block; }
-  .proration strong { color: var(--text); font-weight: 700; }
+  .plan-switcher { display: grid; gap: 8px; }
+  .plan-option {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 14px; border: 1px solid var(--line); border-radius: 7px; cursor: pointer;
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .plan-option:hover { border-color: var(--line-2); }
+  .plan-option.current { background: var(--indigo-s); border-color: var(--indigo); }
+  .plan-option .name { font-weight: 600; }
+  .plan-option .price { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mute); }
+  .plan-option .check { color: var(--indigo); font-size: 14px; }
 
-  .invoice-list { display: flex; flex-direction: column; gap: 8px; }
-  .invoice-row { display: grid; grid-template-columns: auto 1fr auto auto; gap: 12px; align-items: center; padding: 10px 14px; background: var(--surface-2); border-radius: 8px; font-size: 13px; }
-  .invoice-row .num { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--mute); }
-  .invoice-row .dt { font-size: 12px; color: var(--text-d); }
-  .invoice-row .amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-  .invoice-row .st { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; }
-  .invoice-row .st.paid { color: var(--green); background: var(--green-s); }
-  .invoice-row .st.failed { color: var(--rose); background: var(--rose-s); }
-  .invoice-row .st.refund { color: var(--mute); background: rgba(123,126,154,0.16); }
+  .prorate {
+    background: var(--amber-s); border: 1px solid #FCD34D; border-radius: 7px;
+    padding: 11px 14px; margin-top: 10px; font-size: 12.5px; color: var(--amber); display: none;
+  }
+  .prorate.show { display: block; }
+  .prorate b { font-family: 'JetBrains Mono', monospace; }
 
-  /* === Toast =================================================== */
-  .toast-wrap { position: fixed; bottom: 22px; right: 22px; z-index: 80; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-  .toast { background: var(--surface); border: 1px solid var(--line-2); color: var(--text); padding: 14px 18px; border-radius: 11px; min-width: 320px; max-width: 380px; display: flex; gap: 12px; align-items: flex-start; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5); transform: translateX(120%); opacity: 0; transition: transform .35s cubic-bezier(0.16,1,0.3,1), opacity .35s ease; pointer-events: auto; }
-  .toast.show { transform: translateX(0); opacity: 1; }
-  .toast .ic { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; font-weight: 700; font-size: 14px; }
-  .toast.success .ic { background: var(--green-s); color: var(--green); }
-  .toast.info .ic { background: var(--indigo-s); color: var(--indigo); }
-  .toast .b { flex: 1; }
-  .toast .ti { font-weight: 600; font-size: 13.5px; }
-  .toast .su { font-size: 11.5px; color: var(--mute); margin-top: 2px; }
-  .toast .close { background: transparent; border: 0; color: var(--mute); cursor: pointer; font-size: 14px; padding: 0; }
+  /* === Webhook log =================================== */
+  .events {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 26px;
+  }
+  .events-body { max-height: 380px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+  .event-row {
+    display: grid; grid-template-columns: 70px 200px 1fr 90px; gap: 14px;
+    padding: 9px 20px; border-bottom: 1px solid var(--line); align-items: center;
+  }
+  .event-row:last-child { border-bottom: 0; }
+  .event-row .status {
+    font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+    text-align: center; letter-spacing: 0.04em;
+  }
+  .event-row .status.ok { background: var(--green-s); color: var(--green); }
+  .event-row .status.fail { background: var(--rose-s); color: var(--rose); }
+  .event-row .type { color: var(--indigo); font-weight: 600; }
+  .event-row .obj { color: var(--ink); }
+  .event-row .ts { color: var(--mute); text-align: right; font-size: 11.5px; }
+
+  /* === Toast ========================================= */
+  .toast {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 500; box-shadow: 0 12px 32px -10px rgba(0,0,0,0.25);
+    opacity: 0; transition: all .25s cubic-bezier(0.16,1,0.3,1); z-index: 70;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* New event highlight */
+  @keyframes flashin { from { background: var(--indigo-s); } to { background: var(--paper); } }
+  .event-row.new { animation: flashin 1.2s ease-out; }
+
+  /* Concept banner */
+  .concept-banner {
+    background: var(--ink); color: rgba(255,255,255,0.66);
+    padding: 7px 18px; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.05em; text-align: center;
+  }
 </style>
 </head>
 <body>
 
-<!-- Concept disclosure -->
-<div class="concept-banner">
-  <a href="/">← Back to studio</a>
-  &nbsp;·&nbsp; Product demo · production Stripe billing architecture
-</div>
+<div class="concept-banner">CONCEPT · Halstead Capital — operator console for SaaS billing on Stripe</div>
 
-<div class="app">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="brand-block">
-      <div class="brand-mark">⌥</div>
-      <div class="brand-name">OnCall<span>·</span>Bill</div>
+<!-- ========= TOPBAR ========= -->
+<header class="topbar">
+  <div class="brand">
+    <div class="dot">H</div>
+    <span>Halstead Billing</span>
+  </div>
+  <div class="env-toggle">
+    <button class="active">Live</button>
+    <button class="test">Test</button>
+  </div>
+  <div class="search">
+    <input type="text" placeholder="Search customers, invoices, subscriptions..." />
+  </div>
+  <div class="topbar-right">
+    <div class="ico" title="Notifications">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
     </div>
-    <div class="org-pick"><span>Acme Inc. (Live)</span><span class="arrow">▾</span></div>
-
-    <div class="nav-section">
-      <p class="nav-label">Billing</p>
-      <div class="nav-item active"><span class="l"><span class="ico">◎</span>Customers</span><span class="badge">847</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">⊠</span>Subscriptions</span><span class="badge">812</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">$</span>Invoices</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">▸</span>Payments</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">↻</span>Dunning</span><span class="badge" style="color: var(--rose); background: var(--rose-s);">12</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">⊕</span>Coupons</span></div>
+    <div class="ico" title="Help">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
     </div>
-
-    <div class="nav-section">
-      <p class="nav-label">Revenue</p>
-      <div class="nav-item"><span class="l"><span class="ico">⊿</span>Analytics</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">⌬</span>Forecasting</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">◇</span>Cohorts</span></div>
-    </div>
-
-    <div class="nav-section">
-      <p class="nav-label">Developer</p>
-      <div class="nav-item"><span class="l"><span class="ico">⚡</span>Webhooks</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">⊡</span>API logs</span></div>
-      <div class="nav-item"><span class="l"><span class="ico">⊕</span>Stripe Connect</span></div>
-    </div>
-
-    <div class="sidebar-foot">
+    <div class="acct">
       <div class="av">LK</div>
-      <div class="who">Lawrence Kocaj<span>Admin</span></div>
+      <b>Halstead Cap.</b>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- ========= SIDEBAR ========= -->
+  <aside class="sidebar">
+    <div class="nav-section">
+      <div class="nav-item active">
+        <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+        Overview
+      </div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg></span>
+        Customers
+        <span class="count">812</span>
+      </div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+        Invoices
+        <span class="count">2.1k</span>
+      </div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        Subscriptions
+      </div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+        Payments
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="label">Revenue</div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+        Reports
+      </div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+        Disputes
+        <span class="count">3</span>
+      </div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+        Payouts
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="label">Developers</div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+        API logs
+      </div>
+      <div class="nav-item">
+        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+        Webhooks
+      </div>
     </div>
   </aside>
 
-  <!-- Main -->
-  <div class="main">
-    <div class="main-head">
-      <h1>Customers</h1>
-      <div class="right">
-        <button class="btn ghost">Export CSV</button>
+  <!-- ========= MAIN ========= -->
+  <main>
+    <div class="h1-row">
+      <div>
+        <h1>Overview</h1>
+        <p class="sub">Halstead Capital · SaaS billing on Stripe · Live mode</p>
+      </div>
+      <div class="actions">
+        <button class="btn">Export</button>
         <button class="btn primary">+ New customer</button>
       </div>
     </div>
-    <div class="main-body">
 
-      <!-- Stat strip -->
-      <div class="stat-strip">
-        <div class="stat-card"><p class="label">MRR</p><p class="v" id="stat-mrr">$184,820</p><p class="delta up">▲ 8.2% MoM</p></div>
-        <div class="stat-card"><p class="label">Active subs</p><p class="v" id="stat-subs">812</p><p class="delta up">▲ 24 this week</p></div>
-        <div class="stat-card"><p class="label">Past due</p><p class="v" id="stat-pd" style="color: var(--rose);">12</p><p class="delta down">▼ 3 since dunning</p></div>
-        <div class="stat-card"><p class="label">Churn (30d)</p><p class="v">2.1%</p><p class="delta up">▼ 0.4% MoM</p></div>
+    <!-- KPI row -->
+    <div class="kpis">
+      <div class="kpi">
+        <div class="label">Gross MRR</div>
+        <div class="value">$184,820</div>
+        <div class="delta"><span class="arrow">↑</span> 11.4% vs Apr</div>
       </div>
-
-      <!-- MRR chart -->
-      <div class="chart-card">
-        <div class="chart-head">
-          <h3>Revenue · last 12 months</h3>
-          <div class="legend">
-            <span><span class="dot indigo"></span>MRR</span>
-            <span><span class="dot cyan"></span>New ARR</span>
-          </div>
-        </div>
-        <svg class="chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="mrrGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#635BFF" stop-opacity="0.4"/>
-              <stop offset="1" stop-color="#635BFF" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <!-- horizontal grid -->
-          <line x1="0" y1="50" x2="600" y2="50" stroke="rgba(255,255,255,0.05)"/>
-          <line x1="0" y1="100" x2="600" y2="100" stroke="rgba(255,255,255,0.05)"/>
-          <line x1="0" y1="150" x2="600" y2="150" stroke="rgba(255,255,255,0.05)"/>
-          <!-- MRR area -->
-          <path d="M0,170 L50,165 L100,158 L150,152 L200,140 L250,128 L300,115 L350,98 L400,82 L450,68 L500,52 L550,42 L600,30 L600,200 L0,200 Z" fill="url(#mrrGrad)"/>
-          <!-- MRR line -->
-          <path d="M0,170 L50,165 L100,158 L150,152 L200,140 L250,128 L300,115 L350,98 L400,82 L450,68 L500,52 L550,42 L600,30" fill="none" stroke="#635BFF" stroke-width="2"/>
-          <!-- New ARR line (cyan, lower) -->
-          <path d="M0,185 L50,182 L100,176 L150,170 L200,160 L250,154 L300,145 L350,130 L400,118 L450,108 L500,95 L550,85 L600,72" fill="none" stroke="#22D3EE" stroke-width="2" stroke-dasharray="4,4"/>
-          <!-- Dots -->
-          <circle cx="600" cy="30" r="4" fill="#635BFF"/>
-          <circle cx="600" cy="72" r="3" fill="#22D3EE"/>
-          <!-- Latest label -->
-          <text x="588" y="22" font-family="JetBrains Mono" font-size="10" fill="#635BFF" text-anchor="end" font-weight="600">$184.8K</text>
-        </svg>
+      <div class="kpi">
+        <div class="label">Active subs</div>
+        <div class="value">812</div>
+        <div class="delta"><span class="arrow">↑</span> 38 net</div>
       </div>
-
-      <!-- Two-col -->
-      <div class="split">
-        <!-- Customers table -->
-        <div class="table-card">
-          <div class="table-head">
-            <h3>Customers</h3>
-            <div class="filter-pills" id="filter-pills">
-              <span class="filter-pill active" data-st="all">All</span>
-              <span class="filter-pill" data-st="active">Active</span>
-              <span class="filter-pill" data-st="past_due">Past due</span>
-              <span class="filter-pill" data-st="trial">Trial</span>
-              <span class="filter-pill" data-st="churned">Churned</span>
-            </div>
-          </div>
-          <table class="tbl">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Plan</th>
-                <th>MRR</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="cust-rows"></tbody>
-          </table>
-        </div>
-
-        <!-- Dunning queue -->
-        <div class="dunning-card">
-          <div class="head">
-            <h3>Dunning queue</h3>
-            <p class="sub">12 customers · $4,820 at risk this week</p>
-          </div>
-          <div id="dunning-list"></div>
-        </div>
+      <div class="kpi">
+        <div class="label">Past due</div>
+        <div class="value">12</div>
+        <div class="delta down"><span class="arrow">↓</span> 4 recovered</div>
       </div>
-
-      <!-- Webhook log -->
-      <div class="webhook-card">
-        <div class="head">
-          <h3>Webhook events · live</h3>
-          <span class="live"><span class="dot"></span>Streaming</span>
-        </div>
-        <div class="webhook-list" id="webhook-list"></div>
+      <div class="kpi">
+        <div class="label">Churn rate</div>
+        <div class="value">2.1%</div>
+        <div class="delta"><span class="arrow">↓</span> 0.4 pts</div>
       </div>
-
     </div>
-  </div>
 
+    <!-- Chart -->
+    <div class="chart-card">
+      <div class="card-head">
+        <div>
+          <h2>Gross volume</h2>
+          <div class="sub">$612,400 · last 30 days</div>
+        </div>
+        <div class="range-tabs">
+          <button>7d</button>
+          <button class="active">30d</button>
+          <button>3m</button>
+          <button>YTD</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <svg class="chart-svg" id="chart" viewBox="0 0 800 200" preserveAspectRatio="none"></svg>
+        <div class="chart-legend">
+          <span><span class="swatch" style="background:var(--indigo)"></span>Successful</span>
+          <span><span class="swatch" style="background:var(--rose)"></span>Failed</span>
+          <span><span class="swatch" style="background:var(--mute-2)"></span>Refunded</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-col: dunning + balance -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="card-head">
+          <h2>Failed payments · needs attention</h2>
+          <button class="btn">Retry all</button>
+        </div>
+        <div id="dunningList"></div>
+      </div>
+
+      <div class="panel">
+        <div class="card-head"><h2>Balance</h2></div>
+        <div class="panel-body balance">
+          <div class="big">$24,118.40</div>
+          <div class="sub">Available on May 19</div>
+          <div class="balance-rows">
+            <div class="balance-row"><span class="lbl">In transit to bank</span><b>$8,400.00</b></div>
+            <div class="balance-row"><span class="lbl">Reserved for refunds</span><b>$1,240.00</b></div>
+            <div class="balance-row"><span class="lbl">Next payout · May 21</span><b>$22,840.00</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customers table -->
+    <div class="panel" style="margin-bottom: 26px;">
+      <div class="card-head">
+        <div>
+          <h2>Customers</h2>
+          <div class="sub">Click a row to manage subscription</div>
+        </div>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <button class="pill active" data-filter="all">All <span class="count">812</span></button>
+        <button class="pill" data-filter="active">Active <span class="count">741</span></button>
+        <button class="pill" data-filter="trial">Trialing <span class="count">28</span></button>
+        <button class="pill" data-filter="past_due">Past due <span class="count">12</span></button>
+        <button class="pill" data-filter="churned">Churned <span class="count">31</span></button>
+      </div>
+      <table class="customers">
+        <thead>
+          <tr><th>Customer</th><th>Plan</th><th>MRR</th><th>Status</th><th>Started</th></tr>
+        </thead>
+        <tbody id="custBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Webhook events -->
+    <div class="events">
+      <div class="card-head">
+        <div>
+          <h2>Recent events</h2>
+          <div class="sub">Webhook deliveries · live</div>
+        </div>
+        <div class="range-tabs">
+          <button class="active">All</button>
+          <button>Succeeded</button>
+          <button>Failed</button>
+        </div>
+      </div>
+      <div class="events-body" id="eventLog"></div>
+    </div>
+  </main>
 </div>
 
-<!-- Drawer -->
-<div class="drawer-bg" id="drawer-bg"></div>
+<!-- ========= DRAWER ========= -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="drawer" id="drawer">
   <div class="drawer-head">
-    <div class="who">
-      <div class="cav" id="d-av">AC</div>
-      <div>
-        <p class="nm" id="d-nm">Acme Corp</p>
-        <p class="em" id="d-em">billing@acmecorp.com</p>
-      </div>
+    <div>
+      <h3 id="dName">—</h3>
+      <div class="meta" id="dMeta">—</div>
     </div>
-    <button class="drawer-close" id="d-close">✕</button>
+    <button class="x" id="closeDrawer">×</button>
   </div>
-  <div class="drawer-body">
-
-    <div class="d-section">
-      <p class="d-label">Current subscription</p>
-      <div class="sub-card">
-        <div class="plan-row">
-          <p class="plan" id="d-plan">Growth · $497/mo</p>
-          <p class="price" id="d-price">$497.00</p>
-        </div>
-        <p style="font-size: 12.5px; color: var(--mute);">Next invoice <strong style="color: var(--text); font-weight: 600;" id="d-next">May 21, 2026</strong> · payment method <strong style="color: var(--text); font-weight: 600;">•••• 4242</strong></p>
-        <div class="plan-switch" id="plan-switch">
-          <span class="t" data-plan="Starter" data-amt="97">Starter · $97</span>
-          <span class="t active" data-plan="Growth" data-amt="497">Growth · $497</span>
-          <span class="t" data-plan="Scale" data-amt="1497">Scale · $1,497</span>
-        </div>
-        <div class="proration" id="d-proration"></div>
-      </div>
-    </div>
-
-    <div class="d-section">
-      <p class="d-label">Recent invoices</p>
-      <div class="invoice-list" id="d-invoices"></div>
-    </div>
-
-  </div>
+  <div class="drawer-body" id="drawerBody"></div>
 </aside>
 
-<!-- Toast -->
-<div class="toast-wrap" id="toast-wrap"></div>
+<!-- ========= TOAST ========= -->
+<div class="toast" id="toast"></div>
 
 <script>
-(() => {
-  // ── Customer data ────────────────────────────────────────────
-  const customers = [
-    { id:'acme',  name:'Acme Corp',            email:'billing@acmecorp.com',    initials:'AC', av:'ag1', plan:'Growth',    amt:497,  status:'active',   next:'May 21, 2026', invoices:[['inv_4821','Apr 21',497,'paid'],['inv_4720','Mar 21',497,'paid'],['inv_4619','Feb 21',497,'paid']] },
-    { id:'kappa', name:'Kappa Operations',     email:'priya@kappaops.com',      initials:'KO', av:'ag2', plan:'Scale',     amt:1497, status:'active',   next:'May 18, 2026', invoices:[['inv_4801','Apr 18',1497,'paid'],['inv_4699','Mar 18',1497,'paid']] },
-    { id:'forge', name:'Forge Method',         email:'tomas@forgemethod.com',   initials:'FM', av:'ag3', plan:'Growth',    amt:497,  status:'active',   next:'May 24, 2026', invoices:[['inv_4855','Apr 24',497,'paid'],['inv_4754','Mar 24',497,'paid']] },
-    { id:'selen', name:'Selendy Gay',          email:'dana@selendygay.com',     initials:'SG', av:'ag4', plan:'Scale',     amt:1497, status:'active',   next:'May 19, 2026', invoices:[['inv_4811','Apr 19',1497,'paid'],['inv_4710','Mar 19',1497,'paid']] },
-    { id:'cohen', name:'Cohen Aesthetic',      email:'eli@cohenaesthetic.com',  initials:'CA', av:'ag5', plan:'Growth',    amt:497,  status:'active',   next:'May 22, 2026', invoices:[['inv_4831','Apr 22',497,'paid']] },
-    { id:'petrov',name:'Petrov Legal',         email:'ana@petrovlegal.com',     initials:'PL', av:'ag6', plan:'Starter',   amt:97,   status:'trial',    next:'Jun 02, 2026', invoices:[] },
-    { id:'bskyt', name:'BrightSky Therapy',    email:'brandon@brightskytherapy.com', initials:'BT', av:'ag0', plan:'Growth', amt:497,  status:'active',   next:'May 20, 2026', invoices:[['inv_4820','Apr 20',497,'paid']] },
-    { id:'wdental', name:'Walsh Dental',       email:'james@walshdental.com',   initials:'WD', av:'ag1', plan:'Starter',   amt:97,   status:'past_due', next:'Apr 30, 2026 (overdue)', invoices:[['inv_4791','Apr 30',97,'failed'],['inv_4690','Mar 30',97,'paid']] },
-    { id:'stellar', name:'Stellar HR',         email:'maya@stellarhr.com',      initials:'SH', av:'ag2', plan:'Starter',   amt:97,   status:'trial',    next:'May 28, 2026', invoices:[] },
-    { id:'pbot',  name:'Procurebot',           email:'sasha@procurebot.io',     initials:'PB', av:'ag4', plan:'Growth',    amt:497,  status:'past_due', next:'May 02, 2026 (overdue)', invoices:[['inv_4799','May 02',497,'failed']] },
-    { id:'halo',  name:'Halo Holdings',        email:'finance@halo.co',         initials:'HH', av:'ag5', plan:'Scale',     amt:1497, status:'churned',  next:'—', invoices:[['inv_4501','Feb 15',1497,'refund']] },
-    { id:'vrt',   name:'Vertex Robotics',      email:'ap@vertex.io',            initials:'VR', av:'ag6', plan:'Growth',    amt:497,  status:'past_due', next:'Apr 28, 2026 (overdue)', invoices:[['inv_4780','Apr 28',497,'failed']] }
-  ];
+/* ============== DATA ============== */
+const customers = [
+  { id: 'cus_001', name: 'Marisol Vega',    email: 'marisol@vegacapital.com',    plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Jan 12, 2026' },
+  { id: 'cus_002', name: 'Devin Park',      email: 'devin@parkresearch.io',      plan: 'Growth',  mrr: 800,  status: 'active',   started: 'Feb 03, 2026' },
+  { id: 'cus_003', name: 'Raul Mendez',     email: 'raul@mendezholdings.com',    plan: 'Starter', mrr: 200,  status: 'past_due', started: 'Mar 19, 2026' },
+  { id: 'cus_004', name: 'Karen Whitlock',  email: 'karen@whitlocklegal.com',    plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Nov 08, 2025' },
+  { id: 'cus_005', name: 'Amelia Cho',      email: 'amelia@chodesignco.com',     plan: 'Growth',  mrr: 800,  status: 'trial',    started: 'May 02, 2026' },
+  { id: 'cus_006', name: 'Tomas Hartley',   email: 'tomas@hartleyconsult.com',   plan: 'Growth',  mrr: 800,  status: 'past_due', started: 'Sep 14, 2025' },
+  { id: 'cus_007', name: 'Priya Shah',      email: 'priya@shahmedical.com',      plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Aug 22, 2025' },
+  { id: 'cus_008', name: 'James Okafor',    email: 'james@okaforco.com',         plan: 'Starter', mrr: 200,  status: 'churned',  started: 'Apr 11, 2024' },
+  { id: 'cus_009', name: 'Sofia Rinaldi',   email: 'sofia@rinaldiventures.com',  plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Jul 19, 2025' },
+  { id: 'cus_010', name: 'Marcus Ojo',      email: 'marcus@ojoadvisory.co',      plan: 'Growth',  mrr: 800,  status: 'active',   started: 'Dec 02, 2025' },
+  { id: 'cus_011', name: 'Lin Chen',        email: 'lin@chenarchitects.studio',  plan: 'Starter', mrr: 200,  status: 'trial',    started: 'May 05, 2026' },
+  { id: 'cus_012', name: 'Bea Salonga',     email: 'bea@salongastrategy.com',    plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Feb 28, 2025' },
+];
 
-  // ── State ────────────────────────────────────────────────────
-  let activeStatus = 'all';
-  let selectedId = null;
+const dunning = [
+  { id: 'cus_003', name: 'Raul Mendez',    last4: '4242', amount: 200,  attempts: 2 },
+  { id: 'cus_006', name: 'Tomas Hartley',  last4: '8118', amount: 800,  attempts: 3 },
+  { id: 'cus_013', name: 'Henrik Aaltonen', last4: '0073', amount: 2400, attempts: 1 },
+];
 
-  // ── Helpers ──────────────────────────────────────────────────
-  const $ = (sel) => document.querySelector(sel);
-  const statusLabel = (s) => ({ active:'Active', past_due:'Past due', trial:'Trial', churned:'Churned' }[s] || s);
+const plans = [
+  { id: 'starter', name: 'Starter', price: 200 },
+  { id: 'growth',  name: 'Growth',  price: 800 },
+  { id: 'scale',   name: 'Scale',   price: 2400 },
+];
 
-  // ── Render customer table ───────────────────────────────────
-  function renderTable() {
-    const tbody = $('#cust-rows');
-    tbody.innerHTML = '';
-    const filtered = customers.filter(c => activeStatus === 'all' || c.status === activeStatus).slice(0, 8);
-    filtered.forEach(c => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>
-          <div class="cust">
-            <div class="cav ${c.av}">${c.initials}</div>
-            <div>
-              <span class="nm">${c.name}</span>
-              <span class="em">${c.email}</span>
+const eventSeed = [
+  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1QwzkVAbZx · $2,400.00 · cus_001', ts: 'just now' },
+  { status: 'ok',   type: 'customer.subscription.created', obj: 'sub_9aKqe2Yj · Scale · cus_009', ts: '12s ago' },
+  { status: 'fail', type: 'invoice.payment_failed', obj: 'in_1QwzhBNkUv · $800.00 · cus_006', ts: '38s ago' },
+  { status: 'ok',   type: 'charge.succeeded', obj: 'ch_3OkmHsLp · $800.00 · cus_010', ts: '1m ago' },
+  { status: 'ok',   type: 'customer.subscription.updated', obj: 'sub_7LmZx0Ck · Growth → Scale · cus_007', ts: '2m ago' },
+  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1QwzeIvPq · $2,400.00 · cus_012', ts: '4m ago' },
+  { status: 'fail', type: 'charge.failed', obj: 'ch_3OkmDxAr · insufficient_funds · cus_003', ts: '7m ago' },
+  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1Qwzd9YtNg · $200.00 · cus_002', ts: '11m ago' },
+  { status: 'ok',   type: 'customer.created', obj: 'cus_014 · trial · Beatrice Yoon', ts: '14m ago' },
+  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1QwzbHrAfc · $800.00 · cus_005', ts: '18m ago' },
+  { status: 'ok',   type: 'payout.paid', obj: 'po_1QwxhPzVqe · $22,840.00 · to bank ****1820', ts: '32m ago' },
+  { status: 'ok',   type: 'charge.refunded', obj: 'ch_3OkmADns · $200.00 · cus_008', ts: '46m ago' },
+];
+
+let activeFilter = 'all';
+let activeCustomer = null;
+let pickedPlan = null;
+
+/* ============== TABLE ============== */
+function renderCustomers() {
+  const tbody = document.getElementById('custBody');
+  const rows = customers.filter(c => activeFilter === 'all' || c.status === activeFilter);
+  tbody.innerHTML = rows.map(c => `
+    <tr data-id="${c.id}" class="${activeCustomer === c.id ? 'active' : ''}">
+      <td><div class="cust-name">${c.name}</div><div class="cust-email">${c.email}</div></td>
+      <td class="plan">${c.plan}</td>
+      <td class="amount">$${c.mrr.toLocaleString()}.00</td>
+      <td><span class="badge ${c.status}">${labelFor(c.status)}</span></td>
+      <td style="color: var(--mute); font-size: 12.5px;">${c.started}</td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('tr').forEach(tr => tr.addEventListener('click', () => openDrawer(tr.dataset.id)));
+}
+
+function labelFor(s) {
+  return { active: 'Active', past_due: 'Past due', trial: 'Trialing', churned: 'Churned' }[s] || s;
+}
+
+document.getElementById('filterBar').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#filterBar .pill').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter = e.target.dataset.filter;
+  renderCustomers();
+});
+
+/* ============== DUNNING ============== */
+function renderDunning() {
+  const wrap = document.getElementById('dunningList');
+  wrap.innerHTML = dunning.map(d => `
+    <div class="dunning-row" data-id="${d.id}">
+      <div class="who">${d.name}<small>•••• ${d.last4}</small></div>
+      <div class="amt">$${d.amount.toLocaleString()}.00</div>
+      <div class="attempt">attempt ${d.attempts}</div>
+      <button class="retry-btn">Retry charge</button>
+    </div>
+  `).join('');
+  wrap.querySelectorAll('.retry-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const row = btn.closest('.dunning-row');
+      btn.textContent = 'Retrying…';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = '✓ Recovered';
+        btn.classList.add('success');
+        pushEvent({ status: 'ok', type: 'invoice.payment_succeeded', obj: `in_recovered · ${row.dataset.id}`, ts: 'just now' });
+        showToast('Charge recovered. Payment succeeded.');
+      }, 900);
+    });
+  });
+}
+
+/* ============== DRAWER ============== */
+function openDrawer(id) {
+  const c = customers.find(x => x.id === id);
+  if (!c) return;
+  activeCustomer = id;
+  pickedPlan = c.plan.toLowerCase();
+  document.getElementById('dName').textContent = c.name;
+  document.getElementById('dMeta').textContent = `${c.id} · ${c.email}`;
+
+  const body = document.getElementById('drawerBody');
+  body.innerHTML = `
+    <div class="sect">
+      <h4>Subscription</h4>
+      <div class="kvs">
+        <div class="kv"><span class="k">Status</span><span class="v"><span class="badge ${c.status}">${labelFor(c.status)}</span></span></div>
+        <div class="kv"><span class="k">Plan</span><span class="v">${c.plan} · $${c.mrr.toLocaleString()}.00/mo</span></div>
+        <div class="kv"><span class="k">Started</span><span class="v">${c.started}</span></div>
+        <div class="kv"><span class="k">Next invoice</span><span class="v">May 22, 2026</span></div>
+        <div class="kv"><span class="k">Payment method</span><span class="v">Visa •••• 4242</span></div>
+      </div>
+    </div>
+
+    <div class="sect">
+      <h4>Change plan</h4>
+      <div class="plan-switcher" id="planSwitcher">
+        ${plans.map(p => `
+          <div class="plan-option ${pickedPlan === p.id ? 'current' : ''}" data-plan="${p.id}" data-price="${p.price}">
+            <div><div class="name">${p.name}</div></div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="price">$${p.price.toLocaleString()}.00/mo</span>
+              ${pickedPlan === p.id ? '<span class="check">✓</span>' : ''}
             </div>
           </div>
-        </td>
-        <td>${c.plan}</td>
-        <td class="amt">$${c.amt.toLocaleString()}.00</td>
-        <td><span class="status-chip ${c.status}"><span class="dot"></span>${statusLabel(c.status)}</span></td>
-      `;
-      tr.addEventListener('click', () => openDrawer(c.id));
-      tbody.appendChild(tr);
-    });
-  }
+        `).join('')}
+      </div>
+      <div class="prorate" id="prorate"></div>
+    </div>
 
-  // ── Render dunning queue ────────────────────────────────────
-  function renderDunning() {
-    const list = $('#dunning-list');
-    list.innerHTML = '';
-    const overdue = customers.filter(c => c.status === 'past_due');
-    overdue.forEach(c => {
-      const row = document.createElement('div');
-      row.className = 'dunning-row';
-      const days = c.id === 'wdental' ? 8 : c.id === 'pbot' ? 5 : 11;
-      row.innerHTML = `
-        <div>
-          <p class="nm">${c.name}</p>
-          <p class="meta"><strong>$${c.amt}</strong> failed · ${days} days overdue · card declined</p>
-        </div>
-        <button class="retry" data-id="${c.id}">Retry charge</button>
-      `;
-      row.querySelector('.retry').addEventListener('click', e => {
-        e.stopPropagation();
-        const btn = e.target;
-        btn.disabled = true;
-        btn.textContent = 'Retrying…';
-        setTimeout(() => {
-          btn.textContent = '✓ Recovered';
-          btn.classList.add('done');
-          c.status = 'active';
-          toast({ kind:'success', icon:'✓', title:`Recovered $${c.amt} from ${c.name}`, sub:'Card charged successfully · subscription reactivated' });
-          setTimeout(() => { renderTable(); renderDunning(); }, 600);
-        }, 1100);
-      });
-      list.appendChild(row);
-    });
-    if (overdue.length === 0) {
-      list.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--mute); font-size: 13px;">No past-due charges. ✓</div>`;
-    }
-  }
+    <div class="sect">
+      <h4>Lifetime value</h4>
+      <div class="kvs">
+        <div class="kv"><span class="k">Total revenue</span><span class="v">$${(c.mrr * 14).toLocaleString()}.00</span></div>
+        <div class="kv"><span class="k">Invoices paid</span><span class="v">14</span></div>
+        <div class="kv"><span class="k">Refunds</span><span class="v">$0.00</span></div>
+      </div>
+    </div>
 
-  // ── Webhook log (live) ───────────────────────────────────────
-  const webhookEvents = [
-    ['ok', 'invoice.payment_succeeded', 'cus_AcmeCorp', '$497.00'],
-    ['ok', 'customer.subscription.updated', 'cus_KappaOps', 'plan → Scale'],
-    ['ok', 'invoice.payment_succeeded', 'cus_Forge', '$497.00'],
-    ['warn','invoice.payment_action_required', 'cus_WalshDental', '3DS challenge'],
-    ['err', 'invoice.payment_failed', 'cus_Procurebot', '$497.00'],
-    ['ok', 'checkout.session.completed', 'cus_StellarHR', 'trial started'],
-    ['ok', 'customer.subscription.created', 'cus_BrightSky', 'Growth'],
-    ['ok', 'invoice.finalized', 'cus_Selendy', '$1,497.00'],
-    ['err', 'invoice.payment_failed', 'cus_Vertex', 'card declined'],
-    ['ok', 'charge.refunded', 'cus_Halo', '$1,497.00'],
-    ['ok', 'customer.subscription.deleted', 'cus_Halo', 'churned'],
-    ['warn','customer.source.expiring', 'cus_Cohen', 'card expires 06/26'],
-    ['ok', 'invoice.payment_succeeded', 'cus_Petrov', '$97.00 trial']
-  ];
+    <div class="sect" style="display: flex; gap: 8px;">
+      <button class="btn primary" style="flex:1;">Save changes</button>
+      <button class="btn" style="flex:1; color: var(--rose); border-color: var(--rose-s);">Cancel subscription</button>
+    </div>
+  `;
 
-  function renderWebhooks() {
-    const list = $('#webhook-list');
-    list.innerHTML = '';
-    webhookEvents.forEach((e, i) => {
-      const row = document.createElement('div');
-      row.className = 'webhook-row';
-      const t = i === 0 ? 'just now' : `${i*22}s ago`;
-      row.innerHTML = `
-        <span class="ev-dot ${e[0]}"></span>
-        <span class="ev"><span class="et">${e[1]}</span> · ${e[2]} · ${e[3]}</span>
-        <span class="t">${t}</span>
-      `;
-      list.appendChild(row);
-    });
-  }
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerBackdrop').classList.add('open');
+  renderCustomers();
 
-  function pushWebhook(ev) {
-    webhookEvents.unshift(ev);
-    if (webhookEvents.length > 13) webhookEvents.pop();
-    renderWebhooks();
-  }
-
-  // ── Filter pills ─────────────────────────────────────────────
-  document.querySelectorAll('.filter-pill').forEach(p => {
-    p.addEventListener('click', () => {
-      document.querySelectorAll('.filter-pill').forEach(x => x.classList.remove('active'));
-      p.classList.add('active');
-      activeStatus = p.dataset.st;
-      renderTable();
-    });
-  });
-
-  // ── Drawer ───────────────────────────────────────────────────
-  function openDrawer(id) {
-    const c = customers.find(x => x.id === id);
-    if (!c) return;
-    selectedId = id;
-    const av = $('#d-av');
-    av.className = 'cav ' + c.av;
-    av.textContent = c.initials;
-    $('#d-nm').textContent = c.name;
-    $('#d-em').textContent = c.email;
-    $('#d-plan').textContent = `${c.plan} · $${c.amt}/mo`;
-    $('#d-price').textContent = `$${c.amt.toLocaleString()}.00`;
-    $('#d-next').textContent = c.next;
-
-    // Plan switch — set active to current plan
-    document.querySelectorAll('#plan-switch .t').forEach(t => {
-      t.classList.toggle('active', t.dataset.plan === c.plan);
-    });
-    $('#d-proration').classList.remove('visible');
-
-    // Invoices
-    const inv = $('#d-invoices');
-    inv.innerHTML = '';
-    if (c.invoices.length === 0) {
-      inv.innerHTML = `<div style="padding: 16px; text-align: center; color: var(--mute); font-size: 12.5px;">No invoices yet (trial period)</div>`;
+  document.getElementById('planSwitcher').addEventListener('click', e => {
+    const opt = e.target.closest('.plan-option');
+    if (!opt) return;
+    pickedPlan = opt.dataset.plan;
+    document.querySelectorAll('.plan-option').forEach(o => o.classList.remove('current'));
+    opt.classList.add('current');
+    const oldPrice = c.mrr;
+    const newPrice = +opt.dataset.price;
+    if (newPrice !== oldPrice) {
+      const diff = (newPrice - oldPrice) * 0.4;
+      const sign = diff >= 0 ? '+' : '−';
+      document.getElementById('prorate').classList.add('show');
+      document.getElementById('prorate').innerHTML = `Prorated invoice: <b>${sign}$${Math.abs(diff).toFixed(2)}</b> for the remainder of this period.`;
     } else {
-      c.invoices.forEach(([num, dt, amt, st]) => {
-        const row = document.createElement('div');
-        row.className = 'invoice-row';
-        row.innerHTML = `<span class="num">${num}</span><span class="dt">${dt}</span><span class="amt">$${amt.toLocaleString()}.00</span><span class="st ${st}">${st}</span>`;
-        inv.appendChild(row);
-      });
+      document.getElementById('prorate').classList.remove('show');
     }
-    $('#drawer').classList.add('open');
-    $('#drawer-bg').classList.add('open');
-  }
-  function closeDrawer() {
-    $('#drawer').classList.remove('open');
-    $('#drawer-bg').classList.remove('open');
-    selectedId = null;
-  }
-  $('#d-close').addEventListener('click', closeDrawer);
-  $('#drawer-bg').addEventListener('click', closeDrawer);
-
-  // ── Plan switch with proration preview ──────────────────────
-  document.querySelectorAll('#plan-switch .t').forEach(t => {
-    t.addEventListener('click', () => {
-      document.querySelectorAll('#plan-switch .t').forEach(x => x.classList.remove('active'));
-      t.classList.add('active');
-      const c = customers.find(x => x.id === selectedId);
-      if (!c) return;
-      const newAmt = parseInt(t.dataset.amt, 10);
-      const newPlan = t.dataset.plan;
-      const diff = newAmt - c.amt;
-      const pror = $('#d-proration');
-      if (newAmt === c.amt) {
-        pror.classList.remove('visible');
-        return;
-      }
-      const sign = diff > 0 ? '+' : '−';
-      const verb = diff > 0 ? 'upgrade' : 'downgrade';
-      const prorated = Math.round(Math.abs(diff) * 0.62); // ~62% of cycle remaining
-      pror.classList.add('visible');
-      pror.innerHTML = `Switching to <strong>${newPlan}</strong> · ${verb} prorated · <strong>${sign}$${prorated}</strong> charged immediately · next full invoice <strong>$${newAmt}</strong> on next cycle.`;
-      // Update local state on user "confirm" (we'll auto-confirm after a small delay)
-      c.plan = newPlan;
-      c.amt = newAmt;
-      pushWebhook(['ok','customer.subscription.updated','cus_'+c.name.replace(/\s/g,''), 'plan → '+newPlan]);
-      toast({ kind:'info', icon:'↻', title:`${c.name} switched to ${newPlan}`, sub:`Stripe prorated ${sign}$${prorated} immediately` });
-      setTimeout(() => { renderTable(); renderDunning(); }, 600);
-    });
   });
+}
 
-  // ── Toast ────────────────────────────────────────────────────
-  function toast({ kind='info', icon='ℹ', title, sub }) {
-    const wrap = $('#toast-wrap');
-    const t = document.createElement('div');
-    t.className = 'toast ' + kind;
-    t.innerHTML = `<div class="ic">${icon}</div><div class="b"><p class="ti">${title}</p>${sub ? `<p class="su">${sub}</p>` : ''}</div><button class="close">✕</button>`;
-    t.querySelector('.close').addEventListener('click', () => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); });
-    wrap.appendChild(t);
-    requestAnimationFrame(() => t.classList.add('show'));
-    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 6000);
+document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+document.getElementById('drawerBackdrop').addEventListener('click', closeDrawer);
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerBackdrop').classList.remove('open');
+  activeCustomer = null;
+  renderCustomers();
+}
+
+/* ============== CHART ============== */
+function renderChart() {
+  const svg = document.getElementById('chart');
+  svg.innerHTML = '';
+  const w = 800, h = 200, pad = 16;
+  // Build a smooth growth curve
+  const pts = [];
+  let v = 12000;
+  for (let i = 0; i < 30; i++) {
+    v += (Math.random() * 1800 - 400);
+    v = Math.max(8000, Math.min(28000, v));
+    pts.push(v);
   }
+  pts[27] = pts[27] + 4000; pts[29] = Math.max(...pts) + 1200;
+  const max = Math.max(...pts) * 1.08;
+  const min = Math.min(...pts) * 0.92;
+  const toX = i => pad + (i / (pts.length - 1)) * (w - pad * 2);
+  const toY = v => pad + (1 - (v - min) / (max - min)) * (h - pad * 2);
+  // Gradient
+  svg.innerHTML += `
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#635BFF" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="#635BFF" stop-opacity="0"/>
+      </linearGradient>
+      <pattern id="grid" width="20" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 20 0 L 0 0 0 40" fill="none" stroke="#E3E8EE" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="${w}" height="${h}" fill="url(#grid)" />
+  `;
+  // Area
+  const areaPath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${toX(i)} ${toY(p)}`).join(' ') +
+    ` L ${toX(pts.length - 1)} ${h - pad} L ${toX(0)} ${h - pad} Z`;
+  svg.innerHTML += `<path d="${areaPath}" fill="url(#g)" />`;
+  // Line
+  const linePath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${toX(i)} ${toY(p)}`).join(' ');
+  svg.innerHTML += `<path d="${linePath}" fill="none" stroke="#635BFF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  // Latest dot
+  const lastX = toX(pts.length - 1), lastY = toY(pts[pts.length - 1]);
+  svg.innerHTML += `<circle cx="${lastX}" cy="${lastY}" r="4" fill="#635BFF" stroke="#fff" stroke-width="2"/>`;
+}
 
-  // ── Live webhook ticker ──────────────────────────────────────
-  const tickerEvents = [
-    ['ok', 'invoice.payment_succeeded', 'cus_BrightSky', '$497.00'],
-    ['ok', 'customer.subscription.created', 'cus_NewSignup', 'Starter trial'],
-    ['warn','invoice.upcoming', 'cus_Cohen', 'in 3 days'],
-    ['ok', 'invoice.payment_succeeded', 'cus_Petrov', '$97.00']
+/* ============== EVENTS ============== */
+function renderEvents() {
+  const wrap = document.getElementById('eventLog');
+  wrap.innerHTML = eventSeed.map(e => eventHtml(e)).join('');
+}
+function eventHtml(e, isNew = false) {
+  return `<div class="event-row${isNew ? ' new' : ''}">
+    <span class="status ${e.status}">${e.status === 'ok' ? '200' : '402'}</span>
+    <span class="type">${e.type}</span>
+    <span class="obj">${e.obj}</span>
+    <span class="ts">${e.ts}</span>
+  </div>`;
+}
+function pushEvent(e) {
+  const wrap = document.getElementById('eventLog');
+  wrap.insertAdjacentHTML('afterbegin', eventHtml(e, true));
+  if (wrap.children.length > 24) wrap.removeChild(wrap.lastElementChild);
+}
+
+setInterval(() => {
+  const pool = [
+    { status: 'ok', type: 'invoice.payment_succeeded', obj: 'in_live · $800.00 · cus_010', ts: 'just now' },
+    { status: 'ok', type: 'charge.succeeded',          obj: 'ch_live · $200.00 · cus_002', ts: 'just now' },
+    { status: 'ok', type: 'customer.subscription.created', obj: 'sub_live · Growth · cus_new', ts: 'just now' },
+    { status: 'fail', type: 'invoice.payment_failed',  obj: 'in_live · $2,400.00 · cus_006', ts: 'just now' },
+    { status: 'ok', type: 'customer.created',          obj: 'cus_new · trial', ts: 'just now' },
   ];
-  let tickerIdx = 0;
-  setInterval(() => {
-    if (tickerIdx >= tickerEvents.length) tickerIdx = 0;
-    pushWebhook(tickerEvents[tickerIdx++]);
-  }, 14000);
+  pushEvent(pool[Math.floor(Math.random() * pool.length)]);
+}, 12000);
 
-  // Initial render
-  renderTable();
-  renderDunning();
-  renderWebhooks();
-})();
+/* ============== TOAST ============== */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+/* ============== INIT ============== */
+renderCustomers();
+renderDunning();
+renderChart();
+renderEvents();
 </script>
 
 </body>
