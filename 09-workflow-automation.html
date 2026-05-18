@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPSRAIL — Workflow operations console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg:        #08101E;
+    --surface:   #0F1929;
+    --surface-2: #142036;
+    --raised:    #1B2A45;
+    --line:      rgba(148,163,184,0.10);
+    --line-2:    rgba(148,163,184,0.20);
+    --text:      #E2E8F0;
+    --text-d:    #94A3B8;
+    --mute:      #64748B;
+    --cyan:      #22D3EE;
+    --cyan-d:    #0891B2;
+    --lime:      #A3E635;
+    --lime-s:    rgba(163,230,53,0.12);
+    --amber:     #FBBF24;
+    --amber-s:   rgba(251,191,36,0.12);
+    --rose:      #FB7185;
+    --rose-s:    rgba(251,113,133,0.12);
+    --violet:    #C4B5FD;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); min-height: 100vh; }
+  body {
+    font-family: 'Inter Tight', -apple-system, sans-serif;
+    font-size: 13.5px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: "tnum"; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* === Concept tag ============================ */
+  .concept-tag {
+    background: #000; color: rgba(255,255,255,0.55);
+    padding: 7px 18px; font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; text-align: center;
+  }
+
+  /* === Topbar ================================= */
+  .topbar {
+    height: 56px; background: var(--surface); border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; padding: 0 22px; gap: 18px;
+    position: sticky; top: 0; z-index: 30;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14.5px; letter-spacing: -0.005em; }
+  .brand .mark {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: linear-gradient(135deg, var(--cyan), var(--cyan-d));
+    display: grid; place-items: center;
+    color: var(--bg); font-weight: 800; font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: 0 6px 20px -10px rgba(34,211,238,0.55);
+  }
+  .brand .mark::after { content: '⛓'; font-size: 13px; }
+  .brand b { color: var(--text); }
+  .brand b span { color: var(--cyan); }
+
+  .env-toggle { display: flex; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 3px; font-size: 12px; font-weight: 500; }
+  .env-toggle button { padding: 5px 11px; background: transparent; border: 0; color: var(--text-d); border-radius: 5px; }
+  .env-toggle button.active { background: var(--surface-2); color: var(--text); }
+  .env-toggle button.test.active { color: var(--amber); }
+
+  .workflow-pick {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 7px 12px; font-size: 12.5px; color: var(--text);
+    cursor: pointer;
+  }
+  .workflow-pick .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 3px rgba(163,230,53,0.18); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.88); } }
+  .workflow-pick .chev { color: var(--mute); font-size: 11px; }
+
+  .top-spacer { flex: 1; }
+  .top-actions { display: flex; gap: 8px; align-items: center; }
+  .btn {
+    height: 32px; padding: 0 14px; border-radius: 7px; font-size: 12.5px; font-weight: 600;
+    border: 1px solid var(--line-2); background: transparent; color: var(--text);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn:hover { background: var(--surface-2); }
+  .btn.primary { background: var(--cyan); color: var(--bg); border-color: var(--cyan); box-shadow: 0 6px 18px -8px rgba(34,211,238,0.55); }
+  .btn.primary:hover { background: #67E8F9; }
+  .btn .ico { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* === Shell ================================== */
+  .shell { display: grid; grid-template-columns: 240px 1fr 360px; height: calc(100vh - 56px); }
+  @media (max-width: 1280px) { .shell { grid-template-columns: 220px 1fr 320px; } }
+  @media (max-width: 1024px) { .shell { grid-template-columns: 1fr; height: auto; } }
+
+  /* === Sidebar (workflow list) ================= */
+  .sidebar { background: var(--surface); border-right: 1px solid var(--line); padding: 16px 12px; overflow-y: auto; }
+  .side-section h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--mute);
+    padding: 6px 10px 10px;
+  }
+  .side-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px; border-radius: 8px;
+    cursor: pointer; font-size: 12.5px;
+    color: var(--text-d); margin-bottom: 1px;
+    border: 1px solid transparent;
+    position: relative;
+  }
+  .side-item:hover { background: var(--surface-2); color: var(--text); }
+  .side-item.active { background: var(--surface-2); color: var(--text); border-color: var(--line); }
+  .side-item.active::before { content: ''; position: absolute; left: -12px; width: 3px; height: 16px; background: var(--cyan); border-radius: 3px; }
+  .side-item .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .side-item .dot.on { background: var(--lime); }
+  .side-item .dot.off { background: var(--mute); }
+  .side-item .dot.failing { background: var(--rose); animation: pulse 1.2s ease-in-out infinite; }
+  .side-item .label { flex: 1; }
+  .side-item .runs { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--mute); }
+
+  .new-workflow {
+    width: 100%; padding: 10px; border-radius: 8px;
+    border: 1px dashed var(--line-2); background: transparent; color: var(--text-d);
+    font-size: 12.5px; margin-top: 12px;
+  }
+  .new-workflow:hover { background: var(--surface-2); color: var(--text); border-color: var(--cyan); }
+
+  /* === Canvas ================================= */
+  .canvas-wrap {
+    background:
+      linear-gradient(var(--surface) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(90deg, var(--surface) 1px, transparent 1px) 0 0 / 24px 24px,
+      var(--bg);
+    background-position: -1px -1px;
+    overflow: auto; position: relative;
+  }
+
+  .canvas-head {
+    padding: 18px 26px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 1px solid var(--line);
+    background: rgba(8,16,30,0.7);
+    backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 5;
+  }
+  .canvas-head h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+  .canvas-head .sub { font-size: 12px; color: var(--mute); margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+  .canvas-head .stats { display: flex; gap: 18px; font-size: 11.5px; font-family: 'JetBrains Mono', monospace; color: var(--mute); }
+  .canvas-head .stat b { color: var(--text); font-weight: 600; font-size: 16px; display: block; margin-bottom: 2px; letter-spacing: -0.01em; }
+  .canvas-head .stat b.green { color: var(--lime); }
+
+  .canvas {
+    padding: 36px 26px 60px;
+    min-height: 600px;
+    position: relative;
+  }
+
+  /* Nodes */
+  .nodes-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px 60px; max-width: 1100px; position: relative; }
+  @media (max-width: 1280px) { .nodes-grid { grid-template-columns: repeat(3, 1fr); gap: 38px 36px; } }
+  @media (max-width: 760px) { .nodes-grid { grid-template-columns: 1fr; } }
+
+  .node {
+    background: var(--surface);
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    position: relative;
+    cursor: pointer;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    min-height: 88px;
+  }
+  .node:hover { transform: translateY(-2px); border-color: var(--cyan); box-shadow: 0 12px 32px -12px rgba(34,211,238,0.3); }
+  .node.active { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan), 0 12px 32px -12px rgba(34,211,238,0.4); }
+
+  .node-head { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+  .node-ico {
+    width: 28px; height: 28px; border-radius: 7px;
+    display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px;
+    flex-shrink: 0;
+  }
+  .node-ico.trigger { background: var(--cyan); color: var(--bg); }
+  .node-ico.action  { background: var(--surface-2); color: var(--cyan); border: 1px solid var(--cyan); }
+  .node-ico.branch  { background: var(--amber); color: var(--bg); }
+  .node-ico.ai      { background: var(--violet); color: var(--bg); }
+
+  .node-meta { flex: 1; min-width: 0; }
+  .node-meta .type {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute);
+  }
+  .node-meta .name { font-size: 13.5px; font-weight: 600; letter-spacing: -0.005em; margin-top: 1px; }
+  .node-meta .name b { color: var(--cyan); font-weight: 600; }
+
+  .node-body { font-size: 11.5px; color: var(--text-d); font-family: 'JetBrains Mono', monospace; line-height: 1.45; }
+  .node-body code { background: rgba(34,211,238,0.08); color: var(--cyan); padding: 1px 5px; border-radius: 3px; font-size: 10.5px; }
+
+  .node-foot {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line);
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    color: var(--mute);
+  }
+  .node-foot .ok { color: var(--lime); }
+  .node-foot .fail { color: var(--rose); }
+
+  .node-port {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--surface-2); border: 2px solid var(--cyan);
+  }
+  .node-port.in  { left: -6px; }
+  .node-port.out { right: -6px; }
+
+  /* Branch group */
+  .branch-stack { display: flex; flex-direction: column; gap: 14px; }
+
+  /* SVG connection layer */
+  .connections { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+  /* Live data dot */
+  @keyframes dataFlow {
+    from { offset-distance: 0%; opacity: 0; }
+    20%  { opacity: 1; }
+    80%  { opacity: 1; }
+    to   { offset-distance: 100%; opacity: 0; }
+  }
+
+  /* === Bottom: cost vs zapier ================== */
+  .cost-strip {
+    margin: 32px 0 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+    max-width: 1100px;
+  }
+  @media (max-width: 760px) { .cost-strip { grid-template-columns: 1fr; } }
+  .cost-strip .col h5 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute);
+    margin-bottom: 8px;
+  }
+  .cost-strip .col .big {
+    font-size: 26px; font-weight: 700; letter-spacing: -0.018em;
+    font-feature-settings: "tnum";
+  }
+  .cost-strip .col .big.zapier { color: var(--rose); text-decoration: line-through; text-decoration-thickness: 1.5px; opacity: 0.85; }
+  .cost-strip .col .big.opsrail { color: var(--lime); }
+  .cost-strip .col .sub { font-size: 11.5px; color: var(--text-d); margin-top: 4px; }
+
+  /* === Right rail (runs feed) ================== */
+  .rail { background: var(--surface); border-left: 1px solid var(--line); display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+  .rail-head { padding: 16px 22px; border-bottom: 1px solid var(--line); }
+  .rail-head h3 { font-size: 14.5px; font-weight: 600; letter-spacing: -0.005em; margin-bottom: 4px; }
+  .rail-head .sub { font-size: 11.5px; color: var(--mute); font-family: 'JetBrains Mono', monospace; }
+
+  .rail-filters { display: flex; gap: 6px; padding: 12px 22px; border-bottom: 1px solid var(--line); }
+  .rail-filters button {
+    padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line);
+    background: transparent; color: var(--text-d); font-size: 11.5px; font-family: 'JetBrains Mono', monospace;
+  }
+  .rail-filters button.active { background: var(--surface-2); color: var(--cyan); border-color: var(--cyan); }
+
+  .runs { flex: 1; overflow-y: auto; padding: 6px 0; }
+  .run {
+    display: grid; grid-template-columns: 50px 1fr auto; gap: 10px;
+    padding: 11px 22px; align-items: center;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer; transition: background .12s ease;
+  }
+  .run:hover { background: var(--surface-2); }
+  .run.new { background: rgba(34,211,238,0.06); animation: flashin 1.4s ease-out; }
+  @keyframes flashin { from { background: rgba(34,211,238,0.2); } to { background: var(--surface); } }
+  .run .status {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-align: center; padding: 3px 0; border-radius: 4px;
+    font-weight: 700; letter-spacing: 0.04em;
+  }
+  .run .status.ok { background: var(--lime-s); color: var(--lime); }
+  .run .status.fail { background: var(--rose-s); color: var(--rose); }
+  .run .status.warn { background: var(--amber-s); color: var(--amber); }
+  .run .body .when { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text); }
+  .run .body .who { font-size: 11px; color: var(--mute); margin-top: 2px; }
+  .run .timing { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-d); text-align: right; }
+  .run .timing small { display: block; color: var(--mute); font-size: 10px; margin-top: 2px; }
+
+  .retry-btn {
+    width: 100%; padding: 7px; margin-top: 6px;
+    background: transparent; border: 1px solid var(--cyan);
+    color: var(--cyan); border-radius: 5px; font-size: 11px;
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;
+  }
+  .retry-btn:hover { background: rgba(34,211,238,0.1); }
+  .retry-btn.replayed { background: var(--lime-s); color: var(--lime); border-color: var(--lime); }
+
+  /* === Toast =================================== */
+  .toast {
+    position: fixed; bottom: 22px; right: 22px;
+    background: var(--surface); border: 1px solid var(--cyan); border-radius: 9px;
+    padding: 14px 18px; min-width: 260px;
+    box-shadow: 0 18px 36px -12px rgba(0,0,0,0.5);
+    z-index: 100;
+    transform: translateX(440px); transition: transform .35s cubic-bezier(0.16,1,0.3,1);
+  }
+  .toast.show { transform: translateX(0); }
+  .toast .t-head { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 5px; }
+  .toast .t-head .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); animation: pulse 1.4s ease-in-out infinite; }
+  .toast .t-body { font-size: 13px; color: var(--text); }
+  .toast .t-body b { color: var(--cyan); }
+
+  @media (max-width: 1024px) {
+    .sidebar, .rail { height: auto; max-height: 280px; }
+    .canvas-wrap { height: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="concept-tag">CONCEPT · OPSRAIL — workflow operations console for business automation</div>
+
+<!-- ========= TOPBAR ========= -->
+<header class="topbar">
+  <div class="brand">
+    <div class="mark"></div>
+    <b>OPS<span>RAIL</span></b>
+  </div>
+
+  <div class="workflow-pick" id="workflowPick">
+    <span class="status-dot"></span>
+    <span id="activeFlowLabel">Stripe → QuickBooks → Slack</span>
+    <span class="chev">⌄</span>
+  </div>
+
+  <div class="env-toggle">
+    <button class="active">Live</button>
+    <button class="test">Test</button>
+  </div>
+
+  <div class="top-spacer"></div>
+
+  <div class="top-actions">
+    <button class="btn">
+      <svg class="ico" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+      Run history
+    </button>
+    <button class="btn primary" id="runNowBtn">
+      <svg class="ico" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" fill="currentColor"/></svg>
+      Run now
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- ========= SIDEBAR ========= -->
+  <aside class="sidebar">
+    <div class="side-section">
+      <h4>Workflows · 12 active</h4>
+      <div class="side-item active" data-flow="stripe-qb">
+        <span class="dot on"></span>
+        <span class="label">Stripe → QuickBooks → Slack</span>
+        <span class="runs">412</span>
+      </div>
+      <div class="side-item" data-flow="lead-enrich">
+        <span class="dot on"></span>
+        <span class="label">Lead enrichment + routing</span>
+        <span class="runs">3.2k</span>
+      </div>
+      <div class="side-item" data-flow="calendly-crm">
+        <span class="dot on"></span>
+        <span class="label">Calendly → HubSpot + welcome SMS</span>
+        <span class="runs">847</span>
+      </div>
+      <div class="side-item" data-flow="shopify-shipstation">
+        <span class="dot on"></span>
+        <span class="label">Shopify order → ShipStation → QuickBooks</span>
+        <span class="runs">1.1k</span>
+      </div>
+      <div class="side-item" data-flow="review-request">
+        <span class="dot on"></span>
+        <span class="label">Job complete → SMS review request</span>
+        <span class="runs">298</span>
+      </div>
+      <div class="side-item" data-flow="trial-expiring">
+        <span class="dot failing"></span>
+        <span class="label">Trial expiring → upgrade nudge</span>
+        <span class="runs">76</span>
+      </div>
+      <div class="side-item" data-flow="contract-signed">
+        <span class="dot on"></span>
+        <span class="label">Contract signed → onboarding kickoff</span>
+        <span class="runs">54</span>
+      </div>
+      <div class="side-item" data-flow="cold-reply">
+        <span class="dot on"></span>
+        <span class="label">Cold reply → CRM + Slack alert</span>
+        <span class="runs">1.8k</span>
+      </div>
+      <button class="new-workflow">+ New workflow</button>
+    </div>
+  </aside>
+
+  <!-- ========= CANVAS ========= -->
+  <main class="canvas-wrap">
+    <div class="canvas-head">
+      <div>
+        <h1 id="flowTitle">Stripe → QuickBooks → Slack</h1>
+        <div class="sub" id="flowDesc">Triggered by stripe.customer.subscription.created · 5 steps · running since Feb 12</div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>412</b>Runs · 30d</div>
+        <div class="stat"><b class="green">99.5%</b>Success</div>
+        <div class="stat"><b>1.4s</b>Median latency</div>
+      </div>
+    </div>
+
+    <div class="canvas">
+      <div class="nodes-grid" id="nodesGrid"></div>
+
+      <div class="cost-strip">
+        <div class="col">
+          <h5>Monthly volume</h5>
+          <div class="big">31,400</div>
+          <div class="sub">Tasks across all 12 workflows · last 30 days</div>
+        </div>
+        <div class="col">
+          <h5>If on Zapier (Team plan)</h5>
+          <div class="big zapier">$599<small style="font-size:13px;font-weight:500;color:var(--mute)">/mo</small></div>
+          <div class="sub">50,000-task tier + premium app fees</div>
+        </div>
+        <div class="col">
+          <h5>OPSRAIL (self-hosted)</h5>
+          <div class="big opsrail">$0<small style="font-size:13px;font-weight:500;color:var(--mute)"> task fees</small></div>
+          <div class="sub">$48/mo Railway hosting. Unlimited tasks. Your data, your infra.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========= RAIL (runs feed) ========= -->
+  <aside class="rail">
+    <div class="rail-head">
+      <h3>Live runs</h3>
+      <div class="sub">Last 1h · 47 runs · 0 failed</div>
+    </div>
+    <div class="rail-filters">
+      <button class="active">All</button>
+      <button>Succeeded</button>
+      <button>Failed</button>
+    </div>
+    <div class="runs" id="runsList"></div>
+  </aside>
+
+</div>
+
+<!-- ========= TOAST ========= -->
+<div class="toast" id="toast">
+  <div class="t-head"><span class="dot"></span>Workflow ran</div>
+  <div class="t-body" id="toastBody"></div>
+</div>
+
+<script>
+/* ============== FLOW DEFINITIONS ============== */
+const FLOWS = {
+  'stripe-qb': {
+    title: 'Stripe → QuickBooks → Slack',
+    desc: 'Triggered by stripe.customer.subscription.created · 5 steps · running since Feb 12',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'Stripe webhook', body: '<code>customer.subscription.created</code>', stat: '412 fired · 30d', statClass: 'ok' },
+      { type: 'ai',      tag: 'ENRICH',  name: 'Apollo enrich',  body: 'Pull company size, industry,<br>tech stack from email domain', stat: '99% match rate', statClass: 'ok' },
+      { type: 'branch',  tag: 'BRANCH',  name: 'If <b>MRR ≥ $500</b>', body: 'Route enterprise vs SMB<br>down two paths', stat: '38% enterprise', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'QuickBooks invoice', body: 'Create invoice + auto-attach<br>to customer record', stat: '412 issued', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Slack alert', body: '<code>#new-customers</code> · with<br>enrichment + invoice link', stat: '0 failures · 30d', statClass: 'ok' },
+    ],
+  },
+  'lead-enrich': {
+    title: 'Lead enrichment + routing',
+    desc: 'Triggered by form submission · 6 steps · running since Jan 4',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'Form submission', body: '<code>POST /api/leads</code>', stat: '3,247 fired · 30d', statClass: 'ok' },
+      { type: 'ai',      tag: 'ENRICH',  name: 'Apollo enrich',  body: 'Title, company, LinkedIn,<br>tech stack', stat: '94% match rate', statClass: 'ok' },
+      { type: 'ai',      tag: 'AI',      name: 'Score 1–100', body: 'Smart scoring with<br>reasoning attached', stat: 'Avg score 64', statClass: 'ok' },
+      { type: 'branch',  tag: 'BRANCH',  name: 'If <b>score ≥ 80</b>', body: 'Hot lead → SDR<br>Cold → nurture queue', stat: '18% hot', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'HubSpot deal', body: 'Create deal in correct<br>pipeline stage', stat: '3,247 synced', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Slack ping', body: '<code>#sdr-hot-leads</code>', stat: '584 sent · 30d', statClass: 'ok' },
+    ],
+  },
+  'calendly-crm': {
+    title: 'Calendly → HubSpot + welcome SMS',
+    desc: 'Triggered by Calendly booking · 4 steps · running since Mar 2',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'Calendly booking', body: '<code>invitee.created</code>', stat: '847 fired · 30d', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'HubSpot contact', body: 'Upsert contact + log meeting<br>against deal record', stat: '100% sync', statClass: 'ok' },
+      { type: 'ai',      tag: 'AI',      name: 'Draft SMS', body: 'Welcome text in your voice<br>+ what to bring to call', stat: 'AI-drafted', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Twilio SMS', body: 'Send to invitee 10min<br>after booking', stat: '847 delivered', statClass: 'ok' },
+    ],
+  },
+  'shopify-shipstation': {
+    title: 'Shopify order → ShipStation → QuickBooks',
+    desc: 'Triggered by Shopify order/paid · 5 steps · running since Feb 28',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'Shopify order', body: '<code>orders/paid</code>', stat: '1,142 fired · 30d', statClass: 'ok' },
+      { type: 'branch',  tag: 'BRANCH',  name: 'If <b>has subscription</b>', body: 'Recurring order vs<br>one-time purchase', stat: '23% subs', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'ShipStation label', body: 'Create label + assign<br>to fulfillment queue', stat: '1,142 labels', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'QuickBooks invoice', body: 'Sync revenue + COGS<br>per line item', stat: '0 sync errors', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Klaviyo flow', body: 'Trigger post-purchase<br>+ review request', stat: '1,142 triggered', statClass: 'ok' },
+    ],
+  },
+  'review-request': {
+    title: 'Job complete → SMS review request',
+    desc: 'Triggered by job marked complete in CRM · 3 steps · running since Apr 11',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'Job complete', body: '<code>job.status = complete</code>', stat: '298 fired · 30d', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Wait 2 hours', body: 'Let the customer leave<br>before texting', stat: '— delay', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'SMS review link', body: 'Sendreviews link with<br>5-star prefill', stat: '47% conversion', statClass: 'ok' },
+    ],
+  },
+  'trial-expiring': {
+    title: 'Trial expiring → upgrade nudge',
+    desc: 'Triggered by trial 48h before expiry · 5 steps · CURRENTLY FAILING',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'Trial expiry-48h', body: '<code>trial.expires_in &lt; 48h</code>', stat: '76 fired · 30d', statClass: 'ok' },
+      { type: 'ai',      tag: 'AI',      name: 'Usage analysis', body: 'Detect what features they<br>used most this trial', stat: 'Avg 14 events', statClass: 'ok' },
+      { type: 'ai',      tag: 'AI',      name: 'Personalized pitch', body: 'Email + in-app message<br>tailored to usage', stat: 'AI-drafted', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Resend email', body: 'Send via Resend with<br>upgrade CTA', stat: '11 failed', statClass: 'fail' },
+      { type: 'action',  tag: 'ACTION',  name: 'In-app banner', body: 'Show upgrade banner<br>in dashboard', stat: '76 shown', statClass: 'ok' },
+    ],
+  },
+  'contract-signed': {
+    title: 'Contract signed → onboarding kickoff',
+    desc: 'Triggered by DocuSign envelope.completed · 6 steps · running since Mar 18',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'DocuSign signed', body: '<code>envelope.completed</code>', stat: '54 fired · 30d', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Stripe customer', body: 'Create customer +<br>first invoice', stat: '54 created', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Linear project', body: 'Spin up onboarding<br>project from template', stat: '54 projects', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Slack channel', body: '<code>#client-{name}</code> + invite<br>internal team', stat: '54 channels', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Calendar invite', body: 'Kickoff call scheduled<br>within 3 days', stat: '54 scheduled', statClass: 'ok' },
+    ],
+  },
+  'cold-reply': {
+    title: 'Cold reply → CRM + Slack alert',
+    desc: 'Triggered by Instantly reply webhook · 5 steps · running since Dec 1',
+    nodes: [
+      { type: 'trigger', tag: 'TRIGGER', name: 'Instantly reply', body: '<code>email.reply.received</code>', stat: '1,847 fired · 30d', statClass: 'ok' },
+      { type: 'ai',      tag: 'AI',      name: 'Classify intent', body: 'Interested · Not now ·<br>Unsubscribe · Out of office', stat: '94% accuracy', statClass: 'ok' },
+      { type: 'branch',  tag: 'BRANCH',  name: 'If <b>interested</b>', body: 'Route to SDR vs<br>auto-handle other classes', stat: '12% interested', statClass: 'ok' },
+      { type: 'ai',      tag: 'AI',      name: 'Auto-reply draft', body: 'GPT drafts in your voice<br>+ proposes meeting time', stat: 'AI-drafted', statClass: 'ok' },
+      { type: 'action',  tag: 'ACTION',  name: 'Slack DM', body: 'Notify you with full<br>thread context', stat: '221 DMs · 30d', statClass: 'ok' },
+    ],
+  },
+};
+
+let activeFlow = 'stripe-qb';
+
+/* ============== RENDER NODES ============== */
+function renderFlow() {
+  const flow = FLOWS[activeFlow];
+  document.getElementById('flowTitle').textContent = flow.title;
+  document.getElementById('flowDesc').textContent = flow.desc;
+  document.getElementById('activeFlowLabel').textContent = flow.title;
+
+  const grid = document.getElementById('nodesGrid');
+  grid.innerHTML = flow.nodes.map((n, i) => `
+    <div class="node ${i === 0 ? 'active' : ''}" data-i="${i}">
+      ${i > 0 ? '<span class="node-port in"></span>' : ''}
+      <div class="node-head">
+        <div class="node-ico ${n.type}">${n.tag[0]}</div>
+        <div class="node-meta">
+          <div class="type">${n.tag}</div>
+          <div class="name">${n.name}</div>
+        </div>
+      </div>
+      <div class="node-body">${n.body}</div>
+      <div class="node-foot">
+        <span class="${n.statClass}">${n.stat}</span>
+        <span class="mono">${i + 1}/${flow.nodes.length}</span>
+      </div>
+      ${i < flow.nodes.length - 1 ? '<span class="node-port out"></span>' : ''}
+    </div>
+  `).join('');
+
+  // Update headline stats based on flow
+  const numericStats = {
+    'stripe-qb':         { runs: '412',  success: '99.5%', latency: '1.4s' },
+    'lead-enrich':       { runs: '3.2k', success: '98.7%', latency: '2.8s' },
+    'calendly-crm':      { runs: '847',  success: '100%',  latency: '0.9s' },
+    'shopify-shipstation': { runs: '1.1k', success: '99.9%', latency: '2.1s' },
+    'review-request':    { runs: '298',  success: '100%',  latency: '0.4s' },
+    'trial-expiring':    { runs: '76',   success: '85.5%', latency: '3.2s' },
+    'contract-signed':   { runs: '54',   success: '100%',  latency: '4.6s' },
+    'cold-reply':        { runs: '1.8k', success: '99.2%', latency: '1.7s' },
+  };
+  const s = numericStats[activeFlow];
+  document.querySelectorAll('.canvas-head .stat b').forEach((el, i) => {
+    if (i === 0) el.textContent = s.runs;
+    if (i === 1) { el.textContent = s.success; el.className = parseFloat(s.success) >= 99 ? 'green' : ''; }
+    if (i === 2) el.textContent = s.latency;
+  });
+}
+
+/* ============== SIDEBAR INTERACTIONS ============== */
+document.querySelectorAll('.side-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if (!item.dataset.flow) return;
+    document.querySelectorAll('.side-item').forEach(s => s.classList.remove('active'));
+    item.classList.add('active');
+    activeFlow = item.dataset.flow;
+    renderFlow();
+  });
+});
+
+/* ============== RUNS FEED ============== */
+const callerNames = ['Marisol Vega', 'Devin Park', 'Raul Mendez', 'Karen Whitlock', 'Amelia Cho', 'Tomas Hartley', 'Priya Shah', 'James Okafor', 'Sofia Rinaldi', 'Marcus Ojo', 'Lin Chen', 'Bea Salonga'];
+
+const seedRuns = [
+  { status: 'ok',   when: '14:42:08', who: 'stripe-qb · cus_009', duration: '1.2s' },
+  { status: 'ok',   when: '14:41:52', who: 'lead-enrich · marcus@ojoadvisory.co', duration: '2.6s' },
+  { status: 'ok',   when: '14:41:24', who: 'cold-reply · interested · lin@chenarchitects', duration: '1.5s' },
+  { status: 'ok',   when: '14:40:01', who: 'shopify-shipstation · order #4218', duration: '2.0s' },
+  { status: 'ok',   when: '14:39:45', who: 'calendly-crm · priya@shahmedical', duration: '0.8s' },
+  { status: 'fail', when: '14:38:11', who: 'trial-expiring · Resend timeout · cus_077', duration: '8.0s' },
+  { status: 'ok',   when: '14:37:32', who: 'review-request · job #J-2901', duration: '0.4s' },
+  { status: 'ok',   when: '14:36:08', who: 'lead-enrich · sofia@rinaldiventures.com', duration: '3.1s' },
+  { status: 'ok',   when: '14:35:48', who: 'cold-reply · not now · auto-replied', duration: '1.3s' },
+  { status: 'ok',   when: '14:34:22', who: 'stripe-qb · cus_007 · Scale tier', duration: '1.5s' },
+  { status: 'ok',   when: '14:33:14', who: 'contract-signed · Karen Whitlock', duration: '4.4s' },
+  { status: 'ok',   when: '14:32:01', who: 'shopify-shipstation · order #4217', duration: '2.2s' },
+];
+
+function renderRuns() {
+  const wrap = document.getElementById('runsList');
+  wrap.innerHTML = seedRuns.map(r => `
+    <div class="run">
+      <div class="status ${r.status}">${r.status === 'ok' ? '200' : 'FAIL'}</div>
+      <div class="body">
+        <div class="when mono">${r.when}</div>
+        <div class="who">${r.who}</div>
+      </div>
+      <div class="timing">
+        ${r.duration}
+        ${r.status === 'fail' ? '<small>retried 3×</small>' : '<small>completed</small>'}
+      </div>
+    </div>
+  `).join('');
+  // Wire retry on failed
+  const failedRow = [...wrap.children].find(c => c.querySelector('.fail'));
+  if (failedRow) {
+    if (!failedRow.querySelector('.retry-btn')) {
+      const btn = document.createElement('button');
+      btn.className = 'retry-btn';
+      btn.textContent = 'Replay this run';
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        btn.textContent = 'Replaying…';
+        setTimeout(() => {
+          btn.textContent = '✓ Recovered';
+          btn.classList.add('replayed');
+          failedRow.querySelector('.status').className = 'status ok';
+          failedRow.querySelector('.status').textContent = '200';
+          showToast('Failed run recovered.', '<b>trial-expiring</b> · Resend retried successfully');
+        }, 900);
+      });
+      failedRow.querySelector('.timing').appendChild(btn);
+    }
+  }
+}
+
+function pushRun(r) {
+  seedRuns.unshift(r);
+  if (seedRuns.length > 18) seedRuns.pop();
+  renderRuns();
+  document.querySelector('.runs .run').classList.add('new');
+}
+
+setInterval(() => {
+  const now = new Date();
+  const t = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+  const pool = [
+    { status: 'ok', who: `stripe-qb · cus_${Math.floor(Math.random() * 999)}`,             duration: (Math.random() * 2 + 0.8).toFixed(1) + 's' },
+    { status: 'ok', who: `lead-enrich · ${callerNames[Math.floor(Math.random() * callerNames.length)].split(' ')[0].toLowerCase()}@${['acmecorp', 'velaholdings', 'kessler.io', 'redoak'][Math.floor(Math.random() * 4)]}.com`, duration: (Math.random() * 2 + 1.5).toFixed(1) + 's' },
+    { status: 'ok', who: `calendly-crm · invite accepted`,                                duration: (Math.random() * 0.7 + 0.5).toFixed(1) + 's' },
+    { status: 'ok', who: `shopify-shipstation · order #${4200 + Math.floor(Math.random() * 50)}`, duration: (Math.random() * 1.5 + 1.5).toFixed(1) + 's' },
+  ];
+  pushRun({ ...pool[Math.floor(Math.random() * pool.length)], when: t });
+}, 8000);
+
+/* ============== RUN NOW BUTTON ============== */
+document.getElementById('runNowBtn').addEventListener('click', () => {
+  const now = new Date();
+  const t = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+  const flow = FLOWS[activeFlow];
+  pushRun({ status: 'ok', when: t, who: `${activeFlow} · manual run`, duration: '1.1s' });
+  showToast('Workflow triggered', `<b>${flow.title}</b> · executed in 1.1s`);
+});
+
+/* ============== TOAST ============== */
+function showToast(headline, body) {
+  const t = document.getElementById('toast');
+  t.querySelector('.t-head').innerHTML = '<span class="dot"></span>' + headline.toUpperCase();
+  t.querySelector('.t-body').innerHTML = body;
+  t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+/* ============== INIT ============== */
+renderFlow();
+renderRuns();
+</script>
+
+</body>
+</html>

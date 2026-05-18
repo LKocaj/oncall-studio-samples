@@ -60,6 +60,16 @@
   status = 301
 
 [[redirects]]
+  from = "/09"
+  to = "/09-workflow-automation.html"
+  status = 301
+
+[[redirects]]
+  from = "/workflows"
+  to = "/09-workflow-automation.html"
+  status = 301
+
+[[redirects]]
   from = "/law"
   to = "/01-law-firm.html"
   status = 301

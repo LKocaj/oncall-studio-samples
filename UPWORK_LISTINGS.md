@@ -8,7 +8,7 @@ Single reference for everything you upload to your Upwork profile.
 
 ---
 
-# PART 1 — Portfolio (12 pieces, in upload order)
+# PART 1 — Portfolio (13 pieces, in upload order)
 
 **Upwork form field limits (from the actual upload screen):**
 - **Project title** — 70 characters max
@@ -187,7 +187,30 @@ Timeline: 14–30 days
 
 ---
 
-## #7 · Halstead & Grove — Wall Street M&A law firm
+## #7 · OPSRAIL — Workflow automation console *(product demo)*
+
+**Live:** [samples.oncallautomation.ai/09-workflow-automation.html](https://samples.oncallautomation.ai/09-workflow-automation.html)
+
+**Title** *(63 chars)*:
+```
+Workflow automation console — Zapier alternative, unlimited tasks
+```
+
+**Your role** *(63 chars)*:
+```
+Full-stack engineer — workflow design, integrations, deployment
+```
+
+**Description**:
+```
+Stop paying Zapier $599/mo to glue your stack together. This automation console runs Stripe → QuickBooks → Slack, lead enrichment + routing, Calendly → CRM, Shopify → ShipStation — any flow that touches more than one tool. Visual canvas with replay-on-failure, live runs feed, per-step latency metrics. Self-hosted on Railway for $48/mo, unlimited runs, no per-task fees. Same stack works for any business with a tech stack — agencies, e-commerce, RevOps, SaaS, anyone hitting Zapier task limits.
+```
+
+**Skills**: Workflow Automation, n8n, API Integration, FastAPI, Zapier
+
+---
+
+## #8 · Halstead & Grove — Wall Street M&A law firm
 
 **Live:** [samples.oncallautomation.ai/01-law-firm.html](https://samples.oncallautomation.ai/01-law-firm.html)
 
@@ -213,7 +236,7 @@ Timeline: 7–10 days
 
 ---
 
-## #8 · Voice Agent Analytics + Easy Mode *(product demo)*
+## #9 · Voice Agent Analytics + Easy Mode *(product demo)*
 
 **Live:** [samples.oncallautomation.ai/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html)
 
@@ -239,7 +262,7 @@ Timeline: 10–14 days
 
 ---
 
-## #9 · NORTHFOLD & CO. — Heritage outdoor goods storefront
+## #10 · NORTHFOLD & CO. — Heritage outdoor goods storefront
 
 **Live:** [samples.oncallautomation.ai/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html)
 
@@ -265,7 +288,7 @@ Timeline: 10–18 days
 
 ---
 
-## #10 · OnCall Automation — Live agency site
+## #11 · OnCall Automation — Live agency site
 
 **Live:** [oncallautomation.ai](https://oncallautomation.ai) *(my agency homepage, live)*
 
@@ -291,7 +314,7 @@ Includes: Lead intake · Blog · SEO
 
 ---
 
-## #11 · OnCall Chat — Production multi-channel AI agent SaaS
+## #12 · OnCall Chat — Production multi-channel AI agent SaaS
 
 **Live:** [oncallchat.ai](https://oncallchat.ai) *(my own production SaaS, real paying users)*
 
@@ -317,7 +340,7 @@ Includes: Auth · Multi-tenant · Live Stripe
 
 ---
 
-## #12 · Parkway Café Scarsdale — Live client work *(production site)*
+## #13 · Parkway Café Scarsdale — Live client work *(production site)*
 
 **Live:** [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) *(real client, live since 2025)*
 
@@ -632,11 +655,12 @@ You will get a cold email system that doesn't burn your domain
 | #4 | Via dell'Orto restaurant | [/03-restaurant.html](https://samples.oncallautomation.ai/03-restaurant.html) |
 | #5 | Lead intake CRM | [/05-saas-landing.html](https://samples.oncallautomation.ai/05-saas-landing.html) |
 | #6 | OnCall Agents inbox | [/02-ai-agent-dashboard.html](https://samples.oncallautomation.ai/02-ai-agent-dashboard.html) |
-| #7 | Halstead & Grove law firm | [/01-law-firm.html](https://samples.oncallautomation.ai/01-law-firm.html) |
-| #8 | Voice agent + Vapi tap-to-talk | [/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html) |
-| #9 | NORTHFOLD & Co. storefront | [/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) |
-| #10 | OnCall Automation site | [oncallautomation.ai](https://oncallautomation.ai) |
-| #11 | OnCall Chat SaaS | [oncallchat.ai](https://oncallchat.ai) |
-| **#12** | **Parkway Café Scarsdale** *(live client)* | [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) |
+| #7 | OPSRAIL workflow automation | [/09-workflow-automation.html](https://samples.oncallautomation.ai/09-workflow-automation.html) |
+| #8 | Halstead & Grove law firm | [/01-law-firm.html](https://samples.oncallautomation.ai/01-law-firm.html) |
+| #9 | Voice agent + Vapi tap-to-talk | [/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html) |
+| #10 | NORTHFOLD & Co. storefront | [/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) |
+| #11 | OnCall Automation site | [oncallautomation.ai](https://oncallautomation.ai) |
+| #12 | OnCall Chat SaaS | [oncallchat.ai](https://oncallchat.ai) |
+| **#13** | **Parkway Café Scarsdale** *(live client)* | [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) |
 
 Top three (after upload completes) carry the heaviest weight: a real paid client, your own production SaaS, your agency site.
