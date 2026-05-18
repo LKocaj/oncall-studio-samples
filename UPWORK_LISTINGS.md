@@ -85,7 +85,7 @@ Timeline: 7–14 days
 
 ## #3 · LATERAL CO. — Independent music label e-commerce
 
-**Live:** [samples.oncallautomation.ai/07-shopify-skincare.html](https://samples.oncallautomation.ai/07-shopify-skincare.html)
+**Live:** [samples.oncallautomation.ai/07-music-label.html](https://samples.oncallautomation.ai/07-music-label.html)
 
 **Title** *(62 chars)*:
 ```
@@ -628,7 +628,7 @@ You will get a cold email system that doesn't burn your domain
 |---|---|---|
 | ✓ #1 | Forge Method fitness | [/06-fitness-studio.html](https://samples.oncallautomation.ai/06-fitness-studio.html) |
 | #2 | Rook & Well dental | [/02-dental-practice.html](https://samples.oncallautomation.ai/02-dental-practice.html) |
-| #3 | LATERAL CO. music label | [/07-shopify-skincare.html](https://samples.oncallautomation.ai/07-shopify-skincare.html) |
+| #3 | LATERAL CO. music label | [/07-music-label.html](https://samples.oncallautomation.ai/07-music-label.html) |
 | #4 | Via dell'Orto restaurant | [/03-restaurant.html](https://samples.oncallautomation.ai/03-restaurant.html) |
 | #5 | Lead intake CRM | [/05-saas-landing.html](https://samples.oncallautomation.ai/05-saas-landing.html) |
 | #6 | OnCall Agents inbox | [/02-ai-agent-dashboard.html](https://samples.oncallautomation.ai/02-ai-agent-dashboard.html) |

@@ -46,7 +46,17 @@
 
 [[redirects]]
   from = "/07"
-  to = "/07-shopify-skincare.html"
+  to = "/07-music-label.html"
+  status = 301
+
+[[redirects]]
+  from = "/music"
+  to = "/07-music-label.html"
+  status = 301
+
+[[redirects]]
+  from = "/07-shopify-skincare.html"
+  to = "/07-music-label.html"
   status = 301
 
 [[redirects]]
@@ -66,5 +76,5 @@
 
 [[redirects]]
   from = "/skincare"
-  to = "/07-shopify-skincare.html"
+  to = "/07-music-label.html"
   status = 301
