@@ -291,9 +291,208 @@
     .sidebar { border-right: 0; border-bottom: 1px solid var(--line); }
     .rail { border-left: 0; border-top: 1px solid var(--line); }
   }
+
+  /* === After-hours banner =============================== */
+  .ah-banner {
+    display: none; align-items: center; gap: 10px;
+    background: linear-gradient(90deg, rgba(167,139,250,0.18) 0%, rgba(167,139,250,0.04) 100%);
+    border: 1px solid rgba(167,139,250,0.32);
+    border-left: 3px solid var(--violet);
+    border-radius: 9px; padding: 11px 16px;
+    font-size: 13px; color: var(--text);
+    margin-bottom: 20px;
+  }
+  .ah-banner.show { display: flex; }
+  .ah-banner b { color: var(--violet); font-weight: 600; margin-right: 4px; }
+  .ah-banner span:last-child { color: var(--text-d); }
+  .ah-banner .ah-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 0 4px rgba(167,139,250,0.18); animation: pulse 1.8s ease-in-out infinite; flex-shrink: 0; }
+
+  /* === After-hours theme override ======================= */
+  body.after-hours {
+    --bg: #0A0816;
+    --panel: #100C24;
+    --panel-2: #15112F;
+    --raised: #1B173A;
+    --teal: #A78BFA;         /* violet replaces teal as primary accent */
+    --teal-d: #8B5CF6;
+    --cyan: #C4B5FD;
+  }
+  body.after-hours .wave-bar { background: linear-gradient(180deg, var(--teal) 0%, var(--teal-d) 100%); }
+  body.after-hours .wave-bar.played { background: linear-gradient(180deg, var(--teal) 0%, var(--cyan) 100%); }
+  body.after-hours .talk-btn:not(.live) { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%); box-shadow: 0 8px 24px -8px rgba(167,139,250,0.55); }
+  body.after-hours .brand-mark { background: linear-gradient(135deg, var(--teal) 0%, var(--cyan) 100%); box-shadow: 0 8px 24px -8px rgba(167,139,250,0.45); }
+  body.after-hours .live-dot { background: var(--teal); box-shadow: 0 0 0 3px rgba(167,139,250,0.18); }
+  body.after-hours .stat::after { background: radial-gradient(circle, rgba(167,139,250,0.10) 0%, transparent 70%); }
+  body.after-hours .badge.live { background: rgba(167,139,250,0.10); color: var(--teal); }
+  body.after-hours .badge.live .b-dot { background: var(--teal); }
+  body.after-hours .intent.booking { color: var(--teal); background: rgba(167,139,250,0.10); }
+  body.after-hours .turn .who.agent { color: var(--teal); }
+  body.after-hours .turn .tag.intent { color: var(--teal); background: rgba(167,139,250,0.10); }
+  body.after-hours .save-btn { background: var(--teal); }
+  body.after-hours .funnel-bar.b1, body.after-hours .funnel-bar.b2 { background: linear-gradient(90deg, var(--teal) 0%, var(--cyan) 100%); }
+  body.after-hours .funnel-bar.b3 { background: linear-gradient(90deg, var(--teal-d) 0%, var(--teal) 100%); }
+
+  /* === View switch (Easy / Pro) ========================== */
+  .view-switch {
+    position: fixed; top: 16px; right: 18px; z-index: 200;
+    background: rgba(15,18,24,0.85); backdrop-filter: blur(12px);
+    border: 1px solid var(--line); border-radius: 999px; padding: 4px;
+    display: flex; gap: 2px;
+    box-shadow: 0 12px 32px -10px rgba(0,0,0,0.5);
+  }
+  .view-switch button {
+    padding: 7px 14px; border: 0; background: transparent;
+    color: var(--text-d); font-size: 12px; font-weight: 600;
+    border-radius: 999px; cursor: pointer; letter-spacing: 0.02em;
+  }
+  .view-switch button.active { background: var(--teal); color: var(--bg); }
+  body.after-hours .view-switch button.active { background: var(--teal); color: var(--bg); }
+
+  /* === Easy Mode (full-screen takeover) ================== */
+  .easy-shell {
+    display: none; position: fixed; inset: 0; z-index: 80;
+    background: radial-gradient(ellipse at 50% 30%, rgba(45,212,191,0.12) 0%, var(--bg) 60%);
+    flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px 24px;
+  }
+  body.easy-mode .easy-shell { display: flex; }
+  body.easy-mode .app { display: none; }
+  body.easy-mode .toast-stack { z-index: 90; }
+
+  body.after-hours .easy-shell {
+    background: radial-gradient(ellipse at 50% 30%, rgba(167,139,250,0.16) 0%, var(--bg) 60%);
+  }
+
+  .easy-brand {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 36px;
+    font-size: 14px; font-weight: 600; letter-spacing: -0.005em;
+  }
+  .easy-brand .mark {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--teal), var(--cyan));
+    box-shadow: 0 8px 24px -8px rgba(45,212,191,0.45);
+  }
+  .easy-brand span { color: var(--teal); }
+  body.after-hours .easy-brand .mark { background: linear-gradient(135deg, var(--teal), var(--cyan)); box-shadow: 0 8px 24px -8px rgba(167,139,250,0.45); }
+  body.after-hours .easy-brand span { color: var(--teal); }
+
+  .easy-headline {
+    font-size: clamp(28px, 5vw, 42px); font-weight: 600;
+    letter-spacing: -0.02em; line-height: 1.05;
+    text-align: center; max-width: 640px; margin-bottom: 14px;
+  }
+  .easy-sub {
+    font-size: 15px; color: var(--text-d); text-align: center;
+    max-width: 480px; margin-bottom: 44px;
+  }
+
+  /* The big circle button */
+  .big-talk {
+    position: relative;
+    width: 168px; height: 168px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
+    color: var(--bg); border: 0; cursor: pointer;
+    display: grid; place-items: center;
+    font-family: inherit; font-weight: 700; font-size: 13px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    box-shadow: 0 24px 60px -12px rgba(45,212,191,0.6);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .big-talk::before {
+    content: ''; position: absolute; inset: -8px; border-radius: 50%;
+    border: 2px solid rgba(45,212,191,0.35); animation: ringPulse 2s ease-in-out infinite;
+  }
+  .big-talk::after {
+    content: ''; position: absolute; inset: -22px; border-radius: 50%;
+    border: 1px solid rgba(45,212,191,0.18); animation: ringPulse 2s ease-in-out infinite 0.4s;
+  }
+  @keyframes ringPulse {
+    0%   { transform: scale(0.95); opacity: 0.7; }
+    50%  { transform: scale(1.08); opacity: 0; }
+    100% { transform: scale(0.95); opacity: 0; }
+  }
+  .big-talk:hover { transform: scale(1.04); box-shadow: 0 30px 70px -10px rgba(45,212,191,0.7); }
+  .big-talk:active { transform: scale(0.98); }
+  .big-talk.live {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+    box-shadow: 0 24px 60px -12px rgba(239,68,68,0.6);
+  }
+  .big-talk.live::before, .big-talk.live::after { border-color: rgba(239,68,68,0.35); }
+
+  body.after-hours .big-talk { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%); box-shadow: 0 24px 60px -12px rgba(167,139,250,0.6); }
+  body.after-hours .big-talk::before { border-color: rgba(167,139,250,0.35); }
+  body.after-hours .big-talk::after { border-color: rgba(167,139,250,0.18); }
+
+  .big-talk .mic-ico {
+    width: 36px; height: 36px; display: block; margin: 0 auto 8px;
+    stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .easy-status {
+    margin-top: 28px; display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-d); font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .easy-status .ed {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 0 3px rgba(74,222,128,0.18); animation: pulse 1.6s ease-in-out infinite;
+  }
+
+  /* Easy mode stats strip */
+  .easy-stats {
+    display: grid; grid-template-columns: repeat(3, minmax(120px, 160px)); gap: 14px;
+    margin-top: 52px; padding-top: 36px; border-top: 1px solid var(--line);
+    width: 100%; max-width: 600px;
+  }
+  .easy-stat { text-align: center; }
+  .easy-stat .v { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .easy-stat .l { font-size: 11px; color: var(--mute); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 4px; }
+
+  .easy-footnote {
+    margin-top: 28px; font-size: 12px; color: var(--mute);
+    text-align: center;
+  }
+  .easy-footnote a { color: var(--teal); text-decoration: none; }
+  body.after-hours .easy-footnote a { color: var(--teal); }
 </style>
 </head>
 <body>
+
+<!-- View switch — floats top-right always -->
+<div class="view-switch" id="viewSwitch">
+  <button class="active" data-view="pro">Pro view</button>
+  <button data-view="easy">Easy view</button>
+</div>
+
+<!-- ========= EASY MODE (full-screen takeover) ========= -->
+<div class="easy-shell">
+  <div class="easy-brand">
+    <div class="mark"></div>
+    OnCall <span>Voice</span>
+  </div>
+
+  <h1 class="easy-headline">Talk to Aria.</h1>
+  <p class="easy-sub">She picks up every call, qualifies the lead, and books it on your calendar. Tap to test her now.</p>
+
+  <button class="big-talk" id="bigTalkBtn">
+    <span>
+      <svg class="mic-ico" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      <span id="bigTalkLabel">Tap to talk</span>
+    </span>
+  </button>
+
+  <div class="easy-status">
+    <span class="ed"></span><span id="easyStatusText">Aria is online · ready to take a call</span>
+  </div>
+
+  <div class="easy-stats">
+    <div class="easy-stat"><div class="v">147</div><div class="l">Calls today</div></div>
+    <div class="easy-stat"><div class="v">38</div><div class="l">Booked</div></div>
+    <div class="easy-stat"><div class="v">2:14</div><div class="l">Avg duration</div></div>
+  </div>
+
+  <p class="easy-footnote">Want the full operator view? <a href="#" onclick="switchView('pro');return false;">Switch to Pro view</a></p>
+</div>
 
 <div class="app">
 
@@ -339,6 +538,13 @@
 
   <!-- ========= MAIN ========= -->
   <main class="main">
+    <!-- After-hours banner -->
+    <div class="ah-banner" id="afterHoursBanner">
+      <span class="ah-dot"></span>
+      <b>After-hours mode active.</b>
+      <span>Aria takes a message or schedules a callback for the next business morning. Live transfers are paused.</span>
+    </div>
+
     <div class="topbar">
       <div>
         <h1>Aria · Live call analytics</h1>
@@ -346,8 +552,8 @@
       </div>
       <div class="topbar-actions">
         <div class="mode-toggle" id="modeToggle">
-          <button class="active" data-mode="day">☀ Day</button>
-          <button data-mode="night">☾ Night</button>
+          <button class="active" data-mode="day">☀ Business hours</button>
+          <button data-mode="night">☾ After hours</button>
         </div>
         <button class="talk-btn" id="talkBtn">
           <svg class="mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
@@ -689,13 +895,21 @@ document.getElementById('modeToggle').addEventListener('click', e => {
   if (e.target.tagName !== 'BUTTON') return;
   document.querySelectorAll('#modeToggle button').forEach(b => b.classList.remove('active'));
   e.target.classList.add('active');
-  if (e.target.dataset.mode === 'night') {
-    document.documentElement.style.setProperty('--bg', '#020308');
-    document.documentElement.style.setProperty('--panel', '#06080C');
-  } else {
-    document.documentElement.style.setProperty('--bg', '#07090C');
-    document.documentElement.style.setProperty('--panel', '#0C1014');
-  }
+  const isNight = e.target.dataset.mode === 'night';
+  document.body.classList.toggle('after-hours', isNight);
+
+  // Swap agent status label
+  const agentLabel = document.querySelector('.agent-pick .left span:last-child');
+  if (agentLabel) agentLabel.textContent = isNight ? 'Aria · After-hours mode' : 'Aria · Receptionist';
+
+  // Swap the greeting editor + tab to match
+  document.querySelectorAll('#greetingTabs button').forEach(b => b.classList.remove('active'));
+  const targetTab = document.querySelector(`#greetingTabs button[data-time="${isNight ? 'after' : 'day'}"]`);
+  if (targetTab) targetTab.classList.add('active');
+  document.getElementById('greetingArea').value = greetings[isNight ? 'after' : 'day'];
+
+  // Show / hide the after-hours banner
+  document.getElementById('afterHoursBanner').classList.toggle('show', isNight);
 });
 
 /* ============== GREETING TABS ============== */
@@ -820,6 +1034,46 @@ function stopSimulatedCall() {
   hideCall();
   if (simTimer) { clearTimeout(simTimer); simTimer = null; }
 }
+
+/* ============== VIEW SWITCH (Easy / Pro) ============== */
+function switchView(v) {
+  document.body.classList.toggle('easy-mode', v === 'easy');
+  document.querySelectorAll('#viewSwitch button').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === v);
+  });
+}
+document.getElementById('viewSwitch').addEventListener('click', e => {
+  if (e.target.tagName !== 'BUTTON') return;
+  switchView(e.target.dataset.view);
+});
+window.switchView = switchView;
+
+/* ============== BIG TALK BUTTON (Easy mode) ============== */
+const bigTalkBtn = document.getElementById('bigTalkBtn');
+const bigTalkLabel = document.getElementById('bigTalkLabel');
+const easyStatusText = document.getElementById('easyStatusText');
+bigTalkBtn.addEventListener('click', () => {
+  if (bigTalkBtn.classList.contains('live')) {
+    window.__endCall();
+  } else {
+    window.__startCall();
+  }
+});
+
+// Sync Easy mode big button with the call lifecycle.
+const _showCall = window.showCall, _hideCall = window.hideCall;
+window.showCall = () => {
+  _showCall();
+  bigTalkBtn.classList.add('live');
+  bigTalkLabel.textContent = 'End call';
+  easyStatusText.textContent = 'Connected · speak now';
+};
+window.hideCall = () => {
+  _hideCall();
+  bigTalkBtn.classList.remove('live');
+  bigTalkLabel.textContent = 'Tap to talk';
+  easyStatusText.textContent = 'Aria is online · ready to take a call';
+};
 
 /* ============== INIT ============== */
 renderCalls();
