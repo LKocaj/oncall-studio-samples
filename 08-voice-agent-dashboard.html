@@ -292,45 +292,191 @@
     .rail { border-left: 0; border-top: 1px solid var(--line); }
   }
 
-  /* === After-hours banner =============================== */
-  .ah-banner {
-    display: none; align-items: center; gap: 10px;
-    background: linear-gradient(90deg, rgba(167,139,250,0.18) 0%, rgba(167,139,250,0.04) 100%);
-    border: 1px solid rgba(167,139,250,0.32);
-    border-left: 3px solid var(--violet);
-    border-radius: 9px; padding: 11px 16px;
-    font-size: 13px; color: var(--text);
-    margin-bottom: 20px;
+  /* === Day theme (light UI) ============================== */
+  body.day-theme {
+    --bg:        #F4F6F9;
+    --panel:     #FFFFFF;
+    --panel-2:   #F4F6F9;
+    --raised:    #E9EEF4;
+    --line:      rgba(15,23,42,0.08);
+    --line-2:    rgba(15,23,42,0.14);
+    --text:      #0F172A;
+    --text-d:    #475569;
+    --mute:      #64748B;
   }
-  .ah-banner.show { display: flex; }
-  .ah-banner b { color: var(--violet); font-weight: 600; margin-right: 4px; }
-  .ah-banner span:last-child { color: var(--text-d); }
-  .ah-banner .ah-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 0 4px rgba(167,139,250,0.18); animation: pulse 1.8s ease-in-out infinite; flex-shrink: 0; }
+  body.day-theme .stat::after { background: radial-gradient(circle, rgba(45,212,191,0.06) 0%, transparent 70%); }
+  body.day-theme .wave-bar.upcoming { background: rgba(15,23,42,0.08); }
+  body.day-theme .agent-pick { background: var(--panel-2); border: 1px solid var(--line); }
+  body.day-theme .nav-item:hover, body.day-theme .nav-item.active { background: var(--raised); }
+  body.day-theme .topbar h1 { color: var(--text); }
+  body.day-theme .toast { background: var(--panel); }
+  body.day-theme .toast .t-body { color: var(--text); }
+  body.day-theme .easy-shell { background: radial-gradient(ellipse at 50% 30%, rgba(45,212,191,0.10) 0%, var(--bg) 60%); }
+  body.day-theme .easy-headline, body.day-theme .easy-brand { color: var(--text); }
+  body.day-theme .view-switch { background: rgba(255,255,255,0.85); }
+  body.day-theme .view-switch button { color: var(--text-d); }
+  body.day-theme .view-switch button.active { background: var(--teal); color: #FFFFFF; }
+  body.day-theme .greeting-area { background: #FFFFFF; color: var(--text); }
+  body.day-theme .greeting-tabs { background: var(--panel-2); }
+  body.day-theme .greeting-tabs button.active { background: #FFFFFF; }
+  body.day-theme .calls-table th { background: var(--panel-2); }
+  body.day-theme .calls-table td.caller { color: var(--text); }
+  body.day-theme .calls-table tr:hover td { background: var(--panel-2); }
+  body.day-theme .calls-table tr.active td { background: var(--raised); }
+  body.day-theme .funnel-bar-wrap { background: var(--raised); }
+  body.day-theme .rail-head .caller-name { color: var(--text); }
+  body.day-theme .turn .text { color: var(--text); }
+  body.day-theme .rail-foot button { background: var(--panel-2); color: var(--text); border-color: var(--line); }
+  body.day-theme .rail-foot button.primary { background: var(--teal); color: #FFFFFF; border-color: var(--teal); }
+  body.day-theme .save-btn { color: #FFFFFF; }
+  body.day-theme .stat .label, body.day-theme .section-head .lbl, body.day-theme .nav-label, body.day-theme .funnel-row .pct { color: var(--mute); }
 
-  /* === After-hours theme override ======================= */
-  body.after-hours {
-    --bg: #0A0816;
-    --panel: #100C24;
-    --panel-2: #15112F;
-    --raised: #1B173A;
-    --teal: #A78BFA;         /* violet replaces teal as primary accent */
-    --teal-d: #8B5CF6;
-    --cyan: #C4B5FD;
+  /* === Onboarding Wizard (Apple-style) =================== */
+  .setup-trigger {
+    display: flex; align-items: center; gap: 9px; padding: 9px 12px;
+    margin-top: 6px; border-radius: 9px; cursor: pointer;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%);
+    color: var(--bg); font-size: 13px; font-weight: 600;
+    border: 0; width: 100%; text-align: left;
+    box-shadow: 0 8px 24px -10px rgba(45,212,191,0.45);
+    transition: transform .15s ease, box-shadow .15s ease;
   }
-  body.after-hours .wave-bar { background: linear-gradient(180deg, var(--teal) 0%, var(--teal-d) 100%); }
-  body.after-hours .wave-bar.played { background: linear-gradient(180deg, var(--teal) 0%, var(--cyan) 100%); }
-  body.after-hours .talk-btn:not(.live) { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%); box-shadow: 0 8px 24px -8px rgba(167,139,250,0.55); }
-  body.after-hours .brand-mark { background: linear-gradient(135deg, var(--teal) 0%, var(--cyan) 100%); box-shadow: 0 8px 24px -8px rgba(167,139,250,0.45); }
-  body.after-hours .live-dot { background: var(--teal); box-shadow: 0 0 0 3px rgba(167,139,250,0.18); }
-  body.after-hours .stat::after { background: radial-gradient(circle, rgba(167,139,250,0.10) 0%, transparent 70%); }
-  body.after-hours .badge.live { background: rgba(167,139,250,0.10); color: var(--teal); }
-  body.after-hours .badge.live .b-dot { background: var(--teal); }
-  body.after-hours .intent.booking { color: var(--teal); background: rgba(167,139,250,0.10); }
-  body.after-hours .turn .who.agent { color: var(--teal); }
-  body.after-hours .turn .tag.intent { color: var(--teal); background: rgba(167,139,250,0.10); }
-  body.after-hours .save-btn { background: var(--teal); }
-  body.after-hours .funnel-bar.b1, body.after-hours .funnel-bar.b2 { background: linear-gradient(90deg, var(--teal) 0%, var(--cyan) 100%); }
-  body.after-hours .funnel-bar.b3 { background: linear-gradient(90deg, var(--teal-d) 0%, var(--teal) 100%); }
+  .setup-trigger:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -12px rgba(45,212,191,0.6); }
+  .setup-trigger .plus {
+    width: 18px; height: 18px; border-radius: 50%; background: var(--bg);
+    color: var(--teal); display: grid; place-items: center; font-weight: 800; font-size: 13px;
+  }
+
+  .wizard {
+    position: fixed; inset: 0; z-index: 300;
+    background: var(--bg);
+    display: none; flex-direction: column;
+    opacity: 0; transition: opacity .25s ease;
+  }
+  .wizard.open { display: flex; opacity: 1; }
+  body.day-theme .wizard { background: var(--bg); }
+
+  .wizard-bar {
+    height: 56px; padding: 0 22px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+  }
+  .wizard-bar .brand-block { display: flex; align-items: center; gap: 9px; padding: 0; border: 0; }
+  .wizard-bar .brand-block .brand-mark { width: 26px; height: 26px; border-radius: 7px; }
+  .wizard-bar .brand-block .brand-mark::after { width: 12px; height: 12px; }
+  .wizard-bar .brand-name { font-size: 13.5px; }
+  .wizard-close {
+    background: transparent; border: 0; color: var(--mute); cursor: pointer;
+    font-size: 13px; font-weight: 500;
+  }
+  .wizard-close:hover { color: var(--text); }
+
+  .wizard-progress { display: flex; gap: 4px; padding: 14px 22px; }
+  .wizard-progress .pip {
+    flex: 1; height: 3px; background: var(--raised); border-radius: 999px;
+    transition: background .3s ease;
+  }
+  .wizard-progress .pip.done { background: var(--teal); }
+  .wizard-progress .pip.active { background: linear-gradient(90deg, var(--teal) 50%, var(--raised) 50%); background-size: 200% 100%; background-position: right; animation: pip-fill 0s; }
+
+  .wizard-body {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 20px 24px 60px;
+  }
+  .step {
+    display: none; max-width: 540px; width: 100%;
+    text-align: center;
+    animation: stepIn .35s cubic-bezier(0.16,1,0.3,1);
+  }
+  .step.active { display: block; }
+  @keyframes stepIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+  .step .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal);
+    margin-bottom: 18px;
+  }
+  .step h2 {
+    font-size: clamp(28px, 4.5vw, 38px); font-weight: 600;
+    letter-spacing: -0.018em; line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .step .desc {
+    font-size: 15px; color: var(--text-d); line-height: 1.55;
+    max-width: 440px; margin: 0 auto 36px;
+  }
+  .step .field {
+    width: 100%; padding: 14px 18px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--line-2);
+    color: var(--text); font-size: 16px; text-align: center;
+    font-family: inherit; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .step .field:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 4px rgba(45,212,191,0.14); }
+  body.day-theme .step .field { background: #FFFFFF; }
+
+  .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
+  @media (max-width: 540px) { .voice-grid { grid-template-columns: 1fr; } }
+  .voice-card {
+    padding: 18px; border-radius: 12px; background: var(--panel);
+    border: 1px solid var(--line-2); cursor: pointer;
+    text-align: left; transition: border-color .15s ease, transform .15s ease;
+  }
+  body.day-theme .voice-card { background: #FFFFFF; }
+  .voice-card:hover { transform: translateY(-2px); border-color: var(--teal); }
+  .voice-card.selected { border-color: var(--teal); background: rgba(45,212,191,0.06); }
+  .voice-card .v-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+  .voice-card .v-desc { font-size: 12.5px; color: var(--text-d); margin-bottom: 12px; }
+  .voice-card .v-play {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-family: 'JetBrains Mono', monospace;
+    color: var(--teal); letter-spacing: 0.08em;
+    background: rgba(45,212,191,0.10); padding: 4px 9px; border-radius: 999px;
+    border: 0; cursor: pointer;
+  }
+  .voice-card .v-play:hover { background: rgba(45,212,191,0.18); }
+
+  .step-foot {
+    display: flex; gap: 10px; justify-content: center; align-items: center;
+    margin-top: 30px;
+  }
+  .step-foot button {
+    height: 44px; padding: 0 22px; border-radius: 999px;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: transform .12s ease;
+  }
+  .step-foot .back {
+    background: transparent; border: 0; color: var(--text-d);
+  }
+  .step-foot .back:hover { color: var(--text); }
+  .step-foot .next {
+    background: var(--text); color: var(--bg); border: 0;
+    padding: 0 28px; height: 46px;
+    box-shadow: 0 8px 24px -10px rgba(0,0,0,0.4);
+  }
+  .step-foot .next:hover { transform: translateY(-1px); }
+  .step-foot .next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  body.day-theme .step-foot .next { background: var(--text); color: #FFFFFF; }
+
+  .done-icon {
+    width: 84px; height: 84px; border-radius: 50%;
+    margin: 0 auto 26px;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--cyan) 100%);
+    display: grid; place-items: center;
+    box-shadow: 0 18px 48px -12px rgba(45,212,191,0.5);
+    animation: doneIn .55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes doneIn { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .done-icon svg { width: 38px; height: 38px; stroke: var(--bg); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+  .summary {
+    margin: 18px 0 12px; padding: 16px 18px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    text-align: left; display: grid; gap: 8px;
+  }
+  body.day-theme .summary { background: #FFFFFF; }
+  .summary-row { display: flex; justify-content: space-between; font-size: 13px; }
+  .summary-row .k { color: var(--mute); }
+  .summary-row .v { color: var(--text); font-weight: 500; }
 
   /* === View switch (Easy / Pro) ========================== */
   .view-switch {
@@ -460,8 +606,8 @@
 
 <!-- View switch — floats top-right always -->
 <div class="view-switch" id="viewSwitch">
-  <button class="active" data-view="pro">Pro view</button>
-  <button data-view="easy">Easy view</button>
+  <button data-view="pro">Pro view</button>
+  <button class="active" data-view="easy">Easy view</button>
 </div>
 
 <!-- ========= EASY MODE (full-screen takeover) ========= -->
@@ -514,6 +660,11 @@
       <span class="mute mono" style="font-size:11px;">⌄</span>
     </div>
 
+    <button class="setup-trigger" id="setupTrigger">
+      <span class="plus">+</span>
+      Set up a new agent
+    </button>
+
     <div class="nav-section">
       <div class="nav-label">Voice</div>
       <div class="nav-item active"><div class="left"><span class="ico">📡</span>Live calls</div><span class="count">3</span></div>
@@ -538,13 +689,6 @@
 
   <!-- ========= MAIN ========= -->
   <main class="main">
-    <!-- After-hours banner -->
-    <div class="ah-banner" id="afterHoursBanner">
-      <span class="ah-dot"></span>
-      <b>After-hours mode active.</b>
-      <span>Aria takes a message or schedules a callback for the next business morning. Live transfers are paused.</span>
-    </div>
-
     <div class="topbar">
       <div>
         <h1>Aria · Live call analytics</h1>
@@ -552,8 +696,8 @@
       </div>
       <div class="topbar-actions">
         <div class="mode-toggle" id="modeToggle">
-          <button class="active" data-mode="day">☀ Business hours</button>
-          <button data-mode="night">☾ After hours</button>
+          <button data-mode="day">☀ Day</button>
+          <button class="active" data-mode="night">☾ Night</button>
         </div>
         <button class="talk-btn" id="talkBtn">
           <svg class="mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
@@ -697,6 +841,113 @@
     </div>
   </aside>
 
+</div>
+
+<!-- ========= ONBOARDING WIZARD ========= -->
+<div class="wizard" id="wizard">
+  <div class="wizard-bar">
+    <div class="brand-block">
+      <div class="brand-mark"></div>
+      <div class="brand-name">OnCall <span style="color:var(--teal)">Voice</span></div>
+    </div>
+    <button class="wizard-close" id="wizardClose">Close</button>
+  </div>
+  <div class="wizard-progress" id="wizardProgress">
+    <div class="pip done"></div>
+    <div class="pip"></div>
+    <div class="pip"></div>
+    <div class="pip"></div>
+    <div class="pip"></div>
+  </div>
+
+  <div class="wizard-body">
+    <!-- Step 1 -->
+    <div class="step active" data-step="1">
+      <div class="step-num">Step 1 of 5</div>
+      <h2>What's your business called?</h2>
+      <p class="desc">This is how Aria will introduce herself when someone calls.</p>
+      <input class="field" id="biz" type="text" placeholder="e.g. Halstead Law" autocomplete="organization" />
+      <div class="step-foot">
+        <button class="next" id="next1">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" data-step="2">
+      <div class="step-num">Step 2 of 5</div>
+      <h2>What should we call your agent?</h2>
+      <p class="desc">Pick a name. Most callers like a real first name — it feels less robotic.</p>
+      <input class="field" id="agentName" type="text" value="Aria" />
+      <div class="step-foot">
+        <button class="back">← Back</button>
+        <button class="next">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" data-step="3">
+      <div class="step-num">Step 3 of 5</div>
+      <h2>Pick a voice.</h2>
+      <p class="desc">Tap any card to hear a 4-second sample. You can swap voices later anytime.</p>
+      <div class="voice-grid" id="voiceGrid">
+        <div class="voice-card selected" data-voice="sage">
+          <div class="v-name">Sage · Warm female</div>
+          <div class="v-desc">Calm, friendly, slightly lower register. Best for service businesses.</div>
+          <button class="v-play">▶ Play sample</button>
+        </div>
+        <div class="voice-card" data-voice="ethan">
+          <div class="v-name">Ethan · Even male</div>
+          <div class="v-desc">Measured, professional, no rush. Best for legal and financial.</div>
+          <button class="v-play">▶ Play sample</button>
+        </div>
+        <div class="voice-card" data-voice="iris">
+          <div class="v-name">Iris · Bright female</div>
+          <div class="v-desc">Upbeat, quick, conversational. Best for retail and hospitality.</div>
+          <button class="v-play">▶ Play sample</button>
+        </div>
+        <div class="voice-card" data-voice="theo">
+          <div class="v-name">Theo · Deep male</div>
+          <div class="v-desc">Resonant, slower pace. Best for high-touch consulting and concierge.</div>
+          <button class="v-play">▶ Play sample</button>
+        </div>
+      </div>
+      <div class="step-foot">
+        <button class="back">← Back</button>
+        <button class="next">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step" data-step="4">
+      <div class="step-num">Step 4 of 5</div>
+      <h2>What number should calls come into?</h2>
+      <p class="desc">We'll forward your existing business line, or you can use a new local number we provision.</p>
+      <input class="field" id="phone" type="tel" placeholder="+1 (914) 555-0142" autocomplete="tel" />
+      <div class="step-foot">
+        <button class="back">← Back</button>
+        <button class="next">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 5 — Summary + Done -->
+    <div class="step" data-step="5">
+      <div class="done-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="step-num">Step 5 of 5</div>
+      <h2>You're all set.</h2>
+      <p class="desc">Your agent is live. Tap below to test a call.</p>
+      <div class="summary" id="summary">
+        <div class="summary-row"><span class="k">Business</span><span class="v" id="sumBiz">—</span></div>
+        <div class="summary-row"><span class="k">Agent name</span><span class="v" id="sumName">—</span></div>
+        <div class="summary-row"><span class="k">Voice</span><span class="v" id="sumVoice">—</span></div>
+        <div class="summary-row"><span class="k">Phone</span><span class="v" id="sumPhone">—</span></div>
+      </div>
+      <div class="step-foot">
+        <button class="next" id="tryCallBtn">📞 Try a call now</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Toast stack -->
@@ -891,25 +1142,13 @@ setInterval(() => {
 setInterval(animateWaveform, 200);
 
 /* ============== MODE TOGGLE ============== */
+// Visual theme swap only — Night is the default operator look,
+// Day is a light variant for daylight glare / accessibility preferences.
 document.getElementById('modeToggle').addEventListener('click', e => {
   if (e.target.tagName !== 'BUTTON') return;
   document.querySelectorAll('#modeToggle button').forEach(b => b.classList.remove('active'));
   e.target.classList.add('active');
-  const isNight = e.target.dataset.mode === 'night';
-  document.body.classList.toggle('after-hours', isNight);
-
-  // Swap agent status label
-  const agentLabel = document.querySelector('.agent-pick .left span:last-child');
-  if (agentLabel) agentLabel.textContent = isNight ? 'Aria · After-hours mode' : 'Aria · Receptionist';
-
-  // Swap the greeting editor + tab to match
-  document.querySelectorAll('#greetingTabs button').forEach(b => b.classList.remove('active'));
-  const targetTab = document.querySelector(`#greetingTabs button[data-time="${isNight ? 'after' : 'day'}"]`);
-  if (targetTab) targetTab.classList.add('active');
-  document.getElementById('greetingArea').value = greetings[isNight ? 'after' : 'day'];
-
-  // Show / hide the after-hours banner
-  document.getElementById('afterHoursBanner').classList.toggle('show', isNight);
+  document.body.classList.toggle('day-theme', e.target.dataset.mode === 'day');
 });
 
 /* ============== GREETING TABS ============== */
@@ -1035,6 +1274,103 @@ function stopSimulatedCall() {
   if (simTimer) { clearTimeout(simTimer); simTimer = null; }
 }
 
+/* ============== ONBOARDING WIZARD ============== */
+const wizard = document.getElementById('wizard');
+let wizStep = 1;
+const wizState = { biz: '', agentName: 'Aria', voice: 'sage', phone: '' };
+
+document.getElementById('setupTrigger').addEventListener('click', () => openWizard());
+document.getElementById('wizardClose').addEventListener('click', () => closeWizard());
+
+function openWizard() {
+  wizStep = 1;
+  wizState.biz = '';
+  wizState.agentName = 'Aria';
+  wizState.voice = 'sage';
+  wizState.phone = '';
+  document.getElementById('biz').value = '';
+  document.getElementById('agentName').value = 'Aria';
+  document.getElementById('phone').value = '';
+  document.querySelectorAll('.voice-card').forEach(c => c.classList.toggle('selected', c.dataset.voice === 'sage'));
+  showWizStep(1);
+  wizard.classList.add('open');
+}
+function closeWizard() {
+  wizard.classList.remove('open');
+}
+function showWizStep(n) {
+  wizStep = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.toggle('active', +s.dataset.step === n));
+  document.querySelectorAll('#wizardProgress .pip').forEach((p, i) => {
+    p.classList.toggle('done', i < n);
+  });
+}
+
+// Step 1 → 2 — biz name required, but tolerate empty for "skip with default"
+document.getElementById('next1').addEventListener('click', () => {
+  wizState.biz = document.getElementById('biz').value.trim() || 'Your business';
+  showWizStep(2);
+});
+document.getElementById('biz').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('next1').click();
+});
+
+// Step 2 → 3
+document.querySelectorAll('.step[data-step="2"] .next').forEach(b => b.addEventListener('click', () => {
+  wizState.agentName = document.getElementById('agentName').value.trim() || 'Aria';
+  showWizStep(3);
+}));
+document.getElementById('agentName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.querySelector('.step[data-step="2"] .next').click();
+});
+
+// Step 3 voice cards
+document.getElementById('voiceGrid').addEventListener('click', e => {
+  const card = e.target.closest('.voice-card');
+  if (!card) return;
+  if (e.target.closest('.v-play')) {
+    e.target.closest('.v-play').textContent = '♪ Playing...';
+    setTimeout(() => { e.target.closest('.v-play').textContent = '▶ Play sample'; }, 2200);
+    return;
+  }
+  document.querySelectorAll('.voice-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  wizState.voice = card.dataset.voice;
+});
+document.querySelectorAll('.step[data-step="3"] .next').forEach(b => b.addEventListener('click', () => showWizStep(4)));
+
+// Step 4 → 5
+document.querySelectorAll('.step[data-step="4"] .next').forEach(b => b.addEventListener('click', () => {
+  wizState.phone = document.getElementById('phone').value.trim() || '+1 (914) 555-0142';
+  // Populate summary
+  const voiceNames = { sage: 'Sage · Warm female', ethan: 'Ethan · Even male', iris: 'Iris · Bright female', theo: 'Theo · Deep male' };
+  document.getElementById('sumBiz').textContent = wizState.biz;
+  document.getElementById('sumName').textContent = wizState.agentName;
+  document.getElementById('sumVoice').textContent = voiceNames[wizState.voice];
+  document.getElementById('sumPhone').textContent = wizState.phone;
+  showWizStep(5);
+}));
+
+// Back buttons
+document.querySelectorAll('.step .back').forEach(b => b.addEventListener('click', () => {
+  if (wizStep > 1) showWizStep(wizStep - 1);
+}));
+
+// Try a call from the summary
+document.getElementById('tryCallBtn').addEventListener('click', () => {
+  closeWizard();
+  // Update the live agent label so the dashboard reflects the new agent
+  const lbl = document.querySelector('.agent-pick .left span:last-child');
+  if (lbl) lbl.textContent = `${wizState.agentName} · ${wizState.biz}`;
+  // Switch to Easy view so the user lands on the big call button
+  switchView('easy');
+  setTimeout(() => {
+    showToast('AGENT LIVE', `<b>${wizState.agentName}</b> is ready at ${wizState.phone}`);
+    // Auto-start a demo call so they hear the result of their setup
+    setTimeout(() => window.__startCall(), 700);
+  }, 350);
+});
+
 /* ============== VIEW SWITCH (Easy / Pro) ============== */
 function switchView(v) {
   document.body.classList.toggle('easy-mode', v === 'easy');
@@ -1079,6 +1415,8 @@ window.hideCall = () => {
 renderCalls();
 renderTranscript();
 renderWaveform();
+// Default to Easy view so first-time visitors get the big-button entry point.
+document.body.classList.add('easy-mode');
 </script>
 
 </body>
