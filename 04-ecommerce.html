@@ -3,826 +3,906 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Halstead Billing — Stripe operator console</title>
+<title>NORTHFOLD &amp; CO. — Outdoor gear &amp; home goods</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap">
 <style>
   :root {
-    --bg:        #F6F8FA;
+    --bg:        #FBF8F2;
     --paper:     #FFFFFF;
-    --ink:       #1A1F36;
-    --ink-2:     #3C4257;
-    --mute:      #6B7080;
-    --mute-2:    #98A2B3;
-    --line:      #E3E8EE;
-    --line-2:    #D7DCE3;
-    --tint:      #F0F4F9;
-    --indigo:    #635BFF;
-    --indigo-d:  #5046E5;
-    --indigo-s:  #EFEEFF;
-    --green:     #1A7F37;
-    --green-s:   #E6F4EA;
-    --amber:     #B86E00;
-    --amber-s:   #FFF4E5;
-    --rose:      #CD3D64;
-    --rose-s:    #FCE8EE;
+    --ink:       #1F2421;
+    --ink-2:     #3D4540;
+    --mute:      #7A807A;
+    --mute-2:    #A4A89F;
+    --line:      #E6E2D6;
+    --line-2:    #D6D1BF;
+    --tint:      #F4EFE3;
+    --moss:      #3F5944;          /* primary brand */
+    --moss-d:    #2C4332;
+    --moss-s:    #E8EDE2;
+    --rust:      #B4632F;
+    --gold:      #C49E3F;
+    --rose:      #C73E5A;
+    --cream:     #EFE9D7;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { background: var(--bg); color: var(--ink); min-height: 100vh; }
   body {
-    font-family: 'Inter Tight', -apple-system, sans-serif;
-    font-size: 14px; line-height: 1.5;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14.5px; line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  .mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: "tnum"; }
+  .serif { font-family: 'Source Serif 4', 'Iowan Old Style', Georgia, serif; }
   button { font-family: inherit; cursor: pointer; }
-  input, textarea, select { font-family: inherit; }
+  input, select { font-family: inherit; }
+  a { color: inherit; text-decoration: none; }
 
-  /* === Topbar (Stripe-style) ============================== */
+  /* === Announcement strip ============================== */
+  .strip {
+    background: var(--moss); color: #FFFFFF;
+    text-align: center; padding: 8px 16px;
+    font-size: 12px; letter-spacing: 0.04em; font-weight: 500;
+  }
+  .strip b { font-weight: 700; }
+
+  /* === Topbar ========================================== */
   .topbar {
-    height: 56px; background: var(--paper); border-bottom: 1px solid var(--line);
-    display: flex; align-items: center; padding: 0 24px; gap: 18px;
-    position: sticky; top: 0; z-index: 50;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    padding: 14px 28px; display: grid;
+    grid-template-columns: 1fr auto 1fr; gap: 24px; align-items: center;
+    position: sticky; top: 0; z-index: 40;
+  }
+  @media (max-width: 760px) {
+    .topbar { grid-template-columns: 1fr auto; padding: 12px 16px; }
+    .topbar .search { display: none; }
   }
   .brand {
-    display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 15px;
-    color: var(--ink); letter-spacing: -0.01em;
+    font-family: 'Source Serif 4', serif; font-weight: 700; font-size: 22px;
+    letter-spacing: -0.01em; line-height: 1; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 8px;
   }
-  .brand .dot {
-    width: 24px; height: 24px; border-radius: 6px;
-    background: var(--indigo);
-    display: grid; place-items: center;
-    color: #fff; font-size: 13px; font-weight: 800;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-  }
-  .env-toggle {
-    display: flex; background: var(--tint); border-radius: 6px; padding: 3px;
-    font-size: 12.5px; font-weight: 500;
-  }
-  .env-toggle button { padding: 5px 12px; border: 0; background: transparent; color: var(--mute); border-radius: 4px; }
-  .env-toggle button.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-  .env-toggle button.test.active { color: var(--amber); }
+  .brand small { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; color: var(--mute); text-transform: uppercase; }
+
   .search {
-    flex: 1; max-width: 420px;
-    position: relative;
+    position: relative; max-width: 480px; margin: 0 auto; width: 100%;
   }
   .search input {
-    width: 100%; padding: 7px 12px 7px 32px;
+    width: 100%; padding: 10px 14px 10px 38px;
     background: var(--tint); border: 1px solid transparent;
-    border-radius: 6px; font-size: 13px; color: var(--ink);
+    border-radius: 999px; font-size: 13.5px; color: var(--ink);
   }
-  .search input:focus { outline: none; background: var(--paper); border-color: var(--indigo); }
+  .search input:focus { outline: none; background: var(--paper); border-color: var(--moss); }
   .search::before {
-    content: ''; position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
-    width: 13px; height: 13px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236B7080'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/></svg>");
+    content: ''; position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    width: 14px; height: 14px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%237A807A'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/></svg>");
     background-repeat: no-repeat;
   }
-  .topbar-right { display: flex; align-items: center; gap: 14px; }
-  .topbar-right .ico { width: 32px; height: 32px; border-radius: 6px; display: grid; place-items: center; color: var(--mute); cursor: pointer; }
-  .topbar-right .ico:hover { background: var(--tint); color: var(--ink); }
-  .acct {
-    display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px;
-    border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
-  }
-  .acct .av { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #FFB347 0%, #FF6B6B 100%); color: #fff; font-weight: 700; font-size: 11px; display: grid; place-items: center; }
-  .acct b { font-size: 12.5px; font-weight: 600; color: var(--ink); }
 
-  /* === Layout shell — sidebar + main, NO right rail ====== */
-  .shell { display: grid; grid-template-columns: 232px 1fr; }
-  @media (max-width: 980px) { .shell { grid-template-columns: 1fr; } }
-
-  .sidebar {
-    background: var(--paper); border-right: 1px solid var(--line);
-    padding: 20px 12px 24px; height: calc(100vh - 56px); position: sticky; top: 56px;
-    display: flex; flex-direction: column; gap: 20px; overflow-y: auto;
-  }
-  @media (max-width: 980px) { .sidebar { display: none; } }
-  .nav-section { display: flex; flex-direction: column; gap: 1px; }
-  .nav-section .label { font-size: 11px; font-weight: 600; color: var(--mute); padding: 8px 10px 6px; letter-spacing: 0.01em; text-transform: none; }
-  .nav-item {
-    display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 6px;
-    color: var(--ink-2); font-size: 13.5px; font-weight: 500; cursor: pointer; position: relative;
-  }
-  .nav-item:hover { background: var(--tint); }
-  .nav-item.active { background: var(--indigo-s); color: var(--indigo); font-weight: 600; }
-  .nav-item .ico { width: 16px; height: 16px; display: grid; place-items: center; color: currentColor; flex-shrink: 0; }
-  .nav-item .ico svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .nav-item .count { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; padding: 1px 6px; background: var(--tint); color: var(--mute); border-radius: 999px; }
-  .nav-item.active .count { background: rgba(99,91,255,0.18); color: var(--indigo); }
-
-  /* === Main column ====================================== */
-  main { padding: 30px 32px 60px; max-width: 1280px; }
-  @media (max-width: 760px) { main { padding: 22px 18px 60px; } }
-
-  .h1-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; gap: 16px; flex-wrap: wrap; }
-  .h1-row h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.018em; }
-  .h1-row .sub { font-size: 13.5px; color: var(--mute); margin-top: 4px; }
-  .h1-row .actions { display: flex; gap: 8px; align-items: center; }
-  .btn {
-    height: 32px; padding: 0 14px; border-radius: 6px; font-size: 13px; font-weight: 600;
-    border: 1px solid var(--line-2); background: var(--paper); color: var(--ink);
+  .topbar-right {
     display: inline-flex; align-items: center; gap: 6px;
-    transition: background .12s ease, border-color .12s ease, transform .12s ease;
+    justify-self: end;
   }
-  .btn:hover { background: var(--tint); }
-  .btn.primary {
-    background: var(--indigo); color: #fff; border-color: var(--indigo);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0) inset;
+  .ico-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: transparent; border: 0; color: var(--ink);
+    display: grid; place-items: center; cursor: pointer; position: relative;
   }
-  .btn.primary:hover { background: var(--indigo-d); border-color: var(--indigo-d); }
+  .ico-btn:hover { background: var(--tint); }
+  .ico-btn svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .cart-count {
+    position: absolute; top: 4px; right: 4px;
+    min-width: 18px; height: 18px; padding: 0 5px;
+    background: var(--rust); color: #fff; border-radius: 999px;
+    font-size: 10.5px; font-weight: 700;
+    display: grid; place-items: center;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+  }
 
-  /* === KPI cards ======================================== */
-  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 26px; }
-  @media (max-width: 980px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
-  .kpi { background: var(--paper); padding: 18px 20px; }
-  .kpi .label { font-size: 12px; font-weight: 500; color: var(--mute); margin-bottom: 8px; }
-  .kpi .value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-feature-settings: "tnum"; }
-  .kpi .delta { margin-top: 4px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--green); }
-  .kpi .delta.down { color: var(--rose); }
-  .kpi .delta .arrow { display: inline-block; transform: translateY(-1px); }
-
-  /* === Chart card ====================================== */
-  .chart-card {
-    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
-    margin-bottom: 26px; overflow: hidden;
+  /* === Category nav ==================================== */
+  .catnav {
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    padding: 0 28px; display: flex; align-items: stretch; gap: 0;
+    overflow-x: auto; position: sticky; top: 68px; z-index: 39;
   }
-  .card-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--line); }
-  .card-head h2 { font-size: 15px; font-weight: 600; letter-spacing: -0.005em; }
-  .card-head .sub { font-size: 12px; color: var(--mute); margin-top: 2px; }
-  .range-tabs { display: flex; gap: 2px; background: var(--tint); border-radius: 6px; padding: 2px; font-size: 12px; font-weight: 500; }
-  .range-tabs button { padding: 5px 10px; background: transparent; color: var(--mute); border: 0; border-radius: 4px; }
-  .range-tabs button.active { background: var(--paper); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-  .chart-body { padding: 20px; }
-  .chart-svg { width: 100%; height: 200px; display: block; }
-  .chart-legend { display: flex; gap: 18px; margin-top: 8px; font-size: 12px; color: var(--mute); }
-  .chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
-  .chart-legend .swatch { width: 10px; height: 10px; border-radius: 2px; }
-
-  /* === Two-col block: dunning + balance ================= */
-  .two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; margin-bottom: 26px; }
-  @media (max-width: 980px) { .two-col { grid-template-columns: 1fr; } }
-  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  .panel-body { padding: 18px 20px; }
-
-  .dunning-row {
-    display: grid; grid-template-columns: 1fr auto auto auto; gap: 12px; align-items: center;
-    padding: 12px 20px; border-top: 1px solid var(--line); font-size: 13px;
+  @media (max-width: 760px) { .catnav { padding: 0 16px; top: 60px; } }
+  .catnav::-webkit-scrollbar { display: none; }
+  .catnav a {
+    padding: 13px 16px; font-size: 13.5px; font-weight: 500;
+    color: var(--ink-2); white-space: nowrap; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color .15s ease, border-color .15s ease;
   }
-  .dunning-row:first-of-type { border-top: 1px solid var(--line); }
-  .dunning-row .who { font-weight: 600; }
-  .dunning-row .who small { display: block; color: var(--mute); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 400; margin-top: 2px; }
-  .dunning-row .amt { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--rose); }
-  .dunning-row .attempt { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--mute); }
-  .retry-btn { height: 28px; padding: 0 10px; border-radius: 5px; font-size: 12px; font-weight: 600; border: 1px solid var(--line-2); background: var(--paper); color: var(--ink); }
-  .retry-btn:hover { background: var(--tint); }
-  .retry-btn.success { background: var(--green-s); color: var(--green); border-color: var(--green-s); }
+  .catnav a:hover { color: var(--moss); }
+  .catnav a.active { color: var(--moss); border-color: var(--moss); font-weight: 600; }
+  .catnav .right { margin-left: auto; display: flex; gap: 18px; padding: 13px 0; font-size: 12px; color: var(--mute); }
+  .catnav .right span { display: inline-flex; align-items: center; gap: 5px; }
 
-  /* Balance card */
-  .balance .big { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; font-feature-settings: "tnum"; }
-  .balance .sub { font-size: 13px; color: var(--mute); margin-top: 6px; }
-  .balance-rows { display: grid; gap: 0; margin-top: 14px; border-top: 1px solid var(--line); }
-  .balance-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
-  .balance-row b { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-  .balance-row .lbl { color: var(--mute); }
+  /* === Hero ============================================ */
+  .hero {
+    position: relative; overflow: hidden;
+    height: 380px; display: flex; align-items: center;
+    margin: 18px 28px 0;
+    background-color: #2D3A2E;
+    background-image: linear-gradient(115deg, rgba(31,36,33,0.78) 0%, rgba(31,36,33,0.2) 60%, rgba(31,36,33,0.1) 100%), url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=2200&q=85&auto=format');
+    background-size: cover; background-position: center;
+    border-radius: 4px;
+  }
+  @media (max-width: 760px) { .hero { margin: 12px 16px 0; height: 280px; } }
+  .hero-copy {
+    padding: 0 56px; max-width: 600px; color: #FFFFFF;
+  }
+  @media (max-width: 760px) { .hero-copy { padding: 0 28px; } }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cream); margin-bottom: 14px; font-weight: 600; }
+  .hero h1 {
+    font-family: 'Source Serif 4', serif; font-weight: 600;
+    font-size: clamp(32px, 4.5vw, 50px); line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .hero p { font-size: 15px; color: rgba(255,255,255,0.85); max-width: 380px; margin-bottom: 22px; }
+  .hero .btn-hero {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 22px; background: var(--cream); color: var(--ink);
+    border: 0; border-radius: 999px; font-size: 13.5px; font-weight: 600;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .hero .btn-hero:hover { background: #fff; transform: translateY(-1px); }
 
-  /* === Customers table ================================= */
-  .filter-bar { display: flex; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--line); align-items: center; flex-wrap: wrap; }
-  .pill {
-    height: 28px; padding: 0 12px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
-    background: var(--paper); border: 1px solid var(--line-2); color: var(--ink-2);
-    display: inline-flex; align-items: center; gap: 6px;
+  /* === Trust strip ==================================== */
+  .trust-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin: 18px 28px 0; padding: 18px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 4px;
   }
-  .pill:hover { background: var(--tint); }
-  .pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .pill .count { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  @media (max-width: 980px) { .trust-strip { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+  @media (max-width: 760px) { .trust-strip { margin: 18px 16px 0; } }
+  .trust-strip div {
+    display: flex; align-items: center; gap: 10px; padding: 0 14px;
+    border-left: 1px solid var(--line); font-size: 12.5px; color: var(--ink-2);
+  }
+  .trust-strip div:first-child { border-left: 0; }
+  @media (max-width: 980px) { .trust-strip div:nth-child(odd) { border-left: 0; } }
+  .trust-strip b { font-weight: 600; color: var(--ink); font-size: 13.5px; display: block; }
+  .trust-ico { width: 22px; height: 22px; stroke: var(--moss); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
-  table.customers {
-    width: 100%; border-collapse: collapse; font-size: 13px;
+  /* === Section heads ================================= */
+  .section-head {
+    padding: 38px 28px 18px; display: flex; justify-content: space-between; align-items: flex-end; gap: 14px;
   }
-  table.customers th {
-    text-align: left; font-weight: 500; font-size: 11.5px; color: var(--mute);
-    letter-spacing: 0.01em; text-transform: uppercase; padding: 11px 20px;
-    border-bottom: 1px solid var(--line); background: var(--bg);
+  @media (max-width: 760px) { .section-head { padding: 28px 16px 14px; } }
+  .section-head h2 {
+    font-family: 'Source Serif 4', serif; font-weight: 600;
+    font-size: 24px; letter-spacing: -0.015em;
   }
-  table.customers td {
-    padding: 13px 20px; border-bottom: 1px solid var(--line);
-    vertical-align: middle;
-  }
-  table.customers tr { cursor: pointer; }
-  table.customers tr:hover td { background: var(--tint); }
-  table.customers tr.active td { background: var(--indigo-s); }
-  .cust-name { font-weight: 600; color: var(--ink); }
-  .cust-email { font-size: 11.5px; color: var(--mute); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px;
-    font-size: 11px; font-weight: 600; letter-spacing: 0.01em;
-  }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0.85; }
-  .badge.active   { background: var(--green-s);  color: var(--green); }
-  .badge.past_due { background: var(--rose-s);   color: var(--rose); }
-  .badge.trial    { background: var(--indigo-s); color: var(--indigo); }
-  .badge.churned  { background: #F1F2F4;         color: var(--mute); }
-  .amount { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-  .plan { color: var(--ink-2); font-weight: 500; }
+  .section-head .meta { font-size: 13px; color: var(--mute); }
+  .section-head a { color: var(--moss); font-size: 13px; font-weight: 500; }
 
-  /* === Slide-over drawer (REPLACES right rail) ========== */
-  .drawer-backdrop {
-    position: fixed; inset: 0; background: rgba(26,31,54,0.34); z-index: 60;
-    opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  /* === Shop grid (sidebar filters + products) ========= */
+  .shop {
+    display: grid; grid-template-columns: 232px 1fr; gap: 28px;
+    padding: 0 28px 60px;
   }
-  .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
-  .drawer {
-    position: fixed; top: 0; right: 0; height: 100vh; width: 480px; max-width: 100vw;
-    background: var(--paper); border-left: 1px solid var(--line); z-index: 61;
-    transform: translateX(100%); transition: transform .25s cubic-bezier(0.16,1,0.3,1);
-    display: flex; flex-direction: column;
-    box-shadow: -16px 0 48px -16px rgba(26,31,54,0.18);
+  @media (max-width: 980px) { .shop { grid-template-columns: 1fr; padding: 0 16px 60px; } }
+
+  .filters {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 4px;
+    padding: 18px 18px 8px;
+    align-self: start;
+    position: sticky; top: 120px;
+    max-height: calc(100vh - 140px); overflow-y: auto;
   }
-  .drawer.open { transform: translateX(0); }
-  .drawer-head { padding: 22px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; }
-  .drawer-head h3 { font-size: 17px; font-weight: 700; letter-spacing: -0.005em; }
-  .drawer-head .meta { font-size: 12.5px; color: var(--mute); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
-  .drawer-head .x { width: 28px; height: 28px; border-radius: 6px; border: 0; background: transparent; color: var(--mute); font-size: 18px; }
-  .drawer-head .x:hover { background: var(--tint); color: var(--ink); }
+  @media (max-width: 980px) { .filters { position: static; max-height: none; } }
+  .filters h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 14px; }
+  .filter-group { padding-bottom: 16px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .filter-group:last-child { border-bottom: 0; }
+  .filter-group h5 { font-size: 12.5px; font-weight: 600; color: var(--ink); margin-bottom: 10px; display: flex; justify-content: space-between; }
+  .filter-group h5 button { background: transparent; border: 0; color: var(--mute); font-size: 11px; cursor: pointer; }
+  .filter-check {
+    display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 13px; color: var(--ink-2); cursor: pointer;
+  }
+  .filter-check input { accent-color: var(--moss); }
+  .filter-check span { flex: 1; }
+  .filter-check .count { color: var(--mute); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+  .swatch-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .swatch {
+    width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+    border: 2px solid transparent; box-shadow: 0 0 0 1px var(--line) inset;
+    position: relative;
+  }
+  .swatch.selected { border-color: var(--ink); }
+  .price-range { display: flex; gap: 6px; align-items: center; font-size: 12px; }
+  .price-range input { width: 72px; padding: 6px 8px; border: 1px solid var(--line-2); border-radius: 4px; font-size: 12.5px; }
 
-  .drawer-body { flex: 1; overflow-y: auto; padding: 22px 24px; display: flex; flex-direction: column; gap: 22px; }
-  .sect { border-bottom: 1px solid var(--line); padding-bottom: 22px; }
-  .sect:last-child { border-bottom: 0; padding-bottom: 0; }
-  .sect h4 { font-size: 11.5px; font-weight: 600; color: var(--mute); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
-  .kvs { display: grid; gap: 10px; }
-  .kv { display: flex; justify-content: space-between; font-size: 13.5px; }
-  .kv .k { color: var(--mute); }
-  .kv .v { color: var(--ink); font-weight: 500; font-family: 'JetBrains Mono', monospace; }
-
-  .plan-switcher { display: grid; gap: 8px; }
-  .plan-option {
+  /* === Product grid ==================================== */
+  .toolbar {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 14px; border: 1px solid var(--line); border-radius: 7px; cursor: pointer;
-    transition: border-color .12s ease, background .12s ease;
+    margin-bottom: 14px; padding: 6px 0;
+    font-size: 13px; color: var(--mute);
   }
-  .plan-option:hover { border-color: var(--line-2); }
-  .plan-option.current { background: var(--indigo-s); border-color: var(--indigo); }
-  .plan-option .name { font-weight: 600; }
-  .plan-option .price { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--mute); }
-  .plan-option .check { color: var(--indigo); font-size: 14px; }
+  .toolbar select {
+    padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 4px;
+    font-size: 12.5px; background: var(--paper); color: var(--ink);
+  }
+  .product-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 22px;
+  }
+  .product-card {
+    cursor: pointer;
+    background: transparent;
+    transition: transform .2s ease;
+  }
+  .product-card:hover { transform: translateY(-3px); }
+  .product-card .thumb {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--tint);
+    border-radius: 4px; overflow: hidden;
+    background-size: cover; background-position: center;
+  }
+  .product-card .badge {
+    position: absolute; top: 10px; left: 10px;
+    padding: 4px 9px; border-radius: 999px;
+    background: var(--paper); color: var(--ink);
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .product-card .badge.new { background: var(--moss); color: #fff; }
+  .product-card .badge.sale { background: var(--rust); color: #fff; }
+  .product-card .badge.best { background: var(--gold); color: var(--ink); }
+  .product-card .quick-add {
+    position: absolute; bottom: 10px; left: 10px; right: 10px;
+    padding: 9px; background: var(--paper); color: var(--ink);
+    border: 0; border-radius: 4px; font-size: 12.5px; font-weight: 600;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity .2s ease, transform .2s ease, background .15s ease;
+  }
+  .product-card:hover .quick-add { opacity: 1; transform: translateY(0); }
+  .quick-add:hover { background: var(--moss); color: #fff; }
+  .quick-add.added { background: var(--moss); color: #fff; }
 
-  .prorate {
-    background: var(--amber-s); border: 1px solid #FCD34D; border-radius: 7px;
-    padding: 11px 14px; margin-top: 10px; font-size: 12.5px; color: var(--amber); display: none;
-  }
-  .prorate.show { display: block; }
-  .prorate b { font-family: 'JetBrains Mono', monospace; }
+  .product-card .info { padding: 12px 4px 0; }
+  .product-card .cat { font-size: 11px; color: var(--mute); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  .product-card .name { font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 15px; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+  .product-card .price-row { display: flex; align-items: baseline; gap: 8px; }
+  .product-card .price { font-weight: 600; font-size: 14px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .product-card .price.strike { text-decoration: line-through; color: var(--mute); font-weight: 400; }
+  .product-card .rating { display: flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 11.5px; color: var(--mute); }
+  .stars { color: var(--gold); letter-spacing: 1px; font-size: 12px; }
 
-  /* === Webhook log =================================== */
-  .events {
-    background: var(--paper); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 26px;
+  /* === Cart drawer ==================================== */
+  .cart-backdrop {
+    position: fixed; inset: 0; background: rgba(31,36,33,0.48);
+    opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    z-index: 60;
   }
-  .events-body { max-height: 380px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
-  .event-row {
-    display: grid; grid-template-columns: 70px 200px 1fr 90px; gap: 14px;
-    padding: 9px 20px; border-bottom: 1px solid var(--line); align-items: center;
+  .cart-backdrop.open { opacity: 1; pointer-events: auto; }
+  .cart-drawer {
+    position: fixed; top: 0; right: 0; height: 100vh; width: 440px; max-width: 100vw;
+    background: var(--paper); z-index: 61;
+    transform: translateX(100%); transition: transform .3s cubic-bezier(0.16,1,0.3,1);
+    display: flex; flex-direction: column;
+    box-shadow: -20px 0 60px -20px rgba(31,36,33,0.25);
   }
-  .event-row:last-child { border-bottom: 0; }
-  .event-row .status {
-    font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
-    text-align: center; letter-spacing: 0.04em;
+  .cart-drawer.open { transform: translateX(0); }
+  .cart-head {
+    padding: 20px 22px; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .event-row .status.ok { background: var(--green-s); color: var(--green); }
-  .event-row .status.fail { background: var(--rose-s); color: var(--rose); }
-  .event-row .type { color: var(--indigo); font-weight: 600; }
-  .event-row .obj { color: var(--ink); }
-  .event-row .ts { color: var(--mute); text-align: right; font-size: 11.5px; }
+  .cart-head h3 { font-family: 'Source Serif 4', serif; font-size: 19px; font-weight: 600; }
+  .cart-head .x {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: transparent; border: 0; color: var(--mute); font-size: 22px; line-height: 1;
+  }
+  .cart-head .x:hover { background: var(--tint); color: var(--ink); }
+  .cart-body { flex: 1; overflow-y: auto; padding: 10px 22px; }
+  .cart-empty {
+    text-align: center; padding: 60px 20px; color: var(--mute); font-size: 14px;
+  }
+  .cart-item {
+    display: grid; grid-template-columns: 70px 1fr auto; gap: 14px;
+    padding: 16px 0; border-bottom: 1px solid var(--line);
+    align-items: center;
+  }
+  .cart-item .img {
+    width: 70px; height: 88px; background: var(--tint); border-radius: 4px;
+    background-size: cover; background-position: center;
+  }
+  .cart-item .name { font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .cart-item .opt { font-size: 11.5px; color: var(--mute); margin-bottom: 8px; }
+  .qty {
+    display: inline-flex; align-items: center; gap: 0;
+    border: 1px solid var(--line-2); border-radius: 4px; overflow: hidden;
+  }
+  .qty button { width: 26px; height: 26px; background: transparent; border: 0; color: var(--ink); font-size: 14px; }
+  .qty button:hover { background: var(--tint); }
+  .qty input { width: 32px; height: 26px; border: 0; text-align: center; font-size: 12.5px; background: transparent; -moz-appearance: textfield; appearance: textfield; }
+  .qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; appearance: none; margin: 0; }
+  .cart-item .right { text-align: right; }
+  .cart-item .price { font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .cart-item .remove { font-size: 11px; color: var(--mute); margin-top: 6px; background: transparent; border: 0; cursor: pointer; }
+  .cart-item .remove:hover { color: var(--rust); text-decoration: underline; }
 
-  /* === Toast ========================================= */
+  .cart-foot {
+    padding: 20px 22px; border-top: 1px solid var(--line); background: var(--bg);
+  }
+  .cart-foot .totals { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; font-size: 13.5px; }
+  .cart-foot .totals .row { display: flex; justify-content: space-between; }
+  .cart-foot .totals .row b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .cart-foot .total-big { font-family: 'Source Serif 4', serif; font-size: 22px; font-weight: 700; }
+  .cart-foot .free-ship {
+    background: var(--moss-s); color: var(--moss-d); padding: 10px 14px; border-radius: 4px;
+    font-size: 12.5px; margin-bottom: 14px;
+  }
+  .cart-foot .free-ship b { font-family: 'Source Serif 4', serif; font-weight: 700; }
+  .checkout-btn {
+    width: 100%; padding: 14px; background: var(--moss); color: #FFFFFF;
+    border: 0; border-radius: 4px; font-size: 14px; font-weight: 600;
+    transition: background .15s ease;
+  }
+  .checkout-btn:hover { background: var(--moss-d); }
+  .checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* === Toast ============================================ */
   .toast {
-    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 8px;
-    font-size: 13px; font-weight: 500; box-shadow: 0 12px 32px -10px rgba(0,0,0,0.25);
-    opacity: 0; transition: all .25s cubic-bezier(0.16,1,0.3,1); z-index: 70;
+    position: fixed; bottom: 22px; left: 22px; z-index: 70;
+    background: var(--ink); color: #fff;
+    padding: 12px 18px; border-radius: 4px; font-size: 13px; font-weight: 500;
+    box-shadow: 0 12px 32px -10px rgba(0,0,0,0.3);
+    opacity: 0; transform: translateY(20px);
+    transition: all .25s cubic-bezier(0.16,1,0.3,1);
   }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.show { opacity: 1; transform: translateY(0); }
 
-  /* New event highlight */
-  @keyframes flashin { from { background: var(--indigo-s); } to { background: var(--paper); } }
-  .event-row.new { animation: flashin 1.2s ease-out; }
+  /* === Editorial story strip =========================== */
+  .editorial {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+    padding: 60px 28px; margin: 38px 28px 0; background: var(--cream); border-radius: 4px;
+    align-items: center;
+  }
+  @media (max-width: 760px) { .editorial { grid-template-columns: 1fr; padding: 40px 24px; margin: 28px 16px 0; } }
+  .editorial .photo {
+    aspect-ratio: 4 / 3;
+    background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=1400&q=85&auto=format');
+    background-size: cover; background-position: center;
+    border-radius: 4px;
+  }
+  .editorial h3 {
+    font-family: 'Source Serif 4', serif; font-size: clamp(24px, 3vw, 32px);
+    font-weight: 600; letter-spacing: -0.018em; line-height: 1.15; margin-bottom: 16px;
+  }
+  .editorial p { font-size: 14.5px; color: var(--ink-2); margin-bottom: 18px; max-width: 460px; }
+  .editorial a.read-on {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--moss); font-weight: 600; font-size: 13.5px;
+    border-bottom: 1px solid var(--moss); padding-bottom: 2px;
+  }
 
-  /* Concept banner */
-  .concept-banner {
-    background: var(--ink); color: rgba(255,255,255,0.66);
-    padding: 7px 18px; font-size: 11px; font-weight: 500;
-    letter-spacing: 0.05em; text-align: center;
+  /* === Footer ========================================== */
+  footer {
+    background: var(--ink); color: var(--cream);
+    padding: 52px 28px 28px; margin-top: 60px;
+  }
+  @media (max-width: 760px) { footer { padding: 40px 16px 24px; } }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 36px; max-width: 1280px; margin-inline: auto; }
+  @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+  footer h6 { font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; color: #FFFFFF; font-weight: 600; }
+  footer .brand-block { font-family: 'Source Serif 4', serif; font-size: 22px; font-weight: 700; margin-bottom: 10px; color: #FFFFFF; }
+  footer ul { list-style: none; display: grid; gap: 8px; }
+  footer li a { font-size: 13px; color: rgba(255,255,255,0.6); }
+  footer li a:hover { color: #FFFFFF; }
+  footer .news input { width: 100%; padding: 10px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #FFFFFF; font-size: 13px; }
+  footer .news input::placeholder { color: rgba(255,255,255,0.45); }
+  footer .news button { margin-top: 8px; padding: 10px 18px; background: var(--cream); color: var(--ink); border: 0; border-radius: 4px; font-size: 13px; font-weight: 600; }
+  .footer-bottom { padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; font-size: 11.5px; color: rgba(255,255,255,0.4); max-width: 1280px; margin-inline: auto; }
+  .footer-bottom .pay { display: flex; gap: 6px; font-family: 'JetBrains Mono', monospace; }
+  .pay span { padding: 4px 8px; background: rgba(255,255,255,0.08); border-radius: 3px; font-size: 10.5px; letter-spacing: 0.05em; }
+
+  /* Concept tag */
+  .concept-tag {
+    background: var(--ink); color: rgba(255,255,255,0.6);
+    padding: 7px 18px; font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; text-align: center;
   }
 </style>
 </head>
 <body>
 
-<div class="concept-banner">CONCEPT · Halstead Capital — operator console for SaaS billing on Stripe</div>
+<div class="concept-tag">CONCEPT · NORTHFOLD &amp; CO. — heritage outdoor &amp; home goods storefront</div>
+
+<div class="strip">
+  <b>Free shipping</b> over $75 · 30-day returns · Made in the U.S. since 1962
+</div>
 
 <!-- ========= TOPBAR ========= -->
 <header class="topbar">
-  <div class="brand">
-    <div class="dot">H</div>
-    <span>Halstead Billing</span>
-  </div>
-  <div class="env-toggle">
-    <button class="active">Live</button>
-    <button class="test">Test</button>
-  </div>
+  <a href="#" class="brand">NORTHFOLD &amp; CO. <small>est. 1962</small></a>
   <div class="search">
-    <input type="text" placeholder="Search customers, invoices, subscriptions..." />
+    <input type="text" placeholder="Search jackets, packs, cookware..." />
   </div>
   <div class="topbar-right">
-    <div class="ico" title="Notifications">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-    </div>
-    <div class="ico" title="Help">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    </div>
-    <div class="acct">
-      <div class="av">LK</div>
-      <b>Halstead Cap.</b>
-    </div>
+    <button class="ico-btn" aria-label="Account">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+    <button class="ico-btn" aria-label="Wishlist">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+    <button class="ico-btn" id="cartOpenBtn" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
   </div>
 </header>
 
-<div class="shell">
+<!-- ========= CATEGORY NAV ========= -->
+<nav class="catnav" id="catnav">
+  <a class="active" data-cat="all">All</a>
+  <a data-cat="jackets">Jackets &amp; Coats</a>
+  <a data-cat="bags">Packs &amp; Bags</a>
+  <a data-cat="footwear">Footwear</a>
+  <a data-cat="kitchen">Cookware &amp; Kitchen</a>
+  <a data-cat="home">Home &amp; Bedding</a>
+  <a data-cat="tools">Hand Tools</a>
+  <a data-cat="gifts">Gifts</a>
+  <div class="right">
+    <span>📍 Portland, ME · in stock</span>
+    <span>⚒ Workshop tours · Saturdays</span>
+  </div>
+</nav>
 
-  <!-- ========= SIDEBAR ========= -->
-  <aside class="sidebar">
-    <div class="nav-section">
-      <div class="nav-item active">
-        <span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
-        Overview
-      </div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg></span>
-        Customers
-        <span class="count">812</span>
-      </div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
-        Invoices
-        <span class="count">2.1k</span>
-      </div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-        Subscriptions
-      </div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
-        Payments
+<!-- ========= HERO ========= -->
+<section class="hero">
+  <div class="hero-copy">
+    <div class="hero-eyebrow">Spring Collection · 2026</div>
+    <h1>Built to outlast you.<br>Then your kid.</h1>
+    <p>Wax-cotton field coats, cast-iron skillets, and bedding spun in Maine. Made by hand, sold direct, repaired forever.</p>
+    <button class="btn-hero">Shop the collection →</button>
+  </div>
+</section>
+
+<!-- ========= TRUST STRIP ========= -->
+<div class="trust-strip">
+  <div>
+    <svg class="trust-ico" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    <div><b>Free shipping</b> orders $75+</div>
+  </div>
+  <div>
+    <svg class="trust-ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/></svg>
+    <div><b>30-day returns</b> no questions</div>
+  </div>
+  <div>
+    <svg class="trust-ico" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <div><b>Lifetime repairs</b> free, period</div>
+  </div>
+  <div>
+    <svg class="trust-ico" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <div><b>Hand-made</b> in Portland, ME</div>
+  </div>
+</div>
+
+<!-- ========= SHOP ========= -->
+<div class="section-head">
+  <div>
+    <h2>Shop everything</h2>
+    <div class="meta" id="resultCount">— items</div>
+  </div>
+</div>
+
+<div class="shop">
+
+  <!-- Filters -->
+  <aside class="filters">
+    <h4>Filter</h4>
+
+    <div class="filter-group">
+      <h5>Category <button onclick="clearGroup('cat')">Clear</button></h5>
+      <label class="filter-check"><input type="checkbox" data-fcat="jackets"><span>Jackets &amp; Coats</span><span class="count">8</span></label>
+      <label class="filter-check"><input type="checkbox" data-fcat="bags"><span>Packs &amp; Bags</span><span class="count">6</span></label>
+      <label class="filter-check"><input type="checkbox" data-fcat="footwear"><span>Footwear</span><span class="count">4</span></label>
+      <label class="filter-check"><input type="checkbox" data-fcat="kitchen"><span>Cookware</span><span class="count">7</span></label>
+      <label class="filter-check"><input type="checkbox" data-fcat="home"><span>Home &amp; Bedding</span><span class="count">5</span></label>
+      <label class="filter-check"><input type="checkbox" data-fcat="tools"><span>Hand Tools</span><span class="count">3</span></label>
+    </div>
+
+    <div class="filter-group">
+      <h5>Color</h5>
+      <div class="swatch-row" id="swatchRow">
+        <div class="swatch" style="background:#3F5944" data-color="moss" title="Moss"></div>
+        <div class="swatch" style="background:#B4632F" data-color="rust" title="Rust"></div>
+        <div class="swatch" style="background:#2C2218" data-color="black" title="Char"></div>
+        <div class="swatch" style="background:#EFE9D7" data-color="cream" title="Cream"></div>
+        <div class="swatch" style="background:#5C6B72" data-color="slate" title="Slate"></div>
+        <div class="swatch" style="background:#9C2D2A" data-color="oxblood" title="Oxblood"></div>
       </div>
     </div>
 
-    <div class="nav-section">
-      <div class="label">Revenue</div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
-        Reports
-      </div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
-        Disputes
-        <span class="count">3</span>
-      </div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-        Payouts
+    <div class="filter-group">
+      <h5>Size</h5>
+      <label class="filter-check"><input type="checkbox"><span>XS</span></label>
+      <label class="filter-check"><input type="checkbox"><span>S</span></label>
+      <label class="filter-check"><input type="checkbox"><span>M</span></label>
+      <label class="filter-check"><input type="checkbox"><span>L</span></label>
+      <label class="filter-check"><input type="checkbox"><span>XL</span></label>
+    </div>
+
+    <div class="filter-group">
+      <h5>Price</h5>
+      <div class="price-range">
+        <input type="number" placeholder="Min" id="priceMin">
+        <span>—</span>
+        <input type="number" placeholder="Max" id="priceMax">
       </div>
     </div>
 
-    <div class="nav-section">
-      <div class="label">Developers</div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
-        API logs
-      </div>
-      <div class="nav-item">
-        <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
-        Webhooks
-      </div>
+    <div class="filter-group">
+      <h5>Rating</h5>
+      <label class="filter-check"><input type="checkbox"><span class="stars">★★★★★</span></label>
+      <label class="filter-check"><input type="checkbox"><span class="stars">★★★★</span><span style="color:var(--mute)">★ &amp; up</span></label>
     </div>
   </aside>
 
-  <!-- ========= MAIN ========= -->
-  <main>
-    <div class="h1-row">
-      <div>
-        <h1>Overview</h1>
-        <p class="sub">Halstead Capital · SaaS billing on Stripe · Live mode</p>
-      </div>
-      <div class="actions">
-        <button class="btn">Export</button>
-        <button class="btn primary">+ New customer</button>
-      </div>
+  <!-- Products -->
+  <div>
+    <div class="toolbar">
+      <span id="resultBar">Showing all items</span>
+      <select id="sortSel">
+        <option>Sort: Most popular</option>
+        <option>Newest</option>
+        <option>Price: low → high</option>
+        <option>Price: high → low</option>
+        <option>Top rated</option>
+      </select>
     </div>
-
-    <!-- KPI row -->
-    <div class="kpis">
-      <div class="kpi">
-        <div class="label">Gross MRR</div>
-        <div class="value">$184,820</div>
-        <div class="delta"><span class="arrow">↑</span> 11.4% vs Apr</div>
-      </div>
-      <div class="kpi">
-        <div class="label">Active subs</div>
-        <div class="value">812</div>
-        <div class="delta"><span class="arrow">↑</span> 38 net</div>
-      </div>
-      <div class="kpi">
-        <div class="label">Past due</div>
-        <div class="value">12</div>
-        <div class="delta down"><span class="arrow">↓</span> 4 recovered</div>
-      </div>
-      <div class="kpi">
-        <div class="label">Churn rate</div>
-        <div class="value">2.1%</div>
-        <div class="delta"><span class="arrow">↓</span> 0.4 pts</div>
-      </div>
-    </div>
-
-    <!-- Chart -->
-    <div class="chart-card">
-      <div class="card-head">
-        <div>
-          <h2>Gross volume</h2>
-          <div class="sub">$612,400 · last 30 days</div>
-        </div>
-        <div class="range-tabs">
-          <button>7d</button>
-          <button class="active">30d</button>
-          <button>3m</button>
-          <button>YTD</button>
-        </div>
-      </div>
-      <div class="chart-body">
-        <svg class="chart-svg" id="chart" viewBox="0 0 800 200" preserveAspectRatio="none"></svg>
-        <div class="chart-legend">
-          <span><span class="swatch" style="background:var(--indigo)"></span>Successful</span>
-          <span><span class="swatch" style="background:var(--rose)"></span>Failed</span>
-          <span><span class="swatch" style="background:var(--mute-2)"></span>Refunded</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Two-col: dunning + balance -->
-    <div class="two-col">
-      <div class="panel">
-        <div class="card-head">
-          <h2>Failed payments · needs attention</h2>
-          <button class="btn">Retry all</button>
-        </div>
-        <div id="dunningList"></div>
-      </div>
-
-      <div class="panel">
-        <div class="card-head"><h2>Balance</h2></div>
-        <div class="panel-body balance">
-          <div class="big">$24,118.40</div>
-          <div class="sub">Available on May 19</div>
-          <div class="balance-rows">
-            <div class="balance-row"><span class="lbl">In transit to bank</span><b>$8,400.00</b></div>
-            <div class="balance-row"><span class="lbl">Reserved for refunds</span><b>$1,240.00</b></div>
-            <div class="balance-row"><span class="lbl">Next payout · May 21</span><b>$22,840.00</b></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Customers table -->
-    <div class="panel" style="margin-bottom: 26px;">
-      <div class="card-head">
-        <div>
-          <h2>Customers</h2>
-          <div class="sub">Click a row to manage subscription</div>
-        </div>
-      </div>
-      <div class="filter-bar" id="filterBar">
-        <button class="pill active" data-filter="all">All <span class="count">812</span></button>
-        <button class="pill" data-filter="active">Active <span class="count">741</span></button>
-        <button class="pill" data-filter="trial">Trialing <span class="count">28</span></button>
-        <button class="pill" data-filter="past_due">Past due <span class="count">12</span></button>
-        <button class="pill" data-filter="churned">Churned <span class="count">31</span></button>
-      </div>
-      <table class="customers">
-        <thead>
-          <tr><th>Customer</th><th>Plan</th><th>MRR</th><th>Status</th><th>Started</th></tr>
-        </thead>
-        <tbody id="custBody"></tbody>
-      </table>
-    </div>
-
-    <!-- Webhook events -->
-    <div class="events">
-      <div class="card-head">
-        <div>
-          <h2>Recent events</h2>
-          <div class="sub">Webhook deliveries · live</div>
-        </div>
-        <div class="range-tabs">
-          <button class="active">All</button>
-          <button>Succeeded</button>
-          <button>Failed</button>
-        </div>
-      </div>
-      <div class="events-body" id="eventLog"></div>
-    </div>
-  </main>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
 </div>
 
-<!-- ========= DRAWER ========= -->
-<div class="drawer-backdrop" id="drawerBackdrop"></div>
-<aside class="drawer" id="drawer">
-  <div class="drawer-head">
-    <div>
-      <h3 id="dName">—</h3>
-      <div class="meta" id="dMeta">—</div>
-    </div>
-    <button class="x" id="closeDrawer">×</button>
+<!-- ========= EDITORIAL ========= -->
+<section class="editorial">
+  <div>
+    <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--moss);font-weight:600;margin-bottom:14px;">Field journal · vol 14</div>
+    <h3>The Maine workshop, 62 years in.</h3>
+    <p>Every Northfold piece is cut, stitched, riveted, and inspected in our 18,000 square-foot mill in Portland, Maine. The same hands. The same machines, mostly. The same standard since 1962.</p>
+    <a class="read-on">Read the story →</a>
   </div>
-  <div class="drawer-body" id="drawerBody"></div>
+  <div class="photo"></div>
+</section>
+
+<!-- ========= FOOTER ========= -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="brand-block">NORTHFOLD &amp; CO.</div>
+      <p style="font-size:13px;color:rgba(255,255,255,0.55);max-width:280px;margin-bottom:18px;">Heritage outdoor goods, home goods, and hand tools. Designed for daily use. Repaired forever.</p>
+      <div class="news">
+        <input type="email" placeholder="Get field-journal stories &amp; new drops" />
+        <button>Sign me up</button>
+      </div>
+    </div>
+    <div>
+      <h6>Shop</h6>
+      <ul>
+        <li><a>New arrivals</a></li>
+        <li><a>Best sellers</a></li>
+        <li><a>Jackets &amp; coats</a></li>
+        <li><a>Packs &amp; bags</a></li>
+        <li><a>Footwear</a></li>
+        <li><a>Gift cards</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Workshop</h6>
+      <ul>
+        <li><a>Our story</a></li>
+        <li><a>Field journal</a></li>
+        <li><a>Repair &amp; warranty</a></li>
+        <li><a>Sustainability</a></li>
+        <li><a>Workshop tours</a></li>
+        <li><a>Press</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Help</h6>
+      <ul>
+        <li><a>Order status</a></li>
+        <li><a>Shipping</a></li>
+        <li><a>Returns &amp; exchanges</a></li>
+        <li><a>Size guide</a></li>
+        <li><a>Contact us</a></li>
+        <li><a>Trade program</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Northfold &amp; Co. · Portland, Maine · Made by hand since 1962</span>
+    <div class="pay">
+      <span>VISA</span><span>MC</span><span>AMEX</span><span>APPLE PAY</span><span>SHOP</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ========= CART DRAWER ========= -->
+<div class="cart-backdrop" id="cartBackdrop"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>Your cart · <span id="cartHeadCount">0</span></h3>
+    <button class="x" id="cartCloseBtn">×</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <div class="cart-empty">Your cart is empty.<br><br><small>Add a field coat, a cast-iron pan, anything.</small></div>
+  </div>
+  <div class="cart-foot" id="cartFoot" style="display:none;">
+    <div class="free-ship" id="freeShipMsg">
+      <b>$22.50</b> away from free shipping.
+    </div>
+    <div class="totals">
+      <div class="row"><span>Subtotal</span><b id="subtotal">$0.00</b></div>
+      <div class="row"><span>Shipping</span><b id="shipping">$8.50</b></div>
+      <div class="row"><span>Estimated tax</span><b id="tax">$0.00</b></div>
+    </div>
+    <div class="row" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <span style="font-family:'Source Serif 4',serif;font-weight:600;font-size:15px;">Total</span>
+      <span class="total-big" id="total">$0.00</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn">Secure checkout →</button>
+  </div>
 </aside>
 
 <!-- ========= TOAST ========= -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============== DATA ============== */
-const customers = [
-  { id: 'cus_001', name: 'Marisol Vega',    email: 'marisol@vegacapital.com',    plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Jan 12, 2026' },
-  { id: 'cus_002', name: 'Devin Park',      email: 'devin@parkresearch.io',      plan: 'Growth',  mrr: 800,  status: 'active',   started: 'Feb 03, 2026' },
-  { id: 'cus_003', name: 'Raul Mendez',     email: 'raul@mendezholdings.com',    plan: 'Starter', mrr: 200,  status: 'past_due', started: 'Mar 19, 2026' },
-  { id: 'cus_004', name: 'Karen Whitlock',  email: 'karen@whitlocklegal.com',    plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Nov 08, 2025' },
-  { id: 'cus_005', name: 'Amelia Cho',      email: 'amelia@chodesignco.com',     plan: 'Growth',  mrr: 800,  status: 'trial',    started: 'May 02, 2026' },
-  { id: 'cus_006', name: 'Tomas Hartley',   email: 'tomas@hartleyconsult.com',   plan: 'Growth',  mrr: 800,  status: 'past_due', started: 'Sep 14, 2025' },
-  { id: 'cus_007', name: 'Priya Shah',      email: 'priya@shahmedical.com',      plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Aug 22, 2025' },
-  { id: 'cus_008', name: 'James Okafor',    email: 'james@okaforco.com',         plan: 'Starter', mrr: 200,  status: 'churned',  started: 'Apr 11, 2024' },
-  { id: 'cus_009', name: 'Sofia Rinaldi',   email: 'sofia@rinaldiventures.com',  plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Jul 19, 2025' },
-  { id: 'cus_010', name: 'Marcus Ojo',      email: 'marcus@ojoadvisory.co',      plan: 'Growth',  mrr: 800,  status: 'active',   started: 'Dec 02, 2025' },
-  { id: 'cus_011', name: 'Lin Chen',        email: 'lin@chenarchitects.studio',  plan: 'Starter', mrr: 200,  status: 'trial',    started: 'May 05, 2026' },
-  { id: 'cus_012', name: 'Bea Salonga',     email: 'bea@salongastrategy.com',    plan: 'Scale',   mrr: 2400, status: 'active',   started: 'Feb 28, 2025' },
+/* ============== PRODUCT DATA ============== */
+const products = [
+  { id: 'p1',  cat: 'jackets',  name: 'Stratton wax-cotton field coat',  price: 545, oldPrice: null, rating: 4.8, reviews: 412, badge: 'best',  color: 'moss',
+    img: 'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=800&q=80&auto=format' },
+  { id: 'p2',  cat: 'kitchen',  name: 'Hearth no. 10 cast-iron skillet', price: 145, oldPrice: null, rating: 4.9, reviews: 1284, badge: 'best', color: 'black',
+    img: 'https://images.unsplash.com/photo-1593618998160-e34014e67546?w=800&q=80&auto=format' },
+  { id: 'p3',  cat: 'bags',     name: 'Pinewood 32L canvas rucksack',    price: 245, oldPrice: 285,  rating: 4.7, reviews: 612, badge: 'sale',  color: 'rust',
+    img: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80&auto=format' },
+  { id: 'p4',  cat: 'home',     name: 'Penobscot wool blanket',          price: 165, oldPrice: null, rating: 4.9, reviews: 928, badge: 'new',   color: 'cream',
+    img: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80&auto=format' },
+  { id: 'p5',  cat: 'footwear', name: 'Allagash leather work boot',      price: 385, oldPrice: null, rating: 4.6, reviews: 308, badge: null,    color: 'rust',
+    img: 'https://images.unsplash.com/photo-1542840411-294b8f8438c7?w=800&q=80&auto=format' },
+  { id: 'p6',  cat: 'kitchen',  name: 'Forge enamel coffee pot, 8 cup',  price: 89,  oldPrice: null, rating: 4.7, reviews: 215, badge: null,    color: 'cream',
+    img: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80&auto=format' },
+  { id: 'p7',  cat: 'tools',    name: 'Birchbark folding pocket knife',  price: 78,  oldPrice: null, rating: 4.8, reviews: 542, badge: 'new',   color: 'black',
+    img: 'https://images.unsplash.com/photo-1574186403177-d6e35eb24196?w=800&q=80&auto=format' },
+  { id: 'p8',  cat: 'jackets',  name: 'Beaufort sherpa-lined chore coat',price: 365, oldPrice: 425,  rating: 4.6, reviews: 188, badge: 'sale',  color: 'rust',
+    img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80&auto=format' },
+  { id: 'p9',  cat: 'home',     name: 'Two-color flannel sheet set',     price: 145, oldPrice: null, rating: 4.5, reviews: 422, badge: null,    color: 'moss',
+    img: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800&q=80&auto=format' },
+  { id: 'p10', cat: 'bags',     name: 'Hadley 14oz waxed weekender',     price: 285, oldPrice: null, rating: 4.7, reviews: 195, badge: null,    color: 'black',
+    img: 'https://images.unsplash.com/photo-1547949003-9792a18a2601?w=800&q=80&auto=format' },
+  { id: 'p11', cat: 'kitchen',  name: 'Brass-handled chef knife, 8"',    price: 195, oldPrice: null, rating: 4.8, reviews: 487, badge: 'new',   color: 'cream',
+    img: 'https://images.unsplash.com/photo-1593618998160-e34014e67546?w=800&q=80&auto=format' },
+  { id: 'p12', cat: 'home',     name: 'Hand-thrown salt &amp; pepper set', price: 62,  oldPrice: null, rating: 4.9, reviews: 728, badge: null,    color: 'cream',
+    img: 'https://images.unsplash.com/photo-1610736610180-e30c8f5cb20a?w=800&q=80&auto=format' },
 ];
 
-const dunning = [
-  { id: 'cus_003', name: 'Raul Mendez',    last4: '4242', amount: 200,  attempts: 2 },
-  { id: 'cus_006', name: 'Tomas Hartley',  last4: '8118', amount: 800,  attempts: 3 },
-  { id: 'cus_013', name: 'Henrik Aaltonen', last4: '0073', amount: 2400, attempts: 1 },
-];
+/* ============== STATE ============== */
+const cart = []; // { id, qty }
+let activeCat = 'all';
+let activeColor = null;
+let priceMin = null, priceMax = null;
+let activeCatFilters = new Set();
+const FREE_SHIP = 75;
 
-const plans = [
-  { id: 'starter', name: 'Starter', price: 200 },
-  { id: 'growth',  name: 'Growth',  price: 800 },
-  { id: 'scale',   name: 'Scale',   price: 2400 },
-];
-
-const eventSeed = [
-  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1QwzkVAbZx · $2,400.00 · cus_001', ts: 'just now' },
-  { status: 'ok',   type: 'customer.subscription.created', obj: 'sub_9aKqe2Yj · Scale · cus_009', ts: '12s ago' },
-  { status: 'fail', type: 'invoice.payment_failed', obj: 'in_1QwzhBNkUv · $800.00 · cus_006', ts: '38s ago' },
-  { status: 'ok',   type: 'charge.succeeded', obj: 'ch_3OkmHsLp · $800.00 · cus_010', ts: '1m ago' },
-  { status: 'ok',   type: 'customer.subscription.updated', obj: 'sub_7LmZx0Ck · Growth → Scale · cus_007', ts: '2m ago' },
-  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1QwzeIvPq · $2,400.00 · cus_012', ts: '4m ago' },
-  { status: 'fail', type: 'charge.failed', obj: 'ch_3OkmDxAr · insufficient_funds · cus_003', ts: '7m ago' },
-  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1Qwzd9YtNg · $200.00 · cus_002', ts: '11m ago' },
-  { status: 'ok',   type: 'customer.created', obj: 'cus_014 · trial · Beatrice Yoon', ts: '14m ago' },
-  { status: 'ok',   type: 'invoice.payment_succeeded', obj: 'in_1QwzbHrAfc · $800.00 · cus_005', ts: '18m ago' },
-  { status: 'ok',   type: 'payout.paid', obj: 'po_1QwxhPzVqe · $22,840.00 · to bank ****1820', ts: '32m ago' },
-  { status: 'ok',   type: 'charge.refunded', obj: 'ch_3OkmADns · $200.00 · cus_008', ts: '46m ago' },
-];
-
-let activeFilter = 'all';
-let activeCustomer = null;
-let pickedPlan = null;
-
-/* ============== TABLE ============== */
-function renderCustomers() {
-  const tbody = document.getElementById('custBody');
-  const rows = customers.filter(c => activeFilter === 'all' || c.status === activeFilter);
-  tbody.innerHTML = rows.map(c => `
-    <tr data-id="${c.id}" class="${activeCustomer === c.id ? 'active' : ''}">
-      <td><div class="cust-name">${c.name}</div><div class="cust-email">${c.email}</div></td>
-      <td class="plan">${c.plan}</td>
-      <td class="amount">$${c.mrr.toLocaleString()}.00</td>
-      <td><span class="badge ${c.status}">${labelFor(c.status)}</span></td>
-      <td style="color: var(--mute); font-size: 12.5px;">${c.started}</td>
-    </tr>
-  `).join('');
-  tbody.querySelectorAll('tr').forEach(tr => tr.addEventListener('click', () => openDrawer(tr.dataset.id)));
-}
-
-function labelFor(s) {
-  return { active: 'Active', past_due: 'Past due', trial: 'Trialing', churned: 'Churned' }[s] || s;
-}
-
-document.getElementById('filterBar').addEventListener('click', e => {
-  if (e.target.tagName !== 'BUTTON') return;
-  document.querySelectorAll('#filterBar .pill').forEach(p => p.classList.remove('active'));
-  e.target.classList.add('active');
-  activeFilter = e.target.dataset.filter;
-  renderCustomers();
-});
-
-/* ============== DUNNING ============== */
-function renderDunning() {
-  const wrap = document.getElementById('dunningList');
-  wrap.innerHTML = dunning.map(d => `
-    <div class="dunning-row" data-id="${d.id}">
-      <div class="who">${d.name}<small>•••• ${d.last4}</small></div>
-      <div class="amt">$${d.amount.toLocaleString()}.00</div>
-      <div class="attempt">attempt ${d.attempts}</div>
-      <button class="retry-btn">Retry charge</button>
+/* ============== RENDER PRODUCTS ============== */
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  let list = products.filter(p => {
+    if (activeCat !== 'all' && p.cat !== activeCat) return false;
+    if (activeCatFilters.size > 0 && !activeCatFilters.has(p.cat)) return false;
+    if (activeColor && p.color !== activeColor) return false;
+    if (priceMin && p.price < priceMin) return false;
+    if (priceMax && p.price > priceMax) return false;
+    return true;
+  });
+  if (list.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--mute);">No items match those filters. Try widening the search.</div>';
+    document.getElementById('resultCount').textContent = '0 items';
+    document.getElementById('resultBar').textContent = 'No items match.';
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="product-card" data-id="${p.id}">
+      <div class="thumb" style="background-image:url(${p.img})">
+        ${p.badge ? `<span class="badge ${p.badge}">${p.badge === 'best' ? 'Best seller' : p.badge}</span>` : ''}
+        <button class="quick-add" data-id="${p.id}">+ Add to cart</button>
+      </div>
+      <div class="info">
+        <div class="cat">${catLabel(p.cat)}</div>
+        <div class="name">${p.name}</div>
+        <div class="price-row">
+          ${p.oldPrice ? `<span class="price strike">$${p.oldPrice}</span>` : ''}
+          <span class="price">$${p.price}</span>
+        </div>
+        <div class="rating"><span class="stars">${'★'.repeat(Math.round(p.rating))}</span> ${p.rating} · ${p.reviews.toLocaleString()} reviews</div>
+      </div>
     </div>
   `).join('');
-  wrap.querySelectorAll('.retry-btn').forEach(btn => {
+  document.getElementById('resultCount').textContent = `${list.length} item${list.length === 1 ? '' : 's'}`;
+  document.getElementById('resultBar').textContent = `Showing ${list.length} of ${products.length} items`;
+
+  grid.querySelectorAll('.quick-add').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      const row = btn.closest('.dunning-row');
-      btn.textContent = 'Retrying…';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = '✓ Recovered';
-        btn.classList.add('success');
-        pushEvent({ status: 'ok', type: 'invoice.payment_succeeded', obj: `in_recovered · ${row.dataset.id}`, ts: 'just now' });
-        showToast('Charge recovered. Payment succeeded.');
-      }, 900);
+      addToCart(btn.dataset.id);
+      btn.textContent = '✓ Added';
+      btn.classList.add('added');
+      setTimeout(() => { btn.textContent = '+ Add to cart'; btn.classList.remove('added'); }, 1400);
     });
   });
 }
 
-/* ============== DRAWER ============== */
-function openDrawer(id) {
-  const c = customers.find(x => x.id === id);
-  if (!c) return;
-  activeCustomer = id;
-  pickedPlan = c.plan.toLowerCase();
-  document.getElementById('dName').textContent = c.name;
-  document.getElementById('dMeta').textContent = `${c.id} · ${c.email}`;
+function catLabel(cat) {
+  return { jackets: 'Jackets', bags: 'Packs & Bags', footwear: 'Footwear', kitchen: 'Cookware', home: 'Home', tools: 'Hand Tools' }[cat] || cat;
+}
 
-  const body = document.getElementById('drawerBody');
-  body.innerHTML = `
-    <div class="sect">
-      <h4>Subscription</h4>
-      <div class="kvs">
-        <div class="kv"><span class="k">Status</span><span class="v"><span class="badge ${c.status}">${labelFor(c.status)}</span></span></div>
-        <div class="kv"><span class="k">Plan</span><span class="v">${c.plan} · $${c.mrr.toLocaleString()}.00/mo</span></div>
-        <div class="kv"><span class="k">Started</span><span class="v">${c.started}</span></div>
-        <div class="kv"><span class="k">Next invoice</span><span class="v">May 22, 2026</span></div>
-        <div class="kv"><span class="k">Payment method</span><span class="v">Visa •••• 4242</span></div>
-      </div>
-    </div>
+/* ============== CART ============== */
+function addToCart(id) {
+  const existing = cart.find(c => c.id === id);
+  if (existing) existing.qty++;
+  else cart.push({ id, qty: 1 });
+  renderCart();
+  const p = products.find(x => x.id === id);
+  showToast(`Added · ${p.name}`);
+}
 
-    <div class="sect">
-      <h4>Change plan</h4>
-      <div class="plan-switcher" id="planSwitcher">
-        ${plans.map(p => `
-          <div class="plan-option ${pickedPlan === p.id ? 'current' : ''}" data-plan="${p.id}" data-price="${p.price}">
-            <div><div class="name">${p.name}</div></div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <span class="price">$${p.price.toLocaleString()}.00/mo</span>
-              ${pickedPlan === p.id ? '<span class="check">✓</span>' : ''}
-            </div>
+function removeFromCart(id) {
+  const idx = cart.findIndex(c => c.id === id);
+  if (idx >= 0) cart.splice(idx, 1);
+  renderCart();
+}
+
+function updateQty(id, qty) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, qty);
+  renderCart();
+}
+
+function renderCart() {
+  const body = document.getElementById('cartBody');
+  const foot = document.getElementById('cartFoot');
+  const count = cart.reduce((n, c) => n + c.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartHeadCount').textContent = `${count} item${count === 1 ? '' : 's'}`;
+  if (cart.length === 0) {
+    body.innerHTML = `<div class="cart-empty">Your cart is empty.<br><br><small>Add a field coat, a cast-iron pan, anything.</small></div>`;
+    foot.style.display = 'none';
+    return;
+  }
+  body.innerHTML = cart.map(c => {
+    const p = products.find(x => x.id === c.id);
+    return `
+      <div class="cart-item">
+        <div class="img" style="background-image:url(${p.img})"></div>
+        <div>
+          <div class="name">${p.name}</div>
+          <div class="opt">${catLabel(p.cat)} · ${p.color}</div>
+          <div class="qty">
+            <button data-act="dec" data-id="${c.id}">−</button>
+            <input type="number" value="${c.qty}" data-id="${c.id}" />
+            <button data-act="inc" data-id="${c.id}">+</button>
           </div>
-        `).join('')}
+        </div>
+        <div class="right">
+          <div class="price">$${(p.price * c.qty).toFixed(2)}</div>
+          <button class="remove" data-id="${c.id}">Remove</button>
+        </div>
       </div>
-      <div class="prorate" id="prorate"></div>
-    </div>
+    `;
+  }).join('');
 
-    <div class="sect">
-      <h4>Lifetime value</h4>
-      <div class="kvs">
-        <div class="kv"><span class="k">Total revenue</span><span class="v">$${(c.mrr * 14).toLocaleString()}.00</span></div>
-        <div class="kv"><span class="k">Invoices paid</span><span class="v">14</span></div>
-        <div class="kv"><span class="k">Refunds</span><span class="v">$0.00</span></div>
-      </div>
-    </div>
+  const subtotal = cart.reduce((s, c) => s + (products.find(p => p.id === c.id).price * c.qty), 0);
+  const shipping = subtotal >= FREE_SHIP ? 0 : 8.5;
+  const tax = +(subtotal * 0.08).toFixed(2);
+  document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+  document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
+  document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+  document.getElementById('total').textContent = `$${(subtotal + shipping + tax).toFixed(2)}`;
 
-    <div class="sect" style="display: flex; gap: 8px;">
-      <button class="btn primary" style="flex:1;">Save changes</button>
-      <button class="btn" style="flex:1; color: var(--rose); border-color: var(--rose-s);">Cancel subscription</button>
-    </div>
-  `;
+  if (subtotal >= FREE_SHIP) {
+    document.getElementById('freeShipMsg').innerHTML = '<b>You unlocked free shipping ✓</b>';
+  } else {
+    document.getElementById('freeShipMsg').innerHTML = `<b>$${(FREE_SHIP - subtotal).toFixed(2)}</b> away from free shipping.`;
+  }
 
-  document.getElementById('drawer').classList.add('open');
-  document.getElementById('drawerBackdrop').classList.add('open');
-  renderCustomers();
+  foot.style.display = 'block';
 
-  document.getElementById('planSwitcher').addEventListener('click', e => {
-    const opt = e.target.closest('.plan-option');
-    if (!opt) return;
-    pickedPlan = opt.dataset.plan;
-    document.querySelectorAll('.plan-option').forEach(o => o.classList.remove('current'));
-    opt.classList.add('current');
-    const oldPrice = c.mrr;
-    const newPrice = +opt.dataset.price;
-    if (newPrice !== oldPrice) {
-      const diff = (newPrice - oldPrice) * 0.4;
-      const sign = diff >= 0 ? '+' : '−';
-      document.getElementById('prorate').classList.add('show');
-      document.getElementById('prorate').innerHTML = `Prorated invoice: <b>${sign}$${Math.abs(diff).toFixed(2)}</b> for the remainder of this period.`;
-    } else {
-      document.getElementById('prorate').classList.remove('show');
-    }
+  body.querySelectorAll('.qty button').forEach(b => {
+    b.addEventListener('click', () => {
+      const item = cart.find(c => c.id === b.dataset.id);
+      if (!item) return;
+      if (b.dataset.act === 'inc') item.qty++;
+      else item.qty = Math.max(1, item.qty - 1);
+      renderCart();
+    });
+  });
+  body.querySelectorAll('.qty input').forEach(i => {
+    i.addEventListener('change', () => updateQty(i.dataset.id, +i.value));
+  });
+  body.querySelectorAll('.remove').forEach(b => {
+    b.addEventListener('click', () => removeFromCart(b.dataset.id));
   });
 }
 
-document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
-document.getElementById('drawerBackdrop').addEventListener('click', closeDrawer);
-function closeDrawer() {
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('drawerBackdrop').classList.remove('open');
-  activeCustomer = null;
-  renderCustomers();
+/* ============== CART DRAWER ============== */
+document.getElementById('cartOpenBtn').addEventListener('click', () => {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartBackdrop').classList.add('open');
+});
+document.getElementById('cartCloseBtn').addEventListener('click', closeCart);
+document.getElementById('cartBackdrop').addEventListener('click', closeCart);
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartBackdrop').classList.remove('open');
 }
+document.getElementById('checkoutBtn').addEventListener('click', () => showToast('Demo checkout · would route to Stripe / Shop Pay'));
 
-/* ============== CHART ============== */
-function renderChart() {
-  const svg = document.getElementById('chart');
-  svg.innerHTML = '';
-  const w = 800, h = 200, pad = 16;
-  // Build a smooth growth curve
-  const pts = [];
-  let v = 12000;
-  for (let i = 0; i < 30; i++) {
-    v += (Math.random() * 1800 - 400);
-    v = Math.max(8000, Math.min(28000, v));
-    pts.push(v);
+/* ============== CATEGORY NAV ============== */
+document.getElementById('catnav').addEventListener('click', e => {
+  if (e.target.tagName !== 'A') return;
+  document.querySelectorAll('#catnav a').forEach(a => a.classList.remove('active'));
+  e.target.classList.add('active');
+  activeCat = e.target.dataset.cat;
+  renderProducts();
+});
+
+/* ============== FILTERS ============== */
+document.querySelectorAll('.filter-check input[data-fcat]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    if (cb.checked) activeCatFilters.add(cb.dataset.fcat);
+    else activeCatFilters.delete(cb.dataset.fcat);
+    renderProducts();
+  });
+});
+function clearGroup(g) {
+  if (g === 'cat') {
+    document.querySelectorAll('.filter-check input[data-fcat]').forEach(cb => cb.checked = false);
+    activeCatFilters.clear();
+    renderProducts();
   }
-  pts[27] = pts[27] + 4000; pts[29] = Math.max(...pts) + 1200;
-  const max = Math.max(...pts) * 1.08;
-  const min = Math.min(...pts) * 0.92;
-  const toX = i => pad + (i / (pts.length - 1)) * (w - pad * 2);
-  const toY = v => pad + (1 - (v - min) / (max - min)) * (h - pad * 2);
-  // Gradient
-  svg.innerHTML += `
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#635BFF" stop-opacity="0.18"/>
-        <stop offset="100%" stop-color="#635BFF" stop-opacity="0"/>
-      </linearGradient>
-      <pattern id="grid" width="20" height="40" patternUnits="userSpaceOnUse">
-        <path d="M 20 0 L 0 0 0 40" fill="none" stroke="#E3E8EE" stroke-width="0.5"/>
-      </pattern>
-    </defs>
-    <rect width="${w}" height="${h}" fill="url(#grid)" />
-  `;
-  // Area
-  const areaPath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${toX(i)} ${toY(p)}`).join(' ') +
-    ` L ${toX(pts.length - 1)} ${h - pad} L ${toX(0)} ${h - pad} Z`;
-  svg.innerHTML += `<path d="${areaPath}" fill="url(#g)" />`;
-  // Line
-  const linePath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${toX(i)} ${toY(p)}`).join(' ');
-  svg.innerHTML += `<path d="${linePath}" fill="none" stroke="#635BFF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
-  // Latest dot
-  const lastX = toX(pts.length - 1), lastY = toY(pts[pts.length - 1]);
-  svg.innerHTML += `<circle cx="${lastX}" cy="${lastY}" r="4" fill="#635BFF" stroke="#fff" stroke-width="2"/>`;
 }
+window.clearGroup = clearGroup;
 
-/* ============== EVENTS ============== */
-function renderEvents() {
-  const wrap = document.getElementById('eventLog');
-  wrap.innerHTML = eventSeed.map(e => eventHtml(e)).join('');
-}
-function eventHtml(e, isNew = false) {
-  return `<div class="event-row${isNew ? ' new' : ''}">
-    <span class="status ${e.status}">${e.status === 'ok' ? '200' : '402'}</span>
-    <span class="type">${e.type}</span>
-    <span class="obj">${e.obj}</span>
-    <span class="ts">${e.ts}</span>
-  </div>`;
-}
-function pushEvent(e) {
-  const wrap = document.getElementById('eventLog');
-  wrap.insertAdjacentHTML('afterbegin', eventHtml(e, true));
-  if (wrap.children.length > 24) wrap.removeChild(wrap.lastElementChild);
-}
+document.getElementById('swatchRow').addEventListener('click', e => {
+  const s = e.target.closest('.swatch');
+  if (!s) return;
+  if (s.classList.contains('selected')) {
+    s.classList.remove('selected');
+    activeColor = null;
+  } else {
+    document.querySelectorAll('.swatch').forEach(x => x.classList.remove('selected'));
+    s.classList.add('selected');
+    activeColor = s.dataset.color;
+  }
+  renderProducts();
+});
 
-setInterval(() => {
-  const pool = [
-    { status: 'ok', type: 'invoice.payment_succeeded', obj: 'in_live · $800.00 · cus_010', ts: 'just now' },
-    { status: 'ok', type: 'charge.succeeded',          obj: 'ch_live · $200.00 · cus_002', ts: 'just now' },
-    { status: 'ok', type: 'customer.subscription.created', obj: 'sub_live · Growth · cus_new', ts: 'just now' },
-    { status: 'fail', type: 'invoice.payment_failed',  obj: 'in_live · $2,400.00 · cus_006', ts: 'just now' },
-    { status: 'ok', type: 'customer.created',          obj: 'cus_new · trial', ts: 'just now' },
-  ];
-  pushEvent(pool[Math.floor(Math.random() * pool.length)]);
-}, 12000);
+document.getElementById('priceMin').addEventListener('input', e => {
+  priceMin = +e.target.value || null;
+  renderProducts();
+});
+document.getElementById('priceMax').addEventListener('input', e => {
+  priceMax = +e.target.value || null;
+  renderProducts();
+});
 
 /* ============== TOAST ============== */
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
+  clearTimeout(window._toastT);
+  window._toastT = setTimeout(() => t.classList.remove('show'), 2400);
 }
 
 /* ============== INIT ============== */
-renderCustomers();
-renderDunning();
-renderChart();
-renderEvents();
+renderProducts();
+renderCart();
 </script>
 
 </body>
