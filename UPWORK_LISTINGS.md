@@ -157,7 +157,7 @@ Stack: React + FastAPI + GPT-4o + CRM APIs
 Timeline: 7–14 days
 ```
 
-**Skills**: API Integration, AI Agent Development, OpenAI API, React, FastAPI
+**Skills**: API Integration, AI Agent Development, OpenAI API, React, Python
 
 ---
 
@@ -183,7 +183,7 @@ Stack: React + FastAPI + GPT-4o + Twilio + Vapi
 Timeline: 14–30 days
 ```
 
-**Skills**: AI Agent Development, OpenAI API, FastAPI, React, Twilio
+**Skills**: AI Agent Development, OpenAI API, Twilio, React, Python
 
 ---
 
@@ -206,7 +206,7 @@ Full-stack engineer — workflow design, integrations, deployment
 Stop paying Zapier $599/mo to glue your tools together. This automation console runs Stripe → QuickBooks → Slack, lead routing, Calendly → CRM, Shopify → ShipStation — anything that touches more than one tool. Visual canvas, one-click replay when a step fails, live activity feed, timing for each step. Self-hosted for $48/mo, unlimited runs, no per-task fees. Same stack works for any business connecting tools — agencies, e-commerce, sales teams, SaaS, anyone fed up with Zapier task fees.
 ```
 
-**Skills**: Workflow Automation, n8n, API Integration, FastAPI, Zapier
+**Skills**: Workflow Automation, API Integration, Zapier, Python, Automation
 
 ---
 
@@ -258,7 +258,7 @@ Stack: React + FastAPI + Vapi + Twilio
 Timeline: 10–14 days
 ```
 
-**Skills**: Voice AI, Vapi, AI Agent Development, React, FastAPI
+**Skills**: AI Agent Development, Conversational AI, Twilio, AI Chatbot, React
 
 ---
 
@@ -336,7 +336,7 @@ Stack: React + FastAPI + Stripe + Twilio + Vapi + OpenAI
 Includes: Auth · Multi-tenant · Live Stripe
 ```
 
-**Skills**: AI Agent Development, FastAPI, React, Stripe, Twilio
+**Skills**: AI Agent Development, Python, React, Stripe, Twilio
 
 ---
 
