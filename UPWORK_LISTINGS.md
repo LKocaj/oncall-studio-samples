@@ -45,13 +45,12 @@ Strength studio site — small-group coaching, trial-week funnel
 Independent engineer — design, frontend, deployment
 ```
 
-**Description** *(496 chars)*:
+**Description**:
 ```
-Editorial site for a small-group strength studio in Scarsdale. Iron + acid-green palette, ticker bar with live spot counts, no-mirror coaching ethos, six-athletes-per-session positioning. Trial-week conversion funnel for adults who outgrew big-box gyms. Mobile-first booking. Coach bios with credentials.
+What fitness studios get when they hire me: a website built for the 12-person waitlist. A trial-week funnel with autoreply and SMS sequence that closes the lead fast. Booking that talks live to Mindbody/Mariana so the schedule grid updates itself. Coach bios with real credentials. Member testimonials, pricing tiers, email capture, schema markup so the studio shows up on local Google.
 
-Stack: React + Tailwind · Cabinet Grotesk + Gambarino · Mindbody booking API
+Stack: React + Tailwind + Mindbody API
 Timeline: 7–14 days
-Includes: Booking integration · Trial-week funnel · Coach pages · Schedule grid · Pricing tiers · Email capture · SEO + schema.org
 ```
 
 **Skills**: Web Design, React, Tailwind CSS, Landing Page, Responsive Design
@@ -74,11 +73,10 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-Healthcare site for a Manhattan cosmetic + family dental office. Split hero with patient photo + 'Start Smiling Again' headline, blue value-prop band, 3-step Cosmetic Precision process, doctor intro section, contact form on photo, three patient testimonials, 4 service cards, alternating Cosmetic + Invisalign sections with FAQ accordions.
+What dental practices get when they hire me: a website that looks like a premium office, an AI receptionist that picks up every call 24/7, and the wiring that connects them to your calendar and practice software. Most practices lose inquiries to slow response. The agent answers in your voice, qualifies the caller, verifies insurance, books the consult, and texts the front desk a summary. HIPAA-aware. Staff edits copy and hours without calling me.
 
-Stack: React + Vite + Tailwind
-Timeline: 7–10 days
-Includes: LocalBusiness schema · GA4 · HIPAA-aware contact form · Insurance verifier · Appointment flow
+Stack: React + FastAPI + GPT-4o + Vapi + Twilio
+Timeline: 7–14 days
 ```
 
 **Skills**: Web Design, React, Healthcare, Landing Page, Responsive Design
@@ -101,11 +99,10 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-EMPIRE-tier independent label + merch Shopify store. Bold black/white minimalist aesthetic. Full-bleed artist hero with rotating featured release, huge 'SHOP' display + filter pills, 5-column product grid with category badges, 'NEWS' editorial section, 'SOCIALS' image grid, 'Defining Independence' marquee. Inter Tight 900 display.
+What independent labels, artists, and merch brands get when they hire me: an editorial Shopify store with EMPIRE/AWAL DNA. Full Klaviyo lifecycle that turns first-time merch buyers into mailing-list lifers. Vinyl drops, pre-orders, member-only releases, tour merch bundles. Subscription mechanics if you ship quarterly zines or box sets. Stripe + Apple Pay + Shop Pay. Custom product schema so Google ranks your releases above the resellers.
 
 Stack: Shopify Hydrogen + React + Klaviyo
 Timeline: 10–14 days
-Includes: Product schema · GA4 · Klaviyo lifecycle · Inventory · Stripe + Apple Pay
 ```
 
 **Skills**: Shopify Development, E-commerce, React, Web Design, Klaviyo
@@ -126,13 +123,12 @@ West Village Italian trattoria — Via dell'Orto, Awwwards-tier
 Independent engineer — design, frontend, deployment
 ```
 
-**Description** *(548 chars)*:
+**Description**:
 ```
-Mooserhotel/Awwwards-tier West Village trattoria site. Full-bleed hero photography, three photo-card courses (Primi/Secondi/Dolci) with hand-rolled-at-4pm menu, kitchen credit ('— 4:42pm, before service'), editorial press band with NYT/Eater/Infatuation quotes, Resy reservation flow with party-size chip picker, hours + visit grid. Erode + Cabinet Grotesk on a terracotta + olive + gold palette.
+What restaurants get when they hire me: an editorial site that makes Resy or OpenTable feel native, an owner-editable menu CMS so the dinner team updates the menu at 4pm without calling me, and Restaurant + Menu schema markup that lands you in Google's featured restaurant snippet. Press section if you have NYT or Eater coverage. Hours, directions, party-size reservation flow, photo gallery built for IG-worthy plates. Built so the chef can change tomorrow's menu themselves.
 
-Stack: React + Vite + Tailwind
+Stack: React + Vite + Tailwind + Resy/OpenTable
 Timeline: 5–7 days
-Includes: Mobile-responsive · Restaurant + Menu schema · GA4 · Resy embed · Owner-editable menu CMS · Photo gallery
 ```
 
 **Skills**: Web Design, React, Hospitality, Responsive Design, Landing Page
@@ -155,11 +151,10 @@ Full-stack engineer — frontend, FastAPI, GPT-4o, CRM integrations
 
 **Description**:
 ```
-Inbound lead system that scores form submissions 1–100 with GPT-4o + explainable reasoning, drafts an auto-reply waiting for one-click send, pings Slack on hot leads, syncs to HubSpot/Salesforce/GHL/Pipedrive. Drag-and-drop kanban (new → scored → replied → synced → won). Built around the lead-intake-system I run in production for my own agency.
+What B2B teams get when they hire me to build their lead intake: every form submission scored 1–100 by GPT-4o with reasoning a human can read, an auto-reply drafted in your voice waiting for one-click send, Slack pings on hot leads, and clean sync to whichever CRM you use (HubSpot, Salesforce, GHL, Pipedrive). Drag-and-drop pipeline kanban so anyone on the team can see where a lead is stuck. Built around the system I run in production for my own agency.
 
-Stack: React + FastAPI + PostgreSQL + GPT-4o + CRM APIs
+Stack: React + FastAPI + GPT-4o + CRM APIs
 Timeline: 7–14 days
-Includes: Form builder · Scoring · Auto-reply · CRM sync · Slack · Apollo enrichment
 ```
 
 **Skills**: API Integration, AI Agent Development, OpenAI API, React, FastAPI
@@ -182,11 +177,10 @@ Full-stack engineer — frontend, FastAPI backend, GPT-4o integration
 
 **Description**:
 ```
-Production AI agent inbox. Single inbox across six channels (web, SMS, WhatsApp, voice, iMessage, Messenger), live conversation thread with agent-drafted responses, GPT-4o lead scoring with explainable reasoning, contact rail with CRM-linked metadata, quick-action queue, Slack alert timeline. Same architecture I run in production at oncallchat.ai.
+What businesses get when they hire me for AI agents: one inbox across web chat, SMS, WhatsApp, voice (Vapi), iMessage, and Messenger — every channel where a lead can reach you. The agent drafts responses you send with one click, scores each lead 1–100 with reasoning attached, pushes the contact to your CRM with channel + referral metadata. Slack alerts on hot leads. Same architecture I run in production at oncallchat.ai — multi-tenant, deployed, real Stripe billing.
 
 Stack: React + FastAPI + GPT-4o + Twilio + Vapi
 Timeline: 14–30 days
-Includes: Auth · Multi-tenant · Webhook handlers · CRM sync · Slack · Deployed
 ```
 
 **Skills**: AI Agent Development, OpenAI API, FastAPI, React, Twilio
@@ -207,13 +201,12 @@ Wall Street M&A law firm site — Halstead & Grove, capital markets
 Independent engineer — design, frontend, deployment
 ```
 
-**Description** *(551 chars)*:
+**Description**:
 ```
-Editorial site for a Wall Street M&A boutique. Manhattan skyline hero, deal-tombstone transactions ($14.2B carve-out, $3.4B IPO, $2.8B LBO), Chambers Band 1 recognition row, 5-phase deal architecture diagram, four practice photo cards (M&A · Private Equity · Capital Markets · Restructuring), partner roster, NY/London/DC office grid. Bespoke Serif display + Inter body.
+What law firms get when they hire me: deal-tombstone treatment for your transaction record, recognition row for Chambers/Best Lawyers/Super Lawyers, partner bio depth that explains why a GC should pick you, practice-area pages that signal your specialty. Editorial typography, real photography, conflict-clearance intake form. Schema markup so referral GCs find you on Google when they search your name. Built for boutiques that want the room to know they ship.
 
 Stack: React + Vite + Tailwind
 Timeline: 7–10 days
-Includes: Mobile-responsive · LocalBusiness schema · GA4 · Editorial CMS option · Engagement-letter intake form
 ```
 
 **Skills**: Web Design, React, Tailwind CSS, Responsive Design, Landing Page
@@ -236,15 +229,10 @@ Full-stack engineer — Vapi integration, dashboard, onboarding wizard
 
 **Description**:
 ```
-Two-layer voice agent on a low-floor / high-ceiling principle.
+What service businesses get when they hire me for voice AI: a phone agent that picks up every call 24/7, qualifies the caller, books the appointment on your calendar, and texts the front desk a summary. After-hours routing so 2am callers don't hit voicemail. Hot-lead alerts to Slack. Custom voice + greeting in your business name. Full operator dashboard with transcripts, intent tags, and conversion funnel — for the staff that wants depth. Runs on Vapi, the same stack I use in production.
 
-Easy view (default): full-screen tap-to-talk circle button wired to a live Vapi WebRTC connection — buyers speak to the agent in the browser. Three KPI tiles, nothing else.
-
-Pro view: operator console with live call queue, transcript viewer with intent + sentiment tags, animated waveform, booking funnel, greeting editor, hot-lead toasts.
-
-Apple-style onboarding wizard (5 steps): business → agent name → voice → phone → Try a call.
-
-Day / Night theme.
+Stack: React + FastAPI + Vapi + Twilio
+Timeline: 10–14 days
 ```
 
 **Skills**: Voice AI, Vapi, AI Agent Development, React, FastAPI
@@ -267,11 +255,10 @@ Full-stack engineer — design, storefront, cart, filters, deployment
 
 **Description**:
 ```
-Heritage outdoor + home goods e-commerce, multi-category. 12 products across jackets, packs, footwear, cookware, bedding, hand tools. Working cart with quantity controls, free-shipping threshold, slide-in cart drawer. Filter sidebar (category, color, size, price, rating) live-filters the grid. Hero, trust strip, 'field journal' story section. Source Serif 4 + Inter on moss + cream.
+What heritage brands and retailers get when they hire me: an editorial multi-category storefront, working cart with quantity controls, free-shipping threshold, and the Klaviyo lifecycle that turns first-time buyers into mailing-list lifers. Filter sidebar (category, color, size, price, rating) that live-filters the grid. Subscription/bundle builders if you ship quarterly. Welcome → abandon → post-purchase → win-back wired in. Stripe + Apple Pay + Shop Pay + reviews integration.
 
-Stack: React + Shopify Hydrogen / Next.js Commerce + Stripe
+Stack: React + Shopify Hydrogen + Klaviyo
 Timeline: 10–18 days
-Includes: Cart · Filters · Search · Accounts · Inventory · Apple Pay
 ```
 
 **Skills**: Shopify Development, E-commerce, React, Tailwind CSS, Stripe
@@ -294,9 +281,7 @@ Founder + builder — full design, build, content, SEO
 
 **Description**:
 ```
-My agency's own production site. Editorial dark slate aesthetic, animated stack preview, services grid with hover descriptions, parallax break, four-step process scrollytelling, trust principles in slogan format, Selected Work linking to live concept studies, contact form wired to a real lead intake system that scores submissions with GPT-4o.
-
-Built to the standard I bring to client work — every detail I'd build for you is on this page.
+My own agency site, live in production. If you're an independent studio or consultant hiring me to build yours, this is the standard. Editorial dark slate aesthetic, animated stack preview, services grid with hover descriptions, four-step process scrollytelling, trust principles in slogan format, Selected Work that opens portfolio pieces, contact form wired to a lead intake system that scores submissions with GPT-4o before they hit your inbox.
 
 Stack: React + Vite + Tailwind + Framer Motion
 Includes: Lead intake · Blog · SEO
@@ -322,12 +307,10 @@ Solo founder + engineer — built end-to-end, in production
 
 **Description**:
 ```
-My own production SaaS — a multi-channel AI agent platform for professional service firms. Built end-to-end: React, FastAPI, PostgreSQL + Redis, GPT-4o, Twilio voice + SMS + WhatsApp, Vapi, Stripe billing across 4 tiers, multi-tenant data isolation, webhook handlers with retry + idempotency, embed widget for client sites.
-
-This is the architecture I bring to every client agent build. The boring parts — auth, deliverability, escalation — are already debugged.
+My production SaaS — a multi-channel AI agent platform for professional service firms, real Stripe billing across 4 tiers, live customers. If you're a SaaS founder hiring me, this is the proof: I've already shipped the boring infrastructure most engineers stall on — auth, multi-tenant data isolation, webhook handlers with retry + idempotency, deliverability, dunning, customer portal, embed widget. I bring this stack to every client engagement.
 
 Stack: React + FastAPI + Stripe + Twilio + Vapi + OpenAI
-Includes: Auth · Multi-tenant · Live Stripe · Six channels
+Includes: Auth · Multi-tenant · Live Stripe
 ```
 
 **Skills**: AI Agent Development, FastAPI, React, Stripe, Twilio
@@ -350,11 +333,10 @@ Full-stack engineer — design, build, CMS, SEO, ongoing maintenance
 
 **Description**:
 ```
-Live production site for Parkway Café — a Scarsdale family diner since 1961. Custom React + Supabase build with an owner-editable menu CMS (151 items, 17 categories), full Restaurant + Menu + FAQ schema, food photography, hours grid, contact + directions. Indexed across Westchester via Google Business Profile + structured data. The only piece on this list with a real client — everything else is concept work built to the same standard.
+What local businesses get when they hire me — this is the proof. Parkway Café, a Scarsdale family diner since 1961, live in production. Custom React + Supabase build with an owner-editable menu CMS (151 items, 17 categories), full Restaurant + Menu + FAQ schema, food photography, hours grid, directions. Indexed across Westchester via Google Business Profile + structured data. The only entry on this list with a real paying client. Every other piece is concept work built to the same standard.
 
 Stack: React + Vite + Supabase + Tailwind
 Timeline: Shipped in 9 days
-Includes: Custom CMS · Full schema · Ongoing SEO
 ```
 
 **Skills**: React, Web Design, Supabase, SEO, Responsive Design
