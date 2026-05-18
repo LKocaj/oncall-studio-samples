@@ -8,14 +8,109 @@ Single reference for everything you upload to your Upwork profile.
 
 ---
 
-# PART 1 — Portfolio (8 pieces)
+# PART 1 — Portfolio (12 pieces)
 
-Upload each as a separate Portfolio entry. Workflow per piece:
+**Upwork form field limits (from the actual upload screen):**
+- **Project title** — 70 characters max
+- **Your role** — 100 characters max (optional)
+- **Project description** — 600 characters max
+- **Skills and deliverables** — 5 skills max
+
+Workflow per piece:
 1. Open the live URL in Chrome
-2. Cmd+Shift+P → "screenshot full size"
-3. Upload the PNG to Upwork as the Portfolio image
-4. Paste the Title in the Portfolio title field
-5. Paste the Description block in the "What I built" / project description field
+2. Cmd+Shift+P → "screenshot full size" (or take a clean 1440-wide screenshot)
+3. Upload the PNG via the image icon in the "Add content" area
+4. Click the link icon in "Add content" → paste the live URL so buyers can click through
+5. Paste the **Title** (≤70 chars)
+6. Paste **Your role** (≤100 chars) — usually "Independent engineer · designer · developer" or similar
+7. Paste the **Description** (≤600 chars)
+8. Add the listed **Skills** (max 5)
+9. Click Next: Preview, review, save
+
+Every piece below has all four blocks ready to paste.
+
+---
+
+## 00a · OnCall Chat — Production multi-channel AI agent SaaS
+
+**Live:** [oncallchat.ai](https://oncallchat.ai) *(my own production SaaS, real paying users)*
+
+**Title** *(58 chars)*:
+```
+Multi-channel AI agent SaaS — oncallchat.ai, my production
+```
+
+**Your role** *(56 chars)*:
+```
+Solo founder + engineer — built end-to-end, in production
+```
+
+**Description** *(597 chars)*:
+```
+My own production SaaS — a multi-channel AI agent platform serving professional service firms. Built end-to-end: React frontend, FastAPI backend, PostgreSQL + Redis, OpenAI GPT-4o, Twilio voice + SMS + WhatsApp, Vapi voice, real Stripe billing across 4 tiers (Free / Starter $97 / Growth $197 / Business $497), multi-tenant data isolation, webhook handlers with retry + idempotency, embed widget customers drop on their own sites.
+
+This is the architecture I bring to every client agent build. If you want this stack on your business, I've already debugged the boring parts.
+
+Stack: React + FastAPI + Stripe + Twilio + Vapi + OpenAI
+Includes: Auth · Multi-tenant · Live Stripe · Six channels · Deployed
+```
+
+**Skills**: AI Agent Development, FastAPI, React, Stripe, Twilio
+
+---
+
+## 00b · OnCall Automation — Live agency site
+
+**Live:** [oncallautomation.ai](https://oncallautomation.ai) *(my agency homepage, live)*
+
+**Title** *(53 chars)*:
+```
+Independent engineering studio site — oncallautomation.ai
+```
+
+**Your role** *(54 chars)*:
+```
+Founder + builder — full design, build, content, SEO
+```
+
+**Description** *(584 chars)*:
+```
+My agency's own production site. Editorial dark slate aesthetic, animated stack preview, services grid with hover-revealed descriptions, parallax break, four-step process scrollytelling, trust principles in slogan-headline format ('Direct line, no middlemen.' / 'Templates are someone else's business.'), Selected Work section linking to nine live concept studies, contact form wired to a real lead intake system that scores submissions with GPT-4o.
+
+Built to the standard I bring to client work — every detail I'd build for you is on this page.
+
+Stack: React + Vite + Tailwind + Framer Motion + Netlify
+Includes: Live lead intake · Blog · SEO
+```
+
+**Skills**: Web Design, React, Tailwind CSS, Landing Page, SEO
+
+---
+
+## 00 · Parkway Café Scarsdale — Live client work *(production site)*
+
+**Live:** [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) *(real client, live since 2025)*
+
+**Title** *(58 chars)*:
+```
+Parkway Café Scarsdale — family diner since 1961, live site
+```
+
+**Your role** *(62 chars)*:
+```
+Full-stack engineer — design, build, CMS, SEO, ongoing maintenance
+```
+
+**Description** *(584 chars)*:
+```
+Live production site for Parkway Café — a Scarsdale family diner serving the community since 1961. Custom React + Supabase build with an owner-editable menu CMS (151 menu items across 17 categories), full Restaurant + Menu + FAQ schema markup, food photography on signature items, hours grid, contact + directions. Indexed across Westchester via Google Business Profile + structured data. The only piece on this list with a real client — everything else is a concept demo built to the same standard.
+
+Stack: React + Vite + Supabase + Tailwind + Framer Motion
+Timeline: Shipped in 9 days
+Includes: Custom CMS · Full schema · Ongoing SEO
+```
+
+**Skills**: React, Web Design, Supabase, SEO, Responsive Design
 
 ---
 
@@ -23,19 +118,26 @@ Upload each as a separate Portfolio entry. Workflow per piece:
 
 **Live:** [samples.oncallautomation.ai/01-law-firm.html](https://samples.oncallautomation.ai/01-law-firm.html)
 
-**Title:**
+**Title** *(64 chars)*:
 ```
-Wall Street M&A law firm site — Halstead & Grove, capital markets boutique
+Wall Street M&A law firm site — Halstead & Grove, capital markets
 ```
 
-**Description:**
+**Your role** *(56 chars)*:
 ```
-What I built: Editorial site for a Wall Street M&A boutique. Manhattan skyline hero, deal-tombstone transactions ($14.2B carve-out, $3.4B IPO, $2.8B LBO), Chambers Band 1 recognition row, 5-phase deal architecture diagram, four practice photo cards (M&A · Private Equity · Capital Markets · Restructuring), partner roster, NY/London/DC office grid.
+Independent engineer — design, frontend, deployment
+```
 
-Stack: React + Vite + Tailwind + Bespoke Serif (display) + Inter (body)
-Timeline: 7–10 days end-to-end
+**Description** *(551 chars)*:
+```
+Editorial site for a Wall Street M&A boutique. Manhattan skyline hero, deal-tombstone transactions ($14.2B carve-out, $3.4B IPO, $2.8B LBO), Chambers Band 1 recognition row, 5-phase deal architecture diagram, four practice photo cards (M&A · Private Equity · Capital Markets · Restructuring), partner roster, NY/London/DC office grid. Bespoke Serif display + Inter body.
+
+Stack: React + Vite + Tailwind
+Timeline: 7–10 days
 Includes: Mobile-responsive · LocalBusiness schema · GA4 · Editorial CMS option · Engagement-letter intake form
 ```
+
+**Skills**: Web Design, React, Tailwind CSS, Responsive Design, Landing Page
 
 ---
 
@@ -43,19 +145,26 @@ Includes: Mobile-responsive · LocalBusiness schema · GA4 · Editorial CMS opti
 
 **Live:** [samples.oncallautomation.ai/02-dental-practice.html](https://samples.oncallautomation.ai/02-dental-practice.html)
 
-**Title:**
+**Title** *(63 chars)*:
 ```
 Family + cosmetic dental practice — Rook & Well, Madison Avenue
 ```
 
-**Description:**
+**Your role** *(56 chars)*:
 ```
-What I built: Healthcare practice site modeled on the Michigan TMJ pattern. Split hero with smiling patient + 'Start Smiling Again!' headline, blue value-prop band (Smile Better / Live Better / Transform Your Life), Cosmetic Precision Approach™ intro section, 3-step process with line icons + pink STEP labels, blue assessment-tool band, Meet Dr. Rooks split section, contact form on blue-overlay photo, three patient testimonials with pink italic names, 4 service photo cards with purple bottom strips, alternating Cosmetic + Invisalign treatment sections with FAQ accordions, blue video band, black footer with Patient Stories gradient card.
+Independent engineer — design, frontend, deployment
+```
 
-Stack: React + Vite + Tailwind + Montserrat (display) + Open Sans (body)
-Timeline: 7–10 days end-to-end
-Includes: Mobile-responsive · LocalBusiness schema · GA4 · HIPAA-aware contact form · Insurance verifier component · Appointment request flow
+**Description** *(594 chars)*:
 ```
+Healthcare practice site for a Manhattan cosmetic + family dental office. Split hero with patient photo + 'Start Smiling Again' headline, blue value-prop band (Smile Better / Live Better / Transform Your Life), 3-step Cosmetic Precision process with line icons, doctor intro split section, contact form on blue-overlay photo, three patient testimonials, 4 service photo cards, alternating Cosmetic + Invisalign sections with FAQ accordions, video band, gradient Patient Stories footer.
+
+Stack: React + Vite + Tailwind · Montserrat + Open Sans
+Timeline: 7–10 days
+Includes: Mobile-responsive · LocalBusiness schema · GA4 · HIPAA-aware contact form · Insurance verifier · Appointment flow
+```
+
+**Skills**: Web Design, React, Healthcare, Landing Page, Responsive Design
 
 ---
 
@@ -63,19 +172,26 @@ Includes: Mobile-responsive · LocalBusiness schema · GA4 · HIPAA-aware contac
 
 **Live:** [samples.oncallautomation.ai/02-ai-agent-dashboard.html](https://samples.oncallautomation.ai/02-ai-agent-dashboard.html)
 
-**Title:**
+**Title** *(63 chars)*:
 ```
-Multi-channel AI agent inbox — web/SMS/voice/WhatsApp/iMessage, GPT-4o lead scoring
+Multi-channel AI agent inbox — 6 channels, GPT-4o lead scoring
 ```
 
-**Description:**
+**Your role** *(64 chars)*:
 ```
-What I built: Production-grade agent inbox UI. Inbox view across six channels (web · SMS · WhatsApp · voice on Vapi · iMessage · Messenger), live conversation thread with agent-drafted responses, GPT-4o lead scoring with explainable reasoning (visual ring + reasoning text), contact rail with CRM-linked metadata (insurance verified, channel source, referral keyword), quick-action queue (send pre-visit form, push to Salesforce, add to Mailchimp), Slack alert timeline. Same architecture I run in production at oncallchat.ai.
+Full-stack engineer — frontend, FastAPI backend, GPT-4o integration
+```
 
-Stack: React + FastAPI + PostgreSQL + Redis + OpenAI (GPT-4o) + Twilio + Vapi
+**Description** *(598 chars)*:
+```
+Production-grade AI agent inbox. Single inbox across six channels (web · SMS · WhatsApp · voice on Vapi · iMessage · Messenger), live conversation thread with agent-drafted responses, GPT-4o lead scoring with explainable reasoning (visual score ring + factor breakdown), contact rail with CRM-linked metadata, quick-action queue (send pre-visit form, push to Salesforce, add to Mailchimp), Slack alert timeline. Same architecture I run in production at oncallchat.ai.
+
+Stack: React + FastAPI + PostgreSQL + Redis + GPT-4o + Twilio + Vapi
 Timeline: 14–30 days
-Includes: Auth · Multi-tenant data isolation · Webhook handlers · CRM sync (HubSpot/Salesforce/GHL/Pipedrive) · Slack alerts · Deployed (Railway/Vercel)
+Includes: Auth · Multi-tenant data · Webhook handlers · CRM sync · Slack alerts · Deployed
 ```
+
+**Skills**: AI Agent Development, OpenAI API, FastAPI, React, Twilio
 
 ---
 
@@ -83,19 +199,26 @@ Includes: Auth · Multi-tenant data isolation · Webhook handlers · CRM sync (H
 
 **Live:** [samples.oncallautomation.ai/03-restaurant.html](https://samples.oncallautomation.ai/03-restaurant.html)
 
-**Title:**
+**Title** *(62 chars)*:
 ```
-West Village Italian trattoria — Via dell'Orto, Awwwards-tier menu + Resy
+West Village Italian trattoria — Via dell'Orto, Awwwards-tier
 ```
 
-**Description:**
+**Your role** *(56 chars)*:
 ```
-What I built: Mooserhotel/Awwwards-tier West Village restaurant site. Full-bleed hero photography, three photo-card courses (Primi/Secondi/Dolci) with hand-rolled-at-4pm menu, kitchen photographer credit ('— 4:42pm, before service'), dim editorial press band with NYT/Eater/Infatuation quotes, Resy reservation flow with party-size chip picker, hours + visit grid. Erode + Cabinet Grotesk typography, terracotta + olive + gold palette — distinct from law firm and skincare.
+Independent engineer — design, frontend, deployment
+```
 
-Stack: React + Vite + Tailwind + Erode (display) + Cabinet Grotesk (body)
-Timeline: 5–7 days end-to-end
+**Description** *(548 chars)*:
+```
+Mooserhotel/Awwwards-tier West Village trattoria site. Full-bleed hero photography, three photo-card courses (Primi/Secondi/Dolci) with hand-rolled-at-4pm menu, kitchen credit ('— 4:42pm, before service'), editorial press band with NYT/Eater/Infatuation quotes, Resy reservation flow with party-size chip picker, hours + visit grid. Erode + Cabinet Grotesk on a terracotta + olive + gold palette.
+
+Stack: React + Vite + Tailwind
+Timeline: 5–7 days
 Includes: Mobile-responsive · Restaurant + Menu schema · GA4 · Resy embed · Owner-editable menu CMS · Photo gallery
 ```
+
+**Skills**: Web Design, React, Hospitality, Responsive Design, Landing Page
 
 ---
 
@@ -103,39 +226,53 @@ Includes: Mobile-responsive · Restaurant + Menu schema · GA4 · Resy embed · 
 
 **Live:** [samples.oncallautomation.ai/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html)
 
-**Title:**
+**Title** *(63 chars)*:
 ```
-Heritage outdoor goods storefront — NORTHFOLD & CO., multi-category retail
+Outdoor goods storefront — NORTHFOLD & CO., cart + filters live
 ```
 
-**Description:**
+**Your role** *(67 chars)*:
 ```
-What I built: Heritage outdoor + home goods e-commerce site, multi-category. 12 products across jackets, packs, footwear, cookware, home & bedding, hand tools. Working cart with quantity controls, free-shipping threshold, tax + total math, and a slide-in cart drawer. Filter sidebar (category checks, color swatches, size, price range, rating filters) live-filters the product grid. Hero, trust strip (free shipping / 30-day returns / lifetime repairs / made in Maine), editorial 'field journal' story section, full footer with newsletter capture. Source Serif 4 (display) + Inter (UI) on a moss + cream palette.
+Full-stack engineer — design, storefront, cart, filters, deployment
+```
 
-Stack: React + Tailwind + Shopify Hydrogen OR Next.js Commerce + Stripe OR Shop Pay
-Timeline: 10–18 days end-to-end
-Includes: Cart + checkout · Product filtering · Search · Wishlist · Customer accounts · Order history · Reviews · Inventory sync · Email capture · SEO + product schema · Apple Pay + Shop Pay
+**Description** *(599 chars)*:
 ```
+Heritage outdoor + home goods e-commerce site, multi-category. 12 products across jackets, packs, footwear, cookware, home & bedding, hand tools. Working cart with quantity controls, free-shipping threshold, tax + total math, slide-in cart drawer. Filter sidebar (category, color swatches, size, price range, rating) live-filters the grid. Hero, trust strip, editorial 'field journal' story section, newsletter capture. Source Serif 4 + Inter on a moss + cream palette.
+
+Stack: React + Tailwind + Shopify Hydrogen / Next.js Commerce + Stripe
+Timeline: 10–18 days
+Includes: Cart · Filters · Search · Accounts · Reviews · Inventory · Apple Pay
+```
+
+**Skills**: Shopify Development, E-commerce, React, Tailwind CSS, Stripe
 
 ---
 
-## 05 · Lead Intake CRM *(product demo — in progress)*
+## 05 · Lead Intake CRM *(product demo)*
 
-**Live:** [samples.oncallautomation.ai/05-saas-landing.html](https://samples.oncallautomation.ai/05-saas-landing.html) *(placeholder — pending rebuild)*
+**Live:** [samples.oncallautomation.ai/05-saas-landing.html](https://samples.oncallautomation.ai/05-saas-landing.html)
 
-**Title:**
+**Title** *(61 chars)*:
 ```
-Lead intake CRM — GPT-4o scoring, routing, multi-CRM sync, reply queue
+Lead intake CRM — GPT-4o scoring, multi-CRM sync, reply queue
 ```
 
-**Description:**
+**Your role** *(63 chars)*:
 ```
-What I built: Inbound lead system that scores every form submission 1–100 by GPT-4o with explainable reasoning, drafts an auto-reply that waits for one-click send, pings Slack on hot leads, and syncs the contact to HubSpot/Salesforce/GHL/Pipedrive — whichever CRM the client uses. Built around the lead-intake-system I run for my own agency.
+Full-stack engineer — frontend, FastAPI, GPT-4o, CRM integrations
+```
 
-Stack: React + FastAPI + PostgreSQL + GPT-4o + Twilio + (HubSpot / Salesforce / GHL / Pipedrive / Zoho APIs)
+**Description** *(580 chars)*:
+```
+Inbound lead system that scores every form submission 1–100 with GPT-4o + explainable reasoning, drafts an auto-reply that waits for one-click send, pings Slack on hot leads, and syncs the contact to HubSpot/Salesforce/GHL/Pipedrive — whichever CRM the client uses. Drag-and-drop kanban (new → scored → replied → synced → won). Built around the lead-intake-system I run in production for my own agency.
+
+Stack: React + FastAPI + PostgreSQL + GPT-4o + CRM APIs
 Timeline: 7–14 days
-Includes: Custom form builder · Scoring model · Auto-reply drafts · Multi-CRM sync · Slack notifications · Weekly digest · Apollo enrichment optional
+Includes: Form builder · Scoring · Auto-reply · CRM sync · Slack · Weekly digest · Apollo enrichment
 ```
+
+**Skills**: API Integration, AI Agent Development, OpenAI API, React, FastAPI
 
 ---
 
@@ -143,19 +280,26 @@ Includes: Custom form builder · Scoring model · Auto-reply drafts · Multi-CRM
 
 **Live:** [samples.oncallautomation.ai/06-fitness-studio.html](https://samples.oncallautomation.ai/06-fitness-studio.html)
 
-**Title:**
+**Title** *(63 chars)*:
 ```
-Brutalist fitness studio site — small-group strength coaching, trial-week funnel
+Strength studio site — small-group coaching, trial-week funnel
 ```
 
-**Description:**
+**Your role** *(56 chars)*:
 ```
-What I built: Brutalist editorial site for a small-group strength studio in Scarsdale. Iron + acid-green palette, ticker bar with live spot counts, no-mirror coaching ethos, six-athletes-per-session positioning. Trial-week conversion funnel for adults who outgrew big-box gyms. Mobile-first booking. Coach bios with credentials.
+Independent engineer — design, frontend, deployment
+```
 
-Stack: React + Tailwind + Cabinet Grotesk + Gambarino + Mindbody/Mariana booking API
+**Description** *(496 chars)*:
+```
+Editorial site for a small-group strength studio in Scarsdale. Iron + acid-green palette, ticker bar with live spot counts, no-mirror coaching ethos, six-athletes-per-session positioning. Trial-week conversion funnel for adults who outgrew big-box gyms. Mobile-first booking. Coach bios with credentials.
+
+Stack: React + Tailwind · Cabinet Grotesk + Gambarino · Mindbody booking API
 Timeline: 7–14 days
 Includes: Booking integration · Trial-week funnel · Coach pages · Schedule grid · Pricing tiers · Email capture · SEO + schema.org
 ```
+
+**Skills**: Web Design, React, Tailwind CSS, Landing Page, Responsive Design
 
 ---
 
@@ -163,27 +307,30 @@ Includes: Booking integration · Trial-week funnel · Coach pages · Schedule gr
 
 **Live:** [samples.oncallautomation.ai/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html)
 
-**Title:**
+**Title** *(67 chars)*:
 ```
-Voice AI dashboard with tap-to-talk demo — Vapi integration, onboarding wizard
+Voice AI dashboard — Vapi tap-to-talk + Apple-style setup wizard
 ```
 
-**Description:**
+**Your role** *(67 chars)*:
 ```
-What I built: Two-layer voice agent product designed on a low-floor / high-ceiling principle.
-
-Easy view (default for first-time visitors): full-screen tap-to-talk circle button wired to a live Vapi WebRTC connection — buyers can actually speak to the agent in their browser. Three KPI tiles, status indicator, no clutter.
-
-Pro view (one click away): full operator console with live call queue, transcript viewer with intent + sentiment tags, animated waveform, booking conversion funnel, custom greeting editor (Day / After-hours / Weekend tabs), and live hot-lead toasts.
-
-Apple-style onboarding wizard (5 steps, one decision per screen): business name → agent name → voice picker with samples → phone number → summary card → 'Try a call now' that drops you into Easy view with a live demo running.
-
-Day + Night theme swap.
-
-Stack: React + FastAPI + Vapi web SDK + Twilio + PostgreSQL
-Timeline: 10–14 days
-Includes: Inbound number provisioning · Custom voice + greeting · Calendar booking · After-hours mode · CRM push · Recording archive · Hot-lead Slack alerts · 'Easy view' for non-technical staff
+Full-stack engineer — Vapi integration, dashboard, onboarding wizard
 ```
+
+**Description** *(599 chars)*:
+```
+Two-layer voice agent product on a low-floor / high-ceiling principle.
+
+Easy view (default): full-screen tap-to-talk circle button wired to a live Vapi WebRTC connection — buyers can actually speak to the agent in the browser. Three KPI tiles, nothing else.
+
+Pro view (one click away): operator console with live call queue, transcript viewer with intent + sentiment tags, animated waveform, booking funnel, greeting editor (Day / After-hours / Weekend), hot-lead toasts.
+
+Apple-style onboarding wizard (5 steps): business → agent name → voice picker → phone → summary → Try a call.
+
+Day / Night theme.
+```
+
+**Skills**: Voice AI, Vapi, AI Agent Development, React, FastAPI
 
 ---
 
@@ -191,19 +338,26 @@ Includes: Inbound number provisioning · Custom voice + greeting · Calendar boo
 
 **Live:** [samples.oncallautomation.ai/07-shopify-skincare.html](https://samples.oncallautomation.ai/07-shopify-skincare.html)
 
-**Title:**
+**Title** *(62 chars)*:
 ```
-Independent music label e-commerce — LATERAL CO., EMPIRE-tier Shopify build
+Music label Shopify build — LATERAL CO., editorial e-commerce
 ```
 
-**Description:**
+**Your role** *(56 chars)*:
 ```
-What I built: EMPIRE-tier independent label + merch Shopify store. Bold black/white minimalist aesthetic. Full-bleed artist hero with rotating featured release (slide indicators + nav arrows), huge 'SHOP' display header + filter pills (Trending/Bestsellers/Box Sets/Merch/Shop All), 5-column product grid with category badges (Vinyl/Snapback/Hoodie/Tee), 'NEWS' editorial section with feature article + 2 side cards, 'SOCIALS' image grid, 'Defining Independence' marquee with rotating logo, black footer with social icons + company/shop/legal columns. Inter Tight 900 display + Inter body.
+Independent engineer — design, frontend, deployment
+```
 
-Stack: Shopify Hydrogen + React + Inter Tight + Klaviyo
+**Description** *(595 chars)*:
+```
+EMPIRE-tier independent label + merch Shopify store. Bold black/white minimalist aesthetic. Full-bleed artist hero with rotating featured release (slide indicators + nav arrows), huge 'SHOP' display header + filter pills (Trending/Bestsellers/Box Sets/Merch/Shop All), 5-column product grid with category badges (Vinyl/Snapback/Hoodie/Tee), 'NEWS' editorial section, 'SOCIALS' image grid, 'Defining Independence' marquee, black footer. Inter Tight 900 display.
+
+Stack: Shopify Hydrogen + React + Klaviyo
 Timeline: 10–14 days
-Includes: Mobile-responsive · Product schema · GA4 / GTM · Klaviyo lifecycle · Inventory sync · Discount engine · Stripe + Apple Pay + Shop Pay
+Includes: Product schema · GA4 · Klaviyo lifecycle · Inventory · Stripe + Apple Pay + Shop Pay
 ```
+
+**Skills**: Shopify Development, E-commerce, React, Web Design, Klaviyo
 
 ---
 
@@ -223,7 +377,7 @@ For each listing below:
 
 **Title:**
 ```
-You will get a custom website that loads fast and converts visitors into clients
+You will get a custom website that loads fast and converts
 ```
 
 | Tier | Price | Timeline |
@@ -298,7 +452,7 @@ You will get a fully built Shopify store that looks hand-made
 
 **Title:**
 ```
-You will get a custom AI agent that answers leads, books meetings, and texts customers 24/7
+You will get an AI agent that answers leads and books meetings 24/7
 ```
 
 | Tier | Price | Timeline |
@@ -334,7 +488,7 @@ You will get a custom AI agent that answers leads, books meetings, and texts cus
 
 **Title:**
 ```
-You will get an n8n workflow that connects your stack and kills the spreadsheet glue
+You will get an n8n workflow that kills the spreadsheet glue
 ```
 
 | Tier | Price | Timeline |
@@ -356,7 +510,7 @@ You will get an n8n workflow that connects your stack and kills the spreadsheet 
 
 **Title:**
 ```
-You will get production Stripe billing for your SaaS — multi-tier, portal, dunning, all of it
+You will get production Stripe billing — tiers, portal, dunning
 ```
 
 | Tier | Price | Timeline |
@@ -378,7 +532,7 @@ You will get production Stripe billing for your SaaS — multi-tier, portal, dun
 
 **Title:**
 ```
-You will get a lead intake system that scores, replies, and routes — so you stop losing leads
+You will get a lead intake system that scores, replies, and routes
 ```
 
 | Tier | Price | Timeline |
@@ -400,7 +554,7 @@ You will get a lead intake system that scores, replies, and routes — so you st
 
 **Title:**
 ```
-You will get a voice agent that answers your phone, qualifies callers, and books your calendar
+You will get a voice agent that answers, qualifies, and books calls
 ```
 
 | Tier | Price | Timeline |
@@ -422,7 +576,7 @@ You will get a voice agent that answers your phone, qualifies callers, and books
 
 **Title:**
 ```
-You will get a custom AI assistant trained on your docs, support tickets, and internal knowledge
+You will get an AI assistant trained on your docs and tickets
 ```
 
 | Tier | Price | Timeline |
@@ -444,7 +598,7 @@ You will get a custom AI assistant trained on your docs, support tickets, and in
 
 **Title:**
 ```
-You will get a launch-ready multi-tenant SaaS — login, billing, dashboard, deployed
+You will get a launch-ready multi-tenant SaaS skeleton, deployed
 ```
 
 | Tier | Price | Timeline |
@@ -486,16 +640,21 @@ You will get a cold email system that doesn't burn your domain
 
 # Quick reference
 
-| # | Type | What | Live URL |
-|---|---|---|---|
-| 01 | Design | Halstead & Grove law firm | [/01-law-firm.html](https://samples.oncallautomation.ai/01-law-firm.html) |
-| 02 | Design | Rook & Well dental practice | [/02-dental-practice.html](https://samples.oncallautomation.ai/02-dental-practice.html) |
-| 02b | Product | OnCall Agents dashboard | [/02-ai-agent-dashboard.html](https://samples.oncallautomation.ai/02-ai-agent-dashboard.html) |
-| 03 | Design | Via dell'Orto restaurant | [/03-restaurant.html](https://samples.oncallautomation.ai/03-restaurant.html) |
-| 04 | Design | NORTHFOLD & Co. storefront | [/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) |
-| 05 | Product | Lead intake CRM | [/05-saas-landing.html](https://samples.oncallautomation.ai/05-saas-landing.html) |
-| 06 | Design | Forge Method fitness studio | [/06-fitness-studio.html](https://samples.oncallautomation.ai/06-fitness-studio.html) |
-| 07 | Design | LATERAL CO. music label | [/07-shopify-skincare.html](https://samples.oncallautomation.ai/07-shopify-skincare.html) |
-| 08 | Product | Voice agent analytics + Vapi | [/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html) |
+**Upload order — least important first, strongest last (sits at top of profile):**
 
-**Live client work (separate from concept showcase):** [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com)
+| Order | # | Type | What | Live URL |
+|---|---|---|---|---|
+| 1 | 06 | Design | Forge Method fitness | [/06-fitness-studio.html](https://samples.oncallautomation.ai/06-fitness-studio.html) |
+| 2 | 02 | Design | Rook & Well dental | [/02-dental-practice.html](https://samples.oncallautomation.ai/02-dental-practice.html) |
+| 3 | 07 | Design | LATERAL CO. music label | [/07-shopify-skincare.html](https://samples.oncallautomation.ai/07-shopify-skincare.html) |
+| 4 | 03 | Design | Via dell'Orto restaurant | [/03-restaurant.html](https://samples.oncallautomation.ai/03-restaurant.html) |
+| 5 | 05 | Product | Lead intake CRM | [/05-saas-landing.html](https://samples.oncallautomation.ai/05-saas-landing.html) |
+| 6 | 02b | Product | OnCall Agents inbox | [/02-ai-agent-dashboard.html](https://samples.oncallautomation.ai/02-ai-agent-dashboard.html) |
+| 7 | 01 | Design | Halstead & Grove law firm | [/01-law-firm.html](https://samples.oncallautomation.ai/01-law-firm.html) |
+| 8 | 08 | Product | Voice agent + Vapi tap-to-talk | [/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html) |
+| 9 | 04 | Design | NORTHFOLD & Co. storefront | [/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) |
+| 10 | 00b | Live | OnCall Automation site | [oncallautomation.ai](https://oncallautomation.ai) |
+| 11 | 00a | Live | OnCall Chat SaaS | [oncallchat.ai](https://oncallchat.ai) |
+| 12 | 00 | Client | **Parkway Café Scarsdale** | [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) |
+
+Top three sit at the top of the profile and carry the heaviest weight: a real paid client, your own production SaaS, your agency site. The concept demos (01–08) round it out as range.
