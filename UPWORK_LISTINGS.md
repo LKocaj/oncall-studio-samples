@@ -47,7 +47,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-What fitness studios get when they hire me: a website built for the 12-person waitlist. A trial-week funnel with autoreply and SMS sequence that closes the lead fast. Booking that talks live to Mindbody/Mariana so the schedule grid updates itself. Coach bios with real credentials. Member testimonials, pricing tiers, email capture, schema markup so the studio shows up on local Google.
+This fitness studio uses automated scheduling tied to Mindbody, trial-to-membership SMS sequences, a member portal, and Klaviyo email capture. The same stack works for any business that runs on appointments — mechanics, salons, contractors, medical practices, anyone who books people on a calendar.
 
 Stack: React + Tailwind + Mindbody API
 Timeline: 7–14 days
@@ -73,7 +73,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-What dental practices get when they hire me: a website that looks like a premium office, an AI receptionist that picks up every call 24/7, and the wiring that connects them to your calendar and practice software. Most practices lose inquiries to slow response. The agent answers in your voice, qualifies the caller, verifies insurance, books the consult, and texts the front desk a summary. HIPAA-aware. Staff edits copy and hours without calling me.
+This dental practice uses a custom website with an AI receptionist that picks up every call 24/7, qualifies the caller, verifies insurance, and books the consult on the calendar. HIPAA-aware contact form. The same stack works for any service business losing inquiries to slow response — law firms, salons, contractors, accountants, anyone where the phone is the front door.
 
 Stack: React + FastAPI + GPT-4o + Vapi + Twilio
 Timeline: 7–14 days
@@ -99,7 +99,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-What independent labels, artists, and merch brands get when they hire me: an editorial Shopify store with EMPIRE/AWAL DNA. Full Klaviyo lifecycle that turns first-time merch buyers into mailing-list lifers. Vinyl drops, pre-orders, member-only releases, tour merch bundles. Subscription mechanics if you ship quarterly zines or box sets. Stripe + Apple Pay + Shop Pay. Custom product schema so Google ranks your releases above the resellers.
+This independent music label uses an editorial Shopify storefront with vinyl pre-orders, member-only releases, tour merch bundles, full Klaviyo lifecycle, and product schema markup. The same stack works for any brand selling small-batch physical goods — apparel drops, specialty food, beverages, home goods, anyone with a catalog they want to merchandise like a magazine.
 
 Stack: Shopify Hydrogen + React + Klaviyo
 Timeline: 10–14 days
@@ -125,7 +125,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-What restaurants get when they hire me: an editorial site that makes Resy or OpenTable feel native, an owner-editable menu CMS so the dinner team updates the menu at 4pm without calling me, and Restaurant + Menu schema markup that lands you in Google's featured restaurant snippet. Press section if you have NYT or Eater coverage. Hours, directions, party-size reservation flow, photo gallery built for IG-worthy plates. Built so the chef can change tomorrow's menu themselves.
+This West Village trattoria uses Resy reservations embedded natively, an owner-editable menu CMS the dinner team updates at 4pm, Restaurant + Menu schema markup for Google's featured snippet, and a press band for NYT/Eater coverage. The same stack works for any hospitality business — cafés, hotels, wine bars, bakeries, neighborhood spots that need the menu and the booking flow to feel like one thing.
 
 Stack: React + Vite + Tailwind + Resy/OpenTable
 Timeline: 5–7 days
@@ -151,7 +151,7 @@ Full-stack engineer — frontend, FastAPI, GPT-4o, CRM integrations
 
 **Description**:
 ```
-What B2B teams get when they hire me to build their lead intake: every form submission scored 1–100 by GPT-4o with reasoning a human can read, an auto-reply drafted in your voice waiting for one-click send, Slack pings on hot leads, and clean sync to whichever CRM you use (HubSpot, Salesforce, GHL, Pipedrive). Drag-and-drop pipeline kanban so anyone on the team can see where a lead is stuck. Built around the system I run in production for my own agency.
+This lead intake CRM uses GPT-4o scoring with explainable reasoning, auto-replies drafted in your voice with one-click send, multi-CRM sync (HubSpot/Salesforce/GHL/Pipedrive), and a drag-and-drop pipeline kanban. The same stack works for any team running inbound — agencies, B2B SaaS, consultants, professional services, anyone losing leads in their inbox.
 
 Stack: React + FastAPI + GPT-4o + CRM APIs
 Timeline: 7–14 days
@@ -177,7 +177,7 @@ Full-stack engineer — frontend, FastAPI backend, GPT-4o integration
 
 **Description**:
 ```
-What businesses get when they hire me for AI agents: one inbox across web chat, SMS, WhatsApp, voice (Vapi), iMessage, and Messenger — every channel where a lead can reach you. The agent drafts responses you send with one click, scores each lead 1–100 with reasoning attached, pushes the contact to your CRM with channel + referral metadata. Slack alerts on hot leads. Same architecture I run in production at oncallchat.ai — multi-tenant, deployed, real Stripe billing.
+This multi-channel AI agent inbox consolidates web chat, SMS, WhatsApp, voice (Vapi), iMessage, and Messenger into one view. GPT-4o lead scoring with reasoning, CRM-linked contact metadata, Slack alerts on hot leads. Same architecture I run at oncallchat.ai. The same stack works for any business that has to be reachable on more than one channel — clinics, real estate, law, contractors, anyone with a phone and a website.
 
 Stack: React + FastAPI + GPT-4o + Twilio + Vapi
 Timeline: 14–30 days
@@ -203,7 +203,7 @@ Independent engineer — design, frontend, deployment
 
 **Description**:
 ```
-What law firms get when they hire me: deal-tombstone treatment for your transaction record, recognition row for Chambers/Best Lawyers/Super Lawyers, partner bio depth that explains why a GC should pick you, practice-area pages that signal your specialty. Editorial typography, real photography, conflict-clearance intake form. Schema markup so referral GCs find you on Google when they search your name. Built for boutiques that want the room to know they ship.
+This Wall Street M&A boutique uses deal-tombstone treatment for the transaction record, Chambers/Best Lawyers/Super Lawyers recognition rows, partner bio depth, engagement-letter intake forms, and schema markup so referral GCs find the firm on Google. The same stack works for any premium professional service — accounting, consulting, architecture, financial advisory, anywhere reputation does the selling.
 
 Stack: React + Vite + Tailwind
 Timeline: 7–10 days
@@ -229,7 +229,7 @@ Full-stack engineer — Vapi integration, dashboard, onboarding wizard
 
 **Description**:
 ```
-What service businesses get when they hire me for voice AI: a phone agent that picks up every call 24/7, qualifies the caller, books the appointment on your calendar, and texts the front desk a summary. After-hours routing so 2am callers don't hit voicemail. Hot-lead alerts to Slack. Custom voice + greeting in your business name. Full operator dashboard with transcripts, intent tags, and conversion funnel — for the staff that wants depth. Runs on Vapi, the same stack I use in production.
+This voice agent picks up every call 24/7, qualifies the caller, books appointments on the calendar, and texts the front desk a summary. After-hours routing, Slack alerts on hot leads, transcripts with intent tags, custom voice and greeting in the business's name. Runs on Vapi. The same stack works for any business where the phone is the front door — dental, law, real estate, salons, contractors, anyone whose missed call is a lost lead.
 
 Stack: React + FastAPI + Vapi + Twilio
 Timeline: 10–14 days
@@ -255,7 +255,7 @@ Full-stack engineer — design, storefront, cart, filters, deployment
 
 **Description**:
 ```
-What heritage brands and retailers get when they hire me: an editorial multi-category storefront, working cart with quantity controls, free-shipping threshold, and the Klaviyo lifecycle that turns first-time buyers into mailing-list lifers. Filter sidebar (category, color, size, price, rating) that live-filters the grid. Subscription/bundle builders if you ship quarterly. Welcome → abandon → post-purchase → win-back wired in. Stripe + Apple Pay + Shop Pay + reviews integration.
+This heritage retailer uses a multi-category catalog with live filters (category/color/size/price/rating), working cart with free-shipping thresholds, full Klaviyo lifecycle (welcome/abandon/post-purchase/win-back), and reviews integration. Subscription/bundle builders if the brand ships quarterly. The same stack works for any brand selling physical goods — apparel, home goods, specialty food, beverages, anyone with a catalog.
 
 Stack: React + Shopify Hydrogen + Klaviyo
 Timeline: 10–18 days
@@ -281,7 +281,7 @@ Founder + builder — full design, build, content, SEO
 
 **Description**:
 ```
-My own agency site, live in production. If you're an independent studio or consultant hiring me to build yours, this is the standard. Editorial dark slate aesthetic, animated stack preview, services grid with hover descriptions, four-step process scrollytelling, trust principles in slogan format, Selected Work that opens portfolio pieces, contact form wired to a lead intake system that scores submissions with GPT-4o before they hit your inbox.
+This is my own agency site, live in production — the standard I bring to client engagements. Editorial dark-slate aesthetic, animated stack preview, scrollytelling process, Selected Work portfolio, blog, lead intake form that scores submissions with GPT-4o before they hit my inbox. The same stack works for any independent studio, consultant, or solo founder building their own brand site.
 
 Stack: React + Vite + Tailwind + Framer Motion
 Includes: Lead intake · Blog · SEO
@@ -307,7 +307,7 @@ Solo founder + engineer — built end-to-end, in production
 
 **Description**:
 ```
-My production SaaS — a multi-channel AI agent platform for professional service firms, real Stripe billing across 4 tiers, live customers. If you're a SaaS founder hiring me, this is the proof: I've already shipped the boring infrastructure most engineers stall on — auth, multi-tenant data isolation, webhook handlers with retry + idempotency, deliverability, dunning, customer portal, embed widget. I bring this stack to every client engagement.
+This is my production SaaS — a multi-channel AI agent platform with real Stripe billing across 4 tiers and live customers. Proof I've already shipped the boring infrastructure most engineers stall on: auth, multi-tenant data isolation, webhook handlers with retry + idempotency, deliverability, dunning, customer portal, embed widget. The same stack works for any SaaS founder shipping their first paying product.
 
 Stack: React + FastAPI + Stripe + Twilio + Vapi + OpenAI
 Includes: Auth · Multi-tenant · Live Stripe
@@ -333,7 +333,7 @@ Full-stack engineer — design, build, CMS, SEO, ongoing maintenance
 
 **Description**:
 ```
-What local businesses get when they hire me — this is the proof. Parkway Café, a Scarsdale family diner since 1961, live in production. Custom React + Supabase build with an owner-editable menu CMS (151 items, 17 categories), full Restaurant + Menu + FAQ schema, food photography, hours grid, directions. Indexed across Westchester via Google Business Profile + structured data. The only entry on this list with a real paying client. Every other piece is concept work built to the same standard.
+This was made for Parkway Café — a Scarsdale family diner since 1961, live in production. The only entry on this list with a real paying client. Custom owner-editable menu CMS (151 items, 17 categories), full Restaurant + Menu + FAQ schema, food photography, Google Business Profile integration, ongoing SEO. The same stack works for any local business that needs to show up on Google and stay there.
 
 Stack: React + Vite + Supabase + Tailwind
 Timeline: Shipped in 9 days
