@@ -292,9 +292,9 @@ Timeline: 10–18 days
 
 **Live:** [sendreviews.co](https://sendreviews.co) *(my own production SaaS, live)*
 
-**Title** *(67 chars)*:
+**Title** *(66 chars)*:
 ```
-Review collection SaaS — sendreviews.co, SMS-driven Google reviews
+Review collection SaaS — sendreviews.co, editorial Twilio + Stripe
 ```
 
 **Your role** *(57 chars)*:
@@ -304,10 +304,10 @@ Solo founder + engineer — built end-to-end, in production
 
 **Description**:
 ```
-Stop chasing customers for Google reviews. This live SaaS auto-texts every customer after a completed job with a one-tap review link. Free tier (50 texts/mo), Starter at $29, Pro at $79 for unlimited. Same stack works for any local business that depends on reviews — restaurants, dentists, salons, contractors, mechanics, gyms, anyone whose reputation lives on Google.
+Stop chasing customers for Google reviews. This live SaaS auto-texts every customer after their visit with a one-tap review link — built on Twilio, billed through Stripe across three tiers. Editorial design language (white paper, near-black ink, huge display type, stock photography) makes it look serious enough that a salon owner or dentist will pay $79/mo for it. Same stack works for any local business losing rankings to silence — restaurants, dentists, salons, contractors, mechanics, gyms.
 ```
 
-**Skills**: Twilio, API Integration, Stripe, React, SaaS
+**Skills**: Twilio, API Integration, Stripe, React, SaaS Development
 
 ---
 
@@ -315,9 +315,9 @@ Stop chasing customers for Google reviews. This live SaaS auto-texts every custo
 
 **Live:** [invoicelink.co](https://invoicelink.co) *(my own production SaaS, live)*
 
-**Title** *(66 chars)*:
+**Title** *(62 chars)*:
 ```
-Invoicing SaaS — invoicelink.co, Stripe payment links built in
+Invoicing SaaS — invoicelink.co, Stripe-tier design, payment links
 ```
 
 **Your role** *(57 chars)*:
@@ -327,10 +327,10 @@ Solo founder + engineer — built end-to-end, in production
 
 **Description**:
 ```
-Send your first invoice in 30 seconds. This live SaaS lets freelancers and small businesses create branded invoices with embedded Stripe payment links — no QuickBooks fiddling, no Stripe-dashboard digging. Free tier (5 invoices/mo), Pro at $19/mo for unlimited. Same stack works for any solo operator or small agency that bills clients — designers, consultants, contractors, lawyers, photographers, anyone who needs to get paid faster.
+Send your first invoice in 30 seconds. This live SaaS lets freelancers create branded invoices with embedded Stripe payment links — no QuickBooks, no Stripe-dashboard digging. Stripe-tier design language (light gradient mesh hero, indigo accent, Inter Tight typography, side-by-side Checkout panel in the hero) signals "this is real Stripe-rails software." Free tier (5 invoices/mo), Pro at $19/mo. Same stack works for any solo operator or small agency that bills clients — designers, consultants, contractors, lawyers, photographers.
 ```
 
-**Skills**: Stripe, API Integration, React, Python, SaaS
+**Skills**: Stripe, API Integration, React, Python, SaaS Development
 
 ---
 
