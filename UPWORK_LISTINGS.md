@@ -310,7 +310,7 @@ Stack: React + Vite + Tailwind + Framer Motion
 Includes: Lead intake · Blog · SEO
 ```
 
-**Skills**: Web Design, React, Tailwind CSS, Landing Page, SEO
+**Skills**: Web Design, AI Agent Development, Workflow Automation, E-commerce, Stripe
 
 ---
 
