@@ -8,7 +8,7 @@ Single reference for everything you upload to your Upwork profile.
 
 ---
 
-# PART 1 — Portfolio (13 pieces, in upload order)
+# PART 1 — Portfolio (15 pieces, in upload order)
 
 **Upwork form field limits (from the actual upload screen):**
 - **Project title** — 70 characters max
@@ -288,7 +288,53 @@ Timeline: 10–18 days
 
 ---
 
-## #11 · OnCall Automation — Live agency site
+## #11 · SendReviews — Production SMS review collection SaaS *(live)*
+
+**Live:** [sendreviews.co](https://sendreviews.co) *(my own production SaaS, live)*
+
+**Title** *(67 chars)*:
+```
+Review collection SaaS — sendreviews.co, SMS-driven Google reviews
+```
+
+**Your role** *(57 chars)*:
+```
+Solo founder + engineer — built end-to-end, in production
+```
+
+**Description**:
+```
+Stop chasing customers for Google reviews. This live SaaS auto-texts every customer after a completed job with a one-tap review link. Free tier (50 texts/mo), Starter at $29, Pro at $79 for unlimited. Same stack works for any local business that depends on reviews — restaurants, dentists, salons, contractors, mechanics, gyms, anyone whose reputation lives on Google.
+```
+
+**Skills**: Twilio, API Integration, Stripe, React, SaaS
+
+---
+
+## #12 · InvoiceLink — Production invoicing SaaS for freelancers *(live)*
+
+**Live:** [invoicelink.co](https://invoicelink.co) *(my own production SaaS, live)*
+
+**Title** *(66 chars)*:
+```
+Invoicing SaaS — invoicelink.co, Stripe payment links built in
+```
+
+**Your role** *(57 chars)*:
+```
+Solo founder + engineer — built end-to-end, in production
+```
+
+**Description**:
+```
+Send your first invoice in 30 seconds. This live SaaS lets freelancers and small businesses create branded invoices with embedded Stripe payment links — no QuickBooks fiddling, no Stripe-dashboard digging. Free tier (5 invoices/mo), Pro at $19/mo for unlimited. Same stack works for any solo operator or small agency that bills clients — designers, consultants, contractors, lawyers, photographers, anyone who needs to get paid faster.
+```
+
+**Skills**: Stripe, API Integration, React, Python, SaaS
+
+---
+
+## #13 · OnCall Automation — Live agency site
 
 **Live:** [oncallautomation.ai](https://oncallautomation.ai) *(my agency homepage, live)*
 
@@ -314,7 +360,7 @@ Includes: Lead intake · Blog · SEO
 
 ---
 
-## #12 · OnCall Chat — Production multi-channel AI agent SaaS
+## #14 · OnCall Chat — Production multi-channel AI agent SaaS
 
 **Live:** [oncallchat.ai](https://oncallchat.ai) *(my own production SaaS, real paying users)*
 
@@ -340,7 +386,7 @@ Includes: Auth · Multi-tenant · Live Stripe
 
 ---
 
-## #13 · Parkway Café Scarsdale — Live client work *(production site)*
+## #15 · Parkway Café Scarsdale — Live client work *(production site)*
 
 **Live:** [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) *(real client, live since 2025)*
 
@@ -659,8 +705,10 @@ You will get a cold email system that doesn't burn your domain
 | #8 | Halstead & Grove law firm | [/01-law-firm.html](https://samples.oncallautomation.ai/01-law-firm.html) |
 | #9 | Voice agent + Vapi tap-to-talk | [/08-voice-agent-dashboard.html](https://samples.oncallautomation.ai/08-voice-agent-dashboard.html) |
 | #10 | NORTHFOLD & Co. storefront | [/04-ecommerce.html](https://samples.oncallautomation.ai/04-ecommerce.html) |
-| #11 | OnCall Automation site | [oncallautomation.ai](https://oncallautomation.ai) |
-| #12 | OnCall Chat SaaS | [oncallchat.ai](https://oncallchat.ai) |
-| **#13** | **Parkway Café Scarsdale** *(live client)* | [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) |
+| #11 | SendReviews SMS reviews SaaS | [sendreviews.co](https://sendreviews.co) |
+| #12 | InvoiceLink invoicing SaaS | [invoicelink.co](https://invoicelink.co) |
+| #13 | OnCall Automation agency site | [oncallautomation.ai](https://oncallautomation.ai) |
+| #14 | OnCall Chat SaaS | [oncallchat.ai](https://oncallchat.ai) |
+| **#15** | **Parkway Café Scarsdale** *(live client)* | [parkwaycafe-scarsdale.com](https://parkwaycafe-scarsdale.com) |
 
 Top three (after upload completes) carry the heaviest weight: a real paid client, your own production SaaS, your agency site.
