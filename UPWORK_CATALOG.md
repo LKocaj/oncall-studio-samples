@@ -64,7 +64,7 @@ You will get a custom website that loads fast and converts
 
 **Description** (paste):
 ```
-Stop sending traffic to a Wix template that converts at 1%. I build custom React websites for service businesses — law firms, dental practices, restaurants, fitness studios, consultants — that load in under 2 seconds, look like a premium operation, and turn visitors into booked calls. Three tiers from $1,500 (5-page launch) to $5,800 (custom CMS + blog + Stripe). Same stack I use on my own production site at oncallautomation.ai. Editable by you, no agency lock-in.
+Stop sending traffic to a website that converts at 1%. I build custom React websites for service businesses — law firms, dental practices, restaurants, fitness studios, consultants — that load in under 2 seconds and turn visitors into booked calls. Three tiers from $1,500 (5-page launch) to $5,800 (custom CMS + blog + Stripe). Same stack I use on my own production site at oncallautomation.ai. Editable by you, no agency lock-in.
 ```
 
 **Tier inclusions:**
@@ -110,7 +110,7 @@ You will get a fully built Shopify store that looks hand-made
 
 **Description:**
 ```
-Sell your products on a store that looks like a real brand. Editorial design built around your identity, full lifecycle email through Klaviyo, subscription mechanics if you ship quarterly, Stripe + Apple Pay + Shop Pay configured. Three tiers from $750 (10-product launch) to $2,800 (full brand build with reviews + bundles). Same stack I built LATERAL CO. on — editorial e-commerce that ranks above resellers on Google.
+Build a Shopify store with the catalog, lifecycle email, and checkout your brand needs. Full Klaviyo lifecycle (welcome → abandon → post-purchase → win-back), subscription mechanics if you ship quarterly, Stripe + Apple Pay + Shop Pay configured. Three tiers from $750 (10-product launch) to $2,800 (full brand build with reviews + bundles). Same stack I built LATERAL CO. on — Shopify e-commerce that ranks above resellers on Google.
 ```
 
 **Tier inclusions:**
