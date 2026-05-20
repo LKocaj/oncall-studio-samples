@@ -304,7 +304,7 @@ Solo founder + engineer — built end-to-end, in production
 
 **Description**:
 ```
-Stop chasing customers for Google reviews. This live SaaS auto-texts every customer after their visit with a one-tap review link — built on Twilio, billed through Stripe across three tiers. Editorial design language (white paper, near-black ink, huge display type, stock photography) makes it look serious enough that a salon owner or dentist will pay $79/mo for it. Same stack works for any local business losing rankings to silence — restaurants, dentists, salons, contractors, mechanics, gyms.
+Stop chasing customers for Google reviews. This live SaaS auto-texts every customer after their visit with a one-tap link to your Google review page. You add a name and a phone number; the system sends a friendly text from your business; the customer taps once and writes the review. STOP replies are handled automatically. Free (50 texts/mo), Starter at $29, Pro at $79 for unlimited. Same stack works for any local business losing rankings to silence — restaurants, dentists, salons, contractors.
 ```
 
 **Skills**: Twilio, API Integration, Stripe, React, SaaS Development
@@ -327,7 +327,7 @@ Solo founder + engineer — built end-to-end, in production
 
 **Description**:
 ```
-Send your first invoice in 30 seconds. This live SaaS lets freelancers create branded invoices with embedded Stripe payment links — no QuickBooks, no Stripe-dashboard digging. Stripe-tier design language (light gradient mesh hero, indigo accent, Inter Tight typography, side-by-side Checkout panel in the hero) signals "this is real Stripe-rails software." Free tier (5 invoices/mo), Pro at $19/mo. Same stack works for any solo operator or small agency that bills clients — designers, consultants, contractors, lawyers, photographers.
+Send your first invoice in 30 seconds. This live SaaS lets freelancers create branded invoices with one-click Stripe payment links. Type a name, add line items, hit send. Your client gets an email with a clean invoice and a Pay button — they tap, enter their card or use Apple Pay, and the money lands in your bank. No account creation on their end, no app, no friction. Free tier (5 invoices/mo), Pro at $19/mo for unlimited. Same stack works for any solo operator or small agency that bills clients.
 ```
 
 **Skills**: Stripe, API Integration, React, Python, SaaS Development
