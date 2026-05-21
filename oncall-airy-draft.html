@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnCall Automation — Airy Light Draft (Highflyers-style)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ink:        #1A1F36;
+    --ink-2:      #3D4258;
+    --mute:       #6B7280;
+    --paper:      #FFFFFF;
+    --cloud:      #F0F6FF;
+    --sky-1:      #B6D8F2;
+    --sky-2:      #DCE9F5;
+    --sky-3:      #EEF2F8;
+    --violet:     #C4B5FD;
+    --violet-d:   #A78BFA;
+    --indigo:     #818CF8;
+    --glass:      rgba(255, 255, 255, 0.55);
+    --glass-line: rgba(255, 255, 255, 0.85);
+    --shadow:     0 10px 40px -10px rgba(26, 31, 54, 0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: linear-gradient(180deg, #4F5996 0%, #8E83B8 18%, #C9A8C3 38%, #F1C8B0 58%, #FCE6CF 78%, #FFFFFF 100%);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  body {
+    font-family: 'Inter Tight', -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .serif { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* === Floating glass pill navigation === */
+  .nav {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+    z-index: 50;
+    display: flex; align-items: center; gap: 12px;
+    background: var(--glass);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--glass-line);
+    border-radius: 999px;
+    padding: 8px 8px 8px 22px;
+    box-shadow: var(--shadow);
+  }
+  .nav .brand {
+    font-weight: 700; font-size: 16px; letter-spacing: -0.01em; color: var(--ink);
+    padding-right: 12px; margin-right: 4px;
+    border-right: 1px solid rgba(26, 31, 54, 0.08);
+  }
+  .nav .brand small { color: var(--mute); font-weight: 500; font-size: 13.5px; }
+  .nav-links { display: flex; align-items: center; gap: 2px; }
+  .nav-links a {
+    padding: 9px 16px; font-size: 13.5px; font-weight: 500; color: var(--ink-2);
+    border-radius: 999px; transition: background .2s ease;
+  }
+  .nav-links a:hover { background: rgba(255, 255, 255, 0.6); }
+  .nav-links a.active {
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--ink);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .nav-links a.active::before {
+    content: ''; width: 12px; height: 12px; border-radius: 3px;
+    background: linear-gradient(135deg, var(--violet), var(--indigo));
+    flex-shrink: 0;
+  }
+  .nav .cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 14px 9px 18px;
+    background: linear-gradient(135deg, var(--violet) 0%, var(--violet-d) 100%);
+    color: var(--ink);
+    border-radius: 999px;
+    font-size: 13.5px; font-weight: 600;
+    box-shadow: 0 6px 18px -8px rgba(167, 139, 250, 0.55);
+    transition: transform .15s ease;
+  }
+  .nav .cta:hover { transform: translateY(-1px); }
+  .nav .cta .arr {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--ink); color: white;
+    display: grid; place-items: center;
+    font-size: 11px;
+  }
+
+  /* === Hero === */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 100px 24px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=2400&q=85&auto=format') center/cover no-repeat;
+    opacity: 0.88;
+    mask-image: linear-gradient(180deg, black 0%, black 65%, transparent 98%);
+    -webkit-mask-image: linear-gradient(180deg, black 0%, black 65%, transparent 98%);
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(79,89,150,0.15) 0%, rgba(201,168,195,0.2) 50%, rgba(252,230,207,0.85) 92%, #FFFFFF 100%);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 920px; }
+  .hero h1 {
+    font-size: clamp(48px, 7.5vw, 100px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+    color: white;
+    text-shadow: 0 2px 24px rgba(26, 31, 54, 0.15);
+    margin-bottom: 28px;
+  }
+  .hero h1 .em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+  .hero p {
+    font-size: 18px;
+    color: rgba(26, 31, 54, 0.78);
+    max-width: 580px;
+    margin: 0 auto 38px;
+    text-shadow: 0 1px 12px rgba(255, 255, 255, 0.4);
+  }
+  .hero .actions {
+    display: inline-flex; align-items: center; gap: 16px;
+  }
+  .hero .icon-btn {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-line);
+    display: grid; place-items: center;
+    box-shadow: var(--shadow);
+    transition: transform .15s ease;
+  }
+  .hero .icon-btn:hover { transform: translateY(-2px); }
+  .hero .icon-btn svg { width: 22px; height: 22px; stroke: var(--ink); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .hero .big-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: linear-gradient(135deg, var(--violet) 0%, var(--violet-d) 100%);
+    color: var(--ink); font-size: 16px; font-weight: 600;
+    padding: 14px 18px 14px 28px; border-radius: 999px;
+    box-shadow: 0 12px 28px -8px rgba(167, 139, 250, 0.55);
+    transition: transform .15s ease;
+  }
+  .hero .big-cta:hover { transform: translateY(-2px); }
+  .hero .big-cta .arr {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--ink); color: white;
+    display: grid; place-items: center; font-size: 13px;
+  }
+
+  /* === Orbital stack === */
+  .orbital {
+    position: relative;
+    margin: 60px auto 0;
+    width: 100%; max-width: 1280px;
+    height: 240px;
+    z-index: 2;
+  }
+  .orbital .track {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    flex-wrap: nowrap;
+    overflow: visible;
+  }
+  .orb-card {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 20px; border-radius: 999px;
+    background: var(--glass);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--glass-line);
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 14px; font-weight: 600;
+    color: var(--ink);
+  }
+  .orb-card .swatch {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, #E8EFFB, #D8E5F6);
+    border: 2px solid white;
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .orb-card.featured {
+    transform: scale(1.18);
+    background: white;
+    padding: 22px 28px; gap: 14px;
+    border-radius: 24px;
+    box-shadow: 0 24px 48px -12px rgba(26, 31, 54, 0.22);
+  }
+  .orb-card.featured .swatch {
+    width: 42px; height: 42px; font-size: 14px;
+    background: linear-gradient(135deg, var(--violet), var(--violet-d));
+    color: var(--ink);
+    border-color: white;
+  }
+  .orb-card.featured .stacked { display: flex; flex-direction: column; gap: 1px; }
+  .orb-card.featured .stacked .pill { font-size: 9px; padding: 1px 7px; background: var(--ink); color: white; border-radius: 99px; align-self: flex-start; letter-spacing: 0.05em; }
+  .orb-card.featured .stacked .name { font-size: 15px; }
+
+  /* === Editorial pull quote === */
+  .pull-section {
+    padding: 160px 24px 140px;
+    text-align: center;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFD 100%);
+  }
+  .pull-quote {
+    font-size: clamp(36px, 5.5vw, 70px);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: #C2A4B4;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .pull-quote .h { color: #9B8CCB; }
+  .pull-quote .serif { color: #D4937F; }
+
+  /* === Trust logo wall === */
+  .trust {
+    padding: 60px 24px 100px;
+    text-align: center;
+    background: white;
+  }
+  .trust .label {
+    font-size: 13px; color: var(--mute); font-weight: 500; margin-bottom: 32px;
+  }
+  .trust .logos {
+    display: flex; align-items: center; justify-content: center;
+    gap: clamp(20px, 5vw, 64px);
+    flex-wrap: wrap;
+    opacity: 0.65;
+  }
+  .trust .logos span {
+    font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* === Stats ring === */
+  .stats-section {
+    padding: 80px 24px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.0) 0%, rgba(241,200,176,0.4) 40%, rgba(201,168,195,0.6) 100%),
+      url('https://images.unsplash.com/photo-1465056836041-7f43ac27dcb5?w=2400&q=85&auto=format') center/cover no-repeat;
+    overflow: hidden;
+  }
+  .stats-ring {
+    position: relative; width: 100%; max-width: 800px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    display: grid; place-items: center;
+  }
+  .ring {
+    position: absolute; inset: 0;
+    border: 1px dashed rgba(26, 31, 54, 0.2);
+    border-radius: 50%;
+    animation: spin 60s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ring::before, .ring::after {
+    content: ''; position: absolute;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: white; border: 2px solid rgba(26, 31, 54, 0.5);
+  }
+  .ring::before { top: -8px; left: 50%; transform: translateX(-50%); }
+  .ring::after { bottom: -8px; left: 50%; transform: translateX(-50%); background: rgba(26, 31, 54, 0.3); border: 0; }
+  .stat-center {
+    position: relative; z-index: 2;
+    text-align: center;
+  }
+  .stat-center .big {
+    font-size: clamp(80px, 14vw, 200px);
+    font-weight: 500; letter-spacing: -0.045em;
+    color: white;
+    line-height: 0.95;
+  }
+  .stat-center .sub {
+    font-size: 18px; color: rgba(26, 31, 54, 0.6); max-width: 380px; margin: 16px auto 0;
+  }
+
+  /* === Process section === */
+  .process {
+    padding: 140px 24px 160px;
+    background: linear-gradient(180deg, #C9A8C3 0%, #F1C8B0 50%, #FCE6CF 100%);
+    overflow: hidden;
+    position: relative;
+  }
+  .process::before {
+    content: ''; position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1444090542259-0af8fa96557e?w=2400&q=85&auto=format') center/cover no-repeat;
+    opacity: 0.18; mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .process-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    max-width: 1280px; margin: 0 auto 60px;
+    flex-wrap: wrap; gap: 20px;
+    position: relative; z-index: 2;
+  }
+  .process-head .small { font-size: 14px; color: var(--mute); font-weight: 500; }
+  .process-head h2 {
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--ink);
+    max-width: 720px;
+  }
+  .process-head h2 .h { color: var(--indigo); }
+
+  .process-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 1100px; margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+  @media (max-width: 760px) { .process-grid { grid-template-columns: 1fr; } }
+  .step-card {
+    position: relative;
+    aspect-ratio: 5/4;
+    border-radius: 28px;
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-line);
+    box-shadow: var(--shadow);
+    padding: 32px;
+    overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .step-card .day-pill {
+    display: inline-block; align-self: flex-start;
+    padding: 5px 14px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.65); border: 1px solid white;
+    font-size: 13px; color: var(--ink); font-weight: 500;
+  }
+  .step-card h3 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 16px 0 12px;
+  }
+  .step-card p {
+    font-size: 14px; color: var(--ink-2); line-height: 1.6;
+    max-width: 320px;
+  }
+  .step-card .visual {
+    position: absolute; right: -10px; bottom: -10px;
+    width: 60%; height: 60%; opacity: 0.7;
+    background-size: contain; background-repeat: no-repeat; background-position: bottom right;
+  }
+  .step-card.s1 { background-image: linear-gradient(135deg, rgba(196, 181, 253, 0.15), rgba(255, 255, 255, 0.55)); }
+  .step-card.s2 { background-image: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(255, 255, 255, 0.55)); }
+  .step-card.s3 { background-image: linear-gradient(135deg, rgba(167, 243, 208, 0.18), rgba(255, 255, 255, 0.55)); }
+  .step-card.s4 { background-image: linear-gradient(135deg, rgba(254, 240, 138, 0.18), rgba(255, 255, 255, 0.55)); }
+
+  /* === Footer === */
+  footer {
+    padding: 80px 24px 40px;
+    background: white;
+    border-top: 1px solid #E8EFF6;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px; max-width: 1280px; margin: 0 auto 48px;
+  }
+  @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  footer h6 {
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--mute); margin-bottom: 18px;
+  }
+  footer .brand-block { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; color: var(--ink); }
+  footer .brand-block small { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--mute); letter-spacing: 0.18em; text-transform: uppercase; }
+  footer ul { list-style: none; display: grid; gap: 10px; }
+  footer li a { font-size: 14px; color: var(--ink-2); }
+  footer li a:hover { color: var(--indigo); }
+  .footer-bottom {
+    max-width: 1280px; margin: 0 auto;
+    padding-top: 24px; border-top: 1px solid #E8EFF6;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12.5px; color: var(--mute);
+    flex-wrap: wrap; gap: 12px;
+  }
+
+  /* === Concept tag === */
+  .concept-tag {
+    background: var(--ink); color: rgba(255,255,255,0.7);
+    padding: 7px 18px; font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; text-align: center;
+  }
+
+  @media (max-width: 760px) {
+    .nav { flex-direction: column; gap: 8px; padding: 8px 12px; border-radius: 24px; }
+    .nav .brand { border-right: 0; padding-right: 0; }
+    .nav-links { flex-wrap: wrap; justify-content: center; }
+    .orbital { height: 180px; }
+    .orb-card { font-size: 12px; padding: 10px 14px; }
+    .orb-card.featured { transform: scale(1.1); padding: 14px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="concept-tag">CONCEPT · oncallautomation.ai — airy / Highflyers-style light variant</div>
+
+<!-- ========= NAV (floating glass pill) ========= -->
+<nav class="nav">
+  <div class="brand">oncall<small>.</small></div>
+  <div class="nav-links">
+    <a class="active" href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Work</a>
+    <a href="#">Blog</a>
+  </div>
+  <a href="#" class="cta">
+    Get in Touch
+    <span class="arr">→</span>
+  </a>
+</nav>
+
+<!-- ========= HERO ========= -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>
+      Stop guessing.<br>
+      <span class="em">Start shipping.</span>
+    </h1>
+    <p>Independent engineering studio. Websites, AI agents, automations — built by one developer who picks up the phone.</p>
+    <div class="actions">
+      <button class="icon-btn" aria-label="Email">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+      </button>
+      <a href="#" class="big-cta">
+        Get in Touch
+        <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Orbital stack -->
+  <div class="orbital">
+    <div class="track">
+      <div class="orb-card"><div class="swatch">R</div>React</div>
+      <div class="orb-card"><div class="swatch">⚡</div>FastAPI</div>
+      <div class="orb-card"><div class="swatch">▲</div>Stripe</div>
+      <div class="orb-card featured">
+        <div class="swatch">◐</div>
+        <div class="stacked">
+          <span class="pill">STACK</span>
+          <span class="name">OnCall ships on…</span>
+        </div>
+      </div>
+      <div class="orb-card"><div class="swatch">T</div>Twilio</div>
+      <div class="orb-card"><div class="swatch">♥</div>Vapi</div>
+      <div class="orb-card"><div class="swatch">◯</div>OpenAI</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========= Editorial pull quote ========= -->
+<section class="pull-section">
+  <p class="pull-quote">
+    <span class="h">At OnCall, we build</span> the websites, software, and <span class="serif">automations</span> that <span class="h">work while you sleep</span> — so the next phone call, payment, or booking lands without you in the room.
+  </p>
+</section>
+
+<!-- ========= Trust logos ========= -->
+<section class="trust">
+  <p class="label">Trusted on</p>
+  <div class="logos">
+    <span>Stripe</span>
+    <span>Railway</span>
+    <span>Netlify</span>
+    <span>Twilio</span>
+    <span>Vapi</span>
+    <span>OpenAI</span>
+    <span>HubSpot</span>
+  </div>
+</section>
+
+<!-- ========= Stats ring ========= -->
+<section class="stats-section">
+  <div class="stats-ring">
+    <div class="ring"></div>
+    <div class="stat-center">
+      <div class="big">15+</div>
+      <p class="sub">Projects shipped this year — websites, agents, automations, billing systems. Same one developer, end to end.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========= Process ========= -->
+<section class="process">
+  <div class="process-head">
+    <p class="small">Our process</p>
+    <h2><span class="h">Four simple steps.</span><br>One month, start to finish.</h2>
+  </div>
+
+  <div class="process-grid">
+    <div class="step-card s1">
+      <span class="day-pill">{ 1 Day. }</span>
+      <div>
+        <h3>Kick-off briefing.</h3>
+        <p>We learn your business — the actual one, not the brochure. Notes, screenshots, the awkward stuff.</p>
+      </div>
+    </div>
+
+    <div class="step-card s2">
+      <span class="day-pill">{ 3 Days. }</span>
+      <div>
+        <h3>Plan &amp; preview.</h3>
+        <p>A clear plan, a Figma preview, a price you can sign off on. No surprise scope creep.</p>
+      </div>
+    </div>
+
+    <div class="step-card s3">
+      <span class="day-pill">{ 2 Weeks. }</span>
+      <div>
+        <h3>Build, ship, refine.</h3>
+        <p>Built in public — you watch progress in a staging URL, comment as we go, ship when it's right.</p>
+      </div>
+    </div>
+
+    <div class="step-card s4">
+      <span class="day-pill">{ Ongoing. }</span>
+      <div>
+        <h3>Tighten the screws.</h3>
+        <p>We watch the numbers, fix what's slow, ship what's missing. The site keeps getting better, not staler.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========= Footer ========= -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="brand-block">oncall<small> · automation</small></div>
+      <p style="font-size: 14px; color: var(--ink-2); max-width: 280px; line-height: 1.6;">
+        Independent engineering studio. Websites, software, and the agents that catch the leads you'd otherwise miss.
+      </p>
+    </div>
+    <div>
+      <h6>Studio</h6>
+      <ul>
+        <li><a href="#">Work</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Process</a></li>
+        <li><a href="#">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Products</h6>
+      <ul>
+        <li><a href="https://oncallchat.ai">oncallchat.ai</a></li>
+        <li><a href="https://invoicelink.co">invoicelink.co</a></li>
+        <li><a href="https://sendreviews.co">sendreviews.co</a></li>
+        <li><a href="https://projobsai.com">projobsai.com</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Contact</h6>
+      <ul>
+        <li><a href="mailto:hello@oncallautomation.ai">hello@oncallautomation.ai</a></li>
+        <li><span style="color: var(--mute);">Replies within a day</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 OnCall Automation · Built in New York</span>
+    <span>Made by one developer · End-to-end</span>
+  </div>
+</footer>
+
+</body>
+</html>
